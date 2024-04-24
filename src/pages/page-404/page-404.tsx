@@ -1,29 +1,25 @@
-import { DownOutlined, SearchOutlined } from '@ant-design/icons';
+import { CloseOutlined, DownOutlined, SearchOutlined } from '@ant-design/icons';
 import { Checkbox, ConfigProvider, Dropdown, DropdownProps, MenuProps, Radio, Space } from 'antd';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getCities, ICities } from 'shared/api:original-DNS';
 import classes from './page-404.module.scss';
+
+export interface CitiesListItemProps {
+  name: string;
+  cb: () => void;
+}
 
 const Page404 = () => {
   const [wrapperClasses, setWrapperClasses] = useState(classes['info-block']);
-  const [open, setOpen] = useState(false);
-  const [sortByDistanceChecked, setSortByDistanceChecked] = useState(false);
-
-  const requestGeo = async () => {
-    if (!sortByDistanceChecked) {
-      try {
-        navigator.geolocation.getCurrentPosition((position) => {
-          console.log(position);
-          setSortByDistanceChecked(true);
-        });
-      } catch {
-        setSortByDistanceChecked(false);
-      }
-    } else {
-      setSortByDistanceChecked(false);
-    }
-  };
-
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+  const [sortByDistanceChecked, setSortByDistanceChecked] = useState<boolean>(false);
+  const [citiesModal, setCitiesModal] = useState<boolean>(false);
+  const [cities, setCities] = useState<ICities>();
+  const [district, setDistrict] = useState<null | number>(null);
+  const [region, setRegion] = useState<null | number>(null);
+  const [city, setCity] = useState('Владивосток');
+  const [error, setError] = useState(false);
   const items: MenuProps['items'] = [
     {
       label: (
@@ -78,6 +74,105 @@ const Page404 = () => {
     },
   ];
 
+  const requestGeo = () => {
+    if (!sortByDistanceChecked) {
+      try {
+        navigator.geolocation.getCurrentPosition((position) => {
+          console.log(position);
+          setSortByDistanceChecked(true);
+        });
+      } catch {
+        setSortByDistanceChecked(false);
+      }
+    } else {
+      setSortByDistanceChecked(false);
+    }
+  };
+
+  const CitiesListItem = ({ name, cb }: CitiesListItemProps) => {
+    return <button onClick={cb}>{name}</button>;
+  };
+
+  const CitiesModal = () => {
+    if (error) {
+      return (
+        <div
+          className={classes['cities-modal']}
+          onClick={() => {
+            setCitiesModal(false);
+          }}
+        >
+          <div
+            className={`${classes['cities-modal__dialog']} ${classes['cities-modal__dialog_error']}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <CloseOutlined
+              className={classes['cities-modal__close-icon']}
+              onClick={() => {
+                setCitiesModal(false);
+              }}
+            />
+            <span>Произошла ошибка. Пожалуйста, откройте сайт ДНС и повторите попытку.</span>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div
+        className={classes['cities-modal']}
+        onClick={() => {
+          setCitiesModal(false);
+        }}
+      >
+        <div className={classes['cities-modal__dialog']} onClick={(e) => e.stopPropagation()}>
+          <CloseOutlined
+            className={classes['cities-modal__close-icon']}
+            onClick={() => {
+              setCitiesModal(false);
+            }}
+          />
+          <span>Выбор города</span>
+          <input placeholder='Поиск' type='text' />
+          <div className={classes['cities-modal__container']}>
+            <ul>
+              {cities?.data.districts.map((i) => (
+                <CitiesListItem key={i.id} name={i.name} cb={() => setDistrict(i.id)} />
+              ))}
+            </ul>
+
+            {district !== null && (
+              <ul>
+                {cities?.data.regions.map(
+                  (i) =>
+                    i.districtId === district && <CitiesListItem cb={() => setRegion(i.id)} key={i.id} name={i.name} />
+                )}
+              </ul>
+            )}
+
+            {region !== null && (
+              <ul>
+                {cities?.data.cities.map(
+                  (i) =>
+                    i.regionId === region && (
+                      <CitiesListItem
+                        cb={() => {
+                          setCity(i.name);
+                          setCitiesModal(false);
+                        }}
+                        key={i.id}
+                        name={i.name}
+                      />
+                    )
+                )}
+              </ul>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const ShopListItem = () => {
     return (
       <div className={classes['shop-list-item']}>
@@ -92,21 +187,29 @@ const Page404 = () => {
 
   const handleMenuClick: MenuProps['onClick'] = (e) => {
     if (e.key) {
-      setOpen(true);
+      setDropdownOpen(true);
     }
   };
 
   const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {
     if (info.source === 'trigger' || nextOpen) {
-      setOpen(nextOpen);
+      setDropdownOpen(nextOpen);
     }
   };
 
   const citiesHandler = async () => {
-    const response = await fetch('https://restapi.dns-shop.ru/v1/get-city-list');
-    const data = await response.json();
+    try {
+      const data = await getCities();
 
-    console.log(data);
+      setCities(data);
+
+      setDistrict(null);
+      setRegion(null);
+    } catch {
+      setError(true);
+    } finally {
+      setCitiesModal(true);
+    }
   };
 
   useEffect(() => {
@@ -115,8 +218,17 @@ const Page404 = () => {
     }, 350);
   }, []);
 
+  useEffect(() => {
+    if (citiesModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [citiesModal]);
+
   return (
     <>
+      {citiesModal && <CitiesModal />}
       <div className={wrapperClasses}>
         <div className={`${classes['info-block__bg']} ${classes['info-block__bg_off']}`}></div>
         <div className={`${classes['info-block__bg']} ${classes['info-block__bg_on']}`}></div>
@@ -128,7 +240,7 @@ const Page404 = () => {
       <div className={classes['container']}>
         <div className={classes['shops-block']}>
           <h1 className={classes['shops-block__header']}>
-            Магазины сети цифровой и бытовой техники DNS в г. <span onClick={citiesHandler}>Владивосток</span>
+            Магазины сети цифровой и бытовой техники DNS в г. <span onClick={citiesHandler}>{city}</span>
           </h1>
           <div className={classes['shops-block__main']}>
             <div className={classes['shops-block__filters']}>
@@ -148,13 +260,13 @@ const Page404 = () => {
                   <Dropdown
                     menu={{ items, onClick: handleMenuClick }}
                     trigger={['click']}
-                    open={open}
+                    open={dropdownOpen}
                     onOpenChange={handleOpenChange}
                   >
                     <button>
                       <Space
                         style={{
-                          color: open ? '#fc8507' : '',
+                          color: dropdownOpen ? '#fc8507' : '',
                         }}
                       >
                         Все магазины
@@ -184,7 +296,9 @@ const Page404 = () => {
             <div className={classes['shops-block__section']}>
               <div className={classes['shops-block__shops-list']}>
                 <div className={classes['shops-block__list-group']}>
-                  <h2 className={classes['shops-block__sale-channel']}>DNS</h2>
+                  <h2 className={classes['shops-block__sale-channel']}>
+                    {sortByDistanceChecked ? 'Дистанция: до 1000 метров' : 'DNS'}
+                  </h2>
                   <ShopListItem />
                   <ShopListItem />
                   <ShopListItem />
