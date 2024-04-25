@@ -1,0 +1,65 @@
+.layout {
+    display: grid;
+    justify-items: center;
+    grid-template-rows: 145px min-content min-content 730px;
+    height: 100vh;
+    background-color: #F6F6F6;
+    overflow-x: hidden;
+}
+
+.breadcrumbs,
+.content,
+.header_container,
+.footer_container {
+    width: 1180px;
+}
+
+.header_container,
+.footer_container {
+    margin: 0 auto;
+    height: 100%;
+}
+
+.header,
+.footer {
+    width: 100%;
+}
+
+.breadcrumbs,
+.content {
+    margin-top: 20px;
+}
+
+.content,
+.page_title {
+    margin-bottom: 20px;
+}
+
+.header {
+    height: 145px;
+    background-color: #fff;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+
+}
+
+.breadcrumbs a {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 19px;
+}
+
+.breadcrumbs a:hover {
+    color: #FC8507;
+    cursor: pointer;
+}
+
+.page_title {
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 32px;
+}
+
+.footer {
+    height: 730px; // высота примерная
+    background-color: #333333;
+}
