@@ -1,25 +1,28 @@
-import { CloseOutlined, DownOutlined, SearchOutlined } from '@ant-design/icons';
+import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import { Checkbox, ConfigProvider, Dropdown, DropdownProps, MenuProps, Radio, Space } from 'antd';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getCities, ICities } from 'shared/api:original-DNS';
+import CitiesModal from 'widgets/cities-modal/';
 import classes from './page-404.module.scss';
 
-export interface CitiesListItemProps {
-  name: string;
-  cb: () => void;
-}
+const ShopListItem = () => {
+  return (
+    <div className={classes['shop-list-item']}>
+      <div className={classes['shop-list-item__info']}>
+        <span className={classes['shop-list-item__title']}>Торговый центр</span>
+        <span className={classes['shop-list-item__address']}>г. Северобайкальск, пр-кт Ленинградский, д. 8</span>
+      </div>
+      <span className={classes['shop-list-item__worktime']}>Пн-Сб с 10:00 до 20:00, Вс с 10:00 до 18:00</span>
+    </div>
+  );
+};
 
 const Page404 = () => {
   const [wrapperClasses, setWrapperClasses] = useState(classes['info-block']);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [sortByDistanceChecked, setSortByDistanceChecked] = useState<boolean>(false);
   const [citiesModal, setCitiesModal] = useState<boolean>(false);
-  const [cities, setCities] = useState<ICities>();
-  const [district, setDistrict] = useState<null | number>(null);
-  const [region, setRegion] = useState<null | number>(null);
-  const [city, setCity] = useState('Владивосток');
-  const [error, setError] = useState(false);
+
   const items: MenuProps['items'] = [
     {
       label: (
@@ -89,102 +92,6 @@ const Page404 = () => {
     }
   };
 
-  const CitiesListItem = ({ name, cb }: CitiesListItemProps) => {
-    return <button onClick={cb}>{name}</button>;
-  };
-
-  const CitiesModal = () => {
-    if (error) {
-      return (
-        <div
-          className={classes['cities-modal']}
-          onClick={() => {
-            setCitiesModal(false);
-          }}
-        >
-          <div
-            className={`${classes['cities-modal__dialog']} ${classes['cities-modal__dialog_error']}`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <CloseOutlined
-              className={classes['cities-modal__close-icon']}
-              onClick={() => {
-                setCitiesModal(false);
-              }}
-            />
-            <span>Произошла ошибка. Пожалуйста, откройте сайт ДНС и повторите попытку.</span>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div
-        className={classes['cities-modal']}
-        onClick={() => {
-          setCitiesModal(false);
-        }}
-      >
-        <div className={classes['cities-modal__dialog']} onClick={(e) => e.stopPropagation()}>
-          <CloseOutlined
-            className={classes['cities-modal__close-icon']}
-            onClick={() => {
-              setCitiesModal(false);
-            }}
-          />
-          <span>Выбор города</span>
-          <input placeholder='Поиск' type='text' />
-          <div className={classes['cities-modal__container']}>
-            <ul>
-              {cities?.data.districts.map((i) => (
-                <CitiesListItem key={i.id} name={i.name} cb={() => setDistrict(i.id)} />
-              ))}
-            </ul>
-
-            {district !== null && (
-              <ul>
-                {cities?.data.regions.map(
-                  (i) =>
-                    i.districtId === district && <CitiesListItem cb={() => setRegion(i.id)} key={i.id} name={i.name} />
-                )}
-              </ul>
-            )}
-
-            {region !== null && (
-              <ul>
-                {cities?.data.cities.map(
-                  (i) =>
-                    i.regionId === region && (
-                      <CitiesListItem
-                        cb={() => {
-                          setCity(i.name);
-                          setCitiesModal(false);
-                        }}
-                        key={i.id}
-                        name={i.name}
-                      />
-                    )
-                )}
-              </ul>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const ShopListItem = () => {
-    return (
-      <div className={classes['shop-list-item']}>
-        <div className={classes['shop-list-item__info']}>
-          <span className={classes['shop-list-item__title']}>Торговый центр</span>
-          <span className={classes['shop-list-item__address']}>г. Северобайкальск, пр-кт Ленинградский, д. 8</span>
-        </div>
-        <span className={classes['shop-list-item__worktime']}>Пн-Сб с 10:00 до 20:00, Вс с 10:00 до 18:00</span>
-      </div>
-    );
-  };
-
   const handleMenuClick: MenuProps['onClick'] = (e) => {
     if (e.key) {
       setDropdownOpen(true);
@@ -197,38 +104,20 @@ const Page404 = () => {
     }
   };
 
-  const citiesHandler = async () => {
-    try {
-      const data = await getCities();
-
-      setCities(data);
-
-      setDistrict(null);
-      setRegion(null);
-    } catch {
-      setError(true);
-    } finally {
-      setCitiesModal(true);
-    }
-  };
-
   useEffect(() => {
     setTimeout(() => {
       setWrapperClasses(`${classes['info-block']} ${classes['info-block_success']}`);
     }, 350);
   }, []);
 
-  useEffect(() => {
-    if (citiesModal) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-  }, [citiesModal]);
-
   return (
     <>
-      {citiesModal && <CitiesModal />}
+      <CitiesModal
+        isOpen={citiesModal}
+        handler={(boolean: boolean) => {
+          setCitiesModal(boolean);
+        }}
+      />
       <div className={wrapperClasses}>
         <div className={`${classes['info-block__bg']} ${classes['info-block__bg_off']}`}></div>
         <div className={`${classes['info-block__bg']} ${classes['info-block__bg_on']}`}></div>
@@ -240,7 +129,8 @@ const Page404 = () => {
       <div className={classes['container']}>
         <div className={classes['shops-block']}>
           <h1 className={classes['shops-block__header']}>
-            Магазины сети цифровой и бытовой техники DNS в г. <span onClick={citiesHandler}>{city}</span>
+            Магазины сети цифровой и бытовой техники DNS в г.{' '}
+            <span onClick={() => setCitiesModal(true)}>Владивосток</span>
           </h1>
           <div className={classes['shops-block__main']}>
             <div className={classes['shops-block__filters']}>

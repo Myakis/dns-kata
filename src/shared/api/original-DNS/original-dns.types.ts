@@ -1,15 +1,15 @@
-export interface IDistrict {
+interface IDistrict {
   id: number;
   name: string;
 }
 
-export interface IRegion {
+interface IRegion {
   id: number;
   name: string;
   districtId: number;
 }
 
-export interface ICity {
+interface ICity {
   id: string;
   name: string;
   regionId: number;
@@ -28,16 +28,4 @@ export interface ICities {
     bigCities: ICity[];
     cities: ICity[];
   };
-}
-
-export async function getCities(): Promise<ICities> {
-  const response = await fetch('https://restapi.dns-shop.ru/v1/get-city-list');
-
-  if (!response.status) {
-    throw new Error(response.statusText);
-  }
-
-  const data = response.json();
-
-  return data;
 }
