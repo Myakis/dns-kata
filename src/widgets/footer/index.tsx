@@ -129,7 +129,7 @@ const Footer = () => {
                   Подписываясь на рассылку, Вы соглашаетесь
                   <div>
                     с условиями
-                    <span className={footer.subscription__policyLink}> политики конфиденциальности</span>и
+                    <span className={footer.subscription__policyLink}> политики конфиденциальности</span> и
                     <span className={footer.subscription__policyLink}> политики обработки персональных данных</span>
                   </div>
                 </div>

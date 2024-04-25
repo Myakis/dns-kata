@@ -60,7 +60,7 @@ a {
   background-size: contain;
   height: 17px;
   cursor: pointer;
-  background-image: url(./svg/dns.svg);
+  background-image: url(../../app/assets/img/footer/dns.svg);
   width: 67px;
 }
 
@@ -75,7 +75,7 @@ a {
   background-size: contain;
   height: 17px;
   cursor: pointer;
-  background-image: url(./svg/dnsClub.svg);
+  background-image: url(../../app/assets/img/footer/dnsClub.svg);
   width: 111px;
 }
 
@@ -90,7 +90,7 @@ a {
   background-size: contain;
   height: 17px;
   cursor: pointer;
-  background-image: url(./svg/dnsTechno.svg);
+  background-image: url(../../app/assets/img/footer/dnsTechno.svg);
   width: 157px;
 }
 
@@ -105,7 +105,7 @@ a {
   background-size: contain;
   height: 17px;
   cursor: pointer;
-  background-image: url(./svg/dnsGroup.svg);
+  background-image: url(../../app/assets/img/footer/dnsGroup.svg);
   width: 131px;
 }
 
@@ -246,7 +246,12 @@ a {
   width: 135px;
   height: 40px;
   cursor: pointer;
-  background-image: url(./svg/googlePlay.svg);
+  transition: filter .3s;
+  background-image: url(../../app/assets/img/footer/googlePlay.svg);
+}
+
+.appsIcon__iconGooglePlay:hover {
+  filter: brightness(110%);
 }
 
 .appsIcon__iconAppGallery {
@@ -256,7 +261,11 @@ a {
   width: 135px;
   height: 40px;
   cursor: pointer;
-  background-image: url(./svg/appGallery.svg);
+  background-image: url(../../app/assets/img/footer/appGallery.svg);
+}
+
+.appsIcon__iconAppGallery:hover {
+  filter: brightness(110%);
 }
 
 .appsIcon__iconRuStore {
@@ -266,7 +275,11 @@ a {
   width: 135px;
   height: 40px;
   cursor: pointer;
-  background-image: url(./svg/ruStore.svg);
+  background-image: url(../../app/assets/img/footer/ruStore.svg);
+}
+
+.appsIcon__iconRuStore:hover {
+  filter: brightness(110%);
 }
 
 .appsIcon__iconAppStore {
@@ -276,7 +289,11 @@ a {
   width: 135px;
   height: 40px;
   cursor: pointer;
-  background-image: url(./svg/appStore.svg);
+  background-image: url(../../app/assets/img/footer/appStore.svg);
+}
+
+.appsIcon__iconAppStore:hover {
+  filter: brightness(110%);
 }
 
 .menuContacts {
@@ -404,6 +421,10 @@ a {
   text-decoration: none;
 }
 
+.subscription__policyLink:hover {
+  color: #FC8507;
+}
+
 .subscription__messageContainer {
   background-color: #ebffed;
   border-radius: 8px;
@@ -468,7 +489,11 @@ a {
   height: 38px;
   width: 38px;
   transition: filter 0.3s;
-  background-image: url(./svg/vk.svg);
+  background-image: url(../../app/assets/img/footer/vk.svg);
+}
+
+.menuContacts__iconDnsVk:hover {
+  filter: brightness(120%);
 }
 
 .menuContacts__iconDnsYouTube {
@@ -478,7 +503,11 @@ a {
   height: 38px;
   width: 38px;
   transition: filter 0.3s;
-  background-image: url(./svg/youTube.svg);
+  background-image: url(../../app/assets/img/footer/youTube.svg);
+}
+
+.menuContacts__iconDnsYouTube:hover {
+  filter: brightness(120%);
 }
 
 .support__links {
@@ -491,9 +520,13 @@ a {
   background-repeat: no-repeat;
   background-size: contain;
   height: 38px;
-  width: 38px;
+  width: 68px;
   transition: filter 0.3s;
-  background-image: url(./svg/sbp.svg);
+  background-image: url(../../app/assets/img/footer/sbp.svg);
+}
+
+.support__iconDnsSbp:hover {
+  filter: brightness(120%);
 }
 
 .support__iconDnsAkit {
@@ -503,7 +536,11 @@ a {
   height: 38px;
   width: 38px;
   transition: filter 0.3s;
-  background-image: url(./svg/akit.svg);
+  background-image: url(../../app/assets/img/footer/akit.svg);
+}
+
+.support__iconDnsAkit:hover {
+  filter: brightness(120%);
 }
 
 .menuContacts__findError {

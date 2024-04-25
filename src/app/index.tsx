@@ -1,4 +1,4 @@
-import Footer from 'pages/layouts/footer';
+import Footer from 'widgets/footer';
 
 const App = () => {
   return (
