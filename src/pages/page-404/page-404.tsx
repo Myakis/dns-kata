@@ -22,6 +22,7 @@ const Page404 = () => {
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [sortByDistanceChecked, setSortByDistanceChecked] = useState<boolean>(false);
   const [citiesModal, setCitiesModal] = useState<boolean>(false);
+  const [isOpenNowFilter, setIsOpenNowFilter] = useState(false);
 
   const items: MenuProps['items'] = [
     {
@@ -57,18 +58,14 @@ const Page404 = () => {
                 },
               }}
             >
-              <Radio.Group
-                size='large'
-                style={{
-                  margin: 0,
-                  padding: 0,
-                }}
-              >
-                <Space direction='vertical'>
-                  <Radio value={1}>Любое время</Radio>
-                  <Radio value={2}>Открыто сейчас</Radio>
-                </Space>
-              </Radio.Group>
+              <Space direction='vertical'>
+                <Radio value={1} checked={!isOpenNowFilter} onChange={() => setIsOpenNowFilter(false)}>
+                  Любое время
+                </Radio>
+                <Radio value={2} checked={isOpenNowFilter} onChange={() => setIsOpenNowFilter(true)}>
+                  Открыто сейчас
+                </Radio>
+              </Space>
             </ConfigProvider>
           ),
           key: '1-1',

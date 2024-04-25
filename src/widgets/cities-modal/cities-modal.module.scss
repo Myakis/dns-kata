@@ -112,6 +112,16 @@
     }
   }
 
+  &__not-found {
+    display: none;
+  }
+
+  ul:empty + &__not-found {
+    display: block;
+    color: #a94442;
+    font-size: 18px;
+  }
+
   &_visible {
     visibility: visible;
   }
