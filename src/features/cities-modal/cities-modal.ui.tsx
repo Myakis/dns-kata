@@ -63,7 +63,7 @@ const CitiesModal: FC<CitiesModalProps> = ({ isOpen, handler }) => {
               handler(false);
             }}
           />
-          <LoadingOutlined style={{ fontSize: 42, margin: 'auto' }} spin />
+          <LoadingOutlined className={classes['cities-modal__spinner']} spin />
         </div>
       </div>
     );

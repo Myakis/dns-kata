@@ -1,21 +1,50 @@
 import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import { Checkbox, ConfigProvider, Dropdown, DropdownProps, MenuProps, Radio, Space } from 'antd';
-import { useEffect, useState } from 'react';
+import CitiesModal from 'features/cities-modal';
+import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import CitiesModal from 'widgets/cities-modal/';
 import classes from './page-404.module.scss';
 
-const ShopListItem = () => {
+interface ICoord {
+  latitude: number;
+  longitude: number;
+}
+interface ShopItemProps {
+  name: string;
+  address: string;
+  coords: number[];
+  clickHandler: (coord: ICoord) => void;
+}
+
+const ShopListItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }) => {
   return (
     <div className={classes['shop-list-item']}>
-      <div className={classes['shop-list-item__info']}>
-        <span className={classes['shop-list-item__title']}>Торговый центр</span>
-        <span className={classes['shop-list-item__address']}>г. Северобайкальск, пр-кт Ленинградский, д. 8</span>
+      <div
+        className={classes['shop-list-item__info']}
+        onClick={() =>
+          clickHandler({
+            latitude: coords[0],
+            longitude: coords[1] * -1,
+          })
+        }
+      >
+        <span className={classes['shop-list-item__title']}>{name}</span>
+        <span className={classes['shop-list-item__address']}>{address}</span>
       </div>
       <span className={classes['shop-list-item__worktime']}>Пн-Сб с 10:00 до 20:00, Вс с 10:00 до 18:00</span>
     </div>
   );
 };
+
+interface IShop {
+  id: number;
+  name: string;
+  location: number[];
+  description: string;
+  inOpen: boolean;
+  inNear: boolean;
+  streetAddress: string;
+}
 
 const Page404 = () => {
   const [wrapperClasses, setWrapperClasses] = useState(classes['info-block']);
@@ -23,7 +52,11 @@ const Page404 = () => {
   const [sortByDistanceChecked, setSortByDistanceChecked] = useState<boolean>(false);
   const [citiesModal, setCitiesModal] = useState<boolean>(false);
   const [isOpenNowFilter, setIsOpenNowFilter] = useState(false);
-
+  const [shops, setShops] = useState<IShop[]>();
+  const [geo, setGeo] = useState<ICoord>({
+    latitude: 46.0086,
+    longitude: 51.5406,
+  });
   const items: MenuProps['items'] = [
     {
       label: (
@@ -74,11 +107,26 @@ const Page404 = () => {
     },
   ];
 
+  const loadShops = async () => {
+    const response = await fetch('http://localhost:8000/shops');
+
+    const data: IShop[] = await response.json();
+
+    setShops(data);
+  };
+
+  const setGeoHandler = (coord: ICoord) => {
+    setGeo(coord);
+  };
+
   const requestGeo = () => {
     if (!sortByDistanceChecked) {
       try {
         navigator.geolocation.getCurrentPosition((position) => {
-          console.log(position);
+          setGeo({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
           setSortByDistanceChecked(true);
         });
       } catch {
@@ -105,6 +153,7 @@ const Page404 = () => {
     setTimeout(() => {
       setWrapperClasses(`${classes['info-block']} ${classes['info-block_success']}`);
     }, 350);
+    loadShops();
   }, []);
 
   return (
@@ -126,8 +175,7 @@ const Page404 = () => {
       <div className={classes['container']}>
         <div className={classes['shops-block']}>
           <h1 className={classes['shops-block__header']}>
-            Магазины сети цифровой и бытовой техники DNS в г.{' '}
-            <span onClick={() => setCitiesModal(true)}>Владивосток</span>
+            Магазины сети цифровой и бытовой техники DNS в г. <span onClick={() => setCitiesModal(true)}>Саратов</span>
           </h1>
           <div className={classes['shops-block__main']}>
             <div className={classes['shops-block__filters']}>
@@ -186,14 +234,62 @@ const Page404 = () => {
                   <h2 className={classes['shops-block__sale-channel']}>
                     {sortByDistanceChecked ? 'Дистанция: до 1000 метров' : 'DNS'}
                   </h2>
-                  <ShopListItem />
-                  <ShopListItem />
-                  <ShopListItem />
+                  {shops?.map((i) => {
+                    if (isOpenNowFilter && sortByDistanceChecked) {
+                      return (
+                        i.inOpen &&
+                        i.inNear && (
+                          <ShopListItem
+                            key={i.id}
+                            name={i.name}
+                            address={i.streetAddress}
+                            coords={i.location}
+                            clickHandler={setGeoHandler}
+                          />
+                        )
+                      );
+                    }
+                    if (sortByDistanceChecked) {
+                      return (
+                        i.inNear && (
+                          <ShopListItem
+                            key={i.id}
+                            name={i.name}
+                            address={i.streetAddress}
+                            coords={i.location}
+                            clickHandler={setGeoHandler}
+                          />
+                        )
+                      );
+                    }
+                    if (isOpenNowFilter) {
+                      return (
+                        i.inOpen && (
+                          <ShopListItem
+                            key={i.id}
+                            name={i.name}
+                            address={i.streetAddress}
+                            coords={i.location}
+                            clickHandler={setGeoHandler}
+                          />
+                        )
+                      );
+                    }
+                    return (
+                      <ShopListItem
+                        key={i.id}
+                        name={i.name}
+                        address={i.streetAddress}
+                        coords={i.location}
+                        clickHandler={setGeoHandler}
+                      />
+                    );
+                  })}
                 </div>
               </div>
               <iframe
                 title='y-map'
-                src='https://yandex.ru/map-widget/v1/?um=constructor%3A3fab5894fa771dbb5138d80d7c6ae2ce2b7c0c2f7b2953f93737160bcbc27eed&amp;source=constructor'
+                src={`https://yandex.ru/map-widget/v1/?ll=${geo.latitude}%2C${geo.longitude}&z=12`}
                 width='468'
                 height='650'
                 frameBorder='0'

@@ -122,6 +122,12 @@
     font-size: 18px;
   }
 
+  &__spinner {
+    font-size: 42px !important;
+    margin: auto;
+    color: #ff7300 !important;
+  }
+
   &_visible {
     visibility: visible;
   }
