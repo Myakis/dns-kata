@@ -1,10 +1,11 @@
+import { Provider } from 'react-redux';
+import { setupStore } from 'shared/store/store';
+
 const App = () => {
+  const store = setupStore();
+  //когда подключу роутинг здесь будет нормальный компонент
 
-  return (
-    <>
-      <h1>hello wrold</h1>
-    </>
-  )
-}
+  return <Provider store={store}>hello wrold</Provider>;
+};
 
-export default App
+export default App;
