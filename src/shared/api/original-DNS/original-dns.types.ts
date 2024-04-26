@@ -9,7 +9,7 @@ interface IRegion {
   districtId: number;
 }
 
-interface ICity {
+export interface ICity {
   id: string;
   name: string;
   regionId: number;
@@ -22,10 +22,11 @@ interface ICity {
 
 export interface ICities {
   message: string;
-  data: {
+  data?: {
     districts: IDistrict[];
     regions: IRegion[];
     bigCities: ICity[];
     cities: ICity[];
   };
+  loading?: boolean;
 }

@@ -1,8 +1,8 @@
-import { Provider } from './providers';
+import { AppProvider } from './providers';
 import './style.css';
 
 const App = () => {
-  return <Provider />;
+  return <AppProvider />;
 };
 
 export default App;

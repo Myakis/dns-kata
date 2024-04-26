@@ -1,5 +1,4 @@
 import { CSSProperties } from 'react';
-import { ICurrentCity } from 'widgets/page-404-shops/page-404-shops.types';
 
 export interface CitiesListItemProps {
   name: string;
@@ -8,7 +7,6 @@ export interface CitiesListItemProps {
 export interface CitiesModalProps {
   label?: string;
   labelStyle?: CSSProperties;
-  callback?: (city: ICurrentCity) => void;
 }
 
 export interface ITerritory {

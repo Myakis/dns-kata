@@ -7,7 +7,7 @@ export async function getCities(): Promise<ICities> {
     throw new Error(response.statusText);
   }
 
-  const data = response.json();
+  const data = await response.json();
 
   return data;
 }

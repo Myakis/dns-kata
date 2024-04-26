@@ -2,9 +2,10 @@ import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import { Checkbox, ConfigProvider, Dropdown, DropdownProps, MenuProps, Radio, Space } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import { getShops } from 'shared/api/DNS';
+import { useAppSelector } from 'shared/hooks/redux';
 import CitiesModal from 'widgets/cities-modal-page-404';
 import classes from './page-404-shops.module.scss';
-import { ICoord, ICurrentCity, IShop, ShopItemProps } from './page-404-shops.types';
+import { ICoord, IShop, ShopItemProps } from './page-404-shops.types';
 
 const ShopListItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }) => {
   return (
@@ -28,20 +29,19 @@ const ShopListItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }
 
 const Page404Shops = () => {
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+  const currentCity = useAppSelector((state) => state.currentCityReducer);
   const [sortByDistanceChecked, setSortByDistanceChecked] = useState<boolean>(false);
   const [isOpenNowFilter, setIsOpenNowFilter] = useState(false);
 
   const [shops, setShops] = useState<IShop[]>();
   const [inputValue, setInputValue] = useState('');
 
-  const [currentCity, setCurrentCity] = useState('Саратов');
-
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const [geo, setGeo] = useState<ICoord>({
-    latitude: 51.5406,
-    longitude: 46.0086,
+    latitude: currentCity.coords.latitude,
+    longitude: currentCity.coords.longitude,
   });
 
   const requestGeo = () => {
@@ -61,11 +61,6 @@ const Page404Shops = () => {
     } else {
       setSortByDistanceChecked(false);
     }
-  };
-
-  const chooseCurrentCity = (city: ICurrentCity) => {
-    setCurrentCity(city.name);
-    setGeo(city.coords);
   };
 
   const items: MenuProps['items'] = [
@@ -139,6 +134,13 @@ const Page404Shops = () => {
     loadShops();
   }, []);
 
+  useEffect(() => {
+    setGeo({
+      latitude: currentCity.coords.latitude,
+      longitude: currentCity.coords.longitude,
+    });
+  }, [currentCity]);
+
   const ShopsList = () => {
     if (error) {
       return (
@@ -186,7 +188,7 @@ const Page404Shops = () => {
       <div className={classes['shops-block']}>
         <h1 className={classes['shops-block__header']}>
           Магазины сети цифровой и бытовой техники DNS в г.
-          <CitiesModal label={currentCity} labelStyle={{ marginLeft: '5px' }} callback={chooseCurrentCity} />
+          <CitiesModal label={currentCity.name} labelStyle={{ marginLeft: '5px' }} />
         </h1>
         <div className={classes['shops-block__main']}>
           <div className={classes['shops-block__filters']}>
