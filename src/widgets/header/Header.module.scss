@@ -41,12 +41,12 @@
             width: 9.05px;
             height: 13px;
             margin-right: 10px;
-            background: url('../../../app/assets/images/header/location.svg') no-repeat;
+            background: url('../../app/assets/images/header/location.svg') no-repeat;
         }
 
         a:hover::before {
             transition: all 0.3s ease-in-out;
-            background: url('../../../app/assets/images/header/location-hover.svg');
+            background: url('../../app/assets/images/header/location-hover.svg');
         }
     }
     &__tel {
@@ -104,7 +104,7 @@
         display: block;
         width: 120px;
         height: 64px;
-        background: url('../../../app/assets/images/header/logo.svg');
+        background: url('../../app/assets/images/header/logo.svg');
         background-repeat: no-repeat;
         background-position: center;
     }
@@ -127,7 +127,7 @@
         width: 12px;
         height: 8px;
         display: inline-block;
-        background: url('../../../app/assets/images/header/arrow.svg') no-repeat center;
+        background: url('../../app/assets/images/header/arrow.svg') no-repeat center;
     }
     &__catalog-btn:hover {
         cursor: pointer;
@@ -164,7 +164,7 @@
         padding: 20px;
         display: block;
         border: none;
-        background: url('../../../app/assets/images/header/search.svg');
+        background: url('../../app/assets/images/header/search.svg');
         background-repeat: no-repeat;
         background-position: center;
         cursor: pointer;
@@ -214,27 +214,27 @@
         display: block;
         width: 22px;
         height: 20px;
-        background: url('../../../app/assets/images/header/compare.svg') no-repeat;
+        background: url('../../app/assets/images/header/compare.svg') no-repeat;
     }
     &__favorited::before {
         content: '';
         display: block;
         width: 22px;
         height: 20px;
-        background: url('../../../app/assets/images/header/favorited.svg') no-repeat;
+        background: url('../../app/assets/images/header/favorited.svg') no-repeat;
     }
     &__basket::before {
         content: '';
         display: block;
         width: 20px;
         height: 20px;
-        background: url('../../../app/assets/images/header/basket.svg') no-repeat; 
+        background: url('../../app/assets/images/header/basket.svg') no-repeat; 
     }
     &__log-in::before {
         content: '';
         display: block;
         width: 20px;
         height: 20px;
-        background: url('../../../app/assets/images/header/logIn.svg') no-repeat; 
+        background: url('../../app/assets/images/header/logIn.svg') no-repeat; 
     }
 }
