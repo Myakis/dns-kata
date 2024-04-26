@@ -1,4 +1,5 @@
 import { Provider } from './providers';
+import './style.css';
 
 const App = () => {
   return <Provider />;

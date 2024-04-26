@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import { getCities } from 'shared/api/original-DNS';
 import { ICities } from 'shared/api/original-DNS/original-dns.types';
 import classes from './cities-modal-page-404.module.scss';
-import { CitiesListItemProps, CitiesModalProps } from './cities-modal-page-404.types';
+import { CitiesListItemProps, CitiesModalProps, ITerritory } from './cities-modal-page-404.types';
 
 const CitiesListItem = ({ name, cb }: CitiesListItemProps) => {
   return <button onClick={cb}>{name}</button>;
@@ -12,17 +12,19 @@ const CitiesListItem = ({ name, cb }: CitiesListItemProps) => {
 const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', labelStyle, callback = () => {} }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [cities, setCities] = useState<ICities>();
-  const [district, setDistrict] = useState<null | number>(null);
-  const [region, setRegion] = useState<null | number>(null);
+  const initialTerritory: ITerritory = {
+    region: null,
+    district: null,
+  };
 
+  const [territory, setTerritory] = useState(initialTerritory);
+  const [cities, setCities] = useState<ICities>();
   const [error, setError] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
   const loadCities = async () => {
     try {
-      setDistrict(null);
-      setRegion(null);
+      setTerritory(initialTerritory);
 
       setCities(await getCities());
     } catch {
@@ -61,24 +63,44 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
         <div className={classes['cities-modal__container']}>
           <ul>
             {cities?.data.districts.map((i) => (
-              <CitiesListItem key={i.id} name={i.name} cb={() => setDistrict(i.id)} />
+              <CitiesListItem
+                key={i.id}
+                name={i.name}
+                cb={() =>
+                  setTerritory({
+                    region: null,
+                    district: i.id,
+                  })
+                }
+              />
             ))}
           </ul>
 
-          {district !== null && (
+          {territory.district !== null && (
             <ul>
               {cities?.data.regions.map(
                 (i) =>
-                  i.districtId === district && <CitiesListItem cb={() => setRegion(i.id)} key={i.id} name={i.name} />
+                  i.districtId === territory.district && (
+                    <CitiesListItem
+                      cb={() =>
+                        setTerritory((state) => ({
+                          ...state,
+                          region: i.id,
+                        }))
+                      }
+                      key={i.id}
+                      name={i.name}
+                    />
+                  )
               )}
             </ul>
           )}
 
-          {region !== null && (
+          {territory.region !== null && (
             <ul>
               {cities?.data.cities.map(
                 (i) =>
-                  i.regionId === region && (
+                  i.regionId === territory.region && (
                     <CitiesListItem
                       cb={() => {
                         callback({

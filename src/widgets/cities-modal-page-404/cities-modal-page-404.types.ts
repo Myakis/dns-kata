@@ -10,3 +10,8 @@ export interface CitiesModalProps {
   labelStyle?: CSSProperties;
   callback?: (city: ICurrentCity) => void;
 }
+
+export interface ITerritory {
+  region: null | number;
+  district: null | number;
+}

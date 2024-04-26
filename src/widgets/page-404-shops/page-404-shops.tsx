@@ -1,8 +1,8 @@
 import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import { Checkbox, ConfigProvider, Dropdown, DropdownProps, MenuProps, Radio, Space } from 'antd';
-import CitiesModal from 'entities/cities-modal-page-404';
 import { FC, useEffect, useState } from 'react';
 import { getShops } from 'shared/api/DNS';
+import CitiesModal from 'widgets/cities-modal-page-404';
 import classes from './page-404-shops.module.scss';
 import { ICoord, ICurrentCity, IShop, ShopItemProps } from './page-404-shops.types';
 
@@ -29,9 +29,11 @@ const ShopListItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }
 const Page404Shops = () => {
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [sortByDistanceChecked, setSortByDistanceChecked] = useState<boolean>(false);
+  const [isOpenNowFilter, setIsOpenNowFilter] = useState(false);
+
   const [shops, setShops] = useState<IShop[]>();
   const [inputValue, setInputValue] = useState('');
-  const [isOpenNowFilter, setIsOpenNowFilter] = useState(false);
+
   const [currentCity, setCurrentCity] = useState('Саратов');
 
   const [error, setError] = useState(false);
@@ -41,6 +43,30 @@ const Page404Shops = () => {
     latitude: 51.5406,
     longitude: 46.0086,
   });
+
+  const requestGeo = () => {
+    const success: PositionCallback = (position) => {
+      setGeo({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+      setSortByDistanceChecked(true);
+    };
+    const error: PositionErrorCallback = () => {
+      setSortByDistanceChecked(false);
+    };
+
+    if (!sortByDistanceChecked) {
+      navigator.geolocation.getCurrentPosition(success, error);
+    } else {
+      setSortByDistanceChecked(false);
+    }
+  };
+
+  const chooseCurrentCity = (city: ICurrentCity) => {
+    setCurrentCity(city.name);
+    setGeo(city.coords);
+  };
 
   const items: MenuProps['items'] = [
     {
@@ -92,29 +118,6 @@ const Page404Shops = () => {
     },
   ];
 
-  const requestGeo = () => {
-    if (!sortByDistanceChecked) {
-      try {
-        navigator.geolocation.getCurrentPosition((position) => {
-          setGeo({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-          setSortByDistanceChecked(true);
-        });
-      } catch {
-        setSortByDistanceChecked(false);
-      }
-    } else {
-      setSortByDistanceChecked(false);
-    }
-  };
-
-  const chooseCurrentCity = (city: ICurrentCity) => {
-    setCurrentCity(city.name);
-    setGeo(city.coords);
-  };
-
   const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {
     if (info.source === 'trigger' || nextOpen) {
       setDropdownOpen(nextOpen);
@@ -122,8 +125,8 @@ const Page404Shops = () => {
   };
 
   const loadShops = async () => {
-    setLoading(true);
     try {
+      setLoading(true);
       setShops(await getShops());
     } catch {
       setError(true);

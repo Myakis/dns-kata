@@ -123,6 +123,7 @@
     line-height: 42px;
 
     button {
+      font-family: inherit;
       margin: 0;
       padding: 0;
       border: none;
@@ -188,6 +189,10 @@
       display: none;
       margin: 20px;
     }
+  }
+
+  &__sort-by-distance {
+    font-family: inherit;
   }
 }
 
