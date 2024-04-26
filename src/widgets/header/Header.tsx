@@ -12,7 +12,10 @@ export const Header: React.FC = () => {
   const handleScroll = () => {
     const mainHeader = document.querySelector(`.${styles['main-header']}`);
     const mainHeaderContainer = document.querySelector(`.${styles['main-header__container']}`);
-    if (mainHeader && window.scrollY > 0) {
+
+    const scrollThreshold = 50;
+
+    if (mainHeader && window.scrollY > scrollThreshold) {
       mainHeader.classList.add(styles['main-header--fixed']);
       mainHeaderContainer?.classList.add(styles['main-header__container--fixed']);
     } else {
