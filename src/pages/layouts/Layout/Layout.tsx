@@ -1,5 +1,4 @@
 import { Outlet } from 'react-router-dom';
-import { Header } from '../Header';
 import styles from './Layout.module.scss';
 
 interface TLayout {
@@ -11,9 +10,7 @@ export const Layout: React.FC<TLayout> = ({ pageTitle, breadcrumbs }) => {
   return (
     <div className={styles.layout}>
       <header className={styles.header_layout}>
-        <div className={styles.header_container}>
-          <Header />
-        </div>
+        <div className={styles.header_container}>Header</div>
       </header>
       <div className={styles.breadcrumbs}>
         <nav>
