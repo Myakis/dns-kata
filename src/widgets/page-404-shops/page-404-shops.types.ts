@@ -17,3 +17,8 @@ export interface ShopItemProps {
   coords: number[];
   clickHandler: (coord: ICoord) => void;
 }
+
+export interface ICurrentCity {
+  name: string;
+  coords: ICoord;
+}

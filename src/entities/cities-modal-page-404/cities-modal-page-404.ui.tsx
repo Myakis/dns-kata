@@ -1,29 +1,22 @@
 import { CloseOutlined, LoadingOutlined } from '@ant-design/icons';
-import { CSSProperties, FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { getCities } from 'shared/api/original-DNS';
 import { ICities } from 'shared/api/original-DNS/original-dns.types';
-import classes from './cities-modal.module.scss';
+import classes from './cities-modal-page-404.module.scss';
+import { CitiesListItemProps, CitiesModalProps } from './cities-modal-page-404.types';
 
-interface CitiesListItemProps {
-  name: string;
-  cb: () => void;
-}
 const CitiesListItem = ({ name, cb }: CitiesListItemProps) => {
   return <button onClick={cb}>{name}</button>;
 };
 
-interface CitiesModalProps {
-  label?: string;
-  labelStyle?: CSSProperties;
-}
-const CitiesModal: FC<CitiesModalProps> = ({ label = '', labelStyle }) => {
+const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', labelStyle, callback = () => {} }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [cities, setCities] = useState<ICities>();
   const [district, setDistrict] = useState<null | number>(null);
   const [region, setRegion] = useState<null | number>(null);
-  const [error, setError] = useState(false);
 
+  const [error, setError] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
   const loadCities = async () => {
@@ -47,7 +40,7 @@ const CitiesModal: FC<CitiesModalProps> = ({ label = '', labelStyle }) => {
     }
   }, [isOpen]);
 
-  const dialog = (
+  const dialogBox = (
     <div className={classes['cities-modal__dialog']} onClick={(e) => e.stopPropagation()}>
       <CloseOutlined
         className={classes['cities-modal__close-icon']}
@@ -88,7 +81,14 @@ const CitiesModal: FC<CitiesModalProps> = ({ label = '', labelStyle }) => {
                   i.regionId === region && (
                     <CitiesListItem
                       cb={() => {
-                        // todo
+                        callback({
+                          name: i.name,
+                          coords: {
+                            latitude: i.latitude,
+                            longitude: i.longitude,
+                          },
+                        });
+                        setIsOpen(false);
                       }}
                       key={i.id}
                       name={i.name}
@@ -105,7 +105,20 @@ const CitiesModal: FC<CitiesModalProps> = ({ label = '', labelStyle }) => {
             {cities?.data.cities.map(
               (i) =>
                 i.name.toLowerCase().includes(inputValue.toLowerCase()) && (
-                  <CitiesListItem key={i.id} name={i.name} cb={() => {}} />
+                  <CitiesListItem
+                    key={i.id}
+                    name={i.name}
+                    cb={() => {
+                      callback({
+                        name: i.name,
+                        coords: {
+                          latitude: i.latitude,
+                          longitude: i.longitude,
+                        },
+                      });
+                      setIsOpen(false);
+                    }}
+                  />
                 )
             )}
           </ul>
@@ -115,7 +128,7 @@ const CitiesModal: FC<CitiesModalProps> = ({ label = '', labelStyle }) => {
     </div>
   );
 
-  const errorDialog = (
+  const errorDialogBox = (
     <div
       className={`${classes['cities-modal__dialog']} ${classes['cities-modal__dialog_error']}`}
       onClick={(e) => e.stopPropagation()}
@@ -132,7 +145,7 @@ const CitiesModal: FC<CitiesModalProps> = ({ label = '', labelStyle }) => {
     </div>
   );
 
-  const loadingDialog = (
+  const loadingDialogBox = (
     <div
       className={`${classes['cities-modal__dialog']} ${classes['cities-modal__dialog_error']}`}
       onClick={(e) => e.stopPropagation()}
@@ -154,9 +167,9 @@ const CitiesModal: FC<CitiesModalProps> = ({ label = '', labelStyle }) => {
         setIsOpen(false);
       }}
     >
-      {!error && cities && dialog}
-      {error && errorDialog}
-      {!cities && !error && loadingDialog}
+      {!error && cities && dialogBox}
+      {error && errorDialogBox}
+      {!cities && !error && loadingDialogBox}
     </div>
   );
 
@@ -170,4 +183,4 @@ const CitiesModal: FC<CitiesModalProps> = ({ label = '', labelStyle }) => {
   );
 };
 
-export default CitiesModal;
+export default CitiesModalPage404;

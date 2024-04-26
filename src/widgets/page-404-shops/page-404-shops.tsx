@@ -1,21 +1,47 @@
 import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import { Checkbox, ConfigProvider, Dropdown, DropdownProps, MenuProps, Radio, Space } from 'antd';
-import CitiesModal from 'features/cities-modal';
+import CitiesModal from 'entities/cities-modal-page-404';
 import { FC, useEffect, useState } from 'react';
+import { getShops } from 'shared/api/DNS';
 import classes from './page-404-shops.module.scss';
-import { ICoord, IShop, ShopItemProps } from './page-404-shops.types';
+import { ICoord, ICurrentCity, IShop, ShopItemProps } from './page-404-shops.types';
+
+const ShopListItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }) => {
+  return (
+    <div className={classes['shop-list-item']}>
+      <div
+        className={classes['shop-list-item__info']}
+        onClick={() =>
+          clickHandler({
+            latitude: coords[0],
+            longitude: coords[1] * -1,
+          })
+        }
+      >
+        <span className={classes['shop-list-item__title']}>{name}</span>
+        <span className={classes['shop-list-item__address']}>{address}</span>
+      </div>
+      <span className={classes['shop-list-item__worktime']}>Пн-Сб с 10:00 до 20:00, Вс с 10:00 до 18:00</span>
+    </div>
+  );
+};
 
 const Page404Shops = () => {
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [sortByDistanceChecked, setSortByDistanceChecked] = useState<boolean>(false);
   const [shops, setShops] = useState<IShop[]>();
   const [inputValue, setInputValue] = useState('');
+  const [isOpenNowFilter, setIsOpenNowFilter] = useState(false);
+  const [currentCity, setCurrentCity] = useState('Саратов');
+
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const [geo, setGeo] = useState<ICoord>({
-    latitude: 46.0086,
-    longitude: 51.5406,
+    latitude: 51.5406,
+    longitude: 46.0086,
   });
 
-  const [isOpenNowFilter, setIsOpenNowFilter] = useState(false);
   const items: MenuProps['items'] = [
     {
       label: (
@@ -66,10 +92,6 @@ const Page404Shops = () => {
     },
   ];
 
-  const setGeoHandler = (coord: ICoord) => {
-    setGeo(coord);
-  };
-
   const requestGeo = () => {
     if (!sortByDistanceChecked) {
       try {
@@ -88,10 +110,9 @@ const Page404Shops = () => {
     }
   };
 
-  const handleMenuClick: MenuProps['onClick'] = (e) => {
-    if (e.key) {
-      setDropdownOpen(true);
-    }
+  const chooseCurrentCity = (city: ICurrentCity) => {
+    setCurrentCity(city.name);
+    setGeo(city.coords);
   };
 
   const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {
@@ -101,11 +122,14 @@ const Page404Shops = () => {
   };
 
   const loadShops = async () => {
-    const response = await fetch('http://localhost:8000/shops');
-
-    const data: IShop[] = await response.json();
-
-    setShops(data);
+    setLoading(true);
+    try {
+      setShops(await getShops());
+    } catch {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -113,6 +137,18 @@ const Page404Shops = () => {
   }, []);
 
   const ShopsList = () => {
+    if (error) {
+      return (
+        <span
+          style={{
+            margin: 'auto',
+          }}
+        >
+          Произошла ошибка. Пожалуйста повторите запрос позже.
+        </span>
+      );
+    }
+
     return (
       <div className={classes['shops-block__shops-list']}>
         <h2 className={classes['shops-block__sale-channel']}>
@@ -120,54 +156,18 @@ const Page404Shops = () => {
         </h2>
         <ul>
           {shops?.map((i) => {
-            if (i.name.toLowerCase().includes(inputValue.toLowerCase())) {
-              if (isOpenNowFilter && sortByDistanceChecked) {
-                return (
-                  i.inOpen &&
-                  i.inNear && (
-                    <ShopListItem
-                      key={i.id}
-                      name={i.name}
-                      address={i.streetAddress}
-                      coords={i.location}
-                      clickHandler={setGeoHandler}
-                    />
-                  )
-                );
-              }
-              if (sortByDistanceChecked) {
-                return (
-                  i.inNear && (
-                    <ShopListItem
-                      key={i.id}
-                      name={i.name}
-                      address={i.streetAddress}
-                      coords={i.location}
-                      clickHandler={setGeoHandler}
-                    />
-                  )
-                );
-              }
-              if (isOpenNowFilter) {
-                return (
-                  i.inOpen && (
-                    <ShopListItem
-                      key={i.id}
-                      name={i.name}
-                      address={i.streetAddress}
-                      coords={i.location}
-                      clickHandler={setGeoHandler}
-                    />
-                  )
-                );
-              }
+            if (
+              i.name.toLowerCase().includes(inputValue.toLowerCase()) &&
+              (isOpenNowFilter ? i.inOpen : true) &&
+              (sortByDistanceChecked ? i.inNear : true)
+            ) {
               return (
                 <ShopListItem
                   key={i.id}
                   name={i.name}
                   address={i.streetAddress}
                   coords={i.location}
-                  clickHandler={setGeoHandler}
+                  clickHandler={setGeo}
                 />
               );
             }
@@ -183,7 +183,7 @@ const Page404Shops = () => {
       <div className={classes['shops-block']}>
         <h1 className={classes['shops-block__header']}>
           Магазины сети цифровой и бытовой техники DNS в г.
-          <CitiesModal label='Саратов' labelStyle={{ marginLeft: '5px' }} />
+          <CitiesModal label={currentCity} labelStyle={{ marginLeft: '5px' }} callback={chooseCurrentCity} />
         </h1>
         <div className={classes['shops-block__main']}>
           <div className={classes['shops-block__filters']}>
@@ -206,7 +206,7 @@ const Page404Shops = () => {
                 }}
               >
                 <Dropdown
-                  menu={{ items, onClick: handleMenuClick }}
+                  menu={{ items, onClick: () => setDropdownOpen(true) }}
                   trigger={['click']}
                   open={dropdownOpen}
                   onOpenChange={handleOpenChange}
@@ -242,37 +242,19 @@ const Page404Shops = () => {
             </ConfigProvider>
           </div>
           <div className={classes['shops-block__section']}>
-            <ShopsList />
-            <iframe
-              title='y-map'
-              src={`https://yandex.ru/map-widget/v1/?ll=${geo.latitude}%2C${geo.longitude}&z=12`}
-              width='468'
-              height='650'
-              frameBorder='0'
-            ></iframe>
+            {!loading && <ShopsList />}
+            {!loading && (
+              <iframe
+                title='y-map'
+                src={`https://yandex.ru/map-widget/v1/?ll=${geo.longitude}%2C${geo.latitude}&z=12`}
+                width='468'
+                height='650'
+                frameBorder='0'
+              ></iframe>
+            )}
           </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-const ShopListItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }) => {
-  return (
-    <div className={classes['shop-list-item']}>
-      <div
-        className={classes['shop-list-item__info']}
-        onClick={() =>
-          clickHandler({
-            latitude: coords[0],
-            longitude: coords[1] * -1,
-          })
-        }
-      >
-        <span className={classes['shop-list-item__title']}>{name}</span>
-        <span className={classes['shop-list-item__address']}>{address}</span>
-      </div>
-      <span className={classes['shop-list-item__worktime']}>Пн-Сб с 10:00 до 20:00, Вс с 10:00 до 18:00</span>
     </div>
   );
 };
