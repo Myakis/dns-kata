@@ -1,10 +1,8 @@
+import ProductListItemVertical from 'entities/product-list-item';
+import '../shared/main.css';
+
 const App = () => {
+  return <ProductListItemVertical />;
+};
 
-  return (
-    <>
-      <h1>hello wrold</h1>
-    </>
-  )
-}
-
-export default App
+export default App;
