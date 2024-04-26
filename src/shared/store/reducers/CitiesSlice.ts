@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICities } from 'shared/api/original-DNS/original-dns.types';
+import { ICities } from 'shared/api/DNS-original-API/DNS-original-API.types';
 
 const initialState: ICities = {
   message: '',

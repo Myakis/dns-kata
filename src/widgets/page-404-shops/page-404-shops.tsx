@@ -1,11 +1,11 @@
 import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import { Checkbox, ConfigProvider, Dropdown, DropdownProps, MenuProps, Radio, Space } from 'antd';
 import { FC, useEffect, useState } from 'react';
-import { getShops } from 'shared/api/DNS';
+import { DnsAPI } from 'shared/api/DNS/DNS-API';
 import { useAppSelector } from 'shared/hooks/redux';
 import CitiesModal from 'widgets/cities-modal-page-404';
 import classes from './page-404-shops.module.scss';
-import { ICoord, IShop, ShopItemProps } from './page-404-shops.types';
+import { ICoord, ShopItemProps } from './page-404-shops.types';
 
 const ShopListItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }) => {
   return (
@@ -33,16 +33,14 @@ const Page404Shops = () => {
   const [sortByDistanceChecked, setSortByDistanceChecked] = useState<boolean>(false);
   const [isOpenNowFilter, setIsOpenNowFilter] = useState(false);
 
-  const [shops, setShops] = useState<IShop[]>();
   const [inputValue, setInputValue] = useState('');
-
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   const [geo, setGeo] = useState<ICoord>({
     latitude: currentCity.coords.latitude,
     longitude: currentCity.coords.longitude,
   });
+
+  const { data: shops, error, isLoading } = DnsAPI.useGetShopsQuery('');
 
   const requestGeo = () => {
     const success: PositionCallback = (position) => {
@@ -118,21 +116,6 @@ const Page404Shops = () => {
       setDropdownOpen(nextOpen);
     }
   };
-
-  const loadShops = async () => {
-    try {
-      setLoading(true);
-      setShops(await getShops());
-    } catch {
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadShops();
-  }, []);
 
   useEffect(() => {
     setGeo({
@@ -247,8 +230,8 @@ const Page404Shops = () => {
             </ConfigProvider>
           </div>
           <div className={classes['shops-block__section']}>
-            {!loading && <ShopsList />}
-            {!loading && (
+            {!isLoading && <ShopsList />}
+            {!isLoading && (
               <iframe
                 title='y-map'
                 src={`https://yandex.ru/map-widget/v1/?ll=${geo.longitude}%2C${geo.latitude}&z=12`}

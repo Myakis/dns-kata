@@ -1,9 +1,8 @@
 import { CloseOutlined, LoadingOutlined } from '@ant-design/icons';
 import { FC, useEffect, useState } from 'react';
-import { getCities as requestCities } from 'shared/api/original-DNS';
-import { ICity } from 'shared/api/original-DNS/original-dns.types';
-import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
-import { citiesSlice } from 'shared/store/reducers/CitiesSlice';
+import { DNSOriginalAPI } from 'shared/api/DNS-original-API';
+import { ICity } from 'shared/api/DNS-original-API/DNS-original-api.types';
+import { useAppDispatch } from 'shared/hooks/redux';
 import { currentCitySlice } from 'shared/store/reducers/CurrentCity';
 import classes from './cities-modal-page-404.module.scss';
 import { CitiesListItemProps, CitiesModalProps, ITerritory } from './cities-modal-page-404.types';
@@ -21,11 +20,10 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
   };
 
   const [territory, setTerritory] = useState(initialTerritory);
-  const [error, setError] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
-  const cities = useAppSelector((state) => state.citiesReducer);
-  const { getCities } = citiesSlice.actions;
+  const { data: cities, error, isLoading } = DNSOriginalAPI.useGetCitiesQuery('');
+
   const { chooseCurrentCity } = currentCitySlice.actions;
   const dispatch = useAppDispatch();
 
@@ -42,19 +40,10 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
     setIsOpen(false);
   };
 
-  const loadCities = async () => {
-    try {
-      setTerritory(initialTerritory);
-      dispatch(getCities(await requestCities()));
-    } catch {
-      setError(true);
-    }
-  };
-
   useEffect(() => {
+    setTerritory(initialTerritory);
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      loadCities();
       setInputValue('');
     } else {
       document.body.style.overflow = '';
@@ -81,7 +70,7 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
       {!inputValue && (
         <div className={classes['cities-modal__container']}>
           <ul>
-            {cities.data?.districts.map((i) => (
+            {cities?.data?.districts.map((i) => (
               <CitiesListItem
                 key={i.id}
                 name={i.name}
@@ -97,7 +86,7 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
 
           {territory.district !== null && (
             <ul>
-              {cities.data?.regions.map(
+              {cities?.data?.regions.map(
                 (i) =>
                   i.districtId === territory.district && (
                     <CitiesListItem
@@ -117,7 +106,7 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
 
           {territory.region !== null && (
             <ul>
-              {cities.data?.cities.map(
+              {cities?.data?.cities.map(
                 (i) =>
                   i.regionId === territory.region && (
                     <CitiesListItem
@@ -136,7 +125,7 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
       {inputValue && (
         <div className={classes['cities-modal__container']}>
           <ul>
-            {cities.data?.cities.map(
+            {cities?.data?.cities.map(
               (i) =>
                 i.name.toLowerCase().includes(inputValue.toLowerCase()) && (
                   <CitiesListItem key={i.id} name={i.name} cb={() => setCurrentCity(i)} />
@@ -188,9 +177,9 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
         setIsOpen(false);
       }}
     >
-      {!error && !cities.loading && dialogBox}
+      {!isLoading && !error && dialogBox}
       {error && errorDialogBox}
-      {cities.loading && loadingDialogBox}
+      {isLoading && loadingDialogBox}
     </div>
   );
 

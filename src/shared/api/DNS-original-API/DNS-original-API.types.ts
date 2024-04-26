@@ -28,5 +28,4 @@ export interface ICities {
     bigCities: ICity[];
     cities: ICity[];
   };
-  loading?: boolean;
 }

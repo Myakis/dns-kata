@@ -1,15 +1,18 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import citiesReducer from './reducers/CitiesSlice';
+import { DNSOriginalAPI } from 'shared/api/DNS-original-API';
+import { DnsAPI } from 'shared/api/DNS/DNS-API';
 import currentCityReducer from './reducers/CurrentCity';
 
 const rootReducer = combineReducers({
-  citiesReducer,
   currentCityReducer,
+  [DNSOriginalAPI.reducerPath]: DNSOriginalAPI.reducer,
+  [DnsAPI.reducerPath]: DnsAPI.reducer,
 });
 
 export const setupStore = () => {
   return configureStore({
     reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(DNSOriginalAPI.middleware, DnsAPI.middleware),
   });
 };
 
