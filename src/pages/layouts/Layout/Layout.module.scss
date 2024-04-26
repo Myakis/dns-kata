@@ -1,65 +1,53 @@
 .layout {
     display: grid;
     justify-items: center;
-    grid-template-rows: 145px min-content min-content 730px;
-    height: 100vh;
+    grid-template-rows: auto auto auto 1fr;
+    row-gap: 10px;
+    min-width: none;
+    min-height: 100vh;
     background-color: #F6F6F6;
     overflow-x: hidden;
+
+    &__header,
+    &__footer,
+    &__breadcrumbs,
+    &__content {
+        width: 100%;
+    }
+
+    &__header {
+        height: 145px;
+        background-color: #fff;
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+    }
+
+    &__footer {
+        min-height: 720px;
+        background-color: #333333;
+    }
+
+    &__breadcrumbs {
+        margin-bottom: 2vh;
+    }
+
+    &__content {
+        padding: 0 10px;
+    }
 }
 
-.breadcrumbs,
-.content,
-.header_container,
-.footer_container {
-    width: 1180px;
+.breadcrumbs__container,
+.content__container,
+.header__container,
+.footer__container {
+    max-width: 1360px;
+    margin: auto;
+    height: auto;
 }
 
-.header_container,
-.footer_container {
-    margin: 0 auto;
-    height: 100%;
-}
-
-.header_layout,
-.footer_layout {
-    width: 100%;
-}
-
-.breadcrumbs,
-.content {
-    margin-top: 20px;
-}
-
-.content,
-.page_title {
-    margin-bottom: 20px;
-}
-
-.header_layout {
-    height: 145px;
-    background-color: #fff;
-    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
-
-}
-
-.breadcrumbs a {
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 19px;
-}
-
-.breadcrumbs a:hover {
-    color: #FC8507;
-    cursor: pointer;
-}
-
-.page_title {
+.content__title {
     font-weight: 700;
     font-size: 32px;
-    line-height: 32px;
+    line-height: 30px;
+    margin-bottom: 1vh;
 }
 
-.footer_layout {
-    height: 730px; // высота примерная
-    background-color: #333333;
-}
