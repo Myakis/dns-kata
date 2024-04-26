@@ -9,26 +9,30 @@ interface TLayout {
 export const Layout: React.FC<TLayout> = ({ pageTitle, breadcrumbs }) => {
   return (
     <div className={styles.layout}>
-      <header className={styles.header_layout}>
-        <div className={styles.header_container}>Header</div>
+      <header className={styles.layout__header}>
+        <div className={styles.header__container}>Header</div>
       </header>
-      <div className={styles.breadcrumbs}>
-        <nav>
-          <ul>
-            {breadcrumbs.map((breadcrumb: string, index: number) => (
-              <li key={index}>
-                <a>{breadcrumb}</a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+      <div className={styles.layout__breadcrumbs}>
+        <div className={styles.breadcrumbs__container}>
+          <nav>
+            <ul>
+              {breadcrumbs.map((breadcrumb: string, index: number) => (
+                <li key={index}>
+                  <a>{breadcrumb}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
       </div>
-      <main className={styles.content}>
-        <h1 className={styles.page_title}>{pageTitle}</h1>
-        <Outlet />
+      <main className={styles.layout__content}>
+        <div className={styles.content__container}>
+          <h1 className={styles.content__title}>{pageTitle}</h1>
+          <Outlet />
+        </div>
       </main>
-      <footer className={styles.footer_layout}>
-        <div className={styles.footer_container}>Footer</div> {/*Сюда вставляем footer*/}
+      <footer className={styles.layout__footer}>
+        <div className={styles.footer__container}>Footer</div> {/*Сюда вставляем footer*/}
       </footer>
     </div>
   );
