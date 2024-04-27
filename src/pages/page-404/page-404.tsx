@@ -1,19 +1,31 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from 'shared/hooks/redux';
+import { currentCitySlice } from 'shared/store/reducers/current-city-slice';
 import Page404Shops from 'widgets/page-404-shops/page-404-shops';
 import classes from './page-404.module.scss';
 
 const Page404 = () => {
   const [wrapperClasses, setWrapperClasses] = useState(classes['info-block']);
+  const { chooseCurrentCity } = currentCitySlice.actions;
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setTimeout(() => {
       setWrapperClasses(`${classes['info-block']} ${classes['info-block_success']}`);
     }, 350);
+
+    try {
+      const city = localStorage.getItem('currentCity');
+
+      city && dispatch(chooseCurrentCity(JSON.parse(city)));
+    } catch {
+      localStorage.removeItem('currentCity');
+    }
   }, []);
 
   return (
-    <div className={classes['page-404']}>
+    <>
       <div className={wrapperClasses}>
         <div className={`${classes['info-block__bg']} ${classes['info-block__bg_off']}`}></div>
         <div className={`${classes['info-block__bg']} ${classes['info-block__bg_on']}`}></div>
@@ -43,7 +55,7 @@ const Page404 = () => {
           />
         </Link>
       </div>
-    </div>
+    </>
   );
 };
 

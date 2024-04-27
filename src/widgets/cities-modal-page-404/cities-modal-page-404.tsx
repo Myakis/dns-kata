@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import { DNSOriginalAPI } from 'shared/api/DNS-original';
 import { ICity } from 'shared/api/DNS-original/DNS-original.types';
 import { useAppDispatch } from 'shared/hooks/redux';
-import { currentCitySlice } from 'shared/store/reducers/CurrentCitySlice';
+import { currentCitySlice } from 'shared/store/reducers/current-city-slice';
 import classes from './cities-modal-page-404.module.scss';
 import { CitiesListItemProps, CitiesModalProps, ITerritory } from './cities-modal-page-404.types';
 
@@ -26,15 +26,17 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
   const { chooseCurrentCity } = currentCitySlice.actions;
 
   const setCurrentCity = (i: ICity) => {
-    dispatch(
-      chooseCurrentCity({
-        name: i.name,
-        coords: {
-          latitude: i.latitude,
-          longitude: i.longitude,
-        },
-      })
-    );
+    const currentCity = {
+      name: i.name,
+      coords: {
+        latitude: i.latitude,
+        longitude: i.longitude,
+      },
+    };
+
+    localStorage.setItem('currentCity', JSON.stringify(currentCity));
+
+    dispatch(chooseCurrentCity(currentCity));
     setIsModalOpen(false);
   };
 
