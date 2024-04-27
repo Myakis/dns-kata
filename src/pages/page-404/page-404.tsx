@@ -13,7 +13,7 @@ const Page404 = () => {
   }, []);
 
   return (
-    <>
+    <div className={classes['page-404']}>
       <div className={wrapperClasses}>
         <div className={`${classes['info-block__bg']} ${classes['info-block__bg_off']}`}></div>
         <div className={`${classes['info-block__bg']} ${classes['info-block__bg_on']}`}></div>
@@ -43,7 +43,7 @@ const Page404 = () => {
           />
         </Link>
       </div>
-    </>
+    </div>
   );
 };
 

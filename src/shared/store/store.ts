@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { DNSOriginalAPI } from 'shared/api/DNS-original/';
 import { DnsAPI } from 'shared/api/DNS/';
-import currentCityReducer from './reducers/CurrentCitySlice';
+import currentCityReducer from './reducers/currentCitySlice';
 
 const rootReducer = combineReducers({
   currentCity: currentCityReducer,
