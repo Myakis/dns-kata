@@ -1,7 +1,12 @@
 import styles from './Header.module.scss';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+// import catalog from './catalog.json';
+import classNames from 'classnames';
 
 export const Header: React.FC = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isOnCatalogBtnClick, setIsOnCatalogBtnClick] = useState(false);
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -10,22 +15,16 @@ export const Header: React.FC = () => {
   }, []);
 
   const handleScroll = () => {
-    const mainHeader = document.querySelector(`.${styles['main-header']}`);
-    const mainHeaderContainer = document.querySelector(`.${styles['main-header__container']}`);
+    const scrollValue = 50;
+    setIsScrolled(window.scrollY > scrollValue);
+  };
 
-    const scrollThreshold = 50;
-
-    if (mainHeader && window.scrollY > scrollThreshold) {
-      mainHeader.classList.add(styles['main-header--fixed']);
-      mainHeaderContainer?.classList.add(styles['main-header__container--fixed']);
-    } else {
-      mainHeader?.classList.remove(styles['main-header--fixed']);
-      mainHeaderContainer?.classList.remove(styles['main-header__container--fixed']);
-    }
+  const handleOnCatalogBtnClick = () => {
+    setIsOnCatalogBtnClick((prevState) => !prevState);
   };
 
   return (
-    <div className={styles.header}>
+    <div className={classNames(styles.header)}>
       <div className={styles['upper-header']}>
         <div className={styles['upper-header__location']}>
           <a>Москва</a>
@@ -56,11 +55,22 @@ export const Header: React.FC = () => {
           <a href='tel:8-800-77-07-999'>8-800-77-07-999</a>
         </div>
       </div>
-      <div className={styles['main-header']}>
-        <div className={styles['main-header__container']}>
-          <div className={`${styles['main-header__orange-btn']} ${styles['main-header__btn-bg']}`}>
+      <div
+        className={classNames(styles['main-header'], {
+          [styles['main-header--fixed']]: isScrolled,
+        })}
+      >
+        <div
+          className={classNames(styles['main-header__container'], {
+            [styles['main-header__container--fixed']]: isScrolled,
+            [styles['main-header--bg-shadow']]: isOnCatalogBtnClick,
+          })}
+        >
+          <div className={classNames(styles['main-header__orange-btn'], styles['main-header__btn-bg'])}>
             <a className={styles['main-header__logo-btn']}></a>
-            <button className={styles['main-header__catalog-btn']}>Каталог</button>
+            <button onClick={handleOnCatalogBtnClick} className={styles['main-header__catalog-btn']}>
+              Каталог
+            </button>
           </div>
           <div className={styles['main-header__search-wrapper']}>
             <input type='text' className={styles['main-header__search']} placeholder='Поиск по сайту' />
@@ -82,6 +92,13 @@ export const Header: React.FC = () => {
               </li>
             </ul>
           </nav>
+          <div
+            className={classNames(styles['main-header__catalog'], {
+              [styles['main-header__catalog--closed']]: !isOnCatalogBtnClick,
+              [styles['main-header__catalog--opened']]: isOnCatalogBtnClick,
+              [styles['main-header__catalog--fixed']]: isScrolled,
+            })}
+          ></div>
         </div>
       </div>
     </div>

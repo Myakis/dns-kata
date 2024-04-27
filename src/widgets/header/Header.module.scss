@@ -1,5 +1,6 @@
 @import '../../app/styles/fonts.scss';
 
+
 .header {
     display: flex;
     flex-direction: column;
@@ -14,7 +15,7 @@
 
     a {
         text-decoration: none;
-        color: #000 
+        color: #4e4e4e;
     }
 
     a:hover {
@@ -26,12 +27,12 @@
 
 .upper-header {
     padding: 20px 10px;
-    column-gap: 10px;
+    column-gap: 20px;
     display: flex;
 
     &__navigation {
         display: flex;
-        column-gap: 21px;
+        column-gap: 26px;
     }
     &__location {
         display: flex;
@@ -60,7 +61,6 @@
 
 .main-header {
     width: 100%;
-
     &--fixed {
         position: fixed;
         justify-self: center;
@@ -69,8 +69,17 @@
         top: 0;
         left: 0;
         right: 0;
-        z-index: 999;
         box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+    }
+    &--bg-shadow::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.1);
+        z-index: 0;
     }
 
     &__container {
@@ -94,14 +103,35 @@
     &__btn-bg {
         display: flex;
         justify-content: space-between;
+        column-gap: 20px;
         align-items: center;
         padding: 0 10px;
         width: 280px;
         height: 64px;
+        z-index: 2;
     }
     &__logo-btn,
     &__catalog-btn {
         border: none;
+    }
+    &__catalog--opened {
+        position: absolute;
+        box-sizing: border-box;
+        top: 130px;
+        left: 50;
+        padding: 20px;
+        width: 1178px;
+        height: 736px;
+        background-color: #fff;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, .04), 0 4px 4px rgba(0, 0, 0, .04), 0 20px 40px rgba(0, 0, 0, .08);
+        border-radius: 12px;
+        z-index: 1;
+    }
+    &__catalog--fixed {
+        top: 79px; 
+    }
+    &__catalog--closed {
+        display: none;
     }
     &__logo-btn {
         display: block;
@@ -150,10 +180,21 @@
         border-radius: 12px;
         background-color: #F7F7F7;
     }
+    &__search-wrapper:hover,
+    &__search:hover {
+        background-color: #fff;
+    }
+    &__search-wrapper:hover &__search {
+        background-color: #fff;
+    }
+    &__search-wrapper:hover {
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, .04), 0 4px 4px rgba(0, 0, 0, .04), 0 20px 40px rgba(0, 0, 0, .08);
+    }
     &__search {
         flex: 1;
         padding: 22px 20px;
         border: none;
+        font-size: 14px;
         color: #757575;
         border-radius: 12px;
         background-color: #F7F7F7;
@@ -174,7 +215,8 @@
     }
     &__search-btn:hover {
         transition: background-color 0.3s ease-in-out;
-        background-color: #ebebeb;
+        background-color: #f7f7f7;
+        border-radius: 8px;
     }
 
     &__side-nav {
@@ -187,14 +229,17 @@
             justify-content: center;
             align-items: center;
             box-sizing: border-box;
-            color: #4e4e4e;;
-            padding: 0 10px;
-            width: 90px;
-            height: 60px;
         }
-        li:hover {
+        li:not(:last-child) {
+           width: 90px;
+           height: 60px;
+        }
+        li:last-child {
+            margin-left: 10px;
+        }
+        li:hover:not(:last-child) {
             transition: background-color 0.3s ease-in-out;
-            background-color: #f5f5f5;
+            background-color: #f7f7f7;
             border-radius: 5px;
             cursor: pointer;
         }
