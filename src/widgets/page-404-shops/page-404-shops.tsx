@@ -28,19 +28,18 @@ const ShopListItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }
 };
 
 const Page404Shops = () => {
-  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
-  const currentCity = useAppSelector((state) => state.currentCity);
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [sortByDistanceChecked, setSortByDistanceChecked] = useState<boolean>(false);
   const [isOpenNowFilter, setIsOpenNowFilter] = useState(false);
-
   const [inputValue, setInputValue] = useState('');
+
+  const currentCity = useAppSelector((state) => state.currentCity);
+  const { data: shops, error, isLoading } = DnsAPI.useGetShopsQuery('');
 
   const [geo, setGeo] = useState<ICoord>({
     latitude: currentCity.coords.latitude,
     longitude: currentCity.coords.longitude,
   });
-
-  const { data: shops, error, isLoading } = DnsAPI.useGetShopsQuery('');
 
   const requestGeo = () => {
     const success: PositionCallback = (position) => {
@@ -113,7 +112,7 @@ const Page404Shops = () => {
 
   const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {
     if (info.source === 'trigger' || nextOpen) {
-      setDropdownOpen(nextOpen);
+      setIsDropdownOpen(nextOpen);
     }
   };
 
@@ -194,15 +193,15 @@ const Page404Shops = () => {
                 }}
               >
                 <Dropdown
-                  menu={{ items, onClick: () => setDropdownOpen(true) }}
+                  menu={{ items, onClick: () => setIsDropdownOpen(true) }}
                   trigger={['click']}
-                  open={dropdownOpen}
+                  open={isDropdownOpen}
                   onOpenChange={handleOpenChange}
                 >
                   <button>
                     <Space
                       style={{
-                        color: dropdownOpen ? '#fc8507' : '',
+                        color: isDropdownOpen ? '#fc8507' : '',
                       }}
                     >
                       Все магазины

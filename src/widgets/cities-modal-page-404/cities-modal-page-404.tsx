@@ -12,20 +12,18 @@ const CitiesListItem = ({ name, cb }: CitiesListItemProps) => {
 };
 
 const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', labelStyle }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   const initialTerritory: ITerritory = {
     region: null,
     district: null,
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [territory, setTerritory] = useState(initialTerritory);
   const [inputValue, setInputValue] = useState('');
 
-  const { data: cities, error, isLoading } = DNSOriginalAPI.useGetCitiesQuery('');
-
-  const { chooseCurrentCity } = currentCitySlice.actions;
   const dispatch = useAppDispatch();
+  const { data: cities, error, isLoading } = DNSOriginalAPI.useGetCitiesQuery('');
+  const { chooseCurrentCity } = currentCitySlice.actions;
 
   const setCurrentCity = (i: ICity) => {
     dispatch(
@@ -37,18 +35,18 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
         },
       })
     );
-    setIsOpen(false);
+    setIsModalOpen(false);
   };
 
   useEffect(() => {
     setTerritory(initialTerritory);
-    if (isOpen) {
+    if (isModalOpen) {
       document.body.style.overflow = 'hidden';
       setInputValue('');
     } else {
       document.body.style.overflow = '';
     }
-  }, [isOpen]);
+  }, [isModalOpen]);
 
   const CitiesList = () => {
     if (!inputValue) {
@@ -128,7 +126,7 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
       <CloseOutlined
         className={classes['cities-modal__close-icon']}
         onClick={() => {
-          setIsOpen(false);
+          setIsModalOpen(false);
         }}
       />
       <h4>Выбор города</h4>
@@ -152,7 +150,7 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
       <CloseOutlined
         className={classes['cities-modal__close-icon']}
         onClick={() => {
-          setIsOpen(false);
+          setIsModalOpen(false);
         }}
       />
       <span className={classes['cities-modal__error-text']}>
@@ -169,7 +167,7 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
       <CloseOutlined
         className={classes['cities-modal__close-icon']}
         onClick={() => {
-          setIsOpen(false);
+          setIsModalOpen(false);
         }}
       />
       <LoadingOutlined className={classes['cities-modal__spinner']} spin />
@@ -180,7 +178,7 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
     <div
       className={classes['cities-modal']}
       onClick={() => {
-        setIsOpen(false);
+        setIsModalOpen(false);
       }}
     >
       {!isLoading && !error && dialogBox}
@@ -191,8 +189,8 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
 
   return (
     <>
-      {isOpen && modal}
-      <span style={labelStyle} onClick={() => setIsOpen(true)}>
+      {isModalOpen && modal}
+      <span style={labelStyle} onClick={() => setIsModalOpen(true)}>
         {label}
       </span>
     </>
