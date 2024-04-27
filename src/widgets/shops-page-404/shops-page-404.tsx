@@ -4,14 +4,14 @@ import { FC, useEffect, useState } from 'react';
 import { DnsAPI } from 'shared/api/DNS';
 import { useAppSelector } from 'shared/hooks/redux';
 import CitiesModal from 'widgets/cities-modal-page-404';
-import classes from './page-404-shops.module.scss';
-import { ICoord, ShopItemProps } from './page-404-shops.types';
+import styles from './shops-page-404.module.scss';
+import { ICoord, ShopItemProps } from './shops-page-404.types';
 
 const ShopListItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }) => {
   return (
-    <div className={classes['shop-list-item']}>
+    <div className={styles['shop-list-item']}>
       <div
-        className={classes['shop-list-item__info']}
+        className={styles['shop-list-item__info']}
         onClick={() =>
           clickHandler({
             latitude: coords[0],
@@ -19,15 +19,15 @@ const ShopListItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }
           })
         }
       >
-        <span className={classes['shop-list-item__title']}>{name}</span>
-        <span className={classes['shop-list-item__address']}>{address}</span>
+        <span className={styles['shop-list-item__title']}>{name}</span>
+        <span className={styles['shop-list-item__address']}>{address}</span>
       </div>
-      <span className={classes['shop-list-item__worktime']}>Пн-Сб с 10:00 до 20:00, Вс с 10:00 до 18:00</span>
+      <span className={styles['shop-list-item__worktime']}>Пн-Сб с 10:00 до 20:00, Вс с 10:00 до 18:00</span>
     </div>
   );
 };
 
-const Page404Shops = () => {
+const ShopsPage404 = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [sortByDistanceChecked, setSortByDistanceChecked] = useState<boolean>(false);
   const [isOpenNowFilter, setIsOpenNowFilter] = useState(false);
@@ -137,8 +137,8 @@ const Page404Shops = () => {
     }
 
     return (
-      <div className={classes['shops-block__shops-list']}>
-        <h2 className={classes['shops-block__sale-channel']}>
+      <div className={styles['shops-block__shops-list']}>
+        <h2 className={styles['shops-block__sale-channel']}>
           {sortByDistanceChecked ? 'Дистанция: до 1000 метров' : 'DNS'}
         </h2>
         <ul>
@@ -166,24 +166,24 @@ const Page404Shops = () => {
   };
 
   return (
-    <div className={classes['container']}>
-      <div className={classes['shops-block']}>
-        <h1 className={classes['shops-block__header']}>
+    <div className={styles['container']}>
+      <div className={styles['shops-block']}>
+        <h1 className={styles['shops-block__header']}>
           Магазины сети цифровой и бытовой техники DNS в г.
           <CitiesModal label={currentCity.name} labelStyle={{ marginLeft: '5px' }} />
         </h1>
-        <div className={classes['shops-block__main']}>
-          <div className={classes['shops-block__filters']}>
-            <div className={classes['shops-block__input-search']}>
+        <div className={styles['shops-block__main']}>
+          <div className={styles['shops-block__filters']}>
+            <div className={styles['shops-block__input-search']}>
               <input
-                className={classes['shops-block__input']}
+                className={styles['shops-block__input']}
                 placeholder='Поиск магазина'
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
               />
-              <SearchOutlined className={classes['shops-block__input-icon']} />
+              <SearchOutlined className={styles['shops-block__input-icon']} />
             </div>
-            <div className={classes['shops-block__dropdown']}>
+            <div className={styles['shops-block__dropdown']}>
               <span>Показать: </span>
               <ConfigProvider
                 theme={{
@@ -220,7 +220,7 @@ const Page404Shops = () => {
               }}
             >
               <Checkbox
-                className={classes['shops-block__sort-by-distance']}
+                className={styles['shops-block__sort-by-distance']}
                 checked={sortByDistanceChecked}
                 onChange={requestGeo}
               >
@@ -228,7 +228,7 @@ const Page404Shops = () => {
               </Checkbox>
             </ConfigProvider>
           </div>
-          <div className={classes['shops-block__section']}>
+          <div className={styles['shops-block__section']}>
             {!isLoading && <ShopsList />}
             {!isLoading && (
               <iframe
@@ -246,4 +246,4 @@ const Page404Shops = () => {
   );
 };
 
-export default Page404Shops;
+export default ShopsPage404;

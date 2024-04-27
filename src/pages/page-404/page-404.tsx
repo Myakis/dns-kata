@@ -2,17 +2,17 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from 'shared/hooks/redux';
 import { currentCitySlice } from 'shared/store/reducers/current-city-slice';
-import Page404Shops from 'widgets/page-404-shops/page-404-shops';
-import classes from './page-404.module.scss';
+import Page404Shops from 'widgets/shops-page-404/';
+import styles from './page-404.module.scss';
 
 const Page404 = () => {
-  const [wrapperClasses, setWrapperClasses] = useState(classes['info-block']);
+  const [wrapperClasses, setWrapperClasses] = useState(styles['info-block']);
   const { chooseCurrentCity } = currentCitySlice.actions;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     setTimeout(() => {
-      setWrapperClasses(`${classes['info-block']} ${classes['info-block_success']}`);
+      setWrapperClasses(`${styles['info-block']} ${styles['info-block_success']}`);
     }, 350);
 
     try {
@@ -27,15 +27,15 @@ const Page404 = () => {
   return (
     <>
       <div className={wrapperClasses}>
-        <div className={`${classes['info-block__bg']} ${classes['info-block__bg_off']}`}></div>
-        <div className={`${classes['info-block__bg']} ${classes['info-block__bg_on']}`}></div>
-        <div className={classes['info-block__container']}>
+        <div className={`${styles['info-block__bg']} ${styles['info-block__bg_off']}`}></div>
+        <div className={`${styles['info-block__bg']} ${styles['info-block__bg_on']}`}></div>
+        <div className={styles['info-block__container']}>
           <h1>Страница не найдена</h1>
           <Link to={'/'}>Перейти на главную</Link>
         </div>
       </div>
       <Page404Shops />
-      <div className={classes['links-block']}>
+      <div className={styles['links-block']}>
         <Link to='/'>
           <img
             src='https://www.dns-shop.ru/files/error-page/assets/images/icon/dns-link-bg.png'

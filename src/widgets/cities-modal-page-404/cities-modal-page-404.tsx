@@ -4,7 +4,7 @@ import { DNSOriginalAPI } from 'shared/api/DNS-original';
 import { ICity } from 'shared/api/DNS-original/DNS-original.types';
 import { useAppDispatch } from 'shared/hooks/redux';
 import { currentCitySlice } from 'shared/store/reducers/current-city-slice';
-import classes from './cities-modal-page-404.module.scss';
+import styles from './cities-modal-page-404.module.scss';
 import { CitiesListItemProps, CitiesModalProps, ITerritory } from './cities-modal-page-404.types';
 
 const CitiesListItem = ({ name, cb }: CitiesListItemProps) => {
@@ -53,7 +53,7 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
   const CitiesList = () => {
     if (!inputValue) {
       return (
-        <div className={classes['cities-modal__container']}>
+        <div className={styles['cities-modal__container']}>
           <ul>
             {cities?.data?.districts.map((i) => (
               <CitiesListItem
@@ -109,7 +109,7 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
       );
     }
     return (
-      <div className={classes['cities-modal__container']}>
+      <div className={styles['cities-modal__container']}>
         <ul>
           {cities?.data?.cities.map(
             (i) =>
@@ -118,15 +118,15 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
               )
           )}
         </ul>
-        <span className={classes['cities-modal__not-found']}>Город не найден</span>
+        <span className={styles['cities-modal__not-found']}>Город не найден</span>
       </div>
     );
   };
 
   const dialogBox = (
-    <div className={classes['cities-modal__dialog']} onClick={(e) => e.stopPropagation()}>
+    <div className={styles['cities-modal__dialog']} onClick={(e) => e.stopPropagation()}>
       <CloseOutlined
-        className={classes['cities-modal__close-icon']}
+        className={styles['cities-modal__close-icon']}
         onClick={() => {
           setIsModalOpen(false);
         }}
@@ -146,16 +146,16 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
 
   const errorDialogBox = (
     <div
-      className={`${classes['cities-modal__dialog']} ${classes['cities-modal__dialog_error']}`}
+      className={`${styles['cities-modal__dialog']} ${styles['cities-modal__dialog_error']}`}
       onClick={(e) => e.stopPropagation()}
     >
       <CloseOutlined
-        className={classes['cities-modal__close-icon']}
+        className={styles['cities-modal__close-icon']}
         onClick={() => {
           setIsModalOpen(false);
         }}
       />
-      <span className={classes['cities-modal__error-text']}>
+      <span className={styles['cities-modal__error-text']}>
         Произошла ошибка. Пожалуйста, откройте сайт ДНС и повторите попытку.
       </span>
     </div>
@@ -163,22 +163,22 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
 
   const loadingDialogBox = (
     <div
-      className={`${classes['cities-modal__dialog']} ${classes['cities-modal__dialog_error']}`}
+      className={`${styles['cities-modal__dialog']} ${styles['cities-modal__dialog_error']}`}
       onClick={(e) => e.stopPropagation()}
     >
       <CloseOutlined
-        className={classes['cities-modal__close-icon']}
+        className={styles['cities-modal__close-icon']}
         onClick={() => {
           setIsModalOpen(false);
         }}
       />
-      <LoadingOutlined className={classes['cities-modal__spinner']} spin />
+      <LoadingOutlined className={styles['cities-modal__spinner']} spin />
     </div>
   );
 
   const modal = (
     <div
-      className={classes['cities-modal']}
+      className={styles['cities-modal']}
       onClick={() => {
         setIsModalOpen(false);
       }}
