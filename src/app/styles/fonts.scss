@@ -1,0 +1,6 @@
+@import './mixins.scss';
+
+@include font-face('PT Sans', '../../../public/fonts/PTSans/PTSans-Regular');
+@include font-face('PT Sans', '../../../public/fonts/PTSans/PTSans-Italic', normal, italic);
+@include font-face('PT Sans', '../../../public/fonts/PTSans/PTSans-Bold', bold);
+@include font-face('PT Sans', '../../../public/fonts/PTSans/PTSans-BoldItalic', bold, italic);
