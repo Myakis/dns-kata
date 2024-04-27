@@ -1,6 +1,7 @@
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { Layout } from 'pages/layouts/Layout';
 import { getPageTitle } from 'shared/utils';
+import './index.scss';
 import './reset.scss';
 
 const App = () => {
