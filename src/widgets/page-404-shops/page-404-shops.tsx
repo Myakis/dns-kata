@@ -1,7 +1,7 @@
 import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import { Checkbox, ConfigProvider, Dropdown, DropdownProps, MenuProps, Radio, Space } from 'antd';
 import { FC, useEffect, useState } from 'react';
-import { DnsAPI } from 'shared/api/DNS/DNS-API';
+import { DnsAPI } from 'shared/api/DNS';
 import { useAppSelector } from 'shared/hooks/redux';
 import CitiesModal from 'widgets/cities-modal-page-404';
 import classes from './page-404-shops.module.scss';
@@ -29,7 +29,7 @@ const ShopListItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }
 
 const Page404Shops = () => {
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
-  const currentCity = useAppSelector((state) => state.currentCityReducer);
+  const currentCity = useAppSelector((state) => state.currentCity);
   const [sortByDistanceChecked, setSortByDistanceChecked] = useState<boolean>(false);
   const [isOpenNowFilter, setIsOpenNowFilter] = useState(false);
 

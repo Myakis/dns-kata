@@ -1,9 +1,9 @@
 import { CloseOutlined, LoadingOutlined } from '@ant-design/icons';
 import { FC, useEffect, useState } from 'react';
-import { DNSOriginalAPI } from 'shared/api/DNS-original-API';
-import { ICity } from 'shared/api/DNS-original-API/DNS-original-api.types';
+import { DNSOriginalAPI } from 'shared/api/DNS-original';
+import { ICity } from 'shared/api/DNS-original/DNS-original.types';
 import { useAppDispatch } from 'shared/hooks/redux';
-import { currentCitySlice } from 'shared/store/reducers/CurrentCity';
+import { currentCitySlice } from 'shared/store/reducers/CurrentCitySlice';
 import classes from './cities-modal-page-404.module.scss';
 import { CitiesListItemProps, CitiesModalProps, ITerritory } from './cities-modal-page-404.types';
 
@@ -50,24 +50,9 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
     }
   }, [isOpen]);
 
-  const dialogBox = (
-    <div className={classes['cities-modal__dialog']} onClick={(e) => e.stopPropagation()}>
-      <CloseOutlined
-        className={classes['cities-modal__close-icon']}
-        onClick={() => {
-          setIsOpen(false);
-        }}
-      />
-      <h4>Выбор города</h4>
-      <input
-        placeholder='Поиск'
-        type='text'
-        onChange={(e) => {
-          setInputValue(e.target.value);
-        }}
-        value={inputValue}
-      />
-      {!inputValue && (
+  const CitiesList = () => {
+    if (!inputValue) {
+      return (
         <div className={classes['cities-modal__container']}>
           <ul>
             {cities?.data?.districts.map((i) => (
@@ -121,20 +106,41 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
             </ul>
           )}
         </div>
-      )}
-      {inputValue && (
-        <div className={classes['cities-modal__container']}>
-          <ul>
-            {cities?.data?.cities.map(
-              (i) =>
-                i.name.toLowerCase().includes(inputValue.toLowerCase()) && (
-                  <CitiesListItem key={i.id} name={i.name} cb={() => setCurrentCity(i)} />
-                )
-            )}
-          </ul>
-          <span className={classes['cities-modal__not-found']}>Город не найден</span>
-        </div>
-      )}
+      );
+    }
+    return (
+      <div className={classes['cities-modal__container']}>
+        <ul>
+          {cities?.data?.cities.map(
+            (i) =>
+              i.name.toLowerCase().includes(inputValue.toLowerCase()) && (
+                <CitiesListItem key={i.id} name={i.name} cb={() => setCurrentCity(i)} />
+              )
+          )}
+        </ul>
+        <span className={classes['cities-modal__not-found']}>Город не найден</span>
+      </div>
+    );
+  };
+
+  const dialogBox = (
+    <div className={classes['cities-modal__dialog']} onClick={(e) => e.stopPropagation()}>
+      <CloseOutlined
+        className={classes['cities-modal__close-icon']}
+        onClick={() => {
+          setIsOpen(false);
+        }}
+      />
+      <h4>Выбор города</h4>
+      <input
+        placeholder='Поиск'
+        type='text'
+        onChange={(e) => {
+          setInputValue(e.target.value);
+        }}
+        value={inputValue}
+      />
+      <CitiesList />
     </div>
   );
 

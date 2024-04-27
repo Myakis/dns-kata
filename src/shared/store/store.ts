@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { DNSOriginalAPI } from 'shared/api/DNS-original-API';
-import { DnsAPI } from 'shared/api/DNS/DNS-API';
-import currentCityReducer from './reducers/CurrentCity';
+import { DNSOriginalAPI } from 'shared/api/DNS-original/';
+import { DnsAPI } from 'shared/api/DNS/';
+import currentCityReducer from './reducers/CurrentCitySlice';
 
 const rootReducer = combineReducers({
-  currentCityReducer,
+  currentCity: currentCityReducer,
   [DNSOriginalAPI.reducerPath]: DNSOriginalAPI.reducer,
   [DnsAPI.reducerPath]: DnsAPI.reducer,
 });
