@@ -1,5 +1,6 @@
 import { Provider } from 'react-redux';
 import { setupStore } from 'shared/store/store';
+import './index.scss';
 
 const App = () => {
   const store = setupStore();
