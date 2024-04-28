@@ -1,4 +1,5 @@
 import Footer from 'widgets/footer';
+import './index.scss';
 
 const App = () => {
   return (
