@@ -13,6 +13,8 @@ const Providers: FC = () => {
   );
 };
 
-export const AppProvider: FC = () => {
+const AppProvider: FC = () => {
   return <Providers />;
 };
+
+export default AppProvider;

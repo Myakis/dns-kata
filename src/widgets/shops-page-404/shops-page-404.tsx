@@ -1,4 +1,4 @@
-import { DownOutlined, SearchOutlined } from '@ant-design/icons';
+import { DownOutlined, SearchOutlined, UpOutlined } from '@ant-design/icons';
 import { Checkbox, ConfigProvider, Dropdown, DropdownProps, MenuProps, Radio, Space } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import { DnsAPI } from 'shared/api/DNS';
@@ -41,6 +41,7 @@ const ShopsPage404 = () => {
     longitude: currentCity.coords.longitude,
   });
 
+  // Функция requestGeo запрашивает текущие координаты пользователя для сортировки магазинов по близости.
   const requestGeo = () => {
     const success: PositionCallback = (position) => {
       setGeo({
@@ -60,6 +61,7 @@ const ShopsPage404 = () => {
     }
   };
 
+  // Элементы меню для Dropdown.
   const items: MenuProps['items'] = [
     {
       label: (
@@ -192,12 +194,7 @@ const ShopsPage404 = () => {
                   },
                 }}
               >
-                <Dropdown
-                  menu={{ items, onClick: () => setIsDropdownOpen(true) }}
-                  trigger={['click']}
-                  open={isDropdownOpen}
-                  onOpenChange={handleOpenChange}
-                >
+                <Dropdown menu={{ items }} trigger={['click']} open={isDropdownOpen} onOpenChange={handleOpenChange}>
                   <button>
                     <Space
                       style={{
@@ -205,7 +202,7 @@ const ShopsPage404 = () => {
                       }}
                     >
                       Все магазины
-                      <DownOutlined />
+                      {isDropdownOpen ? <UpOutlined /> : <DownOutlined />}
                     </Space>
                   </button>
                 </Dropdown>

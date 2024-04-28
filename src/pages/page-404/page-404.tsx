@@ -1,32 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from 'shared/hooks/redux';
 import { currentCitySlice } from 'shared/store/reducers/current-city-slice';
-import Page404Shops from 'widgets/shops-page-404/';
+import { default as Page404Shops } from 'widgets/shops-page-404/';
 import styles from './page-404.module.scss';
 
 const Page404 = () => {
-  const [wrapperClasses, setWrapperClasses] = useState(styles['info-block']);
   const { chooseCurrentCity } = currentCitySlice.actions;
   const dispatch = useAppDispatch();
 
+  /**
+   * useEffect используется для загрузки данных о текущем городе из localStorage.
+   * Если данные есть, они передаются в Redux Store.
+   * Если при загрузке данных возникает ошибка, localStorage очищается.
+   */
   useEffect(() => {
-    setTimeout(() => {
-      setWrapperClasses(`${styles['info-block']} ${styles['info-block_success']}`);
-    }, 350);
-
     try {
-      const city = localStorage.getItem('currentCity');
+      const localCity = localStorage.getItem('currentCity');
 
-      city && dispatch(chooseCurrentCity(JSON.parse(city)));
+      localCity && dispatch(chooseCurrentCity(JSON.parse(localCity)));
     } catch {
       localStorage.removeItem('currentCity');
     }
-  }, []);
+  }, [chooseCurrentCity, dispatch]);
 
   return (
     <>
-      <div className={wrapperClasses}>
+      <div className={styles['info-block']}>
         <div className={`${styles['info-block__bg']} ${styles['info-block__bg_off']}`}></div>
         <div className={`${styles['info-block__bg']} ${styles['info-block__bg_on']}`}></div>
         <div className={styles['info-block__container']}>

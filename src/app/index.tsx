@@ -1,7 +1,7 @@
 import './index.scss';
-import { AppProvider } from './providers';
+import Provider from './providers';
 const App = () => {
-  return <AppProvider />;
+  return <Provider />;
 };
 
 export default App;

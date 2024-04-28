@@ -25,6 +25,9 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
   const { data: cities, error, isLoading } = DNSOriginalAPI.useGetCitiesQuery('');
   const { chooseCurrentCity } = currentCitySlice.actions;
 
+  /**
+   * Функция setCurrentCity устанавливает выбранный город в localStorage и передает его в Redux Store.
+   */
   const setCurrentCity = (i: ICity) => {
     const currentCity = {
       name: i.name,
