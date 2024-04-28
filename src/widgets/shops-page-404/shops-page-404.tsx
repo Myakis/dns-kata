@@ -146,7 +146,7 @@ const ShopsPage404 = () => {
         <ul>
           {shops?.map((i) => {
             if (
-              i.name.toLowerCase().includes(inputValue.toLowerCase()) &&
+              i.name.toLowerCase().includes(inputValue.toLowerCase().trim()) &&
               (isOpenNowFilter ? i.inOpen : true) &&
               (sortByDistanceChecked ? i.inNear : true)
             ) {
@@ -181,7 +181,13 @@ const ShopsPage404 = () => {
                 className={styles['shops-block__input']}
                 placeholder='Поиск магазина'
                 value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
+                onChange={(e) => {
+                  if (inputValue.length <= 200) {
+                    setInputValue(e.target.value);
+                  } else {
+                    setInputValue((state) => state.slice(0, 200));
+                  }
+                }}
               />
               <SearchOutlined className={styles['shops-block__input-icon']} />
             </div>
