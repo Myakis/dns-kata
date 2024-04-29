@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ICities } from './DNS-original.types';
+import { ICities } from './original-DNS.types';
 
-export const DNSOriginalAPI = createApi({
-  reducerPath: 'DnsOriginal',
+export const OriginalDNSApi = createApi({
+  reducerPath: 'OriginalDNSApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://restapi.dns-shop.ru/v1/' }),
   endpoints: (build) => ({
     getCities: build.query<ICities, unknown>({

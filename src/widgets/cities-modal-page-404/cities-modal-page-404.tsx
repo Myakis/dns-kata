@@ -1,7 +1,7 @@
 import { CloseOutlined, LoadingOutlined } from '@ant-design/icons';
 import { FC, useEffect, useState } from 'react';
-import { DNSOriginalAPI } from 'shared/api/DNS-original';
-import { ICity } from 'shared/api/DNS-original/DNS-original.types';
+import { OriginalDNSApi } from 'shared/api/original-DNS';
+import { ICity } from 'shared/api/original-DNS/original-DNS.types';
 import { useAppDispatch } from 'shared/hooks/redux';
 import { currentCitySlice } from 'shared/store/reducers/current-city-slice';
 import styles from './cities-modal-page-404.module.scss';
@@ -22,7 +22,7 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ label = 'Modal label', label
   const [inputValue, setInputValue] = useState('');
 
   const dispatch = useAppDispatch();
-  const { data: cities, error, isLoading } = DNSOriginalAPI.useGetCitiesQuery('');
+  const { data: cities, error, isLoading } = OriginalDNSApi.useGetCitiesQuery('');
   const { chooseCurrentCity } = currentCitySlice.actions;
 
   /**
