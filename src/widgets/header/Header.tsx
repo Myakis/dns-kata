@@ -1,11 +1,12 @@
 import styles from './Header.module.scss';
 import { useEffect, useState } from 'react';
-// import catalog from './catalog.json';
+import catalog from './catalog.json';
 import classNames from 'classnames';
 
 export const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isOnCatalogBtnClick, setIsOnCatalogBtnClick] = useState(false);
+  const [isOnCatalogBtnClick, setIsOnCatalogBtnClick] = useState(true);
+  const { categories } = catalog.catalog;
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -98,7 +99,18 @@ export const Header: React.FC = () => {
               [styles['main-header__catalog--opened']]: isOnCatalogBtnClick,
               [styles['main-header__catalog--fixed']]: isScrolled,
             })}
-          ></div>
+          >
+            <div className={styles['main-header__catalog-categories']}>
+              <nav>
+                <ul>
+                  {categories.map((el, index) => (
+                    <li key={index}>{el.category}</li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
+            <div className={styles['main-header__catalog-subcategories']}></div>
+          </div>
         </div>
       </div>
     </div>
