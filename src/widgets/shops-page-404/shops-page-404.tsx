@@ -4,8 +4,8 @@ import { FC, useEffect, useState } from 'react';
 import { DnsAPI } from 'shared/api/DNS';
 import { useAppSelector } from 'shared/hooks/redux';
 import CitiesModal from 'widgets/cities-modal-page-404';
-import styles from './shops-page-404.module.scss';
 import { ICoord, ShopItemProps } from './shops-page-404.types';
+import styles from './styles.module.scss';
 
 const ShopListItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }) => {
   return (
