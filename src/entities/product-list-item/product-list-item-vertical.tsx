@@ -21,14 +21,20 @@ const ProductListItemVertical = () => {
           iPadOS 15]
         </span>
       </a>
-      <div className={styles.vobler}>
-        <div className={styles.vobler__name}>
+      <div className={`${styles.vobler} ${styles.product__vobler}`}>
+        <div className={styles.vobler__name} title='Рассрочка 0-0-12 или Выгода 3 750 ₽'>
           Рассрочка 0-0-12 или Выгода 3 750 ₽
         </div>
       </div>
-      <div className='product__stat'>
-        <span className='compare-checkbox'></span>
-        <a className='product__rating' href='/'>
+      <div className={styles.product__stat}>
+        <span className={styles.compareCheckbox}>
+          <label className={styles.compareCheckbox__label}>
+            <span>Сравнить</span>
+            <input type='checkbox' className={styles.compareCheckbox__input} />
+            <span className={styles.compareCheckbox__box}></span>
+          </label>
+        </span>
+        <a className={styles.product__rating} href='/'>
           <i></i>
           <i></i>
           <i></i>
@@ -37,32 +43,30 @@ const ProductListItemVertical = () => {
           1.4k
         </a>
       </div>
-      <div className='product__buy product-buy product-buy_one-line'>
-        <div className='product-buy__price-wrap'>
-          <div className='product-buy__price'>
+      <div className={styles.buy}>
+        <div className={styles.buy__wrap}>
+          <div className={styles.buy__price}>
             33 549&nbsp;₽
-            <span className='product-buy__prev'>37 299</span>
+            <span className={styles.buy__prev}>37 299</span>
           </div>
-          <div className='product-buy__hint'></div>
-          <div className='product-buy__sub'>или 3 108 ₽&nbsp; мес.</div>
+          <div className={styles.buy__hint}></div>
+          <div className={styles.buy__sub}>или 3 108&nbsp;₽/ мес.</div>
         </div>
-        <button type='button'></button>
-        <button type='button'>
-          <i></i>
-        </button>
+        <button type='button' className={styles.wishlist}></button>
+        <button type='button' className={styles.cart}></button>
       </div>
-      <span className='product__avails avails'>
-        <div className='avails__shops'>
+      <span className={styles.avails}>
+        <div>
           <span>В наличии </span>
-          <a href='/'>в 29 магазинах</a>
+          <a href='/' className={styles.avails__link}>в 29 магазинах</a>
         </div>
-        <div className='avails__PVZ'>
+        <div>
           <span>Пункты выдачи </span>
-          <a href='/'>доступны</a>
+          <a href='/' className={styles.avails__link}>доступны</a>
         </div>
-        <div className='avails__delivery'>
+        <div>
           <span>Доставим на дом </span>
-          <a href='/'>за 2 часа</a>
+          <a href='/' className={styles.avails__link}>за 2 часа</a>
         </div>
       </span>
     </section>
