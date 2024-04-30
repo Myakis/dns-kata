@@ -1,8 +1,9 @@
 @import './styles/mixins.scss';
 @import './styles/fonts.scss';
+@import './styles/variables.css';
 
 body {
   margin: 0;
-  background: linear-gradient(180deg, #fff 6.1%, #f7f7f7 68.7%);
-  font-family: 'PT Sans', 'Helvetica', 'Arial', sans-serif;
+  background: var(--main-bg-color);
+  font-family: var(--fonts);
 }

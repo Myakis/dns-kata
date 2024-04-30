@@ -15,7 +15,7 @@ const ShopListItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }
         onClick={() =>
           clickHandler({
             latitude: coords[0],
-            longitude: coords[1] * -1,
+            longitude: coords[1],
           })
         }
       >

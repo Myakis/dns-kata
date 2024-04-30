@@ -1,0 +1,9 @@
+:root {
+  --main-bg-color: linear-gradient(180deg, #fff 6.1%, #f7f7f7 68.7%);
+  --bg-color: #ffffff;
+  --primary-color: #ff7300;
+  --fonts: 'PT Sans', 'Helvetica', 'Arial', sans-serif;
+  --modal-bg-color: #00000063;
+  --text-color: #333333;
+  --error-color: #ff0000;
+}

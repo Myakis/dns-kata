@@ -47,8 +47,8 @@
     }
 
     span:hover {
-      color: #fc5808;
-      border-bottom: 1px dotted #fc5808;
+      color: var(--primary-color);
+      border-bottom: 1px dotted var(--primary-color);
     }
   }
 
@@ -237,12 +237,12 @@
     }
 
     span:first-of-type:hover {
-      color: #fc8507;
+      color: var(--primary-color);
     }
 
     span:last-of-type {
-      color: #333;
-      text-decoration: underline dotted #333;
+      color: var(--text-color);
+      text-decoration: underline dotted var(--text-color);
       text-underline-offset: 5px;
       cursor: pointer;
       font-size: 14px;

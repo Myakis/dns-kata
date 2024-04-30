@@ -1,7 +1,7 @@
 module.exports = () => {
-  const { faker } = require('@faker-js/faker')
-  const stocksTypes = ['discount', 'benefit', 'kits']
-  const newsTypes = ['new', 'shops', 'commonInfo', 'exclusives', 'services', 'advertising']
+  const { faker } = require('@faker-js/faker');
+  const stocksTypes = ['discount', 'benefit', 'kits'];
+  const newsTypes = ['new', 'shops', 'commonInfo', 'exclusives', 'services', 'advertising'];
   const data = {
     products: [],
     reviews: [],
@@ -10,14 +10,13 @@ module.exports = () => {
     corporateDepartments: [],
     news: [],
     vacancies: [],
-  }
-
+  };
 
   for (let i = 1; i <= 100; i++) {
-    const productPrice = faker.commerce.price({ min: 4000, max: 1000000, dec: 0 })
+    const productPrice = faker.commerce.price({ min: 4000, max: 1000000, dec: 0 });
     const inStock = Boolean(faker.helpers.maybe(() => 'Hello World!', { probability: 0.7 }));
-    const getRandomStockType = stocksTypes[faker.helpers.rangeToNumber({ min: 0, max: stocksTypes.length - 1 })]
-    const getRandomNewsType = newsTypes[faker.helpers.rangeToNumber({ min: 0, max: newsTypes.length - 1 })]
+    const getRandomStockType = stocksTypes[faker.helpers.rangeToNumber({ min: 0, max: stocksTypes.length - 1 })];
+    const getRandomNewsType = newsTypes[faker.helpers.rangeToNumber({ min: 0, max: newsTypes.length - 1 })];
 
     data.products.push({
       id: i,
@@ -34,45 +33,45 @@ module.exports = () => {
       priceHistory: [
         {
           dateTime: faker.date.between({ from: '2023-01-01T00:00:00.000Z', to: '2023-02-01T00:00:00.000Z' }),
-          price: faker.commerce.price({ min: 4000, max: Number(productPrice), dec: 0 })
-
+          price: faker.commerce.price({ min: 4000, max: Number(productPrice), dec: 0 }),
         },
         {
           dateTime: faker.date.between({ from: '2023-02-01T00:00:00.000Z', to: '2023-03-01T00:00:00.000Z' }),
-          price: faker.commerce.price({ min: 4000, max: Number(productPrice), dec: 0 })
-
+          price: faker.commerce.price({ min: 4000, max: Number(productPrice), dec: 0 }),
         },
         {
           dateTime: faker.date.between({ from: '2023-03-01T00:00:00.000Z', to: '2023-04-01T00:00:00.000Z' }),
-          price: faker.commerce.price({ min: 4000, max: Number(productPrice), dec: 0 })
-
+          price: faker.commerce.price({ min: 4000, max: Number(productPrice), dec: 0 }),
         },
       ],
-      images: faker.helpers.multiple(() => {
-        return faker.image.urlLoremFlickr({ category: 'nature' })
-      }, {count: 4}),
-    })
+      images: faker.helpers.multiple(
+        () => {
+          return faker.image.urlLoremFlickr({ category: 'nature' });
+        },
+        { count: 4 }
+      ),
+    });
 
     data.reviews.push({
       id: i,
       productId: i,
-      comment:  {
+      comment: {
         pluses: faker.lorem.lines({ min: 1, max: 10 }),
         minuses: faker.lorem.lines({ min: 1, max: 10 }),
         commentText: faker.lorem.lines({ min: 1, max: 10 }),
       },
-      rating: faker.helpers.rangeToNumber({ min: 1, max: 5 })
-    })
+      rating: faker.helpers.rangeToNumber({ min: 1, max: 5 }),
+    });
 
     data.shops.push({
       id: i,
       name: `Магазин № ${i}`,
-      location: faker.location.nearbyGPSCoordinate({ origin: [55, -37] }),
+      location: faker.location.nearbyGPSCoordinate({ origin: [59.93428, 30.3351] }),
       streetAddress: faker.location.streetAddress({ useFullAddress: true }),
       inOpen: Boolean(faker.helpers.maybe(() => 'Hello World!', { probability: 0.8 })),
       inNear: Boolean(faker.helpers.maybe(() => 'Hello World!', { probability: 0.4 })),
       description: faker.lorem.lines({ min: 1, max: 1 }),
-    })
+    });
 
     data.corporateDepartments.push({
       id: i,
@@ -80,7 +79,7 @@ module.exports = () => {
       location: faker.location.nearbyGPSCoordinate({ origin: [55, -37] }),
       streetAddress: faker.location.streetAddress({ useFullAddress: true }),
       description: faker.lorem.lines({ min: 1, max: 1 }),
-    })
+    });
 
     data.stocks.push({
       id: i,
@@ -91,7 +90,7 @@ module.exports = () => {
       type: stocksTypes[faker.helpers.rangeToNumber({ min: 0, max: stocksTypes.length - 1 })],
       image: faker.image.urlLoremFlickr({ category: 'nature' }),
       isPopular: Boolean(faker.helpers.maybe(() => 'Hello World!', { probability: 0.6 })),
-    })
+    });
 
     data.news.push({
       id: i,
@@ -101,7 +100,7 @@ module.exports = () => {
       date: faker.date.between({ from: '2023-09-24T00:00:00.000Z', to: '2023-09-31T00:00:00.000Z' }),
       viewsCount: faker.helpers.rangeToNumber({ min: 1, max: 10000 }),
       commentsCount: faker.helpers.rangeToNumber({ min: 1, max: 10000 }),
-    })
+    });
 
     data.vacancies.push({
       id: i,
@@ -114,10 +113,10 @@ module.exports = () => {
       weOffer: [...Array(10).keys()].map(() => faker.lorem.lines({ min: 1, max: 1 })),
       contacts: {
         email: faker.internet.email(),
-        phone: faker.phone.number('+7 (###) ### ## ##')
+        phone: faker.phone.number('+7 (###) ### ## ##'),
       },
-    })
+    });
   }
 
-  return data
-}
+  return data;
+};
