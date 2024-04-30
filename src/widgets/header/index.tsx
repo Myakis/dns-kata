@@ -1,12 +1,15 @@
 import styles from './Header.module.scss';
 import { useEffect, useState } from 'react';
-import catalog from './catalog.json';
+import { useCatalog } from 'shared/hooks/useCatalog';
+import { MouseEvent } from 'react';
 import classNames from 'classnames';
 
 export const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isOnCatalogBtnClick, setIsOnCatalogBtnClick] = useState(true);
-  const { categories } = catalog.catalog;
+  const [isOnCatalogBtnClick, setIsOnCatalogBtnClick] = useState(false);
+
+  const { categories, subcategoryItems, updateSubcategoryItems } = useCatalog();
+  const iconsUrl = 'src/app/assets/images/header/';
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -22,6 +25,10 @@ export const Header: React.FC = () => {
 
   const handleOnCatalogBtnClick = () => {
     setIsOnCatalogBtnClick((prevState) => !prevState);
+  };
+
+  const handleOnMouseHover = (e: MouseEvent<HTMLAnchorElement>) => {
+    updateSubcategoryItems(e.currentTarget.innerText);
   };
 
   return (
@@ -100,16 +107,43 @@ export const Header: React.FC = () => {
               [styles['main-header__catalog--fixed']]: isScrolled,
             })}
           >
-            <div className={styles['main-header__catalog-categories']}>
-              <nav>
-                <ul>
-                  {categories.map((el, index) => (
-                    <li key={index}>{el.category}</li>
-                  ))}
-                </ul>
-              </nav>
-            </div>
-            <div className={styles['main-header__catalog-subcategories']}></div>
+            <nav className={styles['main-header__categories']}>
+              <ul>
+                {categories.map((el, index) => (
+                  <li key={index} className={styles['main-header__categories-item']}>
+                    <a href='' className={styles['main-header__categories-link']} onMouseEnter={handleOnMouseHover}>
+                      <span
+                        className={styles['main-header__categories-icon']}
+                        style={{ backgroundImage: `url(${iconsUrl}${el.icon})` }}
+                      ></span>
+                      {el.category}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <nav className={styles['main-header__subcategories']}>
+              <ul className={styles['main-header__subcategories--first']}>
+                {subcategoryItems.map((el, index) => (
+                  <li key={index}>
+                    <a className={styles['main-header__subcategories-name--first']}>{el.subcategory}</a>
+                    <ul className={styles['main-header__subcategories--second']}>
+                      {el.items.map((el, index) => (
+                        <li key={index}>
+                          <a className={styles['main-header__subcategories-name--second']}>
+                            {el.subcategory}
+                            <div className={styles['main-header__subcategories-info--second']}>
+                              <span>{el.itemsCount ? el.itemsCount : null}</span>
+                              <span>{el.items ? '>' : null}</span>
+                            </div>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
         </div>
       </div>

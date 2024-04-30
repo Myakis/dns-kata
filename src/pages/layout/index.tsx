@@ -25,7 +25,7 @@ export const Layout: React.FC<TLayout> = ({ pageTitle, breadcrumbs, children }) 
       <main className={styles.layout__content}>
         <div className={styles.content__container}>
           <h1 className={styles.content__title}>{pageTitle}</h1>
-          {children}
+          {children} {/*Здесь будет лежать контент страницы*/}
         </div>
       </main>
       <footer className={styles.layout__footer}>
@@ -39,7 +39,7 @@ export const MainLayout: React.FC = () => {
   const location = useLocation();
   const pageTitle = getPageTitle(location.pathname);
   return (
-    <Layout pageTitle={pageTitle} breadcrumbs={'Главная'}>
+    <Layout pageTitle={pageTitle} breadcrumbs={'breadcrumbs'}>
       <Outlet />
     </Layout>
   );
