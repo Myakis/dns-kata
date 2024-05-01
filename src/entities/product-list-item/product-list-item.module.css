@@ -2,7 +2,7 @@
   position: relative;
   padding: 12px;
   height: 538px;
-  width: 241.25px;
+  width: 255.5px;
   font-family: 'PT Sans', Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 22px;
@@ -84,6 +84,15 @@
   transition-duration: 0.3s;
   transition-property: color;
 }
+.name::after {
+  content: '';
+  position: absolute;
+  height: 30px;
+  width: 100%;
+  top: 80px;
+  left: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0), rgb(255, 255, 255));;
+}
 .name:hover {
   overflow: visible;
   z-index: 2;
@@ -92,15 +101,18 @@
   transition-duration: 0.3s;
   transition-property: color;
 }
+.name:hover::after {
+  display: none;
+}
 
 .name__span {
   max-height: 110px;
 }
-.name__span:hover {
+.name:hover .name__span {
   max-height: 300px;
   display: block;
-  max-height: fit-content(0, 100%);
-  box-shadow: rgb(255, 255, 255) 0px 0px 10px 10px;
+  box-shadow: #fff 0px 0px 10px 10px;
+  background-color: #fff;
 }
 
 .product__vobler {
@@ -353,6 +365,7 @@
 }
 
 .wishlist {
+  position: relative;
   background-color: inherit;
   border: 0;
   cursor: pointer;

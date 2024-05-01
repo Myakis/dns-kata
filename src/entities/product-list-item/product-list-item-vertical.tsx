@@ -52,7 +52,7 @@ const ProductListItemVertical = () => {
           <div className={styles.buy__hint}></div>
           <div className={styles.buy__sub}>или 3 108&nbsp;₽/ мес.</div>
         </div>
-        <button type='button' className={styles.wishlist}></button>
+        <button type='button' data-tooltip='Добавить в избранное' className={styles.wishlist}></button>
         <button type='button' className={styles.cart}></button>
       </div>
       <span className={styles.avails}>
