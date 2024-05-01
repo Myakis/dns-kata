@@ -1,0 +1,11 @@
+:root {
+  --text-color: rgb(51, 51, 51);
+  --white: #fff;
+  --black: #000;
+  --brand-color: rgb(242, 85, 8);
+  --star: url('/svg/star.svg');
+  --half-star: url('/svg/halfStar.svg');
+  --empty-star: url('/svg/emptyStar.svg');
+  --comment: url('/svg/comment.svg');
+  --picPlus: url('/svg/picPlus.svg');
+}

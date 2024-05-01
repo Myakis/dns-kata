@@ -1,9 +1,9 @@
-import ProductListItemVertical from 'entities/product-list-item';
+import ProductListItemHorizontal from 'entities/product';
 import '../shared/main.css';
 import './index.scss';
 
 const App = () => {
-  return <ProductListItemVertical />;
+  return <ProductListItemHorizontal />;
 };
 
 export default App;

@@ -1,6 +1,6 @@
-import styles from './product-list-item.module.css';
+import styles from './product-horizontal.module.css';
 
-const ProductListItemVertical = () => {
+const ProductListItemHorizontal = () => {
   return (
     <section className={styles.product}>
       <div className={styles.image}>
@@ -12,13 +12,15 @@ const ProductListItemVertical = () => {
               src='https://www.electrogor.ru/img/work/nomencl/m_121357.jpg'
             />
           </picture>
+          <i className={styles.image__zoom}></i>
         </a>
         <span className={styles.image__discount}>-10%</span>
+        <div className={styles.product__code}></div>
       </div>
       <a href='/' className={styles.name}>
         <span className={styles.name__span}>
-          10.2&quot; Планшет Apple iPad (9th Gen) Wi-Fi 64 ГБ серый [2160x1620, IPS, 6x2.66 ГГц, 3 ГБ, 8686 мА*ч,
-          iPadOS 15]
+          10.2&quot; Планшет Apple iPad (9th Gen) Wi-Fi 64 ГБ серый [2160x1620, IPS, 6x2.66 ГГц, 3 ГБ, 8686 мА*ч, iPadOS
+          15]
         </span>
       </a>
       <div className={`${styles.vobler} ${styles.product__vobler}`}>
@@ -39,38 +41,50 @@ const ProductListItemVertical = () => {
           <i></i>
           <i></i>
           <i></i>
-          <i></i>
-          1.4k
+          <i></i>1.4k
+        </a>
+        <a className={styles.product__comment} href='/'>
+          <i></i>&nbsp;5
+        </a>
+        <a className={styles.product__service} href='/'>
+          <i></i>Отличная надежность
         </a>
       </div>
       <div className={styles.buy}>
         <div className={styles.buy__wrap}>
           <div className={styles.buy__price}>
-            33 549&nbsp;₽
-            <span className={styles.buy__prev}>37 299</span>
+            33 549&nbsp;₽<span className={styles.buy__prev}>37 299</span>
           </div>
           <div className={styles.buy__hint}></div>
           <div className={styles.buy__sub}>или 3 108&nbsp;₽/ мес.</div>
         </div>
         <button type='button' data-tooltip='Добавить в избранное' className={styles.wishlist}></button>
-        <button type='button' className={styles.cart}></button>
+        <button type='button' className={styles.cart}>
+          Купить
+        </button>
       </div>
       <span className={styles.avails}>
         <div>
           <span>В наличии </span>
-          <a href='/' className={styles.avails__link}>в 29 магазинах</a>
+          <a href='/' className={styles.avails__link}>
+            в 29 магазинах
+          </a>
         </div>
         <div>
           <span>Пункты выдачи </span>
-          <a href='/' className={styles.avails__link}>доступны</a>
+          <a href='/' className={styles.avails__link}>
+            доступны
+          </a>
         </div>
         <div>
           <span>Доставим на дом </span>
-          <a href='/' className={styles.avails__link}>за 2 часа</a>
+          <a href='/' className={styles.avails__link}>
+            за 2 часа
+          </a>
         </div>
       </span>
     </section>
   );
 };
 
-export default ProductListItemVertical;
+export default ProductListItemHorizontal;
