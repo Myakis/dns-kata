@@ -32,8 +32,7 @@ export const Layout: React.FC<TLayout> = ({ pageTitle, breadcrumbs, children }) 
       <footer className={styles.layout__footer}>
         <div className={styles.footer__container}>
           <Footer />
-        </div>{' '}
-        {/*Сюда вставляем footer*/}
+        </div>
       </footer>
     </div>
   );

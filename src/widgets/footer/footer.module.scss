@@ -51,25 +51,25 @@
 .baseFooter__iconDnsLogo {
   height: 17px;
   cursor: pointer;
-  @include background-image('../../app/assets/img/footer/dns.svg');
+  @include background-image('../../app/assets/images/footer/dns.svg');
   width: 67px;
 }
 .baseFooter__iconDnsClub {
   height: 17px;
   cursor: pointer;
-  @include background-image('../../app/assets/img/footer/dnsClub.svg');
+  @include background-image('../../app/assets/images/footer/dnsClub.svg');
   width: 111px;
 }
 .baseFooter__iconDnsTechno {
   height: 17px;
   cursor: pointer;
-  @include background-image('../../app/assets/img/footer/dnsTechno.svg');
+  @include background-image('../../app/assets/images/footer/dnsTechno.svg');
   width: 157px;
 }
 .baseFooter__iconDnsGroup {
   height: 17px;
   cursor: pointer;
-  @include background-image('../../app/assets/img/footer/dnsGroup.svg');
+  @include background-image('../../app/assets/images/footer/dnsGroup.svg');
   width: 131px;
 }
 .baseFooter__sitesRight {
@@ -204,7 +204,7 @@
   height: 40px;
   cursor: pointer;
   transition: filter 0.3s;
-  @include background-image('../../app/assets/img/footer/googlePlay.svg');
+  @include background-image('../../app/assets/images/footer/googlePlay.svg');
   &:hover {
     filter: brightness(110%);
   }
@@ -213,7 +213,7 @@
   width: 135px;
   height: 40px;
   cursor: pointer;
-  @include background-image('../../app/assets/img/footer/appGallery.svg');
+  @include background-image('../../app/assets/images/footer/appGallery.svg');
   &:hover {
     filter: brightness(110%);
   }
@@ -222,7 +222,7 @@
   width: 135px;
   height: 40px;
   cursor: pointer;
-  @include background-image('../../app/assets/img/footer/ruStore.svg');
+  @include background-image('../../app/assets/images/footer/ruStore.svg');
   &:hover {
     filter: brightness(110%);
   }
@@ -231,7 +231,7 @@
   width: 135px;
   height: 40px;
   cursor: pointer;
-  @include background-image('../../app/assets/img/footer/appStore.svg');
+  @include background-image('../../app/assets/images/footer/appStore.svg');
   &:hover {
     filter: brightness(110%);
   }
@@ -404,7 +404,7 @@
   height: 38px;
   width: 38px;
   transition: filter 0.3s;
-  @include background-image('../../app/assets/img/footer/vk.svg');
+  @include background-image('../../app/assets/images/footer/vk.svg');
   &:hover {
     filter: brightness(120%);
   }
@@ -413,7 +413,7 @@
   height: 38px;
   width: 38px;
   transition: filter 0.3s;
-  @include background-image('../../app/assets/img/footer/youTube.svg');
+  @include background-image('../../app/assets/images/footer/youTube.svg');
   &:hover {
     filter: brightness(120%);
   }
@@ -426,7 +426,7 @@
   height: 38px;
   width: 68px;
   transition: filter 0.3s;
-  @include background-image('../../app/assets/img/footer/sbp.svg');
+  @include background-image('../../app/assets/images/footer/sbp.svg');
   &:hover {
     filter: brightness(120%);
   }
@@ -435,7 +435,7 @@
   height: 38px;
   width: 38px;
   transition: filter 0.3s;
-  @include background-image('../../app/assets/img/footer/akit.svg');
+  @include background-image('../../app/assets/images/footer/akit.svg');
   &:hover {
     filter: brightness(120%);
   }
@@ -552,7 +552,7 @@
       top: 14px;
       width: 11px;
       height: 6px;
-      background-image: url(../../app/assets/img/footer/arrow.svg);
+      background-image: url(../../app/assets/images/footer/arrow.svg);
       transition: all 0.3s linear;
     }
   }
@@ -601,7 +601,7 @@
         right: 0;
         width: 12px;
         height: 12px;
-        background-image: url(../../app/assets/img/footer/arrow.svg);
+        background-image: url(../../app/assets/images/footer/arrow.svg);
         background-repeat: no-repeat;
       }
     }
