@@ -4,8 +4,8 @@ import { OriginalDNSApi } from 'shared/api/original-DNS';
 import { ICity } from 'shared/api/original-DNS/original-DNS.types';
 import { useAppDispatch } from 'shared/hooks/redux';
 import { currentCitySlice } from 'shared/store/reducers/current-city-slice';
+import styles from './cities-modal-page-404.module.scss';
 import { CitiesListItemProps, CitiesModalProps, ITerritory } from './cities-modal-page-404.types';
-import styles from './styles.module.scss';
 
 const CitiesListItem = ({ name, cb }: CitiesListItemProps) => {
   return <button onClick={cb}>{name}</button>;

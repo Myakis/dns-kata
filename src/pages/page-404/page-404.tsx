@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch } from 'shared/hooks/redux';
 import { currentCitySlice } from 'shared/store/reducers/current-city-slice';
 import { default as Page404Shops } from 'widgets/shops-page-404/';
-import styles from './styles.module.scss';
+import styles from './page-404.module.scss';
 
 const Page404 = () => {
   const { chooseCurrentCity } = currentCitySlice.actions;
