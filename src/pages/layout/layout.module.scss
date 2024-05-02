@@ -1,9 +1,9 @@
-// @import '../../app/styles/fonts.scss'; 
+@import '../../app/styles/fonts.scss'; 
 
 .layout {
     display: grid;
     justify-items: center;
-    grid-template-rows: auto auto 600px 1fr;
+    grid-template-rows: auto auto 600px auto;
     row-gap: 10px;
     background-color: #F6F6F6;
     overflow-x: hidden;
@@ -23,7 +23,7 @@
     }
 
     &__footer {
-        min-height: 720px;
+        min-height: auto;
         background-color: #333333;
     }
 
