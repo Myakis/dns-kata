@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Provider as StoreProvider } from 'react-redux';
-import { setupStore } from 'shared/store/store';
+import { setupStore } from 'shared/store/';
 import { BrowserRouter } from './RouterProvider';
 
 const Providers: FC = () => {

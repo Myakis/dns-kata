@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from 'shared/hooks/redux';
-import { currentCitySlice } from 'shared/store/reducers/current-city-slice';
+import { currentCitySlice } from 'shared/store/slices/current-city-slice';
 import { default as Page404Shops } from 'widgets/shops-page-404/';
 import styles from './page-404.module.scss';
 

@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import { OriginalDNSApi } from 'shared/api/original-DNS';
 import { ICity } from 'shared/api/original-DNS/original-DNS.types';
 import { useAppDispatch } from 'shared/hooks/redux';
-import { currentCitySlice } from 'shared/store/reducers/current-city-slice';
+import { currentCitySlice } from 'shared/store/slices/current-city-slice';
 import styles from './cities-modal-page-404.module.scss';
 import { CitiesListItemProps, CitiesModalProps, ITerritory } from './cities-modal-page-404.types';
 
