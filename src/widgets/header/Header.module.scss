@@ -282,6 +282,7 @@ $l-grey: #F7F7F7;
         @include background-img('../../app/assets/images/header/search.svg', 40px, 40px);
         padding: 20px;
         border: none;
+        background-color: transparent;
         background-position: center;
         cursor: pointer;
     }

@@ -3,6 +3,7 @@ import { Header } from '../../widgets/header';
 import { useLocation } from 'react-router-dom';
 import { getPageTitle } from 'shared/utils';
 import { ReactNode } from 'react';
+import Footer from 'widgets/footer';
 import styles from './layout.module.scss';
 
 interface TLayout {
@@ -29,7 +30,10 @@ export const Layout: React.FC<TLayout> = ({ pageTitle, breadcrumbs, children }) 
         </div>
       </main>
       <footer className={styles.layout__footer}>
-        <div className={styles.footer__container}>Footer</div> {/*Сюда вставляем footer*/}
+        <div className={styles.footer__container}>
+          <Footer />
+        </div>{' '}
+        {/*Сюда вставляем footer*/}
       </footer>
     </div>
   );
