@@ -1,0 +1,30 @@
+.stat__block {
+  display: flex;
+  width: max-content;
+  font-family: 'PT Sans', 'Arial', sans-serif;
+  font-size: 16px;
+  color: #666;
+  border: 1px solid #eee;
+  border-radius: 4px;
+
+  &.off_border {
+    border: none;
+  }
+
+  & > .stat__container {
+    margin: 5px 10px;
+  }
+}
+
+.stat_icon {
+  &::before {
+    padding-right: 5px;
+    font-family: 'i-icon';
+  }
+  &.stat_icon_views::before {
+    content: '\e105';
+  }
+  &.stat_icon_comments::before {
+    content: '\e936';
+  }
+}

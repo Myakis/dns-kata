@@ -1,12 +1,19 @@
+import { Provider } from 'react-redux';
+import { setupStore } from 'shared/store';
+import Footer from 'widgets/footer';
 import './index.scss';
-import StatisticsBlock from 'entities/statistics';
+
+import NewsCard from 'widgets/news-card';
 
 const App = () => {
+  const store = setupStore();
+  //когда подключу роутинг здесь будет нормальный компонент
+
   return (
-    <>
-      <h1>hello wrold</h1>
-      <StatisticsBlock fullConfig={true} date='2023-09-28T09:29:23.011Z' viewsCount={1234} commentsCount={1234} />
-    </>
+    <Provider store={store}>
+      <NewsCard />
+      <Footer />
+    </Provider>
   );
 };
 
