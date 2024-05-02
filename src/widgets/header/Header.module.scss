@@ -2,6 +2,7 @@
 
 $orange: #FC8507;
 $l-grey: #F7F7F7;
+$d-grey: #4e4e4e;
 
 @mixin background-img($url, $width, $height, $display: block, $content: '') {
       content: '';
@@ -27,7 +28,7 @@ $l-grey: #F7F7F7;
 
     a {
         text-decoration: none;
-        color: #4e4e4e;
+        color: $d-grey;
     }
 
     a:hover {
@@ -317,7 +318,7 @@ $l-grey: #F7F7F7;
             cursor: pointer;
         }
         li:hover a {
-            color: #4e4e4e;
+            color: $d-grey;
         }
 
     }
