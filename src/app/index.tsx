@@ -1,9 +1,11 @@
+import Footer from 'widgets/footer';
 import './index.scss';
 
 const App = () => {
   return (
     <>
       <h1>hello wrold</h1>
+      <Footer />
     </>
   );
 };
