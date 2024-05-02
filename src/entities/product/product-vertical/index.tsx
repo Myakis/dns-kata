@@ -1,8 +1,37 @@
-import styles from './product-vertical.module.css';
+import { ReactNode, useState } from 'react';
+import styles from './product-vertical.module.scss';
+import { rateListStyles } from '../types';
 
-const ProductListItemVertical = () => {
+const ProductVertical = () => {
+  const [isMouseOvered, setIsMouseOvered] = useState<boolean>(false);
+  const rate = 3.1;
+  const { star, halfStar, emptyStar } = styles;
+  const rateStars: ReactNode[] = rateList(rate, { star, halfStar, emptyStar });
+
+  function rateList(rate: number, styles: rateListStyles): ReactNode[] {
+    const rateStars: ReactNode[] = [];
+    const { star, halfStar, emptyStar } = styles;
+    let rateCopy = rate;
+
+    for (let indx = 0; indx < 5; indx++) {
+      const styleName = rateCopy >= 1 ? star : rateCopy >= 0.5 ? halfStar : emptyStar;
+
+      const starElement = <i key={indx} className={styleName}></i>;
+
+      rateStars.push(starElement);
+      rateCopy -= 1;
+    }
+    return rateStars;
+  }
+
   return (
-    <section className={styles.product}>
+    <section
+      className={styles.product}
+      onMouseOver={() => setIsMouseOvered(true)}
+      onFocus={() => setIsMouseOvered(true)}
+      onMouseOut={() => setIsMouseOvered(false)}
+      onBlur={() => setIsMouseOvered(false)}
+    >
       <div className={styles.image}>
         <a href='/' className={styles.image__link}>
           <picture>
@@ -21,12 +50,20 @@ const ProductListItemVertical = () => {
           15]
         </span>
       </a>
-      <div className={`${styles.vobler} ${styles.product__vobler}`}>
-        <div className={styles.vobler__name} title='Рассрочка 0-0-12 или Выгода 3 750 ₽'>
+      <div className={styles.vobler}>
+        <style>
+          {`#vobler{
+            color: #7c4cff;
+          }
+          #vobler:after {
+            background-color: #7c4cff;
+          }`}
+        </style>
+        <div className={styles.vobler__name} id='vobler' title='Рассрочка 0-0-12 или Выгода 3 750 ₽'>
           Рассрочка 0-0-12 или Выгода 3 750 ₽
         </div>
       </div>
-      <div className={styles.product__stat}>
+      <div className={styles.statistic}>
         <span className={styles.compareCheckbox}>
           <label className={styles.compareCheckbox__label}>
             <span>Сравнить</span>
@@ -34,12 +71,8 @@ const ProductListItemVertical = () => {
             <span className={styles.compareCheckbox__box}></span>
           </label>
         </span>
-        <a className={styles.product__rating} href='/'>
-          <i></i>
-          <i></i>
-          <i></i>
-          <i></i>
-          <i></i>1.4k
+        <a className={styles.rating} href='/'>
+          {rateStars}1.4k
         </a>
       </div>
       <div className={styles.buy}>
@@ -77,4 +110,4 @@ const ProductListItemVertical = () => {
   );
 };
 
-export default ProductListItemVertical;
+export default ProductVertical;

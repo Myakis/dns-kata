@@ -1,8 +1,37 @@
-import styles from './product-horizontal.module.css';
+import { ReactNode, useState } from 'react';
+import styles from './product-horizontal.module.scss';
+import { rateListStyles } from '../types';
 
-const ProductListItemHorizontal = () => {
+const ProductHorizontal = () => {
+  const [isMouseOvered, setIsMouseOvered] = useState<boolean>(false);
+  const rate = 3.1;
+  const { star, halfStar, emptyStar } = styles;
+  const rateStars: ReactNode[] = rateList(rate, { star, halfStar, emptyStar });
+
+  function rateList(rate: number, styles: rateListStyles): ReactNode[] {
+    const rateStars: ReactNode[] = [];
+    const { star, halfStar, emptyStar } = styles;
+    let rateCopy = rate;
+
+    for (let indx = 0; indx < 5; indx++) {
+      const styleName = rateCopy >= 1 ? star : rateCopy >= 0.5 ? halfStar : emptyStar;
+
+      const starElement = <i key={indx} className={styleName}></i>;
+
+      rateStars.push(starElement);
+      rateCopy -= 1;
+    }
+    return rateStars;
+  }
+
   return (
-    <section className={styles.product}>
+    <section
+      className={styles.product}
+      onMouseOver={() => setIsMouseOvered(true)}
+      onFocus={() => setIsMouseOvered(true)}
+      onMouseOut={() => setIsMouseOvered(false)}
+      onBlur={() => setIsMouseOvered(false)}
+    >
       <div className={styles.image}>
         <a href='/' className={styles.image__link}>
           <picture>
@@ -12,10 +41,12 @@ const ProductListItemHorizontal = () => {
               src='https://www.electrogor.ru/img/work/nomencl/m_121357.jpg'
             />
           </picture>
-          <i className={styles.image__zoom}></i>
+          <i className={isMouseOvered ? styles.image__zoom : undefined}></i>
         </a>
         <span className={styles.image__discount}>-10%</span>
-        <div className={styles.product__code}></div>
+        <div className={isMouseOvered ? styles.image__code : styles.none}>
+          <i></i>&nbsp;5041235
+        </div>
       </div>
       <a href='/' className={styles.name}>
         <span className={styles.name__span}>
@@ -23,12 +54,20 @@ const ProductListItemHorizontal = () => {
           15]
         </span>
       </a>
-      <div className={`${styles.vobler} ${styles.product__vobler}`}>
-        <div className={styles.vobler__name} title='Рассрочка 0-0-12 или Выгода 3 750 ₽'>
+      <div className={styles.vobler}>
+        <style>
+          {`#vobler{
+            color: #7c4cff;
+          }
+          #vobler:after {
+            background-color: #7c4cff;
+          }`}
+        </style>
+        <div className={styles.vobler__name} id='vobler' title='Рассрочка 0-0-12 или Выгода 3 750 ₽'>
           Рассрочка 0-0-12 или Выгода 3 750 ₽
         </div>
       </div>
-      <div className={styles.product__stat}>
+      <div className={styles.statistic}>
         <span className={styles.compareCheckbox}>
           <label className={styles.compareCheckbox__label}>
             <span>Сравнить</span>
@@ -36,17 +75,13 @@ const ProductListItemHorizontal = () => {
             <span className={styles.compareCheckbox__box}></span>
           </label>
         </span>
-        <a className={styles.product__rating} href='/'>
-          <i></i>
-          <i></i>
-          <i></i>
-          <i></i>
-          <i></i>1.4k
+        <a className={styles.rating} href='/'>
+          {rateStars}1.4k
         </a>
-        <a className={styles.product__comment} href='/'>
+        <a className={styles.comment} href='/'>
           <i></i>&nbsp;5
         </a>
-        <a className={styles.product__service} href='/'>
+        <a className={styles.service} href='/'>
           <i></i>Отличная надежность
         </a>
       </div>
@@ -59,7 +94,7 @@ const ProductListItemHorizontal = () => {
           <div className={styles.buy__sub}>или 3 108&nbsp;₽/ мес.</div>
         </div>
         <button type='button' data-tooltip='Добавить в избранное' className={styles.wishlist}></button>
-        <button type='button' className={styles.cart}>
+        <button type='button' className={`${styles.cart} ${isMouseOvered ? styles.cartOnMouseover : undefined}`}>
           Купить
         </button>
       </div>
@@ -87,4 +122,4 @@ const ProductListItemHorizontal = () => {
   );
 };
 
-export default ProductListItemHorizontal;
+export default ProductHorizontal;
