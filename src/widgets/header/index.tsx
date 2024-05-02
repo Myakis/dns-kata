@@ -1,15 +1,18 @@
-import styles from './Header.module.scss';
-import { useEffect, useState } from 'react';
-import { useCatalog } from 'shared/hooks/useCatalog';
-import { MouseEvent } from 'react';
+import styles from './header.module.scss';
 import classNames from 'classnames';
+import { useHeaderConstants } from './constants';
+import { useEffect } from 'react';
 
 export const Header: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isOnCatalogBtnClick, setIsOnCatalogBtnClick] = useState(false);
-
-  const { categories, subcategoryItems, updateSubcategoryItems } = useCatalog();
-  const iconsUrl = 'src/app/assets/images/header/';
+  const {
+    handleOnCatalogBtnClick,
+    handleScroll,
+    isOnCatalogBtnClick,
+    isScrolled,
+    mainCategories,
+    subcategories,
+    navigationItems,
+  } = useHeaderConstants();
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -18,19 +21,6 @@ export const Header: React.FC = () => {
     };
   }, []);
 
-  const handleScroll = () => {
-    const scrollValue = 50;
-    setIsScrolled(window.scrollY > scrollValue);
-  };
-
-  const handleOnCatalogBtnClick = () => {
-    setIsOnCatalogBtnClick((prevState) => !prevState);
-  };
-
-  const handleOnMouseHover = (e: MouseEvent<HTMLAnchorElement>) => {
-    updateSubcategoryItems(e.currentTarget.innerText);
-  };
-
   return (
     <div className={classNames(styles.header)}>
       <div className={styles['upper-header']}>
@@ -38,26 +28,7 @@ export const Header: React.FC = () => {
           <a>Москва</a>
         </div>
         <nav>
-          <ul className={styles['upper-header__navigation']}>
-            <li>
-              <a href=''>Акции</a>
-            </li>
-            <li>
-              <a href=''>Магазины</a>
-            </li>
-            <li>
-              <a href=''>Покупателям</a>
-            </li>
-            <li>
-              <a href=''>Юридическим лицам</a>
-            </li>
-            <li>
-              <a href=''>Клуб DNS</a>
-            </li>
-            <li>
-              <a href=''>Вакансии</a>
-            </li>
-          </ul>
+          <ul className={styles['upper-header__navigation']}>{navigationItems}</ul>
         </nav>
         <div className={styles['upper-header__tel']}>
           <a href='tel:8-800-77-07-999'>8-800-77-07-999</a>
@@ -108,41 +79,10 @@ export const Header: React.FC = () => {
             })}
           >
             <nav className={styles['main-header__categories']}>
-              <ul>
-                {categories.map((el, index) => (
-                  <li key={index} className={styles['main-header__categories-item']}>
-                    <a href='' className={styles['main-header__categories-link']} onMouseEnter={handleOnMouseHover}>
-                      <span
-                        className={styles['main-header__categories-icon']}
-                        style={{ backgroundImage: `url(${iconsUrl}${el.icon})` }}
-                      ></span>
-                      {el.category}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+              <ul>{mainCategories}</ul>
             </nav>
             <nav className={styles['main-header__subcategories']}>
-              <ul className={styles['main-header__subcategories--first']}>
-                {subcategoryItems.map((el, index) => (
-                  <li key={index}>
-                    <a className={styles['main-header__subcategories-name--first']}>{el.subcategory}</a>
-                    <ul className={styles['main-header__subcategories--second']}>
-                      {el.items.map((el, index) => (
-                        <li key={index}>
-                          <a className={styles['main-header__subcategories-name--second']}>
-                            {el.subcategory}
-                            <div className={styles['main-header__subcategories-info--second']}>
-                              <span>{el.itemsCount ? el.itemsCount : null}</span>
-                              <span>{el.items ? '>' : null}</span>
-                            </div>
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </li>
-                ))}
-              </ul>
+              <ul className={styles['main-header__subcategories--first']}>{subcategories}</ul>
             </nav>
           </div>
         </div>

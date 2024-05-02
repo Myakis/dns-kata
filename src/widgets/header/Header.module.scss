@@ -1,5 +1,17 @@
 @import '../../app/styles/fonts.scss';
 
+$orange: #FC8507;
+$l-grey: #F7F7F7;
+
+@mixin background-img($url, $width, $height, $display: block, $content: '') {
+      content: '';
+      display: $display;
+      background-image: url($url);
+      background-repeat: no-repeat;
+      height: $height;
+      width: $width;
+  }
+
 
 .header {
     display: flex;
@@ -21,7 +33,7 @@
     a:hover {
         cursor: pointer;
         transition: color 0.3s ease-in-out;
-        color:#FC8507;
+        color: $orange;
     }
 }
 
@@ -41,17 +53,13 @@
         width: 280px;
 
         a::before {
-            content: '';
-            display: inline-block;
-            width: 9.05px;
-            height: 13px;
+            @include background-img('../../app/assets/images/header/location.svg', 9.05px, 13px, inline-block);
             margin-right: 10px;
-            background: url('../../app/assets/images/header/location.svg') no-repeat;
         }
 
         a:hover::before {
             transition: all 0.3s ease-in-out;
-            background: url('../../app/assets/images/header/location-hover.svg') no-repeat;
+            @include background-img('../../app/assets/images/header/location-hover.svg', 9.05px, 13px, inline-block);
         }
     }
     &__tel {
@@ -101,10 +109,9 @@
         display: flex;
         position: absolute;
         box-sizing: border-box;
-        overflow: auto;
         top: 130px;
         left: 50;
-        width: 1178px;
+        width: max-content;
         height: 736px;
         background-color: #fff;
         box-shadow: 0 0 0 1px rgba(0, 0, 0, .04), 0 4px 4px rgba(0, 0, 0, .04), 0 20px 40px rgba(0, 0, 0, .08);
@@ -126,8 +133,8 @@
             padding-left: 12px;
         }
         &-item:hover {
-            border-left: 2px solid #FC8507;
-            color: #FC8507;
+            border-left: 2px solid $orange;
+            color: $orange;
             cursor: pointer;
         }
         &-link {
@@ -159,7 +166,7 @@
             column-gap: 30px;
             row-gap: 5px;
             align-items: baseline;
-             grid-template-columns: repeat(3, minmax(auto, 1fr));
+            grid-template-columns: repeat(3, minmax(auto, 1fr));
             font-size: 14px;
             line-height: 18px;
         }
@@ -168,14 +175,31 @@
             word-break: break-all;
         }
         &-info--second {
+            position: relative;
             display: inline-flex;
             column-gap: 6px;
             margin: 0 6px;
             color: #6c757d
         }
+        &--third {
+            top: 0;
+            display: block;
+            left: 50px;
+            width: max-content;
+            padding: 24px;
+            position: absolute;
+            background-color: #fafafa;
+            border-radius: 5px;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, .1);
+        }
+        &--third a {
+            display: inline-block;
+            padding: 2px 0;
+        }
     }
     &__orange-btn {
-        background: linear-gradient(0deg, #FC8507 0%, #FFA218 100%);
+        background: linear-gradient(0deg, $orange 0%, #FFA218 100%);
         border: none;
         border-radius: 12px;
     }
@@ -194,11 +218,7 @@
         border: none;
     }
     &__logo-btn {
-        display: block;
-        width: 120px;
-        height: 64px;
-        background: url('../../app/assets/images/header/logo.svg');
-        background-repeat: no-repeat;
+        @include background-img('../../app/assets/images/header/logo.svg', 120px, 64px);
         background-position: center;
     }
     &__catalog-btn {
@@ -216,11 +236,7 @@
         border-radius: 8px;
     }
     &__catalog-btn::after {
-        content: '';
-        width: 12px;
-        height: 8px;
-        display: inline-block;
-        background: url('../../app/assets/images/header/arrow.svg') no-repeat center;
+        @include background-img('../../app/assets/images/header/arrow.svg', 12px, 8px, inline-block);
     }
     &__catalog-btn:hover {
         cursor: pointer;
@@ -238,7 +254,7 @@
         min-width: 280px; 
         height: 64px;
         border-radius: 12px;
-        background-color: #F7F7F7;
+        background-color: $l-grey;
     }
     &__search-wrapper:hover,
     &__search:hover {
@@ -257,25 +273,21 @@
         font-size: 14px;
         color: #757575;
         border-radius: 12px;
-        background-color: #F7F7F7;
+        background-color: $l-grey;
     }
     &__search:focus {
         outline: none;
     }
     &__search-btn {
-        width: 40px;
-        height: 40px;
+        @include background-img('../../app/assets/images/header/search.svg', 40px, 40px);
         padding: 20px;
-        display: block;
         border: none;
-        background: url('../../app/assets/images/header/search.svg');
-        background-repeat: no-repeat;
         background-position: center;
         cursor: pointer;
     }
     &__search-btn:hover {
         transition: background-color 0.3s ease-in-out;
-        background-color: #f7f7f7;
+        background-color: $l-grey;
         border-radius: 8px;
     }
 
@@ -299,7 +311,7 @@
         }
         li:hover:not(:last-child) {
             transition: background-color 0.3s ease-in-out;
-            background-color: #f7f7f7;
+            background-color: $l-grey;
             border-radius: 5px;
             cursor: pointer;
         }
@@ -318,31 +330,15 @@
         margin: 0 auto;
     }
     &__compare::before {
-        content: '';
-        display: block;
-        width: 22px;
-        height: 20px;
-        background: url('../../app/assets/images/header/compare.svg') no-repeat;
+       @include background-img('../../app/assets/images/header/compare.svg', 22px, 20px)
     }
     &__favorited::before {
-        content: '';
-        display: block;
-        width: 22px;
-        height: 20px;
-        background: url('../../app/assets/images/header/favorited.svg') no-repeat;
+        @include background-img('../../app/assets/images/header/favorited.svg', 22px, 20px)
     }
     &__basket::before {
-        content: '';
-        display: block;
-        width: 20px;
-        height: 20px;
-        background: url('../../app/assets/images/header/basket.svg') no-repeat; 
+        @include background-img('../../app/assets/images/header/basket.svg', 22px, 20px)
     }
     &__log-in::before {
-        content: '';
-        display: block;
-        width: 20px;
-        height: 20px;
-        background: url('../../app/assets/images/header/logIn.svg') no-repeat; 
+        @include background-img('../../app/assets/images/header/logIn.svg', 22px, 20px)
     }
 }

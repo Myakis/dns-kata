@@ -2,8 +2,8 @@ import { Outlet } from 'react-router-dom';
 import { Header } from '../../widgets/header';
 import { useLocation } from 'react-router-dom';
 import { getPageTitle } from 'shared/utils';
-import styles from './Layout.module.scss';
 import { ReactNode } from 'react';
+import styles from './layout.module.scss';
 
 interface TLayout {
   pageTitle: string | null;
