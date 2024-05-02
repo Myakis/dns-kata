@@ -1,12 +1,13 @@
+// @import '../../app/styles/fonts.scss'; 
+
 .layout {
     display: grid;
     justify-items: center;
-    grid-template-rows: auto auto auto 1fr;
+    grid-template-rows: auto auto 600px 1fr;
     row-gap: 10px;
-    min-width: none;
-    min-height: 100vh;
     background-color: #F6F6F6;
     overflow-x: hidden;
+    font-family: 'PT Sans', sans-serif;
 
     &__header,
     &__footer,
@@ -41,7 +42,7 @@
 .footer__container {
     max-width: 1360px;
     margin: auto;
-    height: auto;
+    height: 100%;
 }
 
 .content__title {

@@ -1,15 +1,12 @@
-import { Route, Routes, useLocation } from 'react-router-dom';
-import { Layout } from 'pages/layouts/Layout';
-import { getPageTitle } from 'shared/utils';
 import './reset.scss';
+// import './index.scss';
+import { Route, Routes } from 'react-router-dom';
+import { MainLayout } from 'pages/layout';
 
 const App = () => {
-  const location = useLocation();
-  const pageTitle = getPageTitle(location.pathname);
-
   return (
     <Routes>
-      <Route path='/' element={<Layout pageTitle={pageTitle} breadcrumbs={['Главная']} />}>
+      <Route path='/' element={<MainLayout />}>
         <Route path='news' element={<div>News</div>}></Route>
       </Route>
     </Routes>
