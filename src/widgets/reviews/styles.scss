@@ -527,11 +527,11 @@ input[type='checkbox'] {
     margin-right: -16px;
     overflow: hidden;
   }
-  .ow-opinion-mobile__user-ratings .opinion-rating-slider__tab .star-rating__star[data-state='selected'] svg path {
+  .ow-opinion-mobile__user-ratings .opinion-rating-slider__tab span[data-state='selected'] svg path {
     fill: #ffa319;
     stroke: #ffa319;
   }
-  .ow-opinion-mobile__user-ratings .opinion-rating-slider__tab .star-rating__star svg path {
+  .ow-opinion-mobile__user-ratings .opinion-rating-slider__tab span svg path {
     fill: #afafaf;
     stroke: #afafaf;
   }
