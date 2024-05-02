@@ -76,7 +76,6 @@ const Reviews: React.FC = () => {
     //     </div>
     //   ))}
     // </div>
-
     <div className='ow-opinions-container'>
       <div className='ow-filters opinions-widget__filters' data-role='filters'>
         <div className='ow-filters__counts-filters-wrapper'>
