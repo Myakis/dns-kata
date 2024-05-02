@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { companyLinks, customerLinks, appLinks, Link } from './constants/constants';
-import styles from './styles.module.scss';
+import { companyLinks, customerLinks, appLinks, Link } from './constants';
+import styles from './footer.module.scss';
 interface Props {}
 
 const renderLinks = (links: Link[]) => {

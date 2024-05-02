@@ -1,3 +1,4 @@
+@import '../../app/styles/global.scss';
 @import '../../app/index.scss';
 
 @mixin background-image($url) {
@@ -7,23 +8,6 @@
   background-position: 50%;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-body {
-  background-color: #f6f6f6;
-  font-family: 'PT Sans', sans-serif;
-}
-ul {
-  list-style: none;
-}
-a {
-  background-color: #0000;
-  color: #fff;
-  text-decoration: none;
-}
 .baseFooter {
   margin: 30px 0 0;
   padding: 0;
