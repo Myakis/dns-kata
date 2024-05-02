@@ -1,15 +1,22 @@
 import './reset.scss';
 import './index.scss';
+import { Provider } from 'react-redux';
+import { setupStore } from 'shared/store';
 import { Route, Routes } from 'react-router-dom';
 import { MainLayout } from 'pages/layout';
 
 const App = () => {
+  const store = setupStore();
+  //когда подключу роутинг здесь будет нормальный компонент
+
   return (
-    <Routes>
-      <Route path='/' element={<MainLayout />}>
-        <Route path='news' element={<div>News</div>}></Route>
-      </Route>
-    </Routes>
+    <Provider store={store}>
+      <Routes>
+        <Route path='/' element={<MainLayout />}>
+          <Route path='news' element={<div>News</div>}></Route>
+        </Route>
+      </Routes>
+    </Provider>
   );
 };
 
