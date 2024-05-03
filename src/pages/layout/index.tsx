@@ -16,7 +16,7 @@ export const Layout: React.FC<TLayout> = ({ pageTitle, breadcrumbs, children }) 
     <div className={styles.layout}>
       <header className={styles.layout__header}>
         <div className={styles.header__container}>
-          <header></header>
+          <header>Header</header>
         </div>
       </header>
       <div className={styles.layout__breadcrumbs}>
@@ -31,8 +31,7 @@ export const Layout: React.FC<TLayout> = ({ pageTitle, breadcrumbs, children }) 
       <footer className={styles.layout__footer}>
         <div className={styles.footer__container}>
           <Footer />
-        </div>{' '}
-        {/*Сюда вставляем footer*/}
+        </div>
       </footer>
     </div>
   );
