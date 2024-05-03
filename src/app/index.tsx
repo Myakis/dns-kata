@@ -1,18 +1,17 @@
-import Product from 'entities/product';
-import '../shared/main.css';
+import { Provider } from 'react-redux';
+import { setupStore } from 'shared/store';
+import Footer from 'widgets/footer';
 import './index.scss';
 import { useState } from 'react';
 
 const App = () => {
-  const [isHorizontal, setIsHorizontal] = useState<boolean>(true);
+  const store = setupStore();
+  //когда подключу роутинг здесь будет нормальный компонент
 
   return (
-    <>
-      <button type='button' onClick={() => setIsHorizontal((prev) => !prev)}>
-        ChangeLayout
-      </button>
-      <Product isHorizontal={isHorizontal} vobler={{ text: 'Big long text for vobler', color: '#000' }} />
-    </>
+    <Provider store={store}>
+      <Footer />
+    </Provider>
   );
 };
 
