@@ -4,6 +4,7 @@ import styles from './reviews.module.scss';
 import Review from './components/Review';
 import Pagination from './components/Pagination';
 import StarsFilter from './components/StarsFilter';
+import Search from './components/Search';
 
 interface ReviewData {
   id: number;
@@ -22,6 +23,7 @@ const Reviews: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [reviewsPerPage, setReviewsPerPage] = useState<number>(10);
   const [selectedStars, setSelectedStars] = useState<number[]>([]);
+  const [notFound, setNotFound] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -96,25 +98,36 @@ const Reviews: React.FC = () => {
             </span>
           </div>
         </div>
-        <div className={styles.owFilters__searchFiltersWrapper}>
-          <div className={styles.owFilters__search} data-role='filter-search'>
-            <input
-              type='text'
-              className={styles.owFilters__searchInput}
-              name='search'
-              value=''
-              placeholder='Поиск по отзывам...'
-            />
-            <span className={`${styles.owFilters__searchIcon} ${styles.owFilters__searchIcon_search}`}></span>
-            <span
-              className={`${styles.owFilters__searchIcon} ${styles.owFilters__searchIcon_clear} ${styles.owFilters__searchIcon_hidden}`}
-            ></span>
-          </div>
-        </div>
+        <Search reviews={reviews} setReviews={setReviews} notFound={notFound} setNotFound={setNotFound} />
         <StarsFilter reviews={reviews} handleCheckboxChange={handleCheckboxChange} selectedStars={selectedStars} />
         <div id='bottom-opinions-filters' style={{ visibility: 'hidden' }}></div>
       </div>
-      <Review reviews={currentReviews} loading={loading} />
+      {/* Выводим верстку, если поиск ничего не находит */}
+      {notFound && (
+        <div
+          className={`${styles.owOpinions} ${styles.opinionsWidget__opinions}`}
+          data-role='opinionsContainer'
+          id='opinionsBlock'
+          style={{ opacity: 1 }}
+        >
+          <div className={styles.owOpinions__notFound} data-role='not-found'>
+            <div className={styles.owOpinions__notFound_image}></div>
+            <div className={styles.owOpinions__notFound_content}>
+              <div className={styles.owOpinions__notFound_title}>Ничего не нашлось</div>
+              <div className={styles.owOpinions__notFound_text}>Попробуйте изменить критерии поиска</div>
+              <button
+                className={`${styles.buttonUi} ${styles.buttonUi_white} ${styles.buttonUi_md} ${styles.owOpinions__notFound_button}`}
+                data-role='reset-button'
+                onClick={() => setNotFound(false)}
+              >
+                Сбросить
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Выводим отзывы, если поиск дал результаты */}
+      {!notFound && <Review reviews={currentReviews} loading={loading} />}
       <div className={styles.opinionsWidget__pagination}>
         <div className={styles.paginatorWidget}>
           <div

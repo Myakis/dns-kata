@@ -114,8 +114,23 @@ p {
 
 .owFilters__searchIcon_clear {
   color: #afafaf;
-  font-size: 20px;
+  font-size: 14px;
   right: 36px;
+}
+
+.owFilters__searchIcon_clear::after {
+  background: #c4c4c4;
+  content: '';
+  height: 18px;
+  position: absolute;
+  right: 0;
+  top: calc(50% - 9px);
+  width: 1px;
+}
+
+.owFilters__searchIcon_clear::before {
+  content: '╳';
+  top: 8px;
 }
 
 .owFilters__searchIcon_hidden {
@@ -219,7 +234,68 @@ input[type='checkbox'] {
   position: relative;
 }
 
-.opinionsWidget__opinions {
+.owOpinions__notFound {
+}
+
+.owOpinions__notFound_image {
+  background-image: url('../../app/assets/img/reviews/alien.png');
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 210px;
+  margin: 0 auto;
+  width: 220px;
+}
+
+.owOpinions__notFound_content {
+}
+
+.owOpinions__notFound_title {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 26px;
+}
+
+.owOpinions__notFound_text {
+  color: #4e4e4e;
+  font-size: 14px;
+  line-height: 21px;
+  margin-bottom: 16px;
+}
+
+.owOpinions__notFound_button {
+  width: 100%;
+}
+
+.buttonUi {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 16px;
+  justify-content: center;
+  line-height: 24px;
+  outline: none;
+  overflow: hidden;
+  padding: 0;
+}
+
+.buttonUi:hover {
+  transition: opacity 0.3s;
+  filter: brightness(99%);
+}
+
+.buttonUi_white {
+  color: #333;
+  background: #fff;
+  border-color: #d9d9d9;
+}
+
+.buttonUi_md {
+  height: 44px;
+  padding: 10px 19px;
+  white-space: nowrap;
 }
 
 .owOpinion {
@@ -601,7 +677,6 @@ input[type='checkbox'] {
 }
 
 @media (min-width: 1200px) {
-
   .paginatorWidget__block {
     height: 52px;
   }
@@ -657,5 +732,19 @@ input[type='checkbox'] {
 
   .paginatorWidget__block {
     height: 58px;
+  }
+
+  .owOpinions__notFound {
+    display: flex;
+    padding: 8px;
+  }
+
+  .owOpinions__notFound_content {
+    flex-grow: 1;
+    text-align: left;
+  }
+
+  .owOpinions__notFound_button {
+    width: auto;
   }
 }
