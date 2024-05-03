@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './styles.scss';
+import styles from './reviews.module.scss';
 import Review from './components/Review';
 import Pagination from './components/Pagination';
 import StarsFilter from './components/StarsFilter';
@@ -55,6 +55,7 @@ const Reviews: React.FC = () => {
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const value = parseInt(event.target.value, 10);
+
     if (event.target.checked) {
       setSelectedStars((prevSelectedStars) => [...prevSelectedStars, value]);
     } else {
@@ -76,50 +77,52 @@ const Reviews: React.FC = () => {
     //     </div>
     //   ))}
     // </div>
-    <div className='ow-opinions-container'>
-      <div className='ow-filters opinions-widget__filters' data-role='filters'>
-        <div className='ow-filters__counts-filters-wrapper'>
-          <div className='ow-filters__count-filter-btn ow-filters__count-filter-btn_active'>
+    <div className={styles.owOpinionsContainer}>
+      <div className={`${styles.owFilters} ${styles.opinionsWidget__filters}`} data-role='filters'>
+        <div className={styles.owFilters__countsFiltersWrapper}>
+          <div className={`${styles.owFilters__countFilterBtn} ${styles.owFilters__countFilterBtn_active}`}>
             Все отзывы{' '}
             <span
-              className='ow-filters__count-filter-btn-count ow-filters__count-filter-btn-count_active'
+              className={`${styles.owFilters__countFilterBtnCount} ${styles.owFilters__countFilterBtnCount_active}`}
               data-role='btn-count'
             >
               {reviews.length}
             </span>
           </div>
-          <div className='ow-filters__count-filter-btn'>
+          <div className={styles.owFilters__countFilterBtn}>
             Только к этой модели{' '}
-            <span className='ow-filters__count-filter-btn-count' data-role='btn-count'>
+            <span className={styles.owFilters__countFilterBtnCount} data-role='btn-count'>
               {reviews.length}
             </span>
           </div>
         </div>
-        <div className='ow-filters__search-filters-wrapper'>
-          <div className='ow-filters__search' data-role='filter-search'>
+        <div className={styles.owFilters__searchFiltersWrapper}>
+          <div className={styles.owFilters__search} data-role='filter-search'>
             <input
               type='text'
-              className='ow-filters__search-input'
+              className={styles.owFilters__searchInput}
               name='search'
               value=''
               placeholder='Поиск по отзывам...'
             />
-            <span className='ow-filters__search-icon ow-filters__search-icon_search'></span>
-            <span className='ow-filters__search-icon ow-filters__search-icon_clear ow-filters__search-icon_hidden'></span>
+            <span className={`${styles.owFilters__searchIcon} ${styles.owFilters__searchIcon_search}`}></span>
+            <span
+              className={`${styles.owFilters__searchIcon} ${styles.owFilters__searchIcon_clear} ${styles.owFilters__searchIcon_hidden}`}
+            ></span>
           </div>
         </div>
         <StarsFilter reviews={reviews} handleCheckboxChange={handleCheckboxChange} selectedStars={selectedStars} />
         <div id='bottom-opinions-filters' style={{ visibility: 'hidden' }}></div>
       </div>
       <Review reviews={currentReviews} loading={loading} />
-      <div className='opinions-widget__pagination'>
-        <div className='paginator-widget'>
+      <div className={styles.opinionsWidget__pagination}>
+        <div className={styles.paginatorWidget}>
           <div
-            className='paginator-widget__block  paginator-widget__block_above'
+            className={`${styles.paginatorWidget__block} ${styles.paginatorWidget__block_above}`}
             style={{ display: 'flex' }}
             onClick={addReviews}
           >
-            <a href='!#' className='paginator-widget__more'>
+            <a href='!#' className={styles.paginatorWidget__more}>
               Показать ещё
             </a>
           </div>
@@ -127,7 +130,6 @@ const Reviews: React.FC = () => {
             reviewsPerPage={reviewsPerPage}
             totalREviews={reviews.length}
             paginate={paginate}
-            currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             reviews={reviews}
           />

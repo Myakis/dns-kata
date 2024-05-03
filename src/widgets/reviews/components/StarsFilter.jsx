@@ -1,6 +1,5 @@
-// StarsFilter.tsx
-
 import React, { useState, useEffect } from 'react';
+import styles from '../reviews.module.scss';
 
 const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars }) => {
   const [fiveStars, setFiveStars] = useState([]);
@@ -35,91 +34,91 @@ const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars }) => {
   }, [reviews]);
 
   return (
-    <div className='ow-filters__rating ui-checkbox-group' data-role='filter-rating'>
-      <label className='ui-checkbox ow-filters__rating-item'>
+    <div className={`${styles.owFilters__rating} ${styles.uiCheckboxGroup}`} data-role='filter-rating'>
+      <label className={`${styles.uiCheckbox} ${styles.owFilters__ratingItem}`}>
         <span>
           <i></i>
           <i></i>
           <i></i>
           <i></i>
           <i></i>
-          <div className='ow-filters__rating-item_count'>{fiveStars.length}</div>
+          <div className={styles.owFilters__ratingItem_count}>{fiveStars.length}</div>
         </span>
         <input
           type='checkbox'
-          className='ui-checkbox__input'
+          className={styles.uiCheckbox__input}
           name='grade'
           value='5'
           onChange={handleCheckboxChange}
           checked={selectedStars.includes(5)}
         />
-        <span className='ui-checkbox__box'></span>
+        <span className={styles.uiCheckbox__box}></span>
       </label>
-      <label className='ui-checkbox ow-filters__rating-item'>
+      <label className={`${styles.uiCheckbox} ${styles.owFilters__ratingItem}`}>
         <span>
           <i></i>
           <i></i>
           <i></i>
           <i></i>
-          <div className='ow-filters__rating-item_count'>{fourStars.length}</div>
+          <div className={styles.owFilters__ratingItem_count}>{fourStars.length}</div>
         </span>
         <input
           type='checkbox'
-          className='ui-checkbox__input'
+          className={styles.uiCheckbox__input}
           name='grade'
           value='4'
           onChange={handleCheckboxChange}
           checked={selectedStars.includes(4)}
         />
-        <span className='ui-checkbox__box'></span>
+        <span className={styles.uiCheckbox__box}></span>
       </label>
-      <label className='ui-checkbox ow-filters__rating-item'>
+      <label className={`${styles.uiCheckbox} ${styles.owFilters__ratingItem}`}>
         <span>
           <i></i>
           <i></i>
           <i></i>
-          <div className='ow-filters__rating-item_count'>{threeStars.length}</div>
+          <div className={styles.owFilters__ratingItem_count}>{threeStars.length}</div>
         </span>
         <input
           type='checkbox'
-          className='ui-checkbox__input'
+          className={styles.uiCheckbox__input}
           name='grade'
           value='3'
           onChange={handleCheckboxChange}
           checked={selectedStars.includes(3)}
         />
-        <span className='ui-checkbox__box'></span>
+        <span className={styles.uiCheckbox__box}></span>
       </label>
-      <label className='ui-checkbox ow-filters__rating-item'>
+      <label className={`${styles.uiCheckbox} ${styles.owFilters__ratingItem}`}>
         <span>
           <i></i>
           <i></i>
-          <div className='ow-filters__rating-item_count'>{twoStars.length}</div>
+          <div className={styles.owFilters__ratingItem_count}>{twoStars.length}</div>
         </span>
         <input
           type='checkbox'
-          className='ui-checkbox__input'
+          className={styles.uiCheckbox__input}
           name='grade'
           value='2'
           onChange={handleCheckboxChange}
           checked={selectedStars.includes(2)}
         />
-        <span className='ui-checkbox__box'></span>
+        <span className={styles.uiCheckbox__box}></span>
       </label>
-      <label className='ui-checkbox ow-filters__rating-item'>
+      <label className={`${styles.uiCheckbox} ${styles.owFilters__ratingItem}`}>
         <span>
           <i></i>
-          <div className='ow-filters__rating-item_count'>{oneStars.length}</div>
+          <div className={styles.owFilters__ratingItem_count}>{oneStars.length}</div>
         </span>
         <input
           type='checkbox'
-          className='ui-checkbox__input'
+          className={styles.uiCheckbox__input}
           name='grade'
           value='1'
           onChange={handleCheckboxChange}
           checked={selectedStars.includes(1)}
         />
-        <span className='ui-checkbox__box'></span>
+        <span className={styles.uiCheckbox__box}></span>
       </label>
     </div>
   );

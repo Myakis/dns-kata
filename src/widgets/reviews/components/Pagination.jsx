@@ -1,3 +1,4 @@
+import styles from '../reviews.module.scss';
 import React, { useState } from 'react';
 
 const Pagination = ({ reviewsPerPage, totalREviews, paginate, setCurrentPage, reviews }) => {
@@ -47,23 +48,31 @@ const Pagination = ({ reviewsPerPage, totalREviews, paginate, setCurrentPage, re
   };
 
   return (
-    <div className='paginator-widget__block'>
-      <div className='paginator-widget__pages'>
-        <a href='!#' className='paginator-widget__page paginator-widget__page_first' onClick={firstPage}>
+    <div className={styles.paginatorWidget__block}>
+      <div className={styles.paginatorWidget__pages}>
+        <a
+          href='!#'
+          className={`${styles.paginatorWidget__page} ${styles.paginatorWidget__page_first}`}
+          onClick={firstPage}
+        >
           {}
         </a>
-        <a href='!#' className='paginator-widget__page paginator-widget__page_prev' onClick={prevPage}>
+        <a
+          href='!#'
+          className={`${styles.paginatorWidget__page} ${styles.paginatorWidget__page_prev}`}
+          onClick={prevPage}
+        >
           {}
         </a>
         <ul
-          className='paginator-widget__pages-list'
+          className={styles.paginatorWidget__pagesList}
           style={{ flexBasis: `${Math.ceil(totalREviews / reviewsPerPage) * 65}px` }}
         >
           {pageNumbers.map((number) => (
             <li key={number}>
               <a
                 href={'!#'}
-                className={`paginator-widget__page ${activePage === number ? 'paginator-widget__page_active' : ''}`}
+                className={`${styles.paginatorWidget__page} ${activePage === number ? styles.paginatorWidget__page_active : ''}`}
                 onClick={() => handleClick(number)}
               >
                 {number}
@@ -71,10 +80,18 @@ const Pagination = ({ reviewsPerPage, totalREviews, paginate, setCurrentPage, re
             </li>
           ))}
         </ul>
-        <a href='!#' className='paginator-widget__page paginator-widget__page_next' onClick={nextPage}>
+        <a
+          href='!#'
+          className={`${styles.paginatorWidget__page} ${styles.paginatorWidget__page_next}`}
+          onClick={nextPage}
+        >
           {}
         </a>
-        <a href='!#' className='paginator-widget__page paginator-widget__page_last' onClick={lastPage}>
+        <a
+          href='!#'
+          className={`${styles.paginatorWidget__page} ${styles.paginatorWidget__page_last}`}
+          onClick={lastPage}
+        >
           {}
         </a>
       </div>

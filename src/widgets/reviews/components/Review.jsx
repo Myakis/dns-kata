@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from '../reviews.module.scss';
 import StarRating from './StarRating';
 
 const Review = ({ reviews, loading }) => {
@@ -6,26 +7,26 @@ const Review = ({ reviews, loading }) => {
     return <h2>Загрузка...</h2>;
   }
   return (
-    <div className='ow-opinions opinions-widget__opinions'>
+    <div className={`${styles.owOpinions} ${styles.opinionsWidget__opinions}`}>
       {reviews.map((review) => (
-        <div className='ow-opinion ow-opinions__item' key={review.id}>
-          <div className='ow-opinion__header'>
-            <div className='ow-opinion__header-top'>
-              <div className='ow-opinion__header-left'>
-                <div className='profile-info'>
-                  <div className='profile-info__user'>
-                    <div className='profile-info__avatar-wrapper'>
-                      <div className='profile-info__avatar-wrapper'>
-                        <div className='profile-info__avatar' data-show-after-load=''>
+        <div className={`${styles.owOpinion} ${styles.owOpinions__item}`} key={review.id}>
+          <div className={styles.owOpinion__header}>
+            <div className={styles.owOpinion__headerTop}>
+              <div className={styles.owOpinion__headerLeft}>
+                <div className={styles.profileInfo}>
+                  <div className={styles.profileInfo__user}>
+                    <div className={styles.profileInfo__avatarWrapper}>
+                      <div className={styles.profileInfo__avatarWrapper}>
+                        <div className={styles.profileInfo__avatar} data-show-after-load=''>
                           <img
                             alt=''
                             data-src='https://c.dns-shop.ru/thumb/st1/fit/328/328/6a7bc2b700fa30fed310fe6616e9ff35/bb6fa769bbe393c849a725fde858008447abd5d70bc1309ef92fa65760f39295.png'
-                            className='loaded'
+                            className={styles.loaded}
                             src='https://c.dns-shop.ru/thumb/st1/fit/328/328/6a7bc2b700fa30fed310fe6616e9ff35/bb6fa769bbe393c849a725fde858008447abd5d70bc1309ef92fa65760f39295.png'
                             data-was-processed='true'
                           />
                         </div>
-                        <div className='profile-info__level'>
+                        <div className={styles.profileInfo__level}>
                           <svg
                             width='46'
                             height='46'
@@ -77,9 +78,9 @@ const Review = ({ reviews, loading }) => {
                         </div>
                       </div>
                     </div>
-                    <div className='profile-info__user-data'>
+                    <div className={styles.profileInfo__userData}>
                       <div
-                        className='profile-info__name '
+                        className={styles.profileInfo__name}
                         data-user-popover=''
                         data-user-popover-url='/uniformProfile/personal/get-user-popover-content/?userId=ebcfb11d-432c-f693-8498-889af518ca11'
                         data-user-popover-inited='true'
@@ -90,24 +91,24 @@ const Review = ({ reviews, loading }) => {
                     </div>
                   </div>
                 </div>
-                <div className='profile-info__activity'>
-                  <div className='ow-opinion__date-site'>
-                    <span className='ow-opinion__date'>19.04.2024</span>
-                    <span className='ow-opinion__site'>Dns-shop.ru</span>
+                <div className={styles.profileInfo__activity}>
+                  <div className={styles.owOpinion__dateSite}>
+                    <span className={styles.owOpinion__date}>19.04.2024</span>
+                    <span className={styles.owOpinion__site}>Dns-shop.ru</span>
                   </div>
-                  <div className='ow-opinion__report' data-original-title='null' data-inited=''></div>
+                  <div className={styles.owOpinion__report} data-original-title='null' data-inited=''></div>
                   <div
-                    className='profile-info__status profile-info__status_hidden'
+                    className={`${styles.profileInfo__status} ${styles.profileInfo__status_hidden}`}
                     data-status=''
                     data-initialized='true'
                   ></div>
                 </div>
               </div>
-              <div className='ow-opinion__header-right'>
-                <div className='ow-opinion__rating'>
-                  <div id='sr-YvHMMm' className='star-rating'>
-                    <div className='star-rating__stars'>
-                      <span className='star-rating__star' data-state='selected'>
+              <div className={styles.owOpinion__headerRight}>
+                <div className={styles.owOpinion__rating}>
+                  <div id='sr-YvHMMm' className={styles.starRating}>
+                    <div className={styles.starRating__stars}>
+                      <span className={styles.starRating__star} data-state='selected'>
                         <svg
                           width='22px'
                           height='21px'
@@ -123,7 +124,7 @@ const Review = ({ reviews, loading }) => {
                           </g>
                         </svg>
                       </span>
-                      <span className='star-rating__star' data-state='selected'>
+                      <span className={styles.starRating__star} data-state='selected'>
                         <svg
                           width='22px'
                           height='21px'
@@ -139,7 +140,7 @@ const Review = ({ reviews, loading }) => {
                           </g>
                         </svg>
                       </span>
-                      <span className='star-rating__star' data-state='selected'>
+                      <span className={styles.starRating__star} data-state='selected'>
                         <svg
                           width='22px'
                           height='21px'
@@ -155,7 +156,7 @@ const Review = ({ reviews, loading }) => {
                           </g>
                         </svg>
                       </span>
-                      <span className='star-rating__star' data-state='selected'>
+                      <span className={styles.starRating__star} data-state='selected'>
                         <svg
                           width='22px'
                           height='21px'
@@ -171,7 +172,7 @@ const Review = ({ reviews, loading }) => {
                           </g>
                         </svg>
                       </span>
-                      <span className='star-rating__star' data-state='selected'>
+                      <span className={styles.starRating__star} data-state='selected'>
                         <svg
                           width='22px'
                           height='21px'
@@ -190,19 +191,21 @@ const Review = ({ reviews, loading }) => {
                     </div>
                   </div>
                 </div>
-                <div className='ow-opinion__date-site'>
-                  <div className='ow-opinion-mobile__user-ratings'>
-                    <div className='opinion-rating-slider'>
-                      <div className='opinion-rating-slider__tab'>
-                        <div className='opinion-rating-slider__tab-title'>
+                <div className={styles.owOpinion__dateSite}>
+                  <div className={styles.owOpinionMobile__userRatings}>
+                    <div className={styles.opinionRatingSlider}>
+                      <div className={styles.opinionRatingSlider__tab}>
+                        <div className={styles.opinionRatingSlider__tabTitle}>
                           <span>
-                            <div id='sr-St-Vex' className='star-rating'>
-                              <div className='star-rating__stars'>
-                                <StarRating reviews={review.rating} />
+                            <div id='sr-St-Vex' className={styles.starRating}>
+                              <div className={styles.starRating__stars}>
+                                <div className={styles.starRating__star}>
+                                  <StarRating reviews={review.rating} />
+                                </div>
                               </div>
                             </div>
                           </span>
-                          <span className='opinion-rating-slider__tab-title_name'>Общая: </span>
+                          <span className={styles.opinionRatingSlider__tabTitle_name}>Общая: </span>
                         </div>
                       </div>
                     </div>
@@ -211,26 +214,26 @@ const Review = ({ reviews, loading }) => {
               </div>
             </div>
           </div>
-          <div className='ow-opinion__texts'>
-            <div className='ow-opinion__text'>
-              <div className='ow-opinion__text-title'>Достоинства</div>
-              <div className='ow-opinion__text-desc'>
+          <div className={styles.owOpinion__texts}>
+            <div className={styles.owOpinion__text}>
+              <div className={styles.owOpinion__textTitle}>Достоинства</div>
+              <div className={styles.owOpinion__textDesc}>
                 <p>{review.comment.pluses}</p>
               </div>
             </div>
-            <div className='ow-opinion__text'>
-              <div className='ow-opinion__text-title'>Недостатки</div>
-              <div className='ow-opinion__text-desc'>
+            <div className={styles.owOpinion__text}>
+              <div className={styles.owOpinion__textTitle}>Недостатки</div>
+              <div className={styles.owOpinion__textDesc}>
                 <p>{review.comment.minuses}</p>
               </div>
             </div>
-            <div className='ow-opinion__text'>
-              <div className='ow-opinion__text-title'>Комментарий</div>
-              <div className='ow-opinion__text-desc'>
+            <div className={styles.owOpinion__text}>
+              <div className={styles.owOpinion__textTitle}>Комментарий</div>
+              <div className={styles.owOpinion__textDesc}>
                 <p>{review.comment.commentText}</p>
               </div>
             </div>
-            <div data-role='additions-wrapper'></div>
+            <div data-role='additionsWrapper'></div>
           </div>
         </div>
       ))}
