@@ -26,7 +26,7 @@ $d-grey: #4e4e4e;
     overflow: hidden;
     font-family: 'PT Sans', sans-serif;
 
-    a {
+    &-link {
         text-decoration: none;
         color: $d-grey;
     }
@@ -37,6 +37,7 @@ $d-grey: #4e4e4e;
         color: $orange;
     }
 }
+
 
 .upper-header {
     padding: 20px 10px;
@@ -128,19 +129,17 @@ $d-grey: #4e4e4e;
     &__categories {
         padding: 24px 0;
         min-width: 280px;
-        &-item {
+        &-link {
+            display: flex;
+            align-items: center;
             border-left: 2px solid transparent;
             padding: 7px 0;
             padding-left: 12px;
         }
-        &-item:hover {
+        &-link--active {
             border-left: 2px solid $orange;
             color: $orange;
             cursor: pointer;
-        }
-        &-link {
-            display: flex;
-            align-items: center;
         }
         &-icon {
             width: 20px;
@@ -209,7 +208,7 @@ $d-grey: #4e4e4e;
         justify-content: space-between;
         column-gap: 15px;
         align-items: center;
-        padding: 0 10px;
+        padding-right: 10px;
         width: 280px;
         height: 64px;
         z-index: 2;
@@ -221,6 +220,10 @@ $d-grey: #4e4e4e;
     &__logo-btn {
         @include background-img('../../app/assets/images/header/logo.svg', 120px, 64px);
         background-position: center;
+    }
+    &__logo-btn:hover {
+        background-color: rgba(255, 255, 255, .12);
+        border-radius: 12px 0 0 12px;
     }
     &__catalog-btn {
         display: flex;
@@ -237,13 +240,17 @@ $d-grey: #4e4e4e;
         border-radius: 8px;
     }
     &__catalog-btn::after {
+        transition: transform .3s ease;
         @include background-img('../../app/assets/images/header/arrow.svg', 12px, 8px, inline-block);
+    }
+    &__catalog-btn--active::after {
+        transition: transform .3s ease;
+        transform: rotate(180deg);
     }
     &__catalog-btn:hover {
         cursor: pointer;
         background: rgba(255, 255, 255, 0.20);
     }
-
     &__search-wrapper {
         display: flex;
         box-sizing: border-box;

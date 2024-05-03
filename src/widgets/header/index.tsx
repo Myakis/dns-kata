@@ -12,6 +12,7 @@ export const Header: React.FC = () => {
     mainCategories,
     subcategories,
     navigationItems,
+    catalogRef,
   } = useHeaderConstants();
 
   useEffect(() => {
@@ -25,13 +26,15 @@ export const Header: React.FC = () => {
     <div className={classNames(styles.header)}>
       <div className={styles['upper-header']}>
         <div className={styles['upper-header__location']}>
-          <a>Москва</a>
+          <a className={styles['header-link']}>Москва</a>
         </div>
         <nav>
           <ul className={styles['upper-header__navigation']}>{navigationItems}</ul>
         </nav>
         <div className={styles['upper-header__tel']}>
-          <a href='tel:8-800-77-07-999'>8-800-77-07-999</a>
+          <a href='tel:8-800-77-07-999' className={styles['header-link']}>
+            8-800-77-07-999
+          </a>
         </div>
       </div>
       <div
@@ -47,7 +50,12 @@ export const Header: React.FC = () => {
         >
           <div className={classNames(styles['main-header__orange-btn'], styles['main-header__btn-bg'])}>
             <a className={styles['main-header__logo-btn']}></a>
-            <button onClick={handleOnCatalogBtnClick} className={styles['main-header__catalog-btn']}>
+            <button
+              onClick={handleOnCatalogBtnClick}
+              className={classNames(styles['main-header__catalog-btn'], {
+                [styles['main-header__catalog-btn--active']]: isOnCatalogBtnClick,
+              })}
+            >
               Каталог
             </button>
           </div>
@@ -58,20 +66,29 @@ export const Header: React.FC = () => {
           <nav>
             <ul className={styles['main-header__side-nav']}>
               <li className={styles['side-nav__compare']}>
-                <a href=''>Сравнение</a>
+                <a href='' className={styles['header-link']}>
+                  Сравнение
+                </a>
               </li>
               <li className={styles['side-nav__favorited']}>
-                <a href=''>Избранное</a>
+                <a href='' className={styles['header-link']}>
+                  Избранное
+                </a>
               </li>
               <li className={styles['side-nav__basket']}>
-                <a href=''>Корзина</a>
+                <a href='' className={styles['header-link']}>
+                  Корзина
+                </a>
               </li>
               <li className={styles['side-nav__log-in']}>
-                <a href=''>Войти</a>
+                <a href='' className={styles['header-link']}>
+                  Войти
+                </a>
               </li>
             </ul>
           </nav>
           <div
+            ref={catalogRef}
             className={classNames(styles['main-header__catalog'], {
               [styles['main-header__catalog--closed']]: !isOnCatalogBtnClick,
               [styles['main-header__catalog--opened']]: isOnCatalogBtnClick,

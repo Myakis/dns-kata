@@ -1,6 +1,8 @@
 import styles from './header.module.scss';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useCatalog } from 'shared/hooks/useCatalog';
+import { useClickOutside } from 'shared/hooks/useClickOutside';
+import classNames from 'classnames';
 import { MouseEvent } from 'react';
 
 export const useHeaderConstants = () => {
@@ -8,8 +10,11 @@ export const useHeaderConstants = () => {
   const [isOnCatalogBtnClick, setIsOnCatalogBtnClick] = useState(false);
   const [onSubcategoryHover, setOnSubcategoryHover] = useState<string>();
 
-  const { categories, subcategoryItems, updateSubcategoryItems } = useCatalog();
   const iconsUrl = 'src/app/assets/images/header/';
+  const catalogRef = useRef<HTMLDivElement>(null);
+
+  const { categories, subcategoryItems, updateSubcategoryItems, activeCategory } = useCatalog();
+  useClickOutside(catalogRef, () => setIsOnCatalogBtnClick(false), styles['main-header__catalog-btn']);
 
   const handleScroll = () => {
     const scrollValue = 50;
@@ -66,13 +71,19 @@ export const useHeaderConstants = () => {
 
   const navigationItems = navigationLinks.map((el, index) => (
     <li key={index}>
-      <a>{el.content}</a>
+      <a className={styles['header-link']}>{el.content}</a>
     </li>
   ));
 
   const mainCategories = categories.map((el, index) => (
     <li key={index} className={styles['main-header__categories-item']}>
-      <a href='' className={styles['main-header__categories-link']} onMouseEnter={handleOnCategoryHover}>
+      <a
+        href=''
+        className={classNames(styles['main-header__categories-link'], styles['header-link'], {
+          [styles['main-header__categories-link--active']]: activeCategory === el.category,
+        })}
+        onMouseEnter={handleOnCategoryHover}
+      >
         <span
           className={styles['main-header__categories-icon']}
           style={{ backgroundImage: `url(${iconsUrl}${el.icon})` }}
@@ -84,12 +95,14 @@ export const useHeaderConstants = () => {
 
   const subcategories = subcategoryItems.map((item, index) => (
     <li key={index}>
-      <a className={styles['main-header__subcategories-name--first']}>{item.subcategory}</a>
+      <a className={classNames(styles['main-header__subcategories-name--first'], styles['header-link'])}>
+        {item.subcategory}
+      </a>
       <ul className={styles['main-header__subcategories--second']}>
         {item.items.map((el, index) => (
           <li key={index} className={styles['main-header__subcategories-item--second']}>
             <a
-              className={styles['main-header__subcategories-name--second']}
+              className={classNames(styles['main-header__subcategories-name--second'], styles['header-link'])}
               onMouseEnter={handleOnSubcategoryHover}
               onMouseLeave={() => setOnSubcategoryHover('')}
             >
@@ -99,9 +112,11 @@ export const useHeaderConstants = () => {
                 <span>{el.items ? '>' : null}</span>
                 {el.subcategory === onSubcategoryHover && el.items ? (
                   <ul className={styles['main-header__subcategories--third']}>
-                    {el.items?.map((el) => (
-                      <li>
-                        <a href=''>{el.subcategory}</a>
+                    {el.items?.map((el, index) => (
+                      <li key={index}>
+                        <a href='' className={styles['header-link']}>
+                          {el.subcategory}
+                        </a>
                       </li>
                     ))}
                   </ul>
@@ -120,6 +135,7 @@ export const useHeaderConstants = () => {
     navigationItems,
     handleOnCatalogBtnClick,
     handleScroll,
+    catalogRef,
     isOnCatalogBtnClick,
     isScrolled,
   };
