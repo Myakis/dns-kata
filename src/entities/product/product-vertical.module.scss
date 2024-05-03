@@ -436,6 +436,12 @@
   }
 }
 
+.bell::before {
+  content: '\eb0f';
+  font-family: 'i-icon';
+  display: inline-block;
+}
+
 .cartOnMouseover {
   color: #fff;
   background-image: linear-gradient(0deg, #fc8507, #ffa218);
@@ -457,9 +463,4 @@
       color: rgb(217, 89, 33);
     }
   }
-}
-
-@font-face {
-  font-family: 'i-icon';
-  src: url('./icon.woff2');
 }
