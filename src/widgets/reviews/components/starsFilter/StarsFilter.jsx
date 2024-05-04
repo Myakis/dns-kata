@@ -47,10 +47,8 @@ const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars }) => {
         <input
           type='checkbox'
           className={styles.uiCheckbox__input}
-          name='grade'
-          value='5'
-          onChange={handleCheckboxChange}
-          checked={selectedStars.includes(5)}
+          checked={selectedStars.includes(5)} // Устанавливаем атрибут checked в зависимости от выбранных звезд
+          onChange={() => handleCheckboxChange(5)} // Обработчик изменения состояния чекбокса
         />
         <span className={styles.uiCheckbox__box}></span>
       </label>
@@ -65,10 +63,8 @@ const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars }) => {
         <input
           type='checkbox'
           className={styles.uiCheckbox__input}
-          name='grade'
-          value='4'
-          onChange={handleCheckboxChange}
-          checked={selectedStars.includes(4)}
+          checked={selectedStars.includes(4)} // Устанавливаем атрибут checked в зависимости от выбранных звезд
+          onChange={() => handleCheckboxChange(4)} // Обработчик изменения состояния чекбокса
         />
         <span className={styles.uiCheckbox__box}></span>
       </label>
@@ -82,10 +78,8 @@ const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars }) => {
         <input
           type='checkbox'
           className={styles.uiCheckbox__input}
-          name='grade'
-          value='3'
-          onChange={handleCheckboxChange}
-          checked={selectedStars.includes(3)}
+          checked={selectedStars.includes(3)} // Устанавливаем атрибут checked в зависимости от выбранных звезд
+          onChange={() => handleCheckboxChange(3)} // Обработчик изменения состояния чекбокса
         />
         <span className={styles.uiCheckbox__box}></span>
       </label>
@@ -98,10 +92,8 @@ const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars }) => {
         <input
           type='checkbox'
           className={styles.uiCheckbox__input}
-          name='grade'
-          value='2'
-          onChange={handleCheckboxChange}
-          checked={selectedStars.includes(2)}
+          checked={selectedStars.includes(2)} // Устанавливаем атрибут checked в зависимости от выбранных звезд
+          onChange={() => handleCheckboxChange(2)} // Обработчик изменения состояния чекбокса
         />
         <span className={styles.uiCheckbox__box}></span>
       </label>
@@ -113,10 +105,8 @@ const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars }) => {
         <input
           type='checkbox'
           className={styles.uiCheckbox__input}
-          name='grade'
-          value='1'
-          onChange={handleCheckboxChange}
-          checked={selectedStars.includes(1)}
+          checked={selectedStars.includes(1)} // Устанавливаем атрибут checked в зависимости от выбранных звезд
+          onChange={() => handleCheckboxChange(1)} // Обработчик изменения состояния чекбокса
         />
         <span className={styles.uiCheckbox__box}></span>
       </label>

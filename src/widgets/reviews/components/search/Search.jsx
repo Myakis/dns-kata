@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
 import styles from './search.module.scss';
+import PropTypes from 'prop-types';
 
-const Search = ({ reviews, setReviews, notFound, setNotFound }) => {
+import React, { useState } from 'react';
+
+const Search = ({ reviews, setReviews, setNotFound }) => {
   const [value, setValue] = useState('');
 
   const saveValue = (e) => {
@@ -51,6 +53,12 @@ const Search = ({ reviews, setReviews, notFound, setNotFound }) => {
       </form>
     </div>
   );
+};
+
+Search.propTypes = {
+  reviews: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setReviews: PropTypes.func.isRequired,
+  setNotFound: PropTypes.func.isRequired,
 };
 
 export default Search;

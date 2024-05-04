@@ -1,7 +1,8 @@
 import styles from './pagination.module.scss';
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
-const Pagination = ({ reviewsPerPage, totalREviews, paginate, setCurrentPage, reviews }) => {
+const Pagination = ({ reviewsPerPage, totalREviews, paginate }) => {
   const [activePage, setActivePage] = useState(1); // Состояние для отслеживания активной страницы
 
   const pageNumbers = [];
@@ -97,6 +98,12 @@ const Pagination = ({ reviewsPerPage, totalREviews, paginate, setCurrentPage, re
       </div>
     </div>
   );
+};
+
+Pagination.propTypes = {
+  reviewsPerPage: PropTypes.number.isRequired,
+  totalREviews: PropTypes.number.isRequired,
+  paginate: PropTypes.func.isRequired,
 };
 
 export default Pagination;

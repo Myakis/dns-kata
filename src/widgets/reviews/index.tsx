@@ -22,7 +22,7 @@ const Reviews: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [reviewsPerPage, setReviewsPerPage] = useState<number>(10);
-  const [selectedStars, setSelectedStars] = useState<number[]>([]);
+  const [selectedStars, setSelectedStars] = useState([]);
   const [notFound, setNotFound] = useState<boolean>(false);
 
   useEffect(() => {
@@ -55,30 +55,20 @@ const Reviews: React.FC = () => {
     setReviewsPerPage((prev) => prev + 10);
   };
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const value = parseInt(event.target.value, 10);
+  const handleCheckboxChange = (value) => {
+    console.log('Checkbox value:', value);
+    console.log('Selected stars before update:', selectedStars);
 
-    if (event.target.checked) {
-      setSelectedStars((prevSelectedStars) => [...prevSelectedStars, value]);
+    if (selectedStars.includes(value)) {
+      setSelectedStars(selectedStars.filter((star) => star !== value));
     } else {
-      setSelectedStars((prevSelectedStars) => prevSelectedStars.filter((star) => star !== value));
+      setSelectedStars([...selectedStars, value]);
     }
+
+    console.log('Selected stars after update:', selectedStars);
   };
 
   return (
-    // <div>
-    //   <h1>Отзывы</h1>
-    //   {reviews.map((review) => (
-    //     <div key={review.id}>
-    //       <h2>Отзыв #{review.id}</h2>
-    //       <p>Продукт ID: {review.productId}</p>
-    //       <p>Плюсы: {review.comment.pluses}</p>
-    //       <p>Минусы: {review.comment.minuses}</p>
-    //       <p>Текст отзыва: {review.comment.commentText}</p>
-    //       <p>Рейтинг: {review.rating}</p>
-    //     </div>
-    //   ))}
-    // </div>
     <div className={styles.owOpinionsContainer}>
       <div className={`${styles.owFilters} ${styles.opinionsWidget__filters}`} data-role='filters'>
         <div className={styles.owFilters__countsFiltersWrapper}>
@@ -98,7 +88,7 @@ const Reviews: React.FC = () => {
             </span>
           </div>
         </div>
-        <Search reviews={reviews} setReviews={setReviews} notFound={notFound} setNotFound={setNotFound} />
+        <Search reviews={reviews} setReviews={setReviews} setNotFound={setNotFound} />
         <StarsFilter reviews={reviews} handleCheckboxChange={handleCheckboxChange} selectedStars={selectedStars} />
         <div id='bottom-opinions-filters' style={{ visibility: 'hidden' }}></div>
       </div>
@@ -127,7 +117,7 @@ const Reviews: React.FC = () => {
         </div>
       )}
       {/* Выводим отзывы, если поиск дал результаты */}
-      {!notFound && <Review reviews={currentReviews} loading={loading} />}
+      {!notFound && <Review reviews={currentReviews} loading={loading} selectedStars={selectedStars} />}
       <div className={styles.opinionsWidget__pagination}>
         <div className={styles.paginatorWidget}>
           <div
@@ -139,13 +129,7 @@ const Reviews: React.FC = () => {
               Показать ещё
             </a>
           </div>
-          <Pagination
-            reviewsPerPage={reviewsPerPage}
-            totalREviews={reviews.length}
-            paginate={paginate}
-            setCurrentPage={setCurrentPage}
-            reviews={reviews}
-          />
+          <Pagination reviewsPerPage={reviewsPerPage} totalREviews={reviews.length} paginate={paginate} />
         </div>
       </div>
     </div>
