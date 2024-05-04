@@ -3,7 +3,7 @@ import { setupStore } from 'shared/store';
 import Footer from 'widgets/footer';
 import './index.scss';
 
-import NewsCard from 'widgets/news-card';
+import NewsCard from 'widgets/news-block';
 
 const App = () => {
   const store = setupStore();

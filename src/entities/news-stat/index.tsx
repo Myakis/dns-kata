@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 
+// --- архитектура мать вашу!!!
 import ShareTooltip from 'features/share-tooltip';
+// ---
 
 import { StatTypes } from './types';
 import style from './style.module.scss';
@@ -15,20 +17,20 @@ const formatDate = (date: string): string => {
 const StatComponent: React.FC<StatTypes> = ({ fullConfig, stat }) => {
   return (
     <>
-      <div className={`${style.stat__block} ${fullConfig ? style.off_border : null}`}>
-        <div className={style.stat__container}>
+      <div className={`${style['stat']} ${fullConfig ? style['off-border'] : null}`}>
+        <div className={style['stat__container']}>
           <p>{formatDate(stat.date)}</p>
         </div>
 
-        <div className={style.stat__container}>
-          <p className={`${style.stat_icon} ${style.stat_icon_views}`}>{stat.viewsCount}</p>
+        <div className={style['stat__container']}>
+          <p className={`${style['stat__icon']} ${style['stat__icon-views']}`}>{stat.viewsCount}</p>
         </div>
 
-        <div className={style.stat__container}>
+        <div className={style['stat__container']}>
           {fullConfig ? (
             <ShareTooltip />
           ) : (
-            <p className={`${style.stat_icon} ${style.stat_icon_comments}`}>{stat.commentsCount}</p>
+            <p className={`${style['stat__icon']} ${style['stat__icon-comments']}`}>{stat.commentsCount}</p>
           )}
         </div>
       </div>
