@@ -14,7 +14,6 @@ img {
 p {
   margin: 0 0 10px;
 }
-
 .owOpinionsContainer {
   background: #fff;
   border-radius: 12px;
@@ -22,23 +21,17 @@ p {
   margin-top: 10px;
   padding: 24px;
 }
-
-.owFilters {
-}
-
 .opinionsWidget__filters {
   border-bottom: 1px solid #d9d9d9;
   margin-bottom: 20px;
   padding-bottom: 8px;
 }
-
 .owFilters__countsFiltersWrapper {
   display: flex;
   flex-direction: row;
   overflow-x: auto;
   padding-bottom: 20px;
 }
-
 .owFilters__countFilterBtn {
   background-color: #f2f2f2;
   border-radius: 8px;
@@ -51,7 +44,6 @@ p {
   padding: 8px 12px;
   white-space: nowrap;
 }
-
 .owFilters__countFilterBtn_active {
   background: #fff;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
@@ -59,184 +51,15 @@ p {
   font-size: 16px;
   font-weight: 700;
 }
-
 .owFilters__countFilterBtnCount {
   padding-left: 5px;
 }
-
 .owFilters__countFilterBtnCount_active {
   color: #8c8c8c;
 }
-
-.owFilters__searchFiltersWrapper {
-  display: flex;
-}
-
-.owFilters__search {
-  margin-bottom: 4px;
-  position: relative;
-  width: calc(100% - 210px);
-}
-
-.owFilters__searchInput {
-  background: #f2f2f2;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  line-height: 36px;
-  outline: none;
-  padding: 0 70px 0 12px;
-  width: 100%;
-}
-
-.owFilters__searchIcon {
-  cursor: pointer;
-  height: 36px;
-  position: absolute;
-  right: 0;
-  text-align: center;
-  width: 36px;
-}
-
-.owFilters__searchIcon::before {
-  position: relative;
-}
-
-.owFilters__searchIcon_search {
-  color: #afafaf;
-}
-
-.owFilters__searchIcon_search::before {
-  content: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.828 4.75a6.078 6.078 0 100 12.156 6.078 6.078 0 000-12.156zM3.25 10.828a7.578 7.578 0 1113.441 4.801l4.161 4.162a.75.75 0 11-1.06 1.06l-4.162-4.16a7.578 7.578 0 01-12.38-5.862z' fill='%23AFAFAF'%3E%3C/path%3E%3C/svg%3E");
-  color: #afafaf;
-  top: 7px;
-}
-
-.owFilters__searchIcon_clear {
-  color: #afafaf;
-  font-size: 14px;
-  right: 36px;
-}
-
-.owFilters__searchIcon_clear::after {
-  background: #c4c4c4;
-  content: '';
-  height: 18px;
-  position: absolute;
-  right: 0;
-  top: calc(50% - 9px);
-  width: 1px;
-}
-
-.owFilters__searchIcon_clear::before {
-  content: '╳';
-  top: 8px;
-}
-
-.owFilters__searchIcon_hidden {
-  display: none;
-}
-
-.owFilters__rating {
-  display: flex;
-  margin-top: 8px;
-}
-
-.uiCheckboxGroup {
-}
-
-.uiCheckbox {
-  color: #333;
-  cursor: pointer;
-  display: block;
-  font-size: 16px;
-  padding: 8px 0 8px 23px;
-  position: relative;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-}
-
-.owFilters__ratingItem {
-  background: #f7f7f7;
-  border-radius: 8px;
-  padding: 7px 12px 7px 30px;
-  white-space: nowrap;
-}
-
-.owFilters__ratingItem + .owFilters__ratingItem {
-  margin-left: 8px;
-}
-
-.owFilters__ratingItem span i {
-  color: #ffa319;
-  height: 10px;
-  width: 10px;
-}
-
-.owFilters__ratingItem span i::before {
-  content: '\2605';
-  speak: none;
-  display: inline-block;
-  font-family: i-icon !important;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 400;
-  line-height: 1;
-  text-transform: none;
-}
-
-.owFilters__ratingItem_count {
-  color: #4e4e4e;
-  display: inline-block;
-  line-height: 16px;
-  margin-left: 8px;
-}
-
-.uiCheckbox__input {
-  height: 0;
-  margin: 0 !important;
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-}
-
-input[type='checkbox'] {
-  box-sizing: border-box;
-  padding: 0;
-}
-
-.uiCheckbox__box {
-  background: #fff;
-  border: 1px solid #afafaf;
-  border-radius: 4px;
-  box-sizing: border-box;
-  height: 16px;
-  left: 0;
-  position: absolute;
-  top: 10px;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.23, 1);
-  width: 16px;
-}
-
-.uiCheckbox {
-  color: #333;
-  cursor: pointer;
-  display: block;
-  font-size: 16px;
-  padding: 8px 0 8px 23px;
-  position: relative;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-}
-
 .owOpinions {
   position: relative;
 }
-
-.owOpinions__notFound {
-}
-
 .owOpinions__notFound_image {
   background-image: url('../../app/assets/img/reviews/alien.png');
   background-position: 50%;
@@ -246,27 +69,20 @@ input[type='checkbox'] {
   margin: 0 auto;
   width: 220px;
 }
-
-.owOpinions__notFound_content {
-}
-
 .owOpinions__notFound_title {
   font-size: 20px;
   font-weight: 700;
   line-height: 26px;
 }
-
 .owOpinions__notFound_text {
   color: #4e4e4e;
   font-size: 14px;
   line-height: 21px;
   margin-bottom: 16px;
 }
-
 .owOpinions__notFound_button {
   width: 100%;
 }
-
 .buttonUi {
   align-items: center;
   border: 1px solid transparent;
@@ -279,278 +95,24 @@ input[type='checkbox'] {
   outline: none;
   overflow: hidden;
   padding: 0;
+  &:hover {
+    transition: opacity 0.3s;
+    filter: brightness(99%);
+  }
 }
-
-.buttonUi:hover {
-  transition: opacity 0.3s;
-  filter: brightness(99%);
-}
-
 .buttonUi_white {
   color: #333;
   background: #fff;
   border-color: #d9d9d9;
 }
-
 .buttonUi_md {
   height: 44px;
   padding: 10px 19px;
   white-space: nowrap;
 }
-
-.owOpinion {
-  padding-bottom: 15px;
-  position: relative;
-}
-
-.owOpinion + .owOpinion {
-  margin-top: 20px;
-}
-
-.owOpinions__item {
-  border-bottom: 1px solid #d9d9d9;
-}
-
-.owOpinion__header {
-  margin-bottom: 28px;
-}
-
-.owOpinion__headerTop {
-  margin-bottom: 13px;
-}
-
-.owOpinion__headerLeft {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.profileInfo {
-}
-
-.profileInfo__user {
-  align-items: center;
-  display: flex;
-}
-
-.profileInfo__avatarWrapper {
-  display: flex;
-  height: 46px;
-  margin-right: 15px;
-  position: relative;
-  width: 46px;
-}
-
-.profileInfo__avatar {
-  align-items: center;
-  border-radius: 50%;
-  display: flex;
-  height: 46px;
-  justify-content: center;
-  padding: 4px;
-  width: 46px;
-}
-
-.profileInfo__avatar img {
-  border-radius: 50%;
-  height: 100%;
-  width: 100%;
-}
-
-.loaded {
-}
-
-.profileInfo__level {
-  position: absolute;
-}
-
-.profileInfo__userData {
-  align-items: center;
-  display: flex;
-}
-
-.profileInfo__name {
-  color: #0d61af;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 700;
-  height: 26px;
-  margin-right: 12px;
-  transition-duration: 0.3s;
-}
-
-.profileInfo__activity .owOpinion__dateSite {
-  display: flex;
-  flex-direction: column;
-}
-
-.owOpinion__dateSite {
-  color: #8c8c8c;
-  font-size: 14px;
-}
-
-.owOpinion__date {
-  margin-right: 9px;
-}
-
-.owOpinion__site {
-}
-
-.owOpinion__report {
-}
-
-.profileInfo__status {
-}
-
-.profileInfo__status_hidden {
-}
-
-.owOpinion__headerRight {
-}
-
-.owOpinion__rating {
-  display: none;
-}
-
 .starRating {
   display: flex;
 }
-
-.starRating__stars {
-  display: flex;
-}
-
-.starRating__star[data-state='selected'] svg path {
-  fill: #ff7400;
-  stroke: #ff7400;
-}
-
-.starRating__star svg path {
-  fill: transparent;
-  stroke: #ff7400;
-}
-
-.starRating__star {
-  padding: 0 5px;
-  display: contents;
-}
-
-.owOpinionMobile__userRatings {
-  padding-top: 12px;
-}
-
-.opinionRatingSlider {
-  color: inherit;
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-}
-
-.opinionRatingSlider__tab {
-  display: flex;
-  margin-right: 8px;
-  outline: none;
-}
-
-.owOpinionMobile__userRatings .opinionRatingSlider__tab {
-  background: #eee;
-  border-radius: 8px;
-}
-
-.opinionRatingSlider__tabTitle {
-  align-items: center;
-  font-size: 14px;
-  padding: 8px;
-  white-space: nowrap;
-}
-
-.owOpinionMobile__userRatings .opinionRatingSlider__tabTitle {
-  color: #000;
-  display: inline-flex;
-  flex-direction: row-reverse;
-  align-items: self-end;
-}
-
-.opinionRatingSlider__tabTitle_name {
-  margin-right: 5px;
-}
-
-.owOpinion__headerBottom {
-}
-
-.opinionMulticard {
-  margin-bottom: 23px;
-}
-
-.opinionMulticardSlider {
-  color: inherit;
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  scrollbar-width: thin;
-}
-
-.opinionMulticardSlider__tab {
-  align-items: center;
-  background: #eee;
-  border-radius: 8px;
-  display: flex;
-  font-size: 14px;
-  margin-right: 8px;
-  outline: none;
-  padding: 8px;
-  white-space: nowrap;
-}
-
-.owOpinion__infoList {
-  margin: 0;
-  padding: 0;
-}
-
-.owOpinion__infoListItem {
-  color: #3a3a3a;
-  font-size: 14px;
-  list-style: none;
-  margin-bottom: 8px;
-}
-
-.owOpinion__infoTitle {
-  font-weight: 700;
-  margin-right: 4px;
-}
-
-.owOpinion__infoDesc {
-}
-
-.owOpinion__texts {
-}
-
-.owOpinion__text {
-  color: #333;
-  font-size: 16px;
-  margin-bottom: 20px;
-}
-
-.owOpinion__textTitle {
-  align-items: center;
-  display: flex;
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.owOpinion__textDesc {
-  line-height: 24px;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-.opinionsWidget__pagination {
-}
-
-.paginatorWidget {
-}
-
 .paginatorWidget__block {
   background-color: #fff;
   border: 1px solid #f2f2f2;
@@ -559,11 +121,9 @@ input[type='checkbox'] {
   display: flex;
   height: 48px;
 }
-
 .paginatorWidget__block_above {
   margin-bottom: 16px;
 }
-
 .paginatorWidget__more {
   align-items: center;
   display: flex;
@@ -573,178 +133,24 @@ input[type='checkbox'] {
   color: #000;
   text-decoration: none;
 }
-
-.paginatorWidget__pages {
-  display: flex;
-  justify-content: center;
-  margin-bottom: -1px;
-  width: 100%;
-}
-
-.paginatorWidget__pagesList {
-  display: flex;
-  justify-content: center;
-  margin-bottom: -1px;
-  // flex-basis: 650px;
-}
-
-.paginatorWidget__pages li {
-  align-items: center;
-  display: flex;
-  flex-basis: 65px;
-  flex-shrink: 1;
-  justify-content: center;
-}
-
-.paginatorWidget__pages li:hover {
-  background-color: #fff7da;
-}
-
-.paginatorWidget__page {
-  align-items: center;
-  border-bottom: 3px solid transparent;
-  border-top: 3px solid transparent;
-  display: flex;
-  flex-basis: 65px;
-  flex-shrink: 1;
-  font-size: 16px;
-  font-weight: 700;
-  justify-content: center;
-  color: #8c8c8c;
-  text-decoration: none;
-}
-
-.paginatorWidget__page:hover {
-  background-color: #fff7da;
-  color: #fc8507;
-}
-
-.paginatorWidget__page_first::before {
-  content: '\276E\276E';
-  speak: none;
-  display: inline-block;
-  font-family: i-icon !important;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 400;
-  line-height: 1;
-  text-transform: none;
-}
-
-.paginatorWidget__page_prev::before {
-  content: '\276E';
-  speak: none;
-  display: inline-block;
-  font-family: i-icon !important;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 400;
-  line-height: 1;
-  text-transform: none;
-}
-
-.paginatorWidget__page_active {
-  border-bottom-color: #fc8507;
-  color: #fc8507;
-}
-
-.paginatorWidget__page_active:link {
-  color: #fc8507;
-}
-
-.paginatorWidget__page_next::before {
-  content: '\276f';
-  speak: none;
-  display: inline-block;
-  font-family: i-icon !important;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 400;
-  line-height: 1;
-  text-transform: none;
-}
-
-.paginatorWidget__page_last::before {
-  content: '\276f\276f';
-  speak: none;
-  display: inline-block;
-  font-family: i-icon !important;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 400;
-  line-height: 1;
-  text-transform: none;
-}
-
-@media (min-width: 1200px) {
-  .paginatorWidget__block {
-    height: 52px;
-  }
-}
-
-@media (min-width: 992px) {
-  .owOpinionMobile__userRatings {
-    overflow: hidden;
-  }
-
-  .owOpinionMobile__userRatings .opinionRatingSlider__tab .starRating {
-    margin-top: -2px;
-    max-height: 20px;
-  }
-
-  .owOpinionMobile__userRatings .opinionRatingSlider__tab .starRating__star {
-    margin: 0 -4px;
-    padding: 0;
-    transform: scale(0.5);
-    width: 22px;
-    height: 21px;
-  }
-
-  .opinionMulticard {
-    margin-right: -16px;
-    overflow: hidden;
-  }
-
-  .owOpinionMobile__userRatings .opinionRatingSlider__tab span[data-state='selected'] svg path {
-    fill: #ffa319;
-    stroke: #ffa319;
-  }
-
-  .owOpinionMobile__userRatings .opinionRatingSlider__tab span svg path {
-    fill: #afafaf;
-    stroke: #afafaf;
-  }
-}
-
 @media (min-width: 768px) {
-  .owOpinion__headerTop {
-    margin-bottom: 13px;
-  }
-
-  .owOpinion__headerLeft {
-    margin-bottom: 0;
-  }
-
-  .owOpinion__infoListItem {
-    font-size: 16px;
-    margin-bottom: 12px;
-  }
-
   .paginatorWidget__block {
     height: 58px;
   }
-
   .owOpinions__notFound {
     display: flex;
     padding: 8px;
   }
-
   .owOpinions__notFound_content {
     flex-grow: 1;
     text-align: left;
   }
-
   .owOpinions__notFound_button {
     width: auto;
+  }
+}
+@media (min-width: 1200px) {
+  .paginatorWidget__block {
+    height: 52px;
   }
 }

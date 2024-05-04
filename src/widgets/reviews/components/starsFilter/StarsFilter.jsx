@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../reviews.module.scss';
+import styles from './starsFilter.module.scss';
 
 const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars }) => {
   const [fiveStars, setFiveStars] = useState([]);

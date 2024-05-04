@@ -1,4 +1,4 @@
-import styles from '../reviews.module.scss';
+import styles from './pagination.module.scss';
 import React, { useState } from 'react';
 
 const Pagination = ({ reviewsPerPage, totalREviews, paginate, setCurrentPage, reviews }) => {

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './reviews.module.scss';
-import Review from './components/Review';
-import Pagination from './components/Pagination';
-import StarsFilter from './components/StarsFilter';
-import Search from './components/Search';
+import Review from './components/review/';
+import Pagination from './components/pagination/';
+import StarsFilter from './components/starsFilter';
+import Search from './components/search';
 
 interface ReviewData {
   id: number;

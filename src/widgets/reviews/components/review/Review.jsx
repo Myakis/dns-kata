@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from '../reviews.module.scss';
-import StarRating from '../../../shared/StarRating';
+import styles from './review.module.scss';
+import StarRating from '../../../../shared/starRating';
 
 const Review = ({ reviews, loading }) => {
   if (loading) {

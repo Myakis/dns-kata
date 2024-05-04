@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from '../reviews.module.scss';
+import styles from './search.module.scss';
 
 const Search = ({ reviews, setReviews, notFound, setNotFound }) => {
   const [value, setValue] = useState('');
