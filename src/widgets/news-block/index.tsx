@@ -22,7 +22,6 @@ function formatText(text: string): ReactNode {
 const NewsCard: React.FC = () => {
   return (
     <article className={style['news']}>
-      <h1 className={style['news--title']}>Новинка! Робот-пылесос Xiaomi Mi Robot Vacuum X20+</h1>
       <div className={style['news__container']}>
         <img
           className={style['news--img']}

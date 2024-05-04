@@ -4,6 +4,7 @@ import Footer from 'widgets/footer';
 import './index.scss';
 
 import NewsCard from 'widgets/news-block';
+import CommentBlock from 'widgets/comment';
 
 const App = () => {
   const store = setupStore();
@@ -12,6 +13,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <NewsCard />
+      <CommentBlock />
       <Footer />
     </Provider>
   );
