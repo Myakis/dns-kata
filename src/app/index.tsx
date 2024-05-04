@@ -2,6 +2,7 @@ import { Provider } from 'react-redux';
 import { setupStore } from 'shared/store';
 import Footer from 'widgets/footer';
 import './index.scss';
+import './styles/variables.css';
 import Product from 'entities/product';
 import { useState } from 'react';
 

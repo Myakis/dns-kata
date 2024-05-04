@@ -3,7 +3,6 @@ import horizontalStyles from './product-horizontal.module.scss';
 import verticalStyles from './product-vertical.module.scss';
 import { rateListStyles } from './types';
 import clsx from 'clsx';
-import './variables.css';
 
 function rateList(rate: number, styles: rateListStyles): ReactNode[] {
   const rateStars: ReactNode[] = [];
