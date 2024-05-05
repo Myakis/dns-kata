@@ -107,7 +107,7 @@ export const useHeaderConstants = () => {
               onMouseLeave={() => setOnSubcategoryHover('')}
             >
               {el.subcategory}
-              <div className={styles['main-header__subcategories-info--second']}>
+              <div className={styles['main-header__subcategories-info']}>
                 <span>{el.itemsCount ? el.itemsCount : null}</span>
                 <span>{el.items ? '>' : null}</span>
                 {el.subcategory === onSubcategoryHover && el.items ? (
@@ -116,6 +116,9 @@ export const useHeaderConstants = () => {
                       <li key={index}>
                         <a href='' className={styles['header-link']}>
                           {el.subcategory}
+                          <span className={styles['main-header__subcategories-info']}>
+                            {el.itemsCount ? el.itemsCount : null}
+                          </span>
                         </a>
                       </li>
                     ))}
