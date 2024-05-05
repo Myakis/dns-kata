@@ -7,12 +7,15 @@ export const Header: React.FC = () => {
   const {
     handleOnCatalogBtnClick,
     handleScroll,
+    handleOnSearchFocus,
     isOnCatalogBtnClick,
     isScrolled,
     mainCategories,
+    onSearchFocus,
     subcategories,
     navigationItems,
     catalogRef,
+    searchRef,
   } = useHeaderConstants();
 
   useEffect(() => {
@@ -21,6 +24,7 @@ export const Header: React.FC = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+  console.log(onSearchFocus);
 
   return (
     <div className={classNames(styles.header)}>
@@ -45,10 +49,14 @@ export const Header: React.FC = () => {
         <div
           className={classNames(styles['main-header__container'], {
             [styles['main-header__container--fixed']]: isScrolled,
-            [styles['main-header--bg-shadow']]: isOnCatalogBtnClick,
+            [styles['main-header--bg-shadow']]: isOnCatalogBtnClick || onSearchFocus,
           })}
         >
-          <div className={classNames(styles['main-header__orange-btn'], styles['main-header__btn-bg'])}>
+          <div
+            className={classNames(styles['main-header__orange-btn'], styles['main-header__btn-bg'], {
+              [styles['main-header__btn-bg--active']]: isOnCatalogBtnClick,
+            })}
+          >
             <a className={styles['main-header__logo-btn']}></a>
             <button
               onClick={handleOnCatalogBtnClick}
@@ -59,8 +67,18 @@ export const Header: React.FC = () => {
               Каталог
             </button>
           </div>
-          <div className={styles['main-header__search-wrapper']}>
-            <input type='text' className={styles['main-header__search']} placeholder='Поиск по сайту' />
+          <div
+            ref={searchRef}
+            className={classNames(styles['main-header__search-wrapper'], {
+              [styles['main-header__search-wrapper--focused']]: onSearchFocus,
+            })}
+          >
+            <input
+              type='text'
+              className={styles['main-header__search']}
+              placeholder='Поиск по сайту'
+              onFocus={handleOnSearchFocus}
+            />
             <button className={styles['main-header__search-btn']}></button>
           </div>
           <nav>

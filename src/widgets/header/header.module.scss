@@ -27,6 +27,7 @@ $d-grey: #4e4e4e;
     font-family: 'PT Sans', sans-serif;
 
     &-link {
+        font-family: 'PT Sans', sans-serif;
         text-decoration: none;
         color: $d-grey;
     }
@@ -48,6 +49,47 @@ $d-grey: #4e4e4e;
     &__navigation {
         display: flex;
         column-gap: 26px;
+    }
+    &__to-customers-btn{
+        display: flex;
+        position: relative;
+        font-size: 16px;
+        padding: 0;
+        margin: 0;
+        border: none;
+        background-color: transparent;
+        &--active span {
+            transform: rotate(180deg);
+            transition: transform .3s ease;
+        }
+    }
+    &__to-customers-btn:hover {
+        cursor: pointer;
+        color: $orange
+    }
+    &__to-customers-btn span {
+        @include background-img('../../app/assets/images/header/nav-arrow.svg', 7.5px, 4.63px, inline-block );
+        align-self: center;
+        margin-left: 5px;
+    }
+    &__to-customers-popup {
+        justify-self: center;
+        position: absolute;
+        border-radius: 12px;
+        display: block;
+        min-width: 160px;
+        background: #fff;
+        text-align: left;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, .04), 0 4px 4px rgba(0, 0, 0, .04), 0 20px 40px rgba(0, 0, 0, .08);
+        border-top-color: #ddd;
+        margin-top: 20px;
+        margin-left: -30px;
+        padding: 24px;
+        list-style: none;
+    }
+    &__to-customers-popup a {
+        display: inline-block;
+        margin-bottom: 10px;
     }
     &__location {
         display: flex;
@@ -92,7 +134,7 @@ $d-grey: #4e4e4e;
         width: 100vw;
         height: 100vh;
         background-color: rgba(0, 0, 0, 0.1);
-        z-index: 0;
+        z-index: 1;
     }
 
     &__container {
@@ -211,6 +253,8 @@ $d-grey: #4e4e4e;
         padding-right: 10px;
         width: 280px;
         height: 64px;
+    }
+    &__btn-bg--active {
         z-index: 2;
     }
     &__logo-btn,
@@ -265,13 +309,16 @@ $d-grey: #4e4e4e;
         background-color: $l-grey;
     }
     &__search-wrapper:hover,
-    &__search:hover {
+    &__search-wrapper:hover &__search,
+    &__search:hover,
+    &__search-wrapper--focused,
+    &__search-wrapper--focused &__search,
+    &__search:focus {
         background-color: #fff;
     }
-    &__search-wrapper:hover &__search {
-        background-color: #fff;
-    }
-    &__search-wrapper:hover {
+    &__search-wrapper:hover,
+    &__search-wrapper--focused  {
+        z-index: 5;
         box-shadow: 0 0 0 1px rgba(0, 0, 0, .04), 0 4px 4px rgba(0, 0, 0, .04), 0 20px 40px rgba(0, 0, 0, .08);
     }
     &__search {

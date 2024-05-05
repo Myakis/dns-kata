@@ -1,6 +1,10 @@
 import { useEffect, RefObject } from 'react';
 
+// Пример работы хука:
+// useClickOutside(catalogRef, () => setIsOnCatalogBtnClick(false), styles['main-header__catalog-btn']);
+
 export const useClickOutside = (ref: RefObject<any>, callback: () => void, classname: string | null = null) => {
+  console.log(ref);
   useEffect(() => {
     const handleClick = (e: any) => {
       if (classname) {
