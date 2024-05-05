@@ -4,6 +4,7 @@
     display: grid;
     justify-items: center;
     grid-template-rows: auto auto 600px auto;
+    grid-template-columns: 100%;
     row-gap: 10px;
     background-color: #F6F6F6;
     overflow-x: hidden;
