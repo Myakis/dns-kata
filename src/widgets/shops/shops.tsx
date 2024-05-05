@@ -1,7 +1,7 @@
 import { AppstoreOutlined, HeartOutlined, MobileOutlined, SearchOutlined } from '@ant-design/icons';
 import { Checkbox, ConfigProvider } from 'antd';
 import { FC, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { DnsAPI } from 'shared/api/DNS';
 import { OriginalDNSApi } from 'shared/api/original-DNS';
 import styles from './shops.module.scss';
@@ -45,9 +45,9 @@ const ShopListItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }
 };
 
 const Shops = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-  // const currentCity = useAppSelector((state) => state.currentCity);
+  const params = useParams();
+
   const [currentCity, setCurrentCity] = useState<ICurrentCity>({
     name: 'Саратов',
     coords: {
@@ -60,13 +60,13 @@ const Shops = () => {
     longitude: currentCity.coords.longitude,
   });
 
-  const { data: cities, isLoading: citiesLoading, error: citiesError } = OriginalDNSApi.useGetCitiesQuery('');
+  const { data: cities, isLoading: isCitiesLoading, error: citiesError } = OriginalDNSApi.useGetCitiesQuery('');
 
-  useEffect(() => {
-    if (!citiesLoading) {
-      const url = location.pathname.split('/').pop();
+  const loadCity = () => {
+    if (!isCitiesLoading) {
+      const pathCity = params.city;
 
-      const city = cities?.data?.cities.find((i) => i.citySlug === url);
+      const city = cities?.data?.cities.find((i) => i.citySlug === pathCity);
 
       if (city) {
         setCurrentCity({
@@ -81,7 +81,19 @@ const Shops = () => {
         navigate('/shops/saratov');
       }
     }
-  }, [citiesLoading]);
+  };
+
+  useEffect(() => {
+    loadCity();
+  }, [isCitiesLoading]);
+
+  useEffect(() => {
+    setGeo({
+      latitude: currentCity.coords.latitude,
+      longitude: currentCity.coords.longitude,
+    });
+  }, [currentCity]);
+
   const [sortByDistanceChecked, setSortByDistanceChecked] = useState<boolean>(false);
   const [isOpenNowFilter, setIsOpenNowFilter] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -107,13 +119,6 @@ const Shops = () => {
       setSortByDistanceChecked(false);
     }
   };
-
-  useEffect(() => {
-    setGeo({
-      latitude: currentCity.coords.latitude,
-      longitude: currentCity.coords.longitude,
-    });
-  }, [currentCity]);
 
   const ShopsList = () => {
     if (error) {
@@ -167,9 +172,11 @@ const Shops = () => {
         <h1 className={styles['shops-block__header']}>Магазины в г. {currentCity.name}</h1>
         <div className={styles['shops-block__main']}>
           <div className={styles['shops-block__filters']}>
-            <div className={styles['shops-block__input-search']}>
+            <label htmlFor='first' className={styles['shops-block__input-search']}>
+              {''}
               <SearchOutlined className={styles['shops-block__input-icon']} />
               <input
+                id='first'
                 className={styles['shops-block__input']}
                 placeholder='Название магазина, адрес, или метро'
                 value={inputValue}
@@ -181,7 +188,7 @@ const Shops = () => {
                   }
                 }}
               />
-            </div>
+            </label>
             <ConfigProvider
               theme={{
                 token: {

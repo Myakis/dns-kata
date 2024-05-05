@@ -76,6 +76,7 @@
   }
 
   &__input-search {
+    cursor: text;
     width: 300px;
     display: flex;
     align-items: center;
@@ -158,8 +159,8 @@
       list-style: none;
     }
 
-    ul:empty + label {
-      display: block;
+    ul:empty + .shops-block__not-found {
+      display: flex;
     }
 
     label {
@@ -184,6 +185,7 @@
     align-items: center;
     justify-content: center;
     height: 100%;
+    display: none;
     h3 {
       margin: 0;
       padding: 0;
