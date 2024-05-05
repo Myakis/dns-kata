@@ -1,10 +1,11 @@
 import { AppstoreOutlined, HeartOutlined, MobileOutlined, SearchOutlined } from '@ant-design/icons';
 import { Checkbox, ConfigProvider } from 'antd';
 import { FC, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { DnsAPI } from 'shared/api/DNS';
-import { useAppSelector } from 'shared/hooks/redux';
+import { OriginalDNSApi } from 'shared/api/original-DNS';
 import styles from './shops.module.scss';
-import { ICoord, ShopItemProps } from './shops.types';
+import { ICoord, ICurrentCity, ShopItemProps } from './shops.types';
 
 const ShopListItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }) => {
   return (
@@ -44,17 +45,48 @@ const ShopListItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }
 };
 
 const Shops = () => {
-  const [sortByDistanceChecked, setSortByDistanceChecked] = useState<boolean>(false);
-  const [isOpenNowFilter, setIsOpenNowFilter] = useState(false);
-  const [inputValue, setInputValue] = useState('');
-
-  const currentCity = useAppSelector((state) => state.currentCity);
-  const { data: shops, error, isLoading } = DnsAPI.useGetShopsQuery('');
-
+  const location = useLocation();
+  const navigate = useNavigate();
+  // const currentCity = useAppSelector((state) => state.currentCity);
+  const [currentCity, setCurrentCity] = useState<ICurrentCity>({
+    name: 'Саратов',
+    coords: {
+      latitude: 51.5406,
+      longitude: 46.0086,
+    },
+  });
   const [geo, setGeo] = useState<ICoord>({
     latitude: currentCity.coords.latitude,
     longitude: currentCity.coords.longitude,
   });
+
+  const { data: cities, isLoading: citiesLoading, error: citiesError } = OriginalDNSApi.useGetCitiesQuery('');
+
+  useEffect(() => {
+    if (!citiesLoading) {
+      const url = location.pathname.split('/').pop();
+
+      const city = cities?.data?.cities.find((i) => i.citySlug === url);
+
+      if (city) {
+        setCurrentCity({
+          name: city.name,
+          coords: {
+            latitude: city.latitude,
+            longitude: city.longitude,
+          },
+        });
+      }
+      if (!city || citiesError) {
+        navigate('/shops/saratov');
+      }
+    }
+  }, [citiesLoading]);
+  const [sortByDistanceChecked, setSortByDistanceChecked] = useState<boolean>(false);
+  const [isOpenNowFilter, setIsOpenNowFilter] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+
+  const { data: shops, error, isLoading } = DnsAPI.useGetShopsQuery('');
 
   // Функция requestGeo запрашивает текущие координаты пользователя для сортировки магазинов по близости.
   const requestGeo = () => {
