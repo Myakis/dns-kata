@@ -6,12 +6,13 @@ import style from './style.module.scss';
 
 const Proba = {
   id: 1,
-  name: 'Delego vix sequi stipes verto videlicet cedo.',
-  description: 'Assumenda torqueo undique expedita.\nDegero arto tero peior depromo coma.',
+  name: 'Facere stips damnatio benigne verto civitas aptus bellum.',
+  description:
+    'Bellum tametsi porro colligo audentia trepide.\nTotam depromo subnecto victoria celer deripio aqua.\nNulla fugit sonitus quidem sed voveo caecus.\nAegrotatio tergo aurum titulus quisquam comedo.\nCunctatio creo theologus claudeo cunabula alius aegre speculum.\nArx advoco commodo suffoco cruentus.\nSpeciosus cervus beatae certe stillicidium aggredior inventore clarus magni angelus.',
   type: 'commonInfo',
-  date: '2023-09-26T07:14:26.055Z',
-  viewsCount: 503,
-  commentsCount: 6892,
+  date: '2023-09-24T00:31:38.697Z',
+  viewsCount: 3755,
+  commentsCount: 2198,
 };
 
 const NewsPage: React.FC = () => {
