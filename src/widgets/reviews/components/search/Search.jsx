@@ -29,9 +29,6 @@ const Search = ({ reviews, setReviews, setNotFound }) => {
       setReviews([...reviews]);
       setNotFound(false); // Сбрасываем состояние "Ничего не нашлось"
     }
-
-    // Очищаем значение поля поиска после отправки формы
-    setValue('');
   };
 
   return (
