@@ -1,5 +1,6 @@
 .news {
   max-width: 1360px;
+  min-width: 320px;
   margin: auto;
 
   .news__path {
@@ -8,6 +9,7 @@
   }
 
   .news--title {
+    padding: 0 12px;
     margin-top: 15px;
     margin-bottom: 15px;
     font-size: 32px;
@@ -20,12 +22,14 @@
 }
 
 .news__content {
+  padding: 0 12px;
   display: grid;
   grid-template-areas:
     'news product'
     'comment product'
     'span product';
   gap: 25px;
+  margin-bottom: -25px;
 
   @media (max-width: 991px) {
     grid-template-areas:
