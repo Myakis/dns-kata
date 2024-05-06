@@ -2,12 +2,18 @@ import styles from './header.module.scss';
 import classNames from 'classnames';
 import { useHeaderConstants } from './constants';
 import { useEffect } from 'react';
+import { useClickOutside } from 'shared/hooks/useClickOutside';
 
 export const Header: React.FC = () => {
   const {
     handleOnCatalogBtnClick,
     handleScroll,
     handleOnSearchFocus,
+    setIsOnCatalogBtnClick,
+    setIsOnToCustomersBtnClick,
+    setOnSearchFocus,
+    toCustomersPopupRef,
+    isOnToCustomersBtnClick,
     isOnCatalogBtnClick,
     isScrolled,
     mainCategories,
@@ -24,7 +30,19 @@ export const Header: React.FC = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-  console.log(onSearchFocus);
+
+  useEffect(() => {
+    if (isOnCatalogBtnClick) {
+      useClickOutside(catalogRef, () => setIsOnCatalogBtnClick(false), styles['main-header__catalog-btn']);
+    } else if (isOnToCustomersBtnClick) {
+      useClickOutside(
+        toCustomersPopupRef,
+        () => setIsOnToCustomersBtnClick(false),
+        styles['upper-header__to-customers-btn']
+      );
+    } else if (onSearchFocus)
+      useClickOutside(searchRef, () => setOnSearchFocus(false), styles['main-header__search-wrapper']);
+  }, [isOnCatalogBtnClick, isOnToCustomersBtnClick, onSearchFocus]);
 
   return (
     <div className={classNames(styles.header)}>

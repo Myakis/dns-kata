@@ -1,7 +1,7 @@
 import styles from './header.module.scss';
 import { useState, useRef, MouseEvent } from 'react';
 import { useCatalog } from 'shared/hooks/useCatalog';
-import { useClickOutside } from 'shared/hooks/useClickOutside';
+import { CatalogItem } from './types';
 import classNames from 'classnames';
 
 export const useHeaderConstants = () => {
@@ -17,13 +17,6 @@ export const useHeaderConstants = () => {
   const searchRef = useRef<HTMLDivElement>(null);
 
   const { categories, subcategoryItems, updateSubcategoryItems, activeCategory } = useCatalog();
-  useClickOutside(catalogRef, () => setIsOnCatalogBtnClick(false), styles['main-header__catalog-btn']);
-  useClickOutside(
-    toCustomersPopupRef,
-    () => setIsOnToCustomersBtnClick(false),
-    styles['upper-header__to-customers-btn']
-  );
-  useClickOutside(searchRef, () => setOnSearchFocus(false), styles['main-header__search-wrapper']);
 
   const handleScroll = () => {
     const scrollValue = 50;
@@ -113,56 +106,67 @@ export const useHeaderConstants = () => {
     </li>
   ));
 
-  const subcategories = subcategoryItems.map((item, index) => (
+  const renderThirdLevelItem = (el: CatalogItem, index: number) => (
     <li key={index}>
-      <a className={classNames(styles['main-header__subcategories-name--first'], styles['header-link'])}>
-        {item.subcategory}
+      <a href='' className={styles['header-link']}>
+        {el.subcategory}
+        <span className={styles['main-header__subcategories-info']}>{el.itemsCount ? el.itemsCount : null}</span>
       </a>
-      <ul className={styles['main-header__subcategories--second']}>
-        {item.items.map((el, index) => (
-          <li key={index} className={styles['main-header__subcategories-item--second']}>
-            <a
-              className={classNames(styles['main-header__subcategories-name--second'], styles['header-link'])}
-              onMouseEnter={handleOnSubcategoryHover}
-              onMouseLeave={() => setOnSubcategoryHover('')}
-            >
-              {el.subcategory}
-              <div className={styles['main-header__subcategories-info']}>
-                <span>{el.itemsCount ? el.itemsCount : null}</span>
-                <span>{el.items ? '>' : null}</span>
-                {el.subcategory === onSubcategoryHover && el.items ? (
-                  <ul className={styles['main-header__subcategories--third']}>
-                    {el.items?.map((el, index) => (
-                      <li key={index}>
-                        <a href='' className={styles['header-link']}>
-                          {el.subcategory}
-                          <span className={styles['main-header__subcategories-info']}>
-                            {el.itemsCount ? el.itemsCount : null}
-                          </span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-              </div>
-            </a>
-          </li>
-        ))}
-      </ul>
     </li>
-  ));
+  );
+
+  const renderSecondLevelItem = (el: CatalogItem, index: number) => (
+    <li key={index} className={styles['main-header__subcategories-item--second']}>
+      <a
+        className={classNames(styles['main-header__subcategories-name--second'], styles['header-link'])}
+        onMouseEnter={handleOnSubcategoryHover}
+        onMouseLeave={() => setOnSubcategoryHover('')}
+      >
+        {el.subcategory}
+        <div className={styles['main-header__subcategories-info']}>
+          <span>{el.itemsCount ? el.itemsCount : null}</span>
+          <span>{el.items ? '>' : null}</span>
+          {el.subcategory === onSubcategoryHover && el.items ? (
+            <ul className={styles['main-header__subcategories--third']}>
+              {el.items?.map((el, index) => renderThirdLevelItem(el, index))}
+            </ul>
+          ) : null}
+        </div>
+      </a>
+    </li>
+  );
+
+  const renderFirstLevelItem = () => {
+    return subcategoryItems.map((item: CatalogItem, index: number) => (
+      <li key={index}>
+        <a className={classNames(styles['main-header__subcategories-name--first'], styles['header-link'])}>
+          {item.subcategory}
+        </a>
+        <ul className={styles['main-header__subcategories--second']}>
+          {item.items?.map((el, index) => renderSecondLevelItem(el, index))}
+        </ul>
+      </li>
+    ));
+  };
+
+  const subcategories = renderFirstLevelItem();
 
   return {
-    subcategories,
-    mainCategories,
-    navigationItems,
     handleOnCatalogBtnClick,
     handleScroll,
     handleOnSearchFocus,
-    onSearchFocus,
-    catalogRef,
-    searchRef,
+    setIsOnCatalogBtnClick,
+    setIsOnToCustomersBtnClick,
+    setOnSearchFocus,
+    subcategories,
+    mainCategories,
+    navigationItems,
+    isOnToCustomersBtnClick,
     isOnCatalogBtnClick,
     isScrolled,
+    onSearchFocus,
+    catalogRef,
+    toCustomersPopupRef,
+    searchRef,
   };
 };
