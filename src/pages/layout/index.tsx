@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import { getPageTitle } from 'shared/utils';
+import { getPageTitle } from 'shared/utils/page-title-utils';
 import styles from './layout.module.scss';
 import Footer from 'widgets/footer';
 import { ReactNode } from 'react';

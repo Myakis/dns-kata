@@ -1,10 +1,8 @@
-import './reset.scss';
 import './index.scss';
 import { Route, Routes } from 'react-router-dom';
 import { MainLayout } from 'pages/layout';
 import { Provider } from 'react-redux';
 import { setupStore } from 'shared/store';
-import './index.scss';
 
 const App = () => {
   const store = setupStore();
