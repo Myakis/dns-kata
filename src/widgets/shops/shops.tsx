@@ -61,30 +61,30 @@ const Shops = () => {
   });
 
   const { data: cities, isLoading: isCitiesLoading, error: citiesError } = OriginalDNSApi.useGetCitiesQuery('');
+  const { data: shops, error, isLoading } = DnsAPI.useGetShopsQuery('');
 
   const loadCity = () => {
-    if (!isCitiesLoading) {
-      const pathCity = params.city;
+    const pathCity = params.city;
+    const city = cities?.data?.cities.find((i) => i.citySlug === pathCity);
 
-      const city = cities?.data?.cities.find((i) => i.citySlug === pathCity);
-
-      if (city) {
-        setCurrentCity({
-          name: city.name,
-          coords: {
-            latitude: city.latitude,
-            longitude: city.longitude,
-          },
-        });
-      }
-      if (!city || citiesError) {
-        navigate('/shops/saratov');
-      }
+    if (city) {
+      setCurrentCity({
+        name: city.name,
+        coords: {
+          latitude: city.latitude,
+          longitude: city.longitude,
+        },
+      });
+    }
+    if (!city || citiesError) {
+      navigate('/shops/saratov');
     }
   };
 
   useEffect(() => {
-    loadCity();
+    if (!isCitiesLoading) {
+      loadCity();
+    }
   }, [isCitiesLoading]);
 
   useEffect(() => {
@@ -97,8 +97,6 @@ const Shops = () => {
   const [sortByDistanceChecked, setSortByDistanceChecked] = useState<boolean>(false);
   const [isOpenNowFilter, setIsOpenNowFilter] = useState(false);
   const [inputValue, setInputValue] = useState('');
-
-  const { data: shops, error, isLoading } = DnsAPI.useGetShopsQuery('');
 
   // Функция requestGeo запрашивает текущие координаты пользователя для сортировки магазинов по близости.
   const requestGeo = () => {
@@ -128,7 +126,7 @@ const Shops = () => {
             margin: 'auto',
           }}
         >
-          Произошла ошибка. Пожалуйста повторите запрос позже.
+          Произошла ошибка. Пожалуйста, повторите запрос позже.
         </span>
       );
     }
