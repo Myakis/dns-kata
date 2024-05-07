@@ -1,9 +1,10 @@
 import { Provider } from 'react-redux';
 import { setupStore } from 'shared/store';
 import Footer from 'widgets/footer';
+
 import './index.scss';
 
-import NewsList from 'widgets/news-list';
+import NewsListPage from 'pages/news-list';
 
 const App = () => {
   const store = setupStore();
@@ -11,7 +12,7 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <NewsList />
+      <NewsListPage />
       <Footer />
     </Provider>
   );

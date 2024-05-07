@@ -19,7 +19,6 @@ const NewsCard: React.FC = () => {
     const arrd = prevDscr.split('');
     const newDscr = arrd.slice(0, arrd.indexOf(' ', 250));
 
-    console.log(`${newDscr.join('')}...`);
     return `${newDscr.join('')}...`;
   };
 

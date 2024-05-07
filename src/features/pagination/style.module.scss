@@ -1,0 +1,19 @@
+.container {
+  height: 48px;
+  width: 100%;
+  text-align: center;
+  display: inline-block;
+  background-color: white;
+  box-shadow: 0 2px 2px 0 #0000001a;
+  border-radius: 8px;
+}
+
+.prevButton::before {
+  font-family: 'i-icon';
+  content: '\e919';
+}
+
+.nextButton::after {
+  font-family: 'i-icon';
+  content: '\e91a';
+}
