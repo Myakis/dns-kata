@@ -1,9 +1,5 @@
 @import '../../app/styles/fonts.scss';
 
-$orange: #FC8507;
-$l-grey: #F7F7F7;
-$d-grey: #4e4e4e;
-
 @mixin background-img($url, $width, $height, $display: block, $content: '') {
       content: '';
       display: $display;
@@ -29,13 +25,13 @@ $d-grey: #4e4e4e;
     &-link {
         font-family: 'PT Sans', sans-serif;
         text-decoration: none;
-        color: $d-grey;
+        color: var(--dark-grey);
     }
 
     a:hover {
         cursor: pointer;
         transition: color 0.3s ease-in-out;
-        color: $orange;
+        color: var(--orange);
     }
 }
 
@@ -65,7 +61,7 @@ $d-grey: #4e4e4e;
     }
     &__to-customers-btn:hover {
         cursor: pointer;
-        color: $orange
+        color: var(--orange)
     }
     &__to-customers-btn span {
         @include background-img('../../app/assets/images/header/nav-arrow.svg', 7.5px, 4.63px, inline-block );
@@ -179,8 +175,8 @@ $d-grey: #4e4e4e;
             padding-left: 12px;
         }
         &-link--active {
-            border-left: 2px solid $orange;
-            color: $orange;
+            border-left: 2px solid var(--orange);
+            color: var(--orange);
             cursor: pointer;
         }
         &-icon {
@@ -241,7 +237,7 @@ $d-grey: #4e4e4e;
         }
     }
     &__orange-btn {
-        background: linear-gradient(0deg, $orange 0%, #FFA218 100%);
+        background: linear-gradient(0deg, var(--orange) 0%, #FFA218 100%);
         border: none;
         border-radius: 12px;
     }
@@ -306,7 +302,7 @@ $d-grey: #4e4e4e;
         min-width: 280px; 
         height: 64px;
         border-radius: 12px;
-        background-color: $l-grey;
+        background-color: var(--light-grey);
     }
     &__search-wrapper:hover,
     &__search-wrapper:hover &__search,
@@ -328,7 +324,7 @@ $d-grey: #4e4e4e;
         font-size: 14px;
         color: #757575;
         border-radius: 12px;
-        background-color: $l-grey;
+        background-color: var(--light-grey);
     }
     &__search:focus {
         outline: none;
@@ -343,7 +339,7 @@ $d-grey: #4e4e4e;
     }
     &__search-btn:hover {
         transition: background-color 0.3s ease-in-out;
-        background-color: $l-grey;
+        background-color: var(--light-grey);
         border-radius: 8px;
     }
 
@@ -367,14 +363,17 @@ $d-grey: #4e4e4e;
         }
         li:hover:not(:last-child) {
             transition: background-color 0.3s ease-in-out;
-            background-color: $l-grey;
+            background-color: var(--light-grey);
             border-radius: 5px;
             cursor: pointer;
         }
         li:hover a {
-            color: $d-grey;
+            color: var(--dark-grey);
         }
-
+        li:hover:last-child a {
+            cursor: default;
+        }
+        
     }
 }
 
