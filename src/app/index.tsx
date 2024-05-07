@@ -3,7 +3,7 @@ import { setupStore } from 'shared/store';
 import Footer from 'widgets/footer';
 import './index.scss';
 
-import NewsPage from 'pages/news';
+import NewsCard from 'widgets/news-card';
 
 const App = () => {
   const store = setupStore();
@@ -11,7 +11,7 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <NewsPage />
+      <NewsCard />
       <Footer />
     </Provider>
   );

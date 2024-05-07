@@ -1,4 +1,4 @@
-import NewsCard from 'widgets/news-block';
+import NewsBlock from 'widgets/news-block';
 import CommentBlock from 'widgets/comment';
 import NewsProductsList from 'widgets/news-products';
 
@@ -22,7 +22,7 @@ const NewsPage: React.FC = () => {
       <h1 className={style['news--title']}>{Proba.name}</h1>
       <div className={style['news__content']}>
         <section className={style['news__article']}>
-          <NewsCard />
+          <NewsBlock />
         </section>
         <section className={style['news__comment']}>
           <CommentBlock />

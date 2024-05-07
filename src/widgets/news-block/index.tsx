@@ -19,7 +19,7 @@ function formatText(text: string): ReactNode {
   return arrT;
 }
 
-const NewsCard: React.FC = () => {
+const NewsBlock: React.FC = () => {
   return (
     <article className={style['news']}>
       <div className={style['news__container']}>
@@ -45,4 +45,4 @@ const NewsCard: React.FC = () => {
   );
 };
 
-export default NewsCard;
+export default NewsBlock;
