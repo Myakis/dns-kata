@@ -1,0 +1,27 @@
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nav__button {
+  padding: 10px 12px;
+  font-size: 16px;
+  font-weight: normal;
+  color: #333;
+  background-color: transparent;
+  border: 0;
+  border-radius: 8px;
+
+  p {
+    border-bottom: 1px #333 dotted;
+  }
+}
+
+.nav__button--active {
+  background-color: #e0e0e0;
+  font-weight: bold;
+
+  p {
+    border-bottom: none;
+  }
+}

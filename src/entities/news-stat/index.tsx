@@ -1,9 +1,5 @@
 import PropTypes from 'prop-types';
 
-// --- архитектура мать вашу!!!
-import ShareTooltip from 'features/share-tooltip';
-// ---
-
 import { StatTypes } from './types';
 import style from './style.module.scss';
 
@@ -27,9 +23,7 @@ const StatComponent: React.FC<StatTypes> = ({ fullConfig, stat }) => {
         </div>
 
         <div className={style['stat__container']}>
-          {fullConfig ? (
-            <ShareTooltip />
-          ) : (
+          {!fullConfig && (
             <p className={`${style['stat__icon']} ${style['stat__icon-comments']}`}>{stat.commentsCount}</p>
           )}
         </div>

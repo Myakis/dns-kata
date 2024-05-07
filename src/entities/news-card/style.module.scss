@@ -1,6 +1,6 @@
 .news {
+  width: 100%;
   min-width: 300px;
-  max-width: 420px;
   color: #333;
   margin: 0 20px 24px 0;
 }
@@ -8,6 +8,7 @@
 .news__banner {
   img {
     width: 100%;
+    max-width: 500px;
     border-radius: 12px;
   }
   margin-bottom: 20px;
@@ -42,7 +43,4 @@
     background-color: #fcebeb;
   }
   margin-bottom: 8px;
-}
-
-.news__stat {
 }

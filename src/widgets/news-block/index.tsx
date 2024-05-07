@@ -1,4 +1,5 @@
 import StatComponent from 'entities/news-stat';
+import ShareTooltip from 'features/share-tooltip';
 
 import style from './style.module.scss';
 import { ReactNode } from 'react';
@@ -38,6 +39,7 @@ const NewsBlock: React.FC = () => {
               fullConfig={true}
               stat={{ date: '2023-09-28T01:58:06.031Z', viewsCount: 1234, commentsCount: 1234 }}
             />
+            <ShareTooltip />
           </div>
         </div>
       </div>
