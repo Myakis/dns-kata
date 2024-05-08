@@ -1,6 +1,3 @@
-@import '../../app/styles/global.scss';
-@import '../../app/index.scss';
-
 @mixin background-image($url) {
   background-image: url($url);
   background-repeat: no-repeat;

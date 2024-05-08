@@ -10,5 +10,10 @@ export const DnsAPI = createApi({
         url: 'shops',
       }),
     }),
+    getStocks: build.query<stock>({
+      query: () => ({
+        url: 'stocks',
+      }),
+    }),
   }),
 });
