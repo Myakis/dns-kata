@@ -171,14 +171,10 @@ const ShopsPage404 = () => {
 
   return (
     <div className={styles['container']}>
+      <Modal Dialog={CitiesModalPage404} isModalOpen={isModalOpen} closeModalHandler={() => setIsModalOpen(false)} />
       <div className={styles['shops-block']}>
         <h1 className={styles['shops-block__header']}>
           Магазины сети цифровой и бытовой техники DNS в г.
-          <Modal
-            Dialog={CitiesModalPage404}
-            isModalOpen={isModalOpen}
-            closeModalHandler={() => setIsModalOpen(false)}
-          />
           <span onClick={() => setIsModalOpen(true)}>{currentCity.name}</span>
         </h1>
         <div className={styles['shops-block__main']}>
