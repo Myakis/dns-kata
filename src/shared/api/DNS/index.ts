@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { Stock } from '../types';
 
 export const DnsAPI = createApi({
   reducerPath: 'DnsAPI',
@@ -10,10 +11,12 @@ export const DnsAPI = createApi({
         url: 'shops',
       }),
     }),
-    getStocks: build.query<stock>({
+    getStocks: build.query<Stock, void>({
       query: () => ({
         url: 'stocks',
       }),
     }),
   }),
 });
+
+export const { useGetStocksQuery } = DnsAPI;
