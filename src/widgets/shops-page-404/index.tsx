@@ -3,7 +3,7 @@ import { Checkbox, ConfigProvider, Dropdown, DropdownProps, MenuProps, Radio, Sp
 import { FC, useEffect, useState } from 'react';
 import { DnsAPI } from 'shared/api/DNS';
 import { useAppSelector } from 'shared/hooks/redux';
-import CitiesModal from 'widgets/cities-modal-page-404';
+import CitiesModal from '../../features/cities-modal-page-404';
 import styles from './shops-page-404.module.scss';
 import { ICoord, ShopItemProps } from './shops-page-404.types';
 
