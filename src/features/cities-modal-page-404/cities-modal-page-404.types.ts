@@ -1,12 +1,10 @@
-import { CSSProperties } from 'react';
-
 export interface CitiesListItemProps {
   name: string;
   cb: () => void;
 }
 export interface CitiesModalProps {
-  label?: string;
-  labelStyle?: CSSProperties;
+  isModalOpen: boolean;
+  closeModalHandler: () => void;
 }
 
 export interface ITerritory {
