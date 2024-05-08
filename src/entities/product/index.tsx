@@ -1,7 +1,7 @@
-import { FC, ReactNode, useState } from 'react';
+import { FC, ReactNode, useMemo, useState } from 'react';
 import horizontalStyles from './product-horizontal.module.scss';
 import verticalStyles from './product-vertical.module.scss';
-import { rateListStyles } from './types';
+import { productData, rateListStyles } from './types';
 import clsx from 'clsx';
 
 function rateList(rate: number, styles: rateListStyles): ReactNode[] {
@@ -75,40 +75,22 @@ function renderExtendedStatistic(commentStyle: string, serviceStyle: string, com
   );
 }
 
-interface ProductProps {
-  code: string | number;
-  photo?: string;
-  name?: string;
+interface IProps {
+  data: productData;
   isHorizontal?: boolean;
-  vobler?: {
-    text: string;
-    color?: string;
-  };
-  statistic?: {
-    rate: number;
-    reviews: number;
-    comments: number;
-  };
-  price?: {
-    price: number;
-    sale?: number;
-  };
-  avails?: {
-    shops: number;
-    pvz?: boolean;
-    delivery?: string;
-  };
 }
 
-const Product: FC<ProductProps> = ({
-  code,
-  photo = 'https://www.electrogor.ru/img/work/nomencl/m_121357.jpg',
-  name = '10.2" Планшет Apple iPad (9th Gen) Wi-Fi 64 ГБ серый [2160x1620, IPS, 6x2.66 ГГц, 3 ГБ, 8686 мА*ч, iPadOS 15]',
+const Product: FC<IProps> = ({
+  data: {
+    code,
+    photo = 'https://www.electrogor.ru/img/work/nomencl/m_121357.jpg',
+    name = '10.2" Планшет Apple iPad (9th Gen) Wi-Fi 64 ГБ серый [2160x1620, IPS, 6x2.66 ГГц, 3 ГБ, 8686 мА*ч, iPadOS 15]',
+    vobler = { text: 'Sale', color: '#ff3322' },
+    statistic = { rate: 4.5, reviews: 1244, comments: 23 },
+    price = { price: 37456, sale: 0 },
+    avails = { shops: 25, pvz: true, delivery: 'за 4 часа' },
+  },
   isHorizontal = true,
-  vobler = { text: 'Sale', color: '#ff3322' },
-  statistic = { rate: 4.5, reviews: 1244, comments: 23 },
-  price = { price: 37456, sale: 0 },
-  avails = { shops: 25, pvz: true, delivery: 'за 4 часа' },
 }) => {
   const [isMouseOvered, setIsMouseOvered] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
@@ -129,8 +111,8 @@ const Product: FC<ProductProps> = ({
       <i></i>&nbsp;{code}
     </div>
   );
-  
-  const isAvailable = avails.shops || avails.pvz || avails.delivery;
+
+  const isAvailable = useMemo(() => avails.shops || avails.pvz || avails.delivery, [avails.shops, avails.pvz, avails.delivery]);
 
   return (
     <section
@@ -145,7 +127,7 @@ const Product: FC<ProductProps> = ({
           <picture>
             <img className={styles.image__picture} alt='product' src={photo} />
           </picture>
-          <i className={clsx(isMouseOvered && styles.image__zoom )}></i>
+          <i className={clsx(isMouseOvered && styles.image__zoom)}></i>
         </a>
         {price?.sale ? saleBlock : null}
         {isHorizontal ? productCode : null}
@@ -187,7 +169,7 @@ const Product: FC<ProductProps> = ({
             <span className={styles.buy__prev}>{price?.sale ? price.price.toLocaleString() : null}</span>
           </div>
           <div className={styles.buy__hint}></div>
-          <div className={styles.buy__sub}>или {(Math.round(currentPrice / 10)).toLocaleString()} ₽/ мес.</div>
+          <div className={styles.buy__sub}>или {Math.round(currentPrice / 10).toLocaleString()} ₽/ мес.</div>
         </div>
         <button
           type='button'
@@ -195,7 +177,10 @@ const Product: FC<ProductProps> = ({
           onClick={() => setIsLiked((prev) => !prev)}
           className={clsx(styles.wishlist, isLiked && styles.liked)}
         ></button>
-        <button type='button' className={clsx(styles.cart, isMouseOvered && styles.cartOnMouseover, !isAvailable && styles.bell)}>
+        <button
+          type='button'
+          className={clsx(styles.cart, isMouseOvered && styles.cartOnMouseover, !isAvailable && styles.bell)}
+        >
           {isHorizontal && isAvailable ? 'Купить' : null}
           {isHorizontal && !isAvailable ? 'Уведомить' : null}
         </button>
