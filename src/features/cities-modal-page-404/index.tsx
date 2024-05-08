@@ -49,12 +49,7 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ isModalOpen, closeModalHandl
 
   useEffect(() => {
     setTerritory(initialTerritory);
-    if (isModalOpen) {
-      document.body.style.overflow = 'hidden';
-      setInputValue('');
-    } else {
-      document.body.style.overflow = '';
-    }
+    isModalOpen && setInputValue('');
   }, [isModalOpen]);
 
   return (
