@@ -12,7 +12,7 @@ const Header: React.FC = () => {
   const [onSubcategoryHover, setOnSubcategoryHover] = useState<string>();
   const [onSearchFocus, setOnSearchFocus] = useState(false);
 
-  const iconsUrl = 'src/app/assets/images/header/';
+  const iconsUrl = 'src/app/assets/img/header/';
   const catalogRef = useRef<HTMLDivElement>(null);
   const toCustomersPopupRef = useRef<HTMLUListElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
@@ -48,8 +48,7 @@ const Header: React.FC = () => {
         () => setIsOnToCustomersBtnClick(false),
         styles['upper-header__to-customers-btn']
       );
-    } else if (onSearchFocus)
-      useClickOutside(searchRef, () => setOnSearchFocus(false), styles['main-header__search-wrapper']);
+    } else if (onSearchFocus) useClickOutside(searchRef, () => setOnSearchFocus(false));
   }, [isOnCatalogBtnClick, isOnToCustomersBtnClick, onSearchFocus]);
 
   const navigationItems = navigationLinks.map((el, index) =>
@@ -145,7 +144,7 @@ const Header: React.FC = () => {
   const subcategories = renderFirstLevelItem();
 
   return (
-    <div className={classNames(styles.header)}>
+    <div className={styles.header}>
       <div className={styles['upper-header']}>
         <div className={styles['upper-header__location']}>
           <a className={styles['header-link']}>Москва</a>

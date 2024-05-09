@@ -1,6 +1,7 @@
 import { RefObject } from 'react';
 
 // Пример работы хука:
+// useClickOutside(<реф модалки>, <функция>, <кнопка, открывающая/закрывающая модалку>(необязательный параметр))
 // useClickOutside(catalogRef, () => setIsOnCatalogBtnClick(false), styles['main-header__catalog-btn']);
 
 export const useClickOutside = (ref: RefObject<any>, callback: () => void, classname: string | null = null) => {

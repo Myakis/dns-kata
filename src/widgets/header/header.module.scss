@@ -64,7 +64,7 @@
         color: var(--orange)
     }
     &__to-customers-btn span {
-        @include background-img('../../app/assets/images/header/nav-arrow.svg', 7.5px, 4.63px, inline-block );
+        @include background-img('../../app/assets/img/header/nav-arrow.svg', 7.5px, 4.63px, inline-block );
         align-self: center;
         margin-left: 5px;
     }
@@ -93,13 +93,13 @@
         width: 280px;
 
         a::before {
-            @include background-img('../../app/assets/images/header/location.svg', 9.05px, 13px, inline-block);
+            @include background-img('../../app/assets/img/header/location.svg', 9.05px, 13px, inline-block);
             margin-right: 10px;
         }
 
         a:hover::before {
             transition: all 0.3s ease-in-out;
-            @include background-img('../../app/assets/images/header/location-hover.svg', 9.05px, 13px, inline-block);
+            @include background-img('../../app/assets/img/header/location-hover.svg', 9.05px, 13px, inline-block);
         }
     }
     &__tel {
@@ -258,7 +258,7 @@
         border: none;
     }
     &__logo-btn {
-        @include background-img('../../app/assets/images/header/logo.svg', 120px, 64px);
+        @include background-img('../../app/assets/img/header/logo.svg', 120px, 64px);
         background-position: center;
     }
     &__logo-btn:hover {
@@ -281,7 +281,7 @@
     }
     &__catalog-btn::after {
         transition: transform .3s ease;
-        @include background-img('../../app/assets/images/header/arrow.svg', 12px, 8px, inline-block);
+        @include background-img('../../app/assets/img/header/arrow.svg', 12px, 8px, inline-block);
     }
     &__catalog-btn--active::after {
         transition: transform .3s ease;
@@ -330,7 +330,7 @@
         outline: none;
     }
     &__search-btn {
-        @include background-img('../../app/assets/images/header/search.svg', 40px, 40px);
+        @include background-img('../../app/assets/img/header/search.svg', 40px, 40px);
         padding: 20px;
         border: none;
         background-color: transparent;
@@ -385,15 +385,15 @@
         margin: 0 auto;
     }
     &__compare::before {
-       @include background-img('../../app/assets/images/header/compare.svg', 22px, 20px)
+       @include background-img('../../app/assets/img/header/compare.svg', 22px, 20px)
     }
     &__favorited::before {
-        @include background-img('../../app/assets/images/header/favorited.svg', 22px, 20px)
+        @include background-img('../../app/assets/img/header/favorited.svg', 22px, 20px)
     }
     &__basket::before {
-        @include background-img('../../app/assets/images/header/basket.svg', 22px, 20px)
+        @include background-img('../../app/assets/img/header/basket.svg', 22px, 20px)
     }
     &__log-in::before {
-        @include background-img('../../app/assets/images/header/logIn.svg', 22px, 20px)
+        @include background-img('../../app/assets/img/header/logIn.svg', 22px, 20px)
     }
 }
