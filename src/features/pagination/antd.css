@@ -1,0 +1,4 @@
+.ant-pagination-item-active {
+  border: none !important;
+  border-bottom: 3px solid #fc8507 !important;
+}
