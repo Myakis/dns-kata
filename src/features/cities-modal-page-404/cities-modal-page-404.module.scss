@@ -10,7 +10,7 @@
     overflow: scroll;
     background-color: var(--bg-color);
     margin: 0;
-    padding: 0 34px;
+    padding: 20px 34px;
     display: flex;
     flex-direction: column;
     text-decoration: none;
@@ -19,6 +19,7 @@
       font-size: 18px;
       line-height: 1.1;
       font-weight: 500;
+      margin-bottom: 20px;
     }
 
     input {
