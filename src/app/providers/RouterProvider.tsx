@@ -1,7 +1,7 @@
 import Main from 'pages/main';
 import Page404 from 'pages/page-404';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Shops from 'widgets/shops/shops';
+import Shops from 'widgets/shops/';
 
 const router = createBrowserRouter([
   {
