@@ -5,7 +5,7 @@ import { navigationLinks, toCustomersLinks, sideNavigationItems, CatalogItem } f
 import { useState, useRef, MouseEvent, useEffect } from 'react';
 import { useCatalog } from 'shared/hooks/useCatalog';
 
-export const Header: React.FC = () => {
+const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOnCatalogBtnClick, setIsOnCatalogBtnClick] = useState(false);
   const [isOnToCustomersBtnClick, setIsOnToCustomersBtnClick] = useState(false);
@@ -230,3 +230,5 @@ export const Header: React.FC = () => {
     </div>
   );
 };
+
+export default Header;

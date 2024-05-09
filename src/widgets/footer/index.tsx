@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { companyLinks, customerLinks, appLinks, Link } from './constants';
+import React, { useEffect, useState } from 'react';
+import { appLinks, companyLinks, customerLinks, Link } from './constants';
 import styles from './footer.module.scss';
 interface Props {}
 

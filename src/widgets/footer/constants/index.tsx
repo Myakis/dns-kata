@@ -1,4 +1,4 @@
-import styles from '../footer.module.scss'
+import styles from '../footer.module.scss';
 
 export interface Link {
   title: string;

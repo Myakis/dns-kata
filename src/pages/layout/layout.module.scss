@@ -3,9 +3,9 @@
 .layout {
     display: grid;
     justify-items: center;
-    grid-template-rows: auto auto 700px auto;
+    grid-template-rows: auto auto auto auto;
     grid-template-columns: 100%;
-    row-gap: 10px;
+    row-gap: 15px;
     background-color: #F6F6F6;
     overflow-x: hidden;
     font-family: 'PT Sans', sans-serif;
@@ -30,8 +30,8 @@
 
     &__breadcrumbs {
         margin-bottom: 2vh;
+        margin-top: 10px;
     }
-
     &__content {
         padding: 0 10px;
     }
@@ -50,6 +50,5 @@
     font-weight: 700;
     font-size: 32px;
     line-height: 30px;
-    margin-bottom: 1vh;
+    margin-bottom: 2vh;
 }
-
