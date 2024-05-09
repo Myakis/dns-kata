@@ -3,9 +3,9 @@
 .layout {
     display: grid;
     justify-items: center;
-    grid-template-rows: auto auto 600px auto;
+    grid-template-rows: auto auto auto auto;
     grid-template-columns: 100%;
-    row-gap: 10px;
+    row-gap: 15px;
     background-color: #F6F6F6;
     overflow-x: hidden;
     font-family: 'PT Sans', sans-serif;
@@ -26,10 +26,11 @@
     &__footer {
         min-height: auto;
         background-color: #333333;
+        margin-top: 10px;
     }
 
     &__breadcrumbs {
-        margin-bottom: 2vh;
+        margin-bottom: 1vh;
     }
 
     &__content {
@@ -50,5 +51,5 @@
     font-weight: 700;
     font-size: 32px;
     line-height: 30px;
-    margin-bottom: 1vh;
+    margin-bottom: 2vh;
 }

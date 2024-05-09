@@ -20,12 +20,12 @@ export const Layout: React.FC<TLayout> = ({ pageTitle, breadcrumbs, children }) 
         </div>
       </header>
       <div className={styles.layout__breadcrumbs}>
-        <div className={styles.breadcrumbs__container}>{breadcrumbs}</div> {/*Сюда вставляем breadcrumbs*/}
+        <div className={styles.breadcrumbs__container}>{breadcrumbs}</div> {/*Здесь лежат breadcrumbs*/}
       </div>
       <main className={styles.layout__content}>
         <div className={styles.content__container}>
           <h1 className={styles.content__title}>{pageTitle}</h1>
-          {children} {/*Здесь будет лежать контент страницы*/}
+          {children} {/*Здесь лежит контент страницы*/}
         </div>
       </main>
       <footer className={styles.layout__footer}>
