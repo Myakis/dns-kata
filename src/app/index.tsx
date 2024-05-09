@@ -1,18 +1,14 @@
+<<<<<<< HEAD
 import { Provider } from 'react-redux';
 import { setupStore } from 'shared/store';
 import Footer from 'widgets/footer';
 
+=======
+>>>>>>> origin/dev
 import './index.scss';
-
+import Provider from './providers';
 const App = () => {
-  const store = setupStore();
-  //когда подключу роутинг здесь будет нормальный компонент
-
-  return (
-    <Provider store={store}>
-      <Footer />
-    </Provider>
-  );
+  return <Provider />;
 };
 
 export default App;
