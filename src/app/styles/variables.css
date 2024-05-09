@@ -4,6 +4,14 @@
   --primary-color: #ff7300;
   --fonts: 'PT Sans', 'Helvetica', 'Arial', sans-serif;
   --modal-bg-color: #00000063;
-  --text-color: #333333;
   --error-color: #ff0000;
+  --text-color: #333333;
+  --white: #fff;
+  --black: #000;
+  --brand-color: rgb(242, 85, 8);
+  --star: url('../assets/img/product/star.svg');
+  --half-star: url('../assets/img/product/halfStar.svg');
+  --empty-star: url('../assets/img/product/emptyStar.svg');
+  --comment: url('../assets/img/product/comment.svg');
+  --picPlus: url('../assets/img/product/picPlus.svg');
 }
