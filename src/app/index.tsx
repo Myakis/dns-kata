@@ -4,15 +4,12 @@ import Footer from 'widgets/footer';
 
 import './index.scss';
 
-import NewsListPage from 'pages/news-list';
-
 const App = () => {
   const store = setupStore();
   //когда подключу роутинг здесь будет нормальный компонент
 
   return (
     <Provider store={store}>
-      <NewsListPage />
       <Footer />
     </Provider>
   );
