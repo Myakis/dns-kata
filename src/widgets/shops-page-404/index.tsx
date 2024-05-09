@@ -1,9 +1,10 @@
 import { DownOutlined, SearchOutlined, UpOutlined } from '@ant-design/icons';
 import { Checkbox, ConfigProvider, Dropdown, DropdownProps, MenuProps, Radio, Space } from 'antd';
+import CitiesModalPage404 from 'features/cities-modal-page-404';
 import { FC, useEffect, useState } from 'react';
 import { DnsAPI } from 'shared/api/DNS';
 import { useAppSelector } from 'shared/hooks/redux';
-import CitiesModal from 'widgets/cities-modal-page-404';
+import Modal from 'shared/modal';
 import styles from './shops-page-404.module.scss';
 import { ICoord, ShopItemProps } from './shops-page-404.types';
 
@@ -31,6 +32,7 @@ const ShopsPage404 = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [sortByDistanceChecked, setSortByDistanceChecked] = useState<boolean>(false);
   const [isOpenNowFilter, setIsOpenNowFilter] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
   const currentCity = useAppSelector((state) => state.currentCity);
@@ -169,10 +171,11 @@ const ShopsPage404 = () => {
 
   return (
     <div className={styles['container']}>
+      <Modal Dialog={CitiesModalPage404} isModalOpen={isModalOpen} closeModalHandler={() => setIsModalOpen(false)} />
       <div className={styles['shops-block']}>
         <h1 className={styles['shops-block__header']}>
           Магазины сети цифровой и бытовой техники DNS в г.
-          <CitiesModal label={currentCity.name} labelStyle={{ marginLeft: '5px' }} />
+          <span onClick={() => setIsModalOpen(true)}>{currentCity.name}</span>
         </h1>
         <div className={styles['shops-block__main']}>
           <div className={styles['shops-block__filters']}>

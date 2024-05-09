@@ -1,26 +1,4 @@
 .cities-modal {
-  z-index: 10;
-  position: fixed;
-  min-width: 100%;
-  max-width: fit-content;
-  height: 100%;
-  background-color: var(--modal-bg-color);
-  display: flex;
-  justify-content: center;
-  padding-top: 60px;
-  animation: open 0.3s forwards;
-  top: 0;
-  left: 0;
-
-  @keyframes open {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
   &__dialog {
     position: relative;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -32,7 +10,7 @@
     overflow: scroll;
     background-color: var(--bg-color);
     margin: 0;
-    padding: 0 34px;
+    padding: 20px 34px;
     display: flex;
     flex-direction: column;
     text-decoration: none;
@@ -41,6 +19,7 @@
       font-size: 18px;
       line-height: 1.1;
       font-weight: 500;
+      margin-bottom: 20px;
     }
 
     input {
