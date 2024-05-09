@@ -9,13 +9,13 @@
   --text-color: #333333;
   --white: #ffffff;
   --black: #000000;
-  --brand-color: rgb(242, 85, 8);
+  --brand-color: rgb(242, 86, 7);
   --star: url('../assets/img/product/star.svg');
   --half-star: url('../assets/img/product/halfStar.svg');
   --empty-star: url('../assets/img/product/emptyStar.svg');
   --comment: url('../assets/img/product/comment.svg');
   --picPlus: url('../assets/img/product/picPlus.svg');
-  --orange: #FC8507;
+  --main-color: #FC8507;
   --light-grey: #F7F7F7;
   --dark-grey: #4e4e4e;
 }

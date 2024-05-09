@@ -11,10 +11,11 @@ const Header: React.FC = () => {
   const [isOnToCustomersBtnClick, setIsOnToCustomersBtnClick] = useState(false);
   const [onSubcategoryHover, setOnSubcategoryHover] = useState<string>();
   const [onSearchFocus, setOnSearchFocus] = useState(false);
+  const [onPhoneHover, setOnPhoneHover] = useState(false);
 
   const iconsUrl = 'src/app/assets/img/header/';
   const catalogRef = useRef<HTMLDivElement>(null);
-  const toCustomersPopupRef = useRef<HTMLUListElement>(null);
+  const toCustomersDropdownRef = useRef<HTMLUListElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
 
   const { categories, subcategoryItems, updateSubcategoryItems, activeCategory } = useCatalog();
@@ -44,7 +45,7 @@ const Header: React.FC = () => {
       useClickOutside(catalogRef, () => setIsOnCatalogBtnClick(false), styles['main-header__catalog-btn']);
     } else if (isOnToCustomersBtnClick) {
       useClickOutside(
-        toCustomersPopupRef,
+        toCustomersDropdownRef,
         () => setIsOnToCustomersBtnClick(false),
         styles['upper-header__to-customers-btn']
       );
@@ -64,7 +65,7 @@ const Header: React.FC = () => {
           <span></span>
         </button>
         {isOnToCustomersBtnClick ? (
-          <ul className={styles['upper-header__to-customers-popup']} ref={toCustomersPopupRef}>
+          <ul className={styles['upper-header__to-customers-dropdown']} ref={toCustomersDropdownRef}>
             {toCustomersLinks.map((el, index) => (
               <li key={index}>
                 <a className={styles['header-link']}>{el}</a>
@@ -153,9 +154,19 @@ const Header: React.FC = () => {
           <ul className={styles['upper-header__navigation']}>{navigationItems}</ul>
         </nav>
         <div className={styles['upper-header__tel']}>
-          <a href='tel:8-800-77-07-999' className={styles['header-link']}>
+          <a
+            href='tel:8-800-77-07-999'
+            className={styles['header-link']}
+            onMouseEnter={() => setOnPhoneHover((prevState) => !prevState)}
+            onMouseLeave={() => setOnPhoneHover(false)}
+          >
             8-800-77-07-999
           </a>
+          {onPhoneHover ? (
+            <div className={styles['upper-header__tel-tooltip']}>
+              <span>С 07:00 до 02:00</span>
+            </div>
+          ) : null}
         </div>
       </div>
       <div

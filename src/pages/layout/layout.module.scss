@@ -26,7 +26,7 @@
 
     &__footer {
         min-height: auto;
-        background-color: #333333;
+        background-color: var(--text-color);
     }
 
     &__breadcrumbs {
