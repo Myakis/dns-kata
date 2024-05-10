@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import { useAppSelector } from 'shared/hooks/redux';
 import { appLinks, companyLinks, customerLinks, Link } from './constants';
 import styles from './footer.module.scss';
 interface Props {}
@@ -23,10 +25,10 @@ const renderMobileLinks = (links: Link[]) => {
   ));
 };
 
-const Footer: React.FC<Props> = () => {
+const Footer: FC<Props> = () => {
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
   const [prevSection, setPrevSection] = useState<string | null>(null);
-
+  const currentCity = useAppSelector((state) => state.currentCity);
   const handleSectionClick = (section: string) => {
     setSelectedSection((prevSection) => (prevSection === section ? null : section));
   };
@@ -148,7 +150,7 @@ const Footer: React.FC<Props> = () => {
                 <span className={styles.phoneAndWorktime__worktime}> (с 05:00 до 00:00)</span>
               </p>
               <div className={styles.menuContacts__shopAddress}>
-                <a href='https://www.dns-shop.ru/shops/'>Адреса магазинов в г. Город</a>
+                <RouterLink to={`shops/${currentCity.slug}`}>Адреса магазинов в г. {currentCity.name}</RouterLink>
               </div>
               <div className={`${styles.menuContacts__subscription} ${styles.subscription}`}>
                 <p className={styles.subscription__title}>Следите за новинками и акциями:</p>

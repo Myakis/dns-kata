@@ -35,6 +35,7 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ isModalOpen, closeModalHandl
   const setCurrentCity = (i: ICity) => {
     const currentCity = {
       name: i.name,
+      slug: i.citySlug,
       coords: {
         latitude: i.latitude,
         longitude: i.longitude,
