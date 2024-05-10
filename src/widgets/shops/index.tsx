@@ -1,11 +1,11 @@
-import { AppstoreOutlined, HeartOutlined, MobileOutlined, SearchOutlined } from '@ant-design/icons';
-import { Checkbox, ConfigProvider } from 'antd';
-import { FC, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { DnsAPI } from 'shared/api/DNS';
-import { OriginalDNSApi } from 'shared/api/original-DNS';
-import styles from './shops.module.scss';
-import { ICoord, ICurrentCity, ShopItemProps } from './shops.types';
+import { AppstoreOutlined, HeartOutlined, MobileOutlined, SearchOutlined } from '@ant-design/icons'
+import { Checkbox, ConfigProvider } from 'antd'
+import { FC, useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { DnsAPI } from 'shared/api/DNS'
+import { OriginalDNSApi } from 'shared/api/original-DNS'
+import styles from './shops.module.scss'
+import { ICoord, ICurrentCity, ShopItemProps } from './shops.types'
 
 const ShopItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }) => {
   return (
@@ -132,7 +132,7 @@ const Shops = () => {
     }
 
     return (
-      <div className={styles['shops__shops-list']}>
+      <div className={styles['shops__list']}>
         <h2 className={styles['shops__sale-channel']}>{sortByDistanceChecked ? 'Дистанция: до 1000 метров' : 'DNS'}</h2>
         <ul>
           {shops?.map((i) => {
