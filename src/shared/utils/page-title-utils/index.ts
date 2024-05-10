@@ -12,5 +12,6 @@ const links = [
 
 export const getPageTitle = (pathname: string) => {
   const link = links.find((link) => link.path === pathname);
+
   return link ? link.title : null;
 };
