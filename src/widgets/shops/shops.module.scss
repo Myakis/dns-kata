@@ -20,7 +20,7 @@
   }
 }
 
-.shops-block {
+.shops {
   margin: 0;
   padding: 0;
 
@@ -159,7 +159,7 @@
       list-style: none;
     }
 
-    ul:empty + .shops-block__not-found {
+    ul:empty + .shops__not-found {
       display: flex;
     }
 
@@ -205,7 +205,7 @@
   }
 }
 
-.shop-list-item {
+.shop-item {
   position: relative;
   border-bottom: 1px solid #eee;
   padding: 18px 24px;
@@ -254,9 +254,7 @@
     width: 350px !important;
     display: none;
     background-color: var(--bg-color);
-    width: fit-content;
     position: absolute;
-    width: fit-content;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.16);
     border: 1px solid rgba(0, 0, 0, 0.1);
     flex-direction: column;

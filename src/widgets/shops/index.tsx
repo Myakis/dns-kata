@@ -7,13 +7,13 @@ import { OriginalDNSApi } from 'shared/api/original-DNS';
 import styles from './shops.module.scss';
 import { ICoord, ICurrentCity, ShopItemProps } from './shops.types';
 
-const ShopListItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }) => {
+const ShopItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }) => {
   return (
-    <div className={styles['shop-list-item']}>
-      <HeartOutlined className={styles['shop-list-item__like']} />
-      <div className={styles['shop-list-item__title-container']}>
+    <div className={styles['shop-item']}>
+      <HeartOutlined className={styles['shop-item__like']} />
+      <div className={styles['shop-item__title-container']}>
         <span
-          className={styles['shop-list-item__title']}
+          className={styles['shop-item__title']}
           onClick={() =>
             clickHandler({
               latitude: coords[0],
@@ -23,23 +23,23 @@ const ShopListItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }
         >
           {name}
         </span>
-        <div className={styles['shop-list-item__title-icon']}>
+        <div className={styles['shop-item__title-icon']}>
           <AppstoreOutlined />
-          <span className={styles['shop-list-item__title-vobler']}>
+          <span className={styles['shop-item__title-vobler']}>
             В этом магазине расположен Постамат DNS
             <a href='/'>Подробнее</a>
           </span>
         </div>
-        <div className={styles['shop-list-item__title-icon']}>
+        <div className={styles['shop-item__title-icon']}>
           <MobileOutlined />
-          <span className={styles['shop-list-item__title-vobler']}>
+          <span className={styles['shop-item__title-vobler']}>
             В магазине могут изготовить пленку для защиты экрана вашего устройства
             <a href='/'>Подробнее</a>
           </span>
         </div>
       </div>
-      <span className={styles['shop-list-item__address']}>{address}</span>
-      <span className={styles['shop-list-item__worktime']}>Пн-Сб с 10:00 до 20:00, Вс с 10:00 до 18:00</span>
+      <span className={styles['shop-item__address']}>{address}</span>
+      <span className={styles['shop-item__worktime']}>Пн-Сб с 10:00 до 20:00, Вс с 10:00 до 18:00</span>
     </div>
   );
 };
@@ -132,10 +132,8 @@ const Shops = () => {
     }
 
     return (
-      <div className={styles['shops-block__shops-list']}>
-        <h2 className={styles['shops-block__sale-channel']}>
-          {sortByDistanceChecked ? 'Дистанция: до 1000 метров' : 'DNS'}
-        </h2>
+      <div className={styles['shops__shops-list']}>
+        <h2 className={styles['shops__sale-channel']}>{sortByDistanceChecked ? 'Дистанция: до 1000 метров' : 'DNS'}</h2>
         <ul>
           {shops?.map((i) => {
             if (
@@ -144,7 +142,7 @@ const Shops = () => {
               (sortByDistanceChecked ? i.inNear : true)
             ) {
               return (
-                <ShopListItem
+                <ShopItem
                   key={i.id}
                   name={i.name}
                   address={i.streetAddress}
@@ -155,7 +153,7 @@ const Shops = () => {
             }
           })}
         </ul>
-        <div className={styles['shops-block__not-found']}>
+        <div className={styles['shops__not-found']}>
           <img src='https://a.dns-shop.ru/static/05/1l166mw/css/502f45505da2fc318721.png' alt='Not found.' />
           <h3>Странно, но ничего нет</h3>
           <span>Попробуйте изменить критерии поиска</span>
@@ -166,16 +164,16 @@ const Shops = () => {
 
   return (
     <div className={styles['container']}>
-      <div className={styles['shops-block']}>
-        <h1 className={styles['shops-block__header']}>Магазины в г. {currentCity.name}</h1>
-        <div className={styles['shops-block__main']}>
-          <div className={styles['shops-block__filters']}>
-            <label htmlFor='first' className={styles['shops-block__input-search']}>
+      <div className={styles['shops']}>
+        <h1 className={styles['shops__header']}>Магазины в г. {currentCity.name}</h1>
+        <div className={styles['shops__main']}>
+          <div className={styles['shops__filters']}>
+            <label htmlFor='first' className={styles['shops__input-search']}>
               {''}
-              <SearchOutlined className={styles['shops-block__input-icon']} />
+              <SearchOutlined className={styles['shops__input-icon']} />
               <input
                 id='first'
-                className={styles['shops-block__input']}
+                className={styles['shops__input']}
                 placeholder='Название магазина, адрес, или метро'
                 value={inputValue}
                 onChange={(e) => {
@@ -196,18 +194,18 @@ const Shops = () => {
               }}
             >
               <Checkbox
-                className={styles['shops-block__sort']}
+                className={styles['shops__sort']}
                 checked={isOpenNowFilter}
                 onChange={() => setIsOpenNowFilter((state) => !state)}
               >
                 Открыто сейчас
               </Checkbox>
-              <Checkbox className={styles['shops-block__sort']} checked={sortByDistanceChecked} onChange={requestGeo}>
+              <Checkbox className={styles['shops__sort']} checked={sortByDistanceChecked} onChange={requestGeo}>
                 Рядом
               </Checkbox>
             </ConfigProvider>
           </div>
-          <div className={styles['shops-block__section']}>
+          <div className={styles['shops__section']}>
             {!isLoading && <ShopsList />}
             {!isLoading && (
               <iframe
