@@ -1,22 +1,15 @@
 import Product from 'entities/product';
 import React, { useEffect, useState } from 'react';
+import getCity from 'shared/get-city';
 import { useAppDispatch } from 'shared/hooks/redux';
-import { currentCitySlice } from 'shared/store/slices/current-city-slice';
 import Footer from 'widgets/footer';
 
 const Main: React.FC = () => {
-  const { chooseCurrentCity } = currentCitySlice.actions;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    try {
-      const localCity = localStorage.getItem('currentCity');
-
-      localCity && dispatch(chooseCurrentCity(JSON.parse(localCity)));
-    } catch {
-      localStorage.removeItem('currentCity');
-    }
-  }, [chooseCurrentCity, dispatch]);
+    dispatch(getCity());
+  }, [dispatch]);
 
   const [isHorizontal, setIsHorizontal] = useState<boolean>(true);
 
