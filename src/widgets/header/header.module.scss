@@ -225,12 +225,19 @@
             font-size: 14px;
             line-height: 18px;
         }
+        &-item-wrapper {
+            display: inline-block;
+            position: relative;
+        }
+        &-item--active &-name--second {
+            color: var(--main-color);
+            cursor: pointer;
+        }
         &-name--second {
             display: block;
             word-break: break-all;
         }
         &-info {
-            position: relative;
             display: inline-flex;
             column-gap: 6px;
             margin: 0 6px;
@@ -239,7 +246,7 @@
         &--third {
             top: 0;
             display: block;
-            left: 50px;
+            left: calc(100% + 10px);
             width: max-content;
             padding: 24px;
             position: absolute;

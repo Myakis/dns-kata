@@ -9,8 +9,9 @@ export function useCatalog() {
   const updateSubcategoryItems = (category: string = 'Бытовая техника') => {
     setActiveCategory(category);
     const selectedCategory = categories.find((el) => el.category === category);
+
     if (selectedCategory) {
-      setSubcategoryItems(selectedCategory.items);
+      setTimeout(() => setSubcategoryItems(selectedCategory.items), 400);
     }
   };
 
