@@ -151,18 +151,6 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ isModalOpen, closeModalHandl
       </div>
     </div>
   );
-
-  //   <>
-  // <Modal
-  //   isModalOpen={isModalOpen}
-  //   dialog={}
-  //   closeModalHandler={() => setIsModalOpen(false)}
-  // />
-  // <span style={labelStyle} onClick={() => setIsModalOpen(true)}>
-  //   {label}
-  // </span>
-  //   </>
-  // );
 };
 
 export default CitiesModalPage404;

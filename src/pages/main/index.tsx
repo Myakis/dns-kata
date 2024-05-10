@@ -1,16 +1,8 @@
 import Product from 'entities/product';
-import React, { useEffect, useState } from 'react';
-import getCity from 'shared/get-city';
-import { useAppDispatch } from 'shared/hooks/redux';
+import React, { useState } from 'react';
 import Footer from 'widgets/footer';
 
 const Main: React.FC = () => {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getCity());
-  }, [dispatch]);
-
   const [isHorizontal, setIsHorizontal] = useState<boolean>(true);
 
   return (

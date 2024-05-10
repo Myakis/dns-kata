@@ -1,17 +1,8 @@
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import getCity from 'shared/get-city';
-import { useAppDispatch } from 'shared/hooks/redux';
 import { default as Page404Shops } from 'widgets/shops-page-404/';
 import styles from './page-404.module.scss';
 
 const Page404 = () => {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getCity());
-  }, [dispatch]);
-
   return (
     <>
       <div className={styles['info-block']}>

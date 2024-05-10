@@ -22,11 +22,6 @@ export const currentCitySlice = createSlice({
   name: 'currentCity',
   initialState,
   reducers: {
-    setInitialCity(state) {
-      state.coords = initialState.coords;
-      state.name = initialState.name;
-      state.slug = initialState.slug;
-    },
     chooseCurrentCity(state, action: PayloadAction<ICurrentCity>) {
       state.name = action.payload.name;
       state.coords = action.payload.coords;
