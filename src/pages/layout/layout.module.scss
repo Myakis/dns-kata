@@ -36,6 +36,11 @@
     &__content {
         padding: 0 10px;
     }
+    &__helperBtns {
+        position:fixed;
+        right: 20px;
+        bottom: 20px;
+    }
 }
 
 .breadcrumbs__container,

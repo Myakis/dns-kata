@@ -1,0 +1,62 @@
+// .chatContainer {
+//     position: absolute;
+// }
+
+@import '../../app/styles/mixins.scss';
+
+.chatToggle {
+    display: block;
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 100%;
+    background-color: var(--main-color);
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, .2);
+}
+
+.chatToggle:hover {
+    cursor: pointer;
+}
+
+
+.chatToggleClosed::after {
+    @include background-img('../../app/assets/img/chat/message-icon.svg', 20px, 20px, inline-block);
+    margin-top: 5px;
+}
+
+.chatToggleOpened::after {
+    @include background-img('../../app/assets/img/chat/cross-icon.svg', 20px, 20px, inline-block);
+    margin-top: 5px;
+}
+
+.chatModal {
+    width: 400px;
+    height: 600px;
+    max-height: 630px;
+    background: #fff;
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, .2);
+    display: block;
+    transform: translateY(0);
+    transition: all .6s ease;
+    visibility: visible;
+    border-radius: 8px;
+    bottom: 115px;
+    position: fixed;
+    right: 24px;
+    transform: none;
+    width: 360px;
+    z-index: 1600;
+}
+
+.chatHeader {
+    margin: auto;
+    padding: 12px 0 12px 0;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, .05);
+}
+
+.chatHeader h2 {
+    font-size: 18px;
+    font-weight: 400;
+}

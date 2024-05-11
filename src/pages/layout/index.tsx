@@ -4,6 +4,7 @@ import { FC, ReactNode } from 'react';
 import styles from './layout.module.scss';
 import Footer from 'widgets/footer';
 import Header from 'widgets/header';
+import Chat from 'widgets/chat';
 
 interface IProps {
   pageTitle: string | null;
@@ -33,6 +34,9 @@ export const Layout: FC<IProps> = ({ pageTitle, breadcrumbs, children }) => {
           <Footer />
         </div>
       </footer>
+      <div className={styles.layout__helperBtns}>
+        <Chat />
+      </div>
     </div>
   );
 };
