@@ -1,13 +1,13 @@
+import { FC } from 'react';
 import { Pagination, ConfigProvider } from 'antd';
-
 import style from './style.module.scss';
 import './antd.css';
 
-const DnsPagination: React.FC = () => {
+const DnsPagination: FC<{ button: () => void }> = ({ button }) => {
   return (
     <div className={style['pagination']}>
       <div className={style['pagination__block__btn']}>
-        <button className={style['pagination__btn']} type='button'>
+        <button type='button' className={style['pagination__btn']} onClick={() => button()}>
           Показать ещё
         </button>
       </div>

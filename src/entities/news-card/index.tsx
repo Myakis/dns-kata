@@ -1,53 +1,50 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import style from './style.module.scss';
-
+import { FC } from 'react';
 import StatComponent from 'entities/news-stat';
+import { News } from 'shared/store/slices/news-slice/types';
+import style from './style.module.scss';
+import { shortingText } from 'shared/util/shortingText';
+import randomBanner from './constants/articles-banners';
 
-const test = {
-  id: 4,
-  name: 'Tui conturbo quidem cupiditas.',
-  description:
-    'Arx annus absorbeo.\nVereor stabilis vesica velum allatus.\nVeritas vallum libero comptus casso dolores summisse aqua.\nClementia neque hic peccatus ciminatio aspernatur modi sustineo deludo coadunatio.\nDolor defungo adversus esse laboriosam argumentum patior nam accedo quisquam.\nUllam cubicularis verumtamen casus beatae optio cubicularis advenio officia terminatio.\nTricesimus deorsum nobis cras canto.\nDepopulo acies comprehendo ratione compono succedo.\nCopia degenero cogo.',
-  type: 'advertising',
-  date: '2023-09-27T12:39:48.418Z',
-  viewsCount: 2827,
-  commentsCount: 6766,
-};
+const ArticleNewsCard: FC<{ article: News }> = ({ article }) => {
+  const renderTagColor = (tag: string): string => {
+    const clrs: { [key in string]: string } = {
+      new: style['tag--green'],
+      commonInfo: style['tag--bruh'],
+      exclusives: style['tag--pomodoro'],
+      services: style['tag--blue'],
+      shops: style['tag--purple'],
+      advertising: style['tag--lightBlue'],
+    };
 
-const NewsCard: React.FC = () => {
-  const shortDiscription = (prevDscr: string): string => {
-    const arrd = prevDscr.split('');
-    const newDscr = arrd.slice(0, arrd.indexOf(' ', 250));
-
-    return `${newDscr.join('')}...`;
+    return clrs[tag];
   };
 
   return (
-    <article className={style['news']}>
-      <div className={style['news__banner']}>
+    <article className={style['card']}>
+      <div className={style['card__banner']}>
         <a href='#'>
-          <img
-            src='https://c.dns-shop.ru/thumb/st1/crop/356/240/2a6fdb2b68178736d29a24319934ce45/cb16acbe34af2fe889243fb5e5276264c629d6bec797712f3ad5c192e668b668.jpg'
-            alt='banner'
-          />
+          <img src={randomBanner(true)} alt='banner' />
         </a>
       </div>
-      <div className={style['news__title']}>
-        <a href='#'>{test.name}</a>
+      <div className={style['card__title']}>
+        <a href='#'>{article.name}</a>
       </div>
-      <div className={style['news__discription']}>
-        <p>{shortDiscription(test.description)}</p>
+      <div className={style['card__discription']}>
+        <p>{shortingText(article.description, 250, true)}</p>
       </div>
-      <div className={style['news__tags']}>
-        <div className={style['news__tag']}>
-          <p>{test.type}</p>
+      <div className={style['card__tags']}>
+        <div className={`${style['card__tag']} ${renderTagColor(article.type)}`}>
+          <p>{article.type}</p>
         </div>
       </div>
-      <div className={style['news__stat']}>
-        <StatComponent stat={{ date: test.date, commentsCount: test.commentsCount, viewsCount: test.viewsCount }} />
+      <div className={style['card__stat']}>
+        <StatComponent
+          stat={{ date: article.date, commentsCount: article.commentsCount, viewsCount: article.viewsCount }}
+        />
       </div>
     </article>
   );
 };
 
-export default NewsCard;
+export default ArticleNewsCard;

@@ -1,29 +1,60 @@
+.container--scroll {
+  position: relative;
+
+  .container--shadow {
+    overflow: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
 .nav {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
-}
+  align-items: center;
+  overflow-x: scroll;
 
-.nav__button {
-  margin-right: 28px;
-  font-size: 16px;
-  font-weight: normal;
-  color: #333;
-  background-color: transparent;
-  border: 0;
-  border-radius: 8px;
+  @media (max-width: 768px) {
+    width: max-content;
+  }
 
-  p {
-    font-family: 'PT Sans';
-    border-bottom: 1px #333 dotted;
+  .nav__button {
+    margin: 0 28px 5px 0;
+    font-size: 16px;
+    font-weight: normal;
+    color: #333;
+    background-color: transparent;
+    border: 0;
+    border-radius: 8px;
+
+    @media (max-width: 768px) {
+      width: max-content;
+    }
+
+    p {
+      font-family: 'PT Sans';
+      border-bottom: 1px #333 dotted;
+    }
+  }
+
+  .nav__button--active {
+    padding: 10px 12px;
+    background-color: #e0e0e0;
+    font-weight: bold;
+
+    p {
+      border-bottom: none;
+    }
   }
 }
 
-.nav__button--active {
-  padding: 10px 12px;
-  background-color: #e0e0e0;
-  font-weight: bold;
-
-  p {
-    border-bottom: none;
-  }
+.nav--shadow {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  box-shadow: 0 0 5px 15px hsla(0, 0%, 100%, 0.9);
 }
