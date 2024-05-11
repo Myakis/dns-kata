@@ -1,0 +1,35 @@
+
+
+.dropdownToggle {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background-color: transparent;
+}
+
+.toggleActive span {
+    transform: rotate(180deg);
+    transition: transform .3s ease;
+
+}
+
+.dropdownList {
+    justify-self: center;
+    position: absolute;
+    border-radius: 12px;
+    display: block;
+    min-width: 160px;
+    background: #fff;
+    text-align: left;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .04), 0 4px 4px rgba(0, 0, 0, .04), 0 20px 40px rgba(0, 0, 0, .08);
+    border-top-color: #ddd;
+    margin-top: 20px;
+    margin-left: -30px;
+    padding: 24px;
+    list-style: none;
+    z-index: 20;
+}

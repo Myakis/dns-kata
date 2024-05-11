@@ -1,4 +1,4 @@
-export const getInnerText = (element: HTMLElement): string => {
+export const getPureInnerText = (element: HTMLElement): string => {
   return element.innerText
     .split(' ')
     .map((item) =>

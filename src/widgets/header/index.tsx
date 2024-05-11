@@ -1,16 +1,16 @@
 import styles from './header.module.scss';
 import classNames from 'classnames';
 import { useClickOutside } from 'shared/hooks/useClickOutside';
-import { getInnerText } from 'shared/utils/get-inner-text-utils';
-import { navigationLinks, toCustomersLinks, sideNavigationItems, CatalogItem } from './constants';
-import { useState, useRef, MouseEvent, useEffect } from 'react';
+import { navigationLinks, toCustomersLinks, sideNavigationItems } from './constants';
+import { useState, useRef, useEffect, FC } from 'react';
 import { useCatalog } from 'shared/hooks/useCatalog';
+import Subcategories from './subcategories';
+import DropdownMenu from 'shared/ui/dropdown-menu';
 
-const Header: React.FC = () => {
+const Header: FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOnCatalogBtnClick, setIsOnCatalogBtnClick] = useState(false);
   const [isOnToCustomersBtnClick, setIsOnToCustomersBtnClick] = useState(false);
-  const [onSubcategoryHover, setOnSubcategoryHover] = useState<string>();
   const [onSearchFocus, setOnSearchFocus] = useState(false);
   const [onPhoneHover, setOnPhoneHover] = useState(false);
 
@@ -19,20 +19,15 @@ const Header: React.FC = () => {
   const toCustomersDropdownRef = useRef<HTMLUListElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
 
-  const { categories, subcategoryItems, updateSubcategoryItems, activeCategory } = useCatalog();
+  const { categories, updateSubcategoryItems, activeCategory, subcategoryItems } = useCatalog();
 
   useClickOutside(catalogRef, () => setIsOnCatalogBtnClick(false), styles['main-header__catalog-btn']);
-  useClickOutside(
-    toCustomersDropdownRef,
-    () => setIsOnToCustomersBtnClick(false),
-    styles['upper-header__to-customers-btn']
-  );
+  // useClickOutside(
+  //   toCustomersDropdownRef,
+  //   () => setIsOnToCustomersBtnClick(false),
+  //   styles['upper-header__to-customers-btn']
+  // );
   useClickOutside(searchRef, () => setOnSearchFocus(false));
-
-  const handleOnSubcategoryHover = (e: MouseEvent<HTMLLIElement>) => {
-    const pureSubcategoryName = getInnerText(e.currentTarget);
-    setOnSubcategoryHover(pureSubcategoryName);
-  };
 
   useEffect(() => {
     window.addEventListener('scroll', () => setIsScrolled(window.scrollY > 50));
@@ -41,30 +36,31 @@ const Header: React.FC = () => {
     };
   }, []);
 
+  // const navigationItems = navigationLinks.map((el, index) =>
+  //   el === 'Покупателям' ?        <DropdownMenu
+  //     dropdownItems={toCustomersLinks}
+  //     toggleName={el}
+  //     ulClassName={styles['upper-header__to-customers-dropdown']}
+  //     linkClassName={styles['header-link']}
+  //     toggleClassname={styles['upper-header__to-customers-btn']}
+  //   /> :
+  //     <li key={index}>
+  //       <a className={styles['header-link']} href='/'>
+  //         {el}
+  //       </a>
+  //     </li>
+  //   )
+  // );
+
   const navigationItems = navigationLinks.map((el, index) =>
     el === 'Покупателям' ? (
-      <li key={index}>
-        <button
-          className={classNames(styles['header-link'], styles['upper-header__to-customers-btn'], {
-            [styles['upper-header__to-customers-btn--active']]: isOnToCustomersBtnClick,
-          })}
-          onClick={() => setIsOnToCustomersBtnClick(!isOnToCustomersBtnClick)}
-        >
-          {el}
-          <span></span>
-        </button>
-        {isOnToCustomersBtnClick ? (
-          <ul className={styles['upper-header__to-customers-dropdown']} ref={toCustomersDropdownRef}>
-            {toCustomersLinks.map((el, index) => (
-              <li key={index}>
-                <a className={styles['header-link']} href='/'>
-                  {el}
-                </a>
-              </li>
-            ))}
-          </ul>
-        ) : null}
-      </li>
+      <DropdownMenu
+        dropdownItems={toCustomersLinks}
+        toggleName={el}
+        // ulClassName={styles['upper-header__to-customers-dropdown']}
+        // linkClassName={styles['header-link']}
+        // toggleClassname={styles['upper-header__to-customers-btn']}
+      />
     ) : (
       <li key={index}>
         <a className={styles['header-link']} href='/'>
@@ -91,58 +87,6 @@ const Header: React.FC = () => {
       </a>
     </li>
   ));
-
-  const renderThirdLevelItem = (el: CatalogItem, index: number) => (
-    <li key={index}>
-      <a href='/' className={styles['header-link']}>
-        {el.subcategory}
-        <span className={styles['main-header__subcategories-info']}>{el.itemsCount ? el.itemsCount : null}</span>
-      </a>
-    </li>
-  );
-
-  const renderSecondLevelItem = (el: CatalogItem, index: number) => (
-    <li
-      key={index}
-      className={classNames(styles['main-header__subcategories-item--second'], [
-        {
-          [styles['main-header__subcategories-item--active']]: onSubcategoryHover === el.subcategory,
-        },
-      ])}
-      onMouseEnter={handleOnSubcategoryHover}
-      onMouseLeave={() => setOnSubcategoryHover('')}
-    >
-      <div className={styles['main-header__subcategories-item-wrapper']}>
-        <a href='/' className={classNames(styles['main-header__subcategories-name--second'], styles['header-link'])}>
-          {el.subcategory}
-          <div className={styles['main-header__subcategories-info']}>
-            <span>{el.itemsCount ? el.itemsCount : null}</span>
-            <span>{el.items ? '>' : null}</span>
-          </div>
-        </a>
-        {el.subcategory === onSubcategoryHover && el.items ? (
-          <ul className={styles['main-header__subcategories--third']}>
-            {el.items?.map((el, index) => renderThirdLevelItem(el, index))}
-          </ul>
-        ) : null}
-      </div>
-    </li>
-  );
-
-  const renderFirstLevelItem = () => {
-    return subcategoryItems.map((item: CatalogItem, index: number) => (
-      <li key={index}>
-        <a className={classNames(styles['main-header__subcategories-name--first'], styles['header-link'])} href='/'>
-          {item.subcategory}
-        </a>
-        <ul className={styles['main-header__subcategories--second']}>
-          {item.items?.map((el, index) => renderSecondLevelItem(el, index))}
-        </ul>
-      </li>
-    ));
-  };
-
-  const subcategories = renderFirstLevelItem();
 
   return (
     <div className={styles.header}>
@@ -236,7 +180,7 @@ const Header: React.FC = () => {
               <ul>{mainCategories}</ul>
             </nav>
             <nav className={styles['main-header__subcategories']}>
-              <ul className={styles['main-header__subcategories--first']}>{subcategories}</ul>
+              <Subcategories subcategoryItems={subcategoryItems} />
             </nav>
           </div>
         </div>
