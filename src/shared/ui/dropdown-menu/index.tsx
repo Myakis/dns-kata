@@ -2,29 +2,34 @@ import { useClickOutside } from 'shared/hooks/useClickOutside';
 import { FC, HTMLAttributes, useRef, useState } from 'react';
 import classNames from 'classnames';
 import styles from './dropdown-menu.module.scss';
-
 interface IProps {
-  dropdownItems: any[];
-  toggleName: string;
-  ulClassName?: string;
+  dropdownItems: { label: string; address: string }[];
+  className?: string;
+  listClassName?: string;
+  listAttributes?: HTMLAttributes<HTMLUListElement>;
   itemClassName?: string;
-  linkClassName?: string;
-  toggleClassname?: string;
-  ulAttributes?: HTMLAttributes<HTMLUListElement> | React.RefObject<HTMLUListElement> | undefined;
   itemAttributes?: HTMLAttributes<HTMLLIElement>;
+  linkClassName?: string;
   linkAttributes?: HTMLAttributes<HTMLAnchorElement>;
+  toggleContent: string;
+  toggleClassname?: string;
+  toggleArrow: boolean;
+  toggleArrowClassname?: string;
 }
 
 const DropdownMenu: FC<IProps> = ({
   dropdownItems,
-  toggleName,
-  ulClassName,
+  className,
+  listClassName,
+  listAttributes,
   itemClassName,
-  linkClassName,
-  ulAttributes,
   itemAttributes,
+  linkClassName,
   linkAttributes,
+  toggleContent,
   toggleClassname,
+  toggleArrow,
+  toggleArrowClassname,
 }) => {
   const dropdownRef = useRef<HTMLUListElement>(null);
   const [isDropdownOpened, setIsDropdownOpened] = useState(false);
@@ -34,44 +39,69 @@ const DropdownMenu: FC<IProps> = ({
     () => {
       setIsDropdownOpened(false);
     },
-    toggleClassname
+    styles.dropdownToggle
   );
 
   return (
-    <div>
+    <div className={className}>
       <button
-        className={classNames(styles.dropdownToggle, toggleClassname, { [styles.toggleActive]: isDropdownOpened })}
+        className={classNames(
+          styles.dropdownToggle,
+          toggleClassname,
+          { [styles.toggleActive]: isDropdownOpened },
+          { [styles.toggleArrow]: toggleArrow },
+          { [toggleArrowClassname as string]: toggleArrow }
+        )}
         onClick={() => setIsDropdownOpened(!isDropdownOpened)}
       >
-        {toggleName}
-        <span></span>
+        {toggleContent}
       </button>
-      <ul
-        style={{ display: isDropdownOpened ? 'block' : 'none' }}
-        className={classNames(styles.dropdownList, ulClassName)}
-        {...ulAttributes}
-        ref={dropdownRef}
-      >
-        {dropdownItems.map((el, index) => (
-          <li key={index} className={itemClassName} {...itemAttributes}>
-            <a className={linkClassName} href='/' {...linkAttributes}>
-              {el}
-            </a>
-          </li>
-        ))}
-      </ul>
+      {isDropdownOpened ? (
+        <ul className={classNames(styles.dropdownList, listClassName)} {...listAttributes} ref={dropdownRef}>
+          {dropdownItems.map((el, index) => (
+            <li key={index} className={itemClassName} {...itemAttributes}>
+              <a className={linkClassName} href={el.address} {...linkAttributes}>
+                {el.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </div>
   );
 };
 
 export default DropdownMenu;
 
-{
-  /* <DropdownMenu
-  items={toCustomersDropdownItems}
-  itemClassName={styles['upper-header__to-customers-dropdown']}
-  linkClassName={styles['header-link']}
-  ulAttributes={{ id: 'dropdown-menu', role: 'navigation' }}
-  linkAttributes={{ target: '_blank' }}
-/>; */
-}
+// dropdownItems - айтемсы внутри downdrop-menu
+
+// className - внешний класс всего dropdown (указываем и используем вместе с вашим кастомным селектором, если хотите изменить дефолтный стиль)
+
+// listClassName - ваш кастомный класс для списка
+// listAttributes - атрибуты для списка
+
+// itemClassName - ваш кастомный класс для айтема
+// itemAttributes - атрибуты для айтема
+
+// linkClassName - ваш кастомный класс для ссылки
+// linkAttributes - атрибуты для ссылки
+
+// toggleContent - контент внутри кнопки
+// toggleClassname - ваш кастомный класс для кнопки
+// toggleArrow - надо/не надо стрелочку
+// toggleArrowClassname - ваш кастомный класс для стрелочки
+
+// Пример:
+// <DropdownMenu
+// className={styles['upper-header__dropdown']}
+// key={index}
+// dropdownItems={toCustomersLinks}
+// toggleContent={el.label}
+// toggleArrow={true}
+// listClassName={styles['upper-header__to-customers-dropdown']}
+// linkClassName={styles['header-link']}
+// linkAttributes={
+//   toCustomersLinks.find((el) => el.label === 'Доставка') ? { onMouseEnter: () => console.log('a') } : undefined
+// }
+// toggleClassname={styles['upper-header__to-customers-btn']}
+// />

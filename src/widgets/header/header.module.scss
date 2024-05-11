@@ -1,13 +1,5 @@
 @import '../../app/styles/fonts.scss';
-
-@mixin background-img($url, $width, $height, $display: block, $content: '') {
-      content: '';
-      display: $display;
-      background-image: url($url);
-      background-repeat: no-repeat;
-      height: $height;
-      width: $width;
-  }
+@import '../../app/styles/mixins.scss';
 
 
 .header {
@@ -46,47 +38,16 @@
         display: flex;
         column-gap: 26px;
     }
-    &__to-customers-btn{
-        display: flex;
-        position: relative;
-        font-size: 16px;
-        padding: 0;
-        margin: 0;
-        border: none;
-        background-color: transparent;
-        &--active span {
-            transform: rotate(180deg);
-            transition: transform .3s ease;
-        }
-    }
     &__to-customers-btn:hover {
         cursor: pointer;
         color: var(--main-color)
     }
-    &__to-customers-btn span {
-        @include background-img('../../app/assets/img/header/nav-arrow.svg', 7.5px, 4.63px, inline-block );
-        align-self: center;
-        margin-left: 5px;
-    }
-    &__to-customers-dropdown {
-        justify-self: center;
-        position: absolute;
-        border-radius: 12px;
-        display: block;
-        min-width: 160px;
-        background: #fff;
-        text-align: left;
-        box-shadow: 0 0 0 1px rgba(0, 0, 0, .04), 0 4px 4px rgba(0, 0, 0, .04), 0 20px 40px rgba(0, 0, 0, .08);
-        border-top-color: #ddd;
-        margin-top: 20px;
-        margin-left: -30px;
+    &__dropdown &__to-customers-dropdown {
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
         padding: 24px;
-        list-style: none;
-        z-index: 20;
-    }
-    &__to-customers-dropdown a {
-        display: inline-block;
-        margin-bottom: 10px;
+        margin-left: -30px;
     }
     &__location {
         display: flex;
@@ -205,16 +166,14 @@
     &__subcategories {
         padding: 24px 23px 32px 20px;
     }
-    &__orange-btn {
-        background: linear-gradient(0deg, var(--main-color) 0%, #FFA218 100%);
-        border: none;
-        border-radius: 12px;
-    }
     &__btn-bg {
         display: flex;
         justify-content: space-between;
         column-gap: 15px;
         align-items: center;
+        background: linear-gradient(0deg, var(--main-color) 0%, #FFA218 100%);
+        border: none;
+        border-radius: 12px;
         padding-right: 10px;
         width: 280px;
         height: 64px;

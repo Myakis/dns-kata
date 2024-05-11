@@ -1,4 +1,4 @@
-
+@import '../../../app/styles/mixins.scss';
 
 .dropdownToggle {
     display: inline-flex;
@@ -11,25 +11,34 @@
     background-color: transparent;
 }
 
-.toggleActive span {
-    transform: rotate(180deg);
-    transition: transform .3s ease;
-
+.dropdownToggle:hover {
+    cursor: pointer;
 }
 
 .dropdownList {
-    justify-self: center;
     position: absolute;
     border-radius: 12px;
-    display: block;
-    min-width: 160px;
-    background: #fff;
+    min-width: max-content;
+    background-color: #fff;
     text-align: left;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, .04), 0 4px 4px rgba(0, 0, 0, .04), 0 20px 40px rgba(0, 0, 0, .08);
-    border-top-color: #ddd;
     margin-top: 20px;
-    margin-left: -30px;
-    padding: 24px;
     list-style: none;
     z-index: 20;
+}
+
+.dropdownList a {
+    color: var(--text-color)
+}
+
+.toggleArrow::after {
+    @include background-img('../../../app/assets/img/header/nav-arrow.svg', 7.5px, 4.63px, inline-block );
+    align-self: center;
+    margin-left: 5px;
+    transition: transform .3s ease;
+}
+
+.toggleActive::after {
+    transform: rotate(180deg);
+    transition: transform .3s ease;
 }

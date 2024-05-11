@@ -10,23 +10,16 @@ import DropdownMenu from 'shared/ui/dropdown-menu';
 const Header: FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOnCatalogBtnClick, setIsOnCatalogBtnClick] = useState(false);
-  const [isOnToCustomersBtnClick, setIsOnToCustomersBtnClick] = useState(false);
   const [onSearchFocus, setOnSearchFocus] = useState(false);
   const [onPhoneHover, setOnPhoneHover] = useState(false);
 
   const iconsUrl = 'src/app/assets/img/header/';
   const catalogRef = useRef<HTMLDivElement>(null);
-  const toCustomersDropdownRef = useRef<HTMLUListElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
 
   const { categories, updateSubcategoryItems, activeCategory, subcategoryItems } = useCatalog();
 
   useClickOutside(catalogRef, () => setIsOnCatalogBtnClick(false), styles['main-header__catalog-btn']);
-  // useClickOutside(
-  //   toCustomersDropdownRef,
-  //   () => setIsOnToCustomersBtnClick(false),
-  //   styles['upper-header__to-customers-btn']
-  // );
   useClickOutside(searchRef, () => setOnSearchFocus(false));
 
   useEffect(() => {
@@ -36,35 +29,22 @@ const Header: FC = () => {
     };
   }, []);
 
-  // const navigationItems = navigationLinks.map((el, index) =>
-  //   el === 'Покупателям' ?        <DropdownMenu
-  //     dropdownItems={toCustomersLinks}
-  //     toggleName={el}
-  //     ulClassName={styles['upper-header__to-customers-dropdown']}
-  //     linkClassName={styles['header-link']}
-  //     toggleClassname={styles['upper-header__to-customers-btn']}
-  //   /> :
-  //     <li key={index}>
-  //       <a className={styles['header-link']} href='/'>
-  //         {el}
-  //       </a>
-  //     </li>
-  //   )
-  // );
-
   const navigationItems = navigationLinks.map((el, index) =>
-    el === 'Покупателям' ? (
+    el.label === 'Покупателям' ? (
       <DropdownMenu
+        className={styles['upper-header__dropdown']}
+        key={index}
         dropdownItems={toCustomersLinks}
-        toggleName={el}
-        // ulClassName={styles['upper-header__to-customers-dropdown']}
-        // linkClassName={styles['header-link']}
-        // toggleClassname={styles['upper-header__to-customers-btn']}
+        toggleContent={el.label}
+        toggleArrow={true}
+        listClassName={styles['upper-header__to-customers-dropdown']}
+        linkClassName={styles['header-link']}
+        toggleClassname={styles['upper-header__to-customers-btn']}
       />
     ) : (
       <li key={index}>
-        <a className={styles['header-link']} href='/'>
-          {el}
+        <a className={styles['header-link']} href={el.address}>
+          {el.label}
         </a>
       </li>
     )
@@ -127,7 +107,7 @@ const Header: FC = () => {
           })}
         >
           <div
-            className={classNames(styles['main-header__orange-btn'], styles['main-header__btn-bg'], {
+            className={classNames(styles['main-header__btn-bg'], {
               [styles['main-header__btn-bg--active']]: isOnCatalogBtnClick,
             })}
           >
@@ -142,6 +122,21 @@ const Header: FC = () => {
             >
               Каталог
             </button>
+          </div>
+          <div
+            ref={catalogRef}
+            className={classNames(styles['main-header__catalog'], {
+              [styles['main-header__catalog--closed']]: !isOnCatalogBtnClick,
+              [styles['main-header__catalog--opened']]: isOnCatalogBtnClick,
+              [styles['main-header__catalog--fixed']]: isScrolled,
+            })}
+          >
+            <nav className={styles['main-header__categories']}>
+              <ul>{mainCategories}</ul>
+            </nav>
+            <nav className={styles['main-header__subcategories']}>
+              <Subcategories subcategoryItems={subcategoryItems} />
+            </nav>
           </div>
           <div
             ref={searchRef}
@@ -168,21 +163,6 @@ const Header: FC = () => {
               ))}
             </ul>
           </nav>
-          <div
-            ref={catalogRef}
-            className={classNames(styles['main-header__catalog'], {
-              [styles['main-header__catalog--closed']]: !isOnCatalogBtnClick,
-              [styles['main-header__catalog--opened']]: isOnCatalogBtnClick,
-              [styles['main-header__catalog--fixed']]: isScrolled,
-            })}
-          >
-            <nav className={styles['main-header__categories']}>
-              <ul>{mainCategories}</ul>
-            </nav>
-            <nav className={styles['main-header__subcategories']}>
-              <Subcategories subcategoryItems={subcategoryItems} />
-            </nav>
-          </div>
         </div>
       </div>
     </div>

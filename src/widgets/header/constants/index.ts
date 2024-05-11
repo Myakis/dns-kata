@@ -14,22 +14,27 @@ export interface Catalog {
   categories: Category[];
 }
 
-export const navigationLinks: string[] = [
-  'Акции',
-  'Магазины',
-  'Покупателям',
-  'Физическим лицам',
-  'Клуб DNS',
-  'Вакансии',
+interface ILinks {
+  label: string;
+  address: string;
+}
+
+export const navigationLinks: ILinks[] = [
+  { label: 'Акции', address: '/' },
+  { label: 'Магазины', address: '/' },
+  { label: 'Покупателям', address: '/' },
+  { label: 'Физическим лицам', address: '/' },
+  { label: 'Клуб DNS', address: '/' },
+  { label: 'Вакансии', address: '/' },
 ];
 
-export const toCustomersLinks: string[] = [
-  'Доставка',
-  'Бонусная программа',
-  'Узнать статус заказа',
-  'Обмен, возврат, гарантия',
-  'Кредиты',
-  'Сервисные центры',
+export const toCustomersLinks: ILinks[] = [
+  { label: 'Доставка', address: '/' },
+  { label: 'Бонусная программа', address: '/' },
+  { label: 'Узнать статус заказа', address: '/' },
+  { label: 'Обмен, возврат, гарантия', address: '/' },
+  { label: 'Кредиты', address: '/' },
+  { label: 'Сервисные центры', address: '/' },
 ];
 
 export const sideNavigationItems = [
