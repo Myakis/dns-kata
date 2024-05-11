@@ -1,8 +1,9 @@
 import { FC } from 'react';
 import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
 import { NewsSlice } from 'shared/store/slices/news-slice';
-import style from './style.module.scss';
 import { filters } from './constants/filters';
+
+import style from './style.module.scss';
 
 const NewsNav: FC = () => {
   const currentFilter = useAppSelector((state) => state.news.type);

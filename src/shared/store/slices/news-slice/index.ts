@@ -4,17 +4,14 @@ import type { News, NewsState } from './types';
 
 export const sortingNews = createAsyncThunk<News[], unknown>('sortingNews', async function sorting(_, { getState }) {
   const { news: NewsState } = getState() as { news: NewsState };
-
   let array = NewsState.newsData.filter((item) => {
     if (NewsState.type === 'all' || item.type === NewsState.type) {
       return item;
     }
   });
 
-  array = array.slice(0, NewsState.display);
-
-  console.log(array);
-  return [];
+  array = array.slice((NewsState.page - 1) * 6, NewsState.display);
+  return array;
 });
 
 const initialState: NewsState = {
@@ -29,22 +26,25 @@ export const NewsSlice = createSlice({
   name: 'newsSlice',
   initialState,
   reducers: {
-    changePage: (state, action: PayloadAction<number>) => {
-      state.page = action.payload;
-    },
     showMore: (state) => {
       state.display += 6;
+      state.page += 1;
+    },
+    changePage: (state, action: PayloadAction<number>) => {
+      state.page = action.payload;
+      state.display = 6;
     },
     changeFilter: (state, action: PayloadAction<string>) => {
       state.type = action.payload;
+      state.display = 6;
     },
     getNews: (state, action: PayloadAction<News[]>) => {
       state.newsData = action.payload;
     },
   },
   extraReducers(builder) {
-    builder.addCase(sortingNews.fulfilled, () => {
-      console.log(1);
+    builder.addCase(sortingNews.fulfilled, (state, action: PayloadAction<News[]>) => {
+      state.sortedNews = action.payload;
     });
   },
 });

@@ -11,7 +11,7 @@ const NewsListPage: FC = () => {
   const { page, type, display } = useAppSelector((state) => state.news);
   const dispatch = useAppDispatch();
   const { data } = useGetNewsQuery('');
-  const { getNews } = NewsSlice.actions;
+  const { getNews, showMore, changePage } = NewsSlice.actions;
 
   useEffect(() => {
     dispatch(getNews(data!));
@@ -21,6 +21,14 @@ const NewsListPage: FC = () => {
     dispatch(sortingNews(''));
   }, [dispatch, page, type, display]);
 
+  const eventMoreClick = () => {
+    dispatch(showMore());
+  };
+
+  const eventChangePage = (page: number) => {
+    dispatch(changePage(page));
+  };
+
   return (
     <div className={style['NewsListPage']}>
       <h1 className={style['NewsListPage--title']}>Новости</h1>
@@ -28,7 +36,7 @@ const NewsListPage: FC = () => {
         <NewsList />
       </div>
       <div className={style['NewsListPage__pagination']}>
-        <DnsPagination />
+        <DnsPagination button={eventMoreClick} pagination={eventChangePage} />
       </div>
     </div>
   );

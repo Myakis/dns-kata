@@ -3,7 +3,7 @@ import { Pagination, ConfigProvider } from 'antd';
 import style from './style.module.scss';
 import './antd.css';
 
-const DnsPagination: FC<{ button: () => void }> = ({ button }) => {
+const DnsPagination: FC<{ button: () => void; pagination: (page: number) => void }> = ({ button, pagination }) => {
   return (
     <div className={style['pagination']}>
       <div className={style['pagination__block__btn']}>
@@ -39,6 +39,9 @@ const DnsPagination: FC<{ button: () => void }> = ({ button }) => {
             showPrevNextJumpers={false}
             showQuickJumper={false}
             responsive={false}
+            onChange={(page) => {
+              pagination(page);
+            }}
             itemRender={(page, type) => {
               if (type === 'prev') {
                 return <i className={` ${style['fastButton']} ${style['prevButton']}`}></i>;

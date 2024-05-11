@@ -6,7 +6,7 @@ import ArticleNewsCard from 'entities/news-card';
 import style from './style.module.scss';
 
 const NewsList: React.FC = () => {
-  const newsData = useAppSelector((state) => state.news.newsData);
+  const newsData = useAppSelector((state) => state.news.sortedNews);
 
   let ArticleList;
 
