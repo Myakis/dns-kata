@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './review.module.scss';
 import StarRating from '../../../../shared/starRating';
 
-const Review = ({ reviews, loading, selectedStars }) => {
+const Review = ({ reviews, loading, selectedStars, filteredCurrentReviews }) => {
   if (loading) {
     return <h2>Загрузка...</h2>;
   }
@@ -232,13 +232,11 @@ const Review = ({ reviews, loading, selectedStars }) => {
     </div>
   );
 
-  const filteredReviews = reviews.filter((review) => selectedStars.includes(review.rating));
-
   return (
     <div className={`${styles.owOpinions} ${styles.opinionsWidget__opinions}`}>
       {selectedStars.length === 0
         ? reviews.map((review) => renderReview(review))
-        : filteredReviews.map((review) => renderReview(review))}
+        : filteredCurrentReviews.map((review) => renderReview(review))}
     </div>
   );
 };

@@ -47,6 +47,8 @@ const Reviews: React.FC = () => {
 
   const lastReviewsIndex: number = currentPage * reviewsPerPage;
   const firstReviewsIndex: number = lastReviewsIndex - reviewsPerPage;
+  const filteredReviews = reviews.filter((review) => selectedStars.includes(review.rating));
+  const filteredCurrentReviews = filteredReviews.slice(firstReviewsIndex, lastReviewsIndex);
   const currentReviews: ReviewData[] = reviews.slice(firstReviewsIndex, lastReviewsIndex);
 
   const paginate = (pageNumber: number): void => setCurrentPage(pageNumber);
@@ -117,7 +119,14 @@ const Reviews: React.FC = () => {
         </div>
       )}
       {/* Выводим отзывы, если поиск дал результаты */}
-      {!notFound && <Review reviews={currentReviews} loading={loading} selectedStars={selectedStars} />}
+      {!notFound && (
+        <Review
+          reviews={currentReviews}
+          loading={loading}
+          selectedStars={selectedStars}
+          filteredCurrentReviews={filteredCurrentReviews}
+        />
+      )}
       <div className={styles.opinionsWidget__pagination}>
         <div className={styles.paginatorWidget}>
           <div
@@ -129,7 +138,13 @@ const Reviews: React.FC = () => {
               Показать ещё
             </a>
           </div>
-          <Pagination reviewsPerPage={reviewsPerPage} totalREviews={reviews.length} paginate={paginate} />
+          <Pagination
+            reviewsPerPage={reviewsPerPage}
+            totalREviews={reviews.length}
+            totalFilteredReviews={filteredReviews.length}
+            selectedStars={selectedStars}
+            paginate={paginate}
+          />
         </div>
       </div>
     </div>

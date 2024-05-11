@@ -2,13 +2,19 @@ import styles from './pagination.module.scss';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
-const Pagination = ({ reviewsPerPage, totalREviews, paginate }) => {
+const Pagination = ({ reviewsPerPage, totalREviews, totalFilteredReviews, selectedStars, paginate }) => {
   const [activePage, setActivePage] = useState(1); // Состояние для отслеживания активной страницы
 
   const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(totalREviews / reviewsPerPage); i++) {
-    pageNumbers.push(i);
+  if (selectedStars.length === 0) {
+    for (let i = 1; i <= Math.ceil(totalREviews / reviewsPerPage); i++) {
+      pageNumbers.push(i);
+    }
+  } else {
+    for (let i = 1; i <= Math.ceil(totalFilteredReviews / reviewsPerPage); i++) {
+      pageNumbers.push(i);
+    }
   }
 
   const handleClick = (number) => {
@@ -67,7 +73,11 @@ const Pagination = ({ reviewsPerPage, totalREviews, paginate }) => {
         </a>
         <ul
           className={styles.paginatorWidget__pagesList}
-          style={{ flexBasis: `${Math.ceil(totalREviews / reviewsPerPage) * 65}px` }}
+          style={
+            selectedStars.length === 0
+              ? { flexBasis: `${Math.ceil(totalREviews / reviewsPerPage) * 65}px` }
+              : { flexBasis: `${Math.ceil(totalFilteredReviews / reviewsPerPage) * 65}px` }
+          }
         >
           {pageNumbers.map((number) => (
             <li key={number}>
