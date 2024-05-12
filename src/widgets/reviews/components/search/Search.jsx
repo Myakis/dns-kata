@@ -1,10 +1,11 @@
 import styles from './search.module.scss';
 import PropTypes from 'prop-types';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Search = ({ reviews, setReviews, setNotFound }) => {
   const [value, setValue] = useState('');
+  const [initialReviews, setInitialReviews] = useState([]);
 
   const saveValue = (e) => {
     e.preventDefault();
@@ -19,6 +20,9 @@ const Search = ({ reviews, setReviews, setNotFound }) => {
       // Проверяем, нашли ли что-то
       if (filteredReviews.length > 0) {
         // Устанавливаем отфильтрованные отзывы
+        if (initialReviews.length === 0) {
+          setInitialReviews([...reviews]);
+        }
         setReviews(filteredReviews);
         setNotFound(false); // Сбрасываем состояние "Ничего не нашлось"
       } else {
@@ -28,6 +32,14 @@ const Search = ({ reviews, setReviews, setNotFound }) => {
       // Если значение пустое, возвращаем исходные отзывы
       setReviews([...reviews]);
       setNotFound(false); // Сбрасываем состояние "Ничего не нашлось"
+    }
+  };
+
+  const clearFilteredReviews = () => {
+    setValue(''); // Сбросить значение ввода
+    if (initialReviews.length > 0) {
+      setReviews(initialReviews); // Сбросить отзывы до начального состояния
+      setInitialReviews([]); // Очистить initialReviews
     }
   };
 
@@ -42,10 +54,13 @@ const Search = ({ reviews, setReviews, setNotFound }) => {
           placeholder='Поиск по отзывам...'
           onChange={(e) => setValue(e.target.value)}
         />
-        <span className={`${styles.owFilters__searchIcon} ${styles.owFilters__searchIcon_search}`}></span>
+        <span
+          className={`${styles.owFilters__searchIcon} ${styles.owFilters__searchIcon_search}`}
+          onClick={saveValue}
+        ></span>
         <span
           className={`${styles.owFilters__searchIcon} ${styles.owFilters__searchIcon_clear} ${value.trim() === '' ? styles.owFilters__searchIcon_hidden : ''}`} // Условное добавление класса для скрытия иконки очистки
-          onClick={() => setValue('')} // Очистка значения при клике на иконку очистки
+          onClick={() => clearFilteredReviews()} // Очистка значения при клике на иконку очистки
         ></span>
       </form>
     </div>
