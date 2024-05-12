@@ -1,41 +1,16 @@
-// .chatContainer {
-//     position: absolute;
-// }
-
 @import '../../app/styles/mixins.scss';
 
-.chatToggle {
-    display: block;
-    width: 60px;
-    height: 60px;
-    border: none;
-    border-radius: 100%;
-    background-color: var(--main-color);
-    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, .2);
-}
-
-.chatToggle:hover {
-    cursor: pointer;
-}
-
-
-.chatToggleClosed::after {
-    @include background-img('../../app/assets/img/chat/message-icon.svg', 20px, 20px, inline-block);
-    margin-top: 5px;
-}
-
-.chatToggleOpened::after {
-    @include background-img('../../app/assets/img/chat/cross-icon.svg', 20px, 20px, inline-block);
-    margin-top: 5px;
-}
 
 .chatModal {
-    width: 400px;
-    height: 600px;
+    position: relative;
+    display: grid;
+    grid-template-rows: auto auto auto;
+    align-content: flex-start;
+    width: 360px;
+    height: 628px;
     max-height: 630px;
     background: #fff;
     box-shadow: 0 4px 12px 0 rgba(0, 0, 0, .2);
-    display: block;
     transform: translateY(0);
     transition: all .6s ease;
     visibility: visible;
@@ -44,13 +19,12 @@
     position: fixed;
     right: 24px;
     transform: none;
-    width: 360px;
-    z-index: 1600;
 }
 
 .chatHeader {
     margin: auto;
     padding: 12px 0 12px 0;
+    height: auto;
     text-align: center;
     width: 100%;
     box-shadow: 0 8px 20px 0 rgba(0, 0, 0, .05);
@@ -60,3 +34,33 @@
     font-size: 18px;
     font-weight: 400;
 }
+
+
+.chatContentWrapper {
+    height: 515px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 54px 15px 15px;
+}
+
+.chatMessagePanel {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: auto;
+    min-height: 65px;
+    font-size: 0;
+    box-shadow: 0 -8px 20px 0 rgba(0, 0, 0, .05);
+    background: hsla(0, 0%, 100%, .8);
+    border-radius: 0 0 8px 8px;
+}
+
+.dropBtn {
+    border: none;
+    background: transparent;
+    @include background-img('../../app/assets/img/chat/clip.svg', 28px, 28px)
+}
+

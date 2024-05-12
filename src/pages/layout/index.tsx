@@ -5,6 +5,7 @@ import styles from './layout.module.scss';
 import Footer from 'widgets/footer';
 import Header from 'widgets/header';
 import Chat from 'widgets/chat';
+import { ChatBtn } from 'widgets/helper-btns';
 
 interface IProps {
   pageTitle: string | null;
@@ -35,6 +36,9 @@ export const Layout: FC<IProps> = ({ pageTitle, breadcrumbs, children }) => {
         </div>
       </footer>
       <div className={styles.layout__helperBtns}>
+        <ChatBtn />
+      </div>
+      <div className={styles.layout__chat}>
         <Chat />
       </div>
     </div>

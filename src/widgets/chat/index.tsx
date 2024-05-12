@@ -1,30 +1,24 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import styles from './chat.module.scss';
-import classNames from 'classnames';
+import { useAppSelector } from 'shared/hooks/redux';
 
 const Chat: FC = () => {
-  const [isChatBtnClicked, setIsChatBtnClicked] = useState(false);
-  return (
-    <>
-      <div className={styles.chatContainer}>
-        <button
-          className={classNames(
-            styles.chatToggle,
-            { [styles.chatToggleClosed]: !isChatBtnClicked },
-            { [styles.chatToggleOpened]: isChatBtnClicked }
-          )}
-          onClick={() => setIsChatBtnClicked((prevState) => !prevState)}
-        ></button>
-        {isChatBtnClicked ? (
-          <div className={styles.chatModal}>
-            <div className={styles.chatHeader}>
-              <h2>Чат DNS</h2>
-            </div>
+  const chatBtnClicked = useAppSelector((state) => state.helperBtns.chatBtnClicked);
+  return chatBtnClicked ? (
+    <div className={styles.chatContainer}>
+      <div className={styles.chatModal}>
+        <header className={styles.chatHeader}>
+          <h2>Чат DNS</h2>
+        </header>
+        <div className={styles.chatContentWrapper}></div>
+        <div className={styles.chatMessagePanel}>
+          <div className={styles.chatDrop}>
+            <button className={styles.dropBtn}></button>
           </div>
-        ) : null}
+        </div>
       </div>
-    </>
-  );
+    </div>
+  ) : null;
 };
 
 export default Chat;
