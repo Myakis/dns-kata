@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IShop } from 'widgets/shops-page-404/shops-page-404.types';
-import { Stock } from '../types';
+import { IStock } from 'entities/stock/types';
 
 export const DnsAPI = createApi({
   reducerPath: 'DnsAPI',
@@ -11,7 +11,7 @@ export const DnsAPI = createApi({
         url: 'shops',
       }),
     }),
-    getStocks: build.query<Stock, void>({
+    getStocks: build.query<IStock[], unknown>({
       query: () => ({
         url: 'stocks',
       }),
