@@ -9,6 +9,7 @@
   --white: #ffffff;
   --black: #000000;
   --brand-color: rgb(242, 85, 8);
+  --block-shadow: 0 1px 2px 0 #0000001a;
   --star: url('../assets/img/product/star.svg');
   --half-star: url('../assets/img/product/halfStar.svg');
   --empty-star: url('../assets/img/product/emptyStar.svg');

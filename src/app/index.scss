@@ -38,7 +38,8 @@ Sections
 */
 
 body {
-  background: var(--main-bg-color);
+  // background: var(--main-bg-color);
+  background-color: rgb(215, 222, 255); // test
   font-family: var(--fonts);
   margin: 0; /* Remove the margin in all browsers. */
 }

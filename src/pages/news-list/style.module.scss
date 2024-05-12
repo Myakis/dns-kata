@@ -1,17 +1,24 @@
-.NewsListPage {
+.mock-header {
+  height: 145px;
+  width: 100%;
+  background-color: rgb(255, 213, 141);
+  margin-bottom: 24px;
+}
+
+.page {
   max-width: 1380px;
   margin: auto;
 }
 
-.NewsListPage--title {
-  margin: 24px 0px;
-  color: #333;
+.page--title {
+  margin-bottom: 24px;
+  color: var(--text-color);
 }
 
-.NewsListPage__articles {
+.page__articles {
   margin-bottom: 20px;
 }
 
-.NewsListPage__button {
+.page__button {
   margin-bottom: 32px;
 }

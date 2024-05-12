@@ -9,9 +9,11 @@ export type News = {
 };
 
 export type NewsState = {
+  loadNews: boolean;
   page: number;
   display: number;
   type: string;
+  articleNews: News;
   sortedNews: News[];
   newsData: News[];
 };

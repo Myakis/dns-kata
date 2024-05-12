@@ -6,20 +6,27 @@ import NewsList from 'widgets/news-list';
 import DnsPagination from 'features/pagination';
 import style from './style.module.scss';
 import { sortingNews } from 'shared/store/slices/news-slice';
+import Footer from 'widgets/footer';
 
 const NewsListPage: FC = () => {
-  const { page, type, display } = useAppSelector((state) => state.news);
+  const { page, type, display, loadNews, newsData } = useAppSelector((state) => state.news);
   const dispatch = useAppDispatch();
   const { data } = useGetNewsQuery('');
   const { getNews, showMore, changePage } = NewsSlice.actions;
 
   useEffect(() => {
-    dispatch(getNews(data!));
-  }, [dispatch, data, getNews]);
+    if (!loadNews) {
+      dispatch(getNews(data!));
+      // console.log('fetch');
+    }
+  }, [dispatch, data, getNews, loadNews]);
 
   useEffect(() => {
-    dispatch(sortingNews(''));
-  }, [dispatch, page, type, display]);
+    if (loadNews) {
+      dispatch(sortingNews(''));
+      // console.log('sorting');
+    }
+  }, [dispatch, page, type, display, newsData, loadNews]);
 
   const eventMoreClick = () => {
     dispatch(showMore());
@@ -30,15 +37,19 @@ const NewsListPage: FC = () => {
   };
 
   return (
-    <div className={style['NewsListPage']}>
-      <h1 className={style['NewsListPage--title']}>Новости</h1>
-      <div className={style['NewsListPage__articles']}>
-        <NewsList />
+    <>
+      <div className={style['mock-header']}>тест</div> {/* test */}
+      <div className={style['page']}>
+        <h1 className={style['page--title']}>Новости</h1>
+        <div className={style['page__articles']}>
+          <NewsList />
+        </div>
+        <div className={style['page__pagination']}>
+          <DnsPagination button={eventMoreClick} pagination={eventChangePage} />
+        </div>
       </div>
-      <div className={style['NewsListPage__pagination']}>
-        <DnsPagination button={eventMoreClick} pagination={eventChangePage} />
-      </div>
-    </div>
+      <Footer /> {/* test */}
+    </>
   );
 };
 

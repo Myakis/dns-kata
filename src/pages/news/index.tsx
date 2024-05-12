@@ -3,23 +3,47 @@ import CommentBlock from 'widgets/comment';
 import NewsProductsList from 'widgets/news-products';
 
 import style from './style.module.scss';
-
-const Proba = {
-  id: 1,
-  name: 'Facere stips damnatio benigne verto civitas aptus bellum.',
-  description:
-    'Bellum tametsi porro colligo audentia trepide.\nTotam depromo subnecto victoria celer deripio aqua.\nNulla fugit sonitus quidem sed voveo caecus.\nAegrotatio tergo aurum titulus quisquam comedo.\nCunctatio creo theologus claudeo cunabula alius aegre speculum.\nArx advoco commodo suffoco cruentus.\nSpeciosus cervus beatae certe stillicidium aggredior inventore clarus magni angelus.',
-  type: 'commonInfo',
-  date: '2023-09-24T00:31:38.697Z',
-  viewsCount: 3755,
-  commentsCount: 2198,
-};
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
+import { useGetNewsQuery } from 'shared/api/newsApi';
+import { NewsSlice } from 'shared/store/slices/news-slice';
+import type { News } from 'shared/store/slices/news-slice/types';
 
 const NewsPage: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { data } = useGetNewsQuery('');
+  const { page, type, display, loadNews, newsData } = useAppSelector((state) => state.news);
+  const param = useParams();
+  const { getNews, findNewsId } = NewsSlice.actions;
+
+  useEffect(() => {
+    if (!loadNews) {
+      dispatch(getNews(data!));
+      // console.log('fetch');
+    }
+  }, [dispatch, data, getNews, loadNews]);
+
+  useEffect(() => {
+    if (loadNews) {
+      const test = newsData.filter((item) => item.id === Number(param.id));
+
+      dispatch(findNewsId(test[0]));
+    }
+  }, [dispatch, page, type, display, newsData, loadNews, param.id]);
+
+  // useEffect(() => {
+  //   if (loadNews) {
+  //     // dispatch(findNewsId(Number(param.id)));
+  //   }
+  // }, [dispatch, page, type, display, newsData, loadNews, findNewsId, param.id]);
+
+  // console.log(articleNews);
+
   return (
     <div className={style['news']}>
       <div className={style['news__path']}>типо хлебные крошки</div>
-      <h1 className={style['news--title']}>{Proba.name}</h1>
+      <h1 className={style['news--title']}>{}</h1>
       <div className={style['news__content']}>
         <section className={style['news__article']}>
           <NewsBlock />

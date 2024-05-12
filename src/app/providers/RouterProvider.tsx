@@ -1,5 +1,6 @@
 import Main from 'pages/main';
 import NewsListPage from 'pages/news-list';
+import NewsPage from 'pages/news';
 import Page404 from 'pages/page-404';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
   {
     path: 'news',
     element: <NewsListPage />,
+  },
+  {
+    path: 'news/:id',
+    element: <NewsPage />,
   },
 ]);
 

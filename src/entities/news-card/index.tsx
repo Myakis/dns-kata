@@ -1,9 +1,9 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { FC } from 'react';
 import StatComponent from 'entities/news-stat'; /* --- */
 import { News } from 'shared/store/slices/news-slice/types';
 import { shortingText } from 'shared/util/shortingText';
 import randomBanner from './constants/articles-banners';
+import { Link } from 'react-router-dom';
 
 import style from './style.module.scss';
 
@@ -24,13 +24,13 @@ const ArticleNewsCard: FC<{ article: News }> = ({ article }) => {
   return (
     <article className={style['card']}>
       <div className={style['card__banner']}>
-        <a href='#'>
+        <Link to={`${article.id}`}>
           <img src={randomBanner(true)} alt='banner' /> {/* рандомный баннер */}
-        </a>
+        </Link>
       </div>
 
       <div className={style['card__title']}>
-        <a href='#'>{article.name}</a>
+        <Link to={`${article.id}`}>{article.name}</Link>
       </div>
 
       <div className={style['card__discription']}>
