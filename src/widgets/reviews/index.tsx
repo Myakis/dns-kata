@@ -24,6 +24,7 @@ const Reviews: React.FC = () => {
   const [reviewsPerPage, setReviewsPerPage] = useState<number>(10);
   const [selectedStars, setSelectedStars] = useState([]);
   const [notFound, setNotFound] = useState<boolean>(false);
+  const [addReviewsStatus, setAddReviewsStatus] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -42,19 +43,28 @@ const Reviews: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setReviewsPerPage(10);
+    setAddReviewsStatus(false);
   }, [currentPage]);
 
   const lastReviewsIndex: number = currentPage * reviewsPerPage;
   const firstReviewsIndex: number = lastReviewsIndex - reviewsPerPage;
   const filteredReviews = reviews.filter((review) => selectedStars.includes(review.rating));
-  const filteredCurrentReviews = filteredReviews.slice(firstReviewsIndex, lastReviewsIndex);
-  const currentReviews: ReviewData[] = reviews.slice(firstReviewsIndex, lastReviewsIndex);
 
+  const [lastReviewsIndexAddTen, setLastReviewsIndexAddTen] = useState<number>(lastReviewsIndex);
+
+  const filteredCurrentReviews = filteredReviews.slice(
+    firstReviewsIndex,
+    addReviewsStatus ? lastReviewsIndexAddTen : lastReviewsIndex
+  );
+  const currentReviews: ReviewData[] = reviews.slice(
+    firstReviewsIndex,
+    addReviewsStatus ? lastReviewsIndexAddTen : lastReviewsIndex
+  );
   const paginate = (pageNumber: number): void => setCurrentPage(pageNumber);
 
   const addReviews = () => {
-    setReviewsPerPage((prev) => prev + 10);
+    setLastReviewsIndexAddTen((prev) => prev + 10);
+    setAddReviewsStatus(true);
   };
 
   const handleCheckboxChange = (value) => {
