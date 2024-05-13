@@ -61,9 +61,6 @@ const Stocks: FC = () => {
   const list = sortFunc(stocks, sort)?.map((stock, indx) => {
     const listRange = page * 20 - 20 * range;
 
-    console.log(listRange);
-    console.log(page * 20);
-
     if (indx <= listRange || indx >= page * 20) {
       return null;
     }
