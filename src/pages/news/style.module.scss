@@ -1,14 +1,14 @@
-.news {
+.page {
   max-width: 1360px;
   min-width: 320px;
   margin: auto;
 
-  .news__path {
+  .page__path {
     height: 40px;
     background-color: rgb(228, 226, 167);
   }
 
-  .news--title {
+  .page--title {
     padding: 0 12px;
     margin-top: 15px;
     margin-bottom: 15px;
@@ -21,7 +21,7 @@
   }
 }
 
-.news__content {
+.page__content {
   padding: 0 12px;
   display: grid;
   grid-template-areas:
@@ -42,15 +42,15 @@
     padding: 0 4px;
   }
 
-  .news__article {
+  .page__article {
     grid-area: news;
   }
 
-  .news__comment {
+  .page__comment {
     grid-area: comment;
   }
 
-  .news__product {
+  .page__product {
     grid-area: product;
   }
 }

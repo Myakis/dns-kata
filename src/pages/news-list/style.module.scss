@@ -1,24 +1,17 @@
-.mock-header {
-  height: 145px;
-  width: 100%;
-  background-color: rgb(255, 213, 141);
-  margin-bottom: 24px;
-}
-
 .page {
   max-width: 1380px;
   margin: auto;
-}
 
-.page--title {
-  margin-bottom: 24px;
-  color: var(--text-color);
-}
+  .page--title {
+    margin-bottom: 24px;
+    color: var(--text-color);
+  }
 
-.page__articles {
-  margin-bottom: 20px;
-}
+  .page__articles {
+    margin-bottom: 20px;
+  }
 
-.page__button {
-  margin-bottom: 32px;
+  .page__button {
+    margin-bottom: 32px;
+  }
 }

@@ -1,9 +1,11 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import NewsStat from 'entities/news-stat'; /* --- */
+
 import { News } from 'shared/store/slices/news-slice/types';
 import { shortingText } from 'shared/util/shortingText';
 import randomBanner from './constants/articles-banners';
+import NewsStat from 'entities/news-stat'; /* --- */
+
 import style from './style.module.scss';
 
 const NewsCardArticle: FC<{ newsData: News }> = ({ newsData }) => {

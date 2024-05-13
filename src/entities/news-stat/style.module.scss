@@ -20,9 +20,11 @@
     padding-right: 5px;
     font-family: 'i-icon';
   }
+
   &.stat__icon-views::before {
     content: '\e105';
   }
+
   &.stat__icon-comments::before {
     content: '\e936';
   }

@@ -1,25 +1,31 @@
+import { FC } from 'react';
 import { useAppSelector } from 'shared/hooks/redux';
+
 import NewsNav from 'features/news-nav';
 import NewsCardArticle from 'entities/news-card';
+
 import style from './style.module.scss';
 
-const NewsList: React.FC = () => {
+const NewsList: FC = () => {
   const newsData = useAppSelector((state) => state.news.sortedNews);
 
-  let ArticleList;
+  const renderNewsList = () => {
+    if (newsData) {
+      const ArticleList = newsData.map((item) => {
+        return <NewsCardArticle key={self.crypto.randomUUID()} newsData={item} />;
+      });
 
-  if (newsData) {
-    ArticleList = newsData.map((item) => {
-      return <NewsCardArticle key={self.crypto.randomUUID()} newsData={item} />;
-    });
-  }
+      return ArticleList;
+    }
+    return;
+  };
 
   return (
-    <section className={style['newslist']}>
-      <div className={style['newslist__nav']}>
+    <section className={style['list']}>
+      <div className={style['list__nav']}>
         <NewsNav />
       </div>
-      <div className={style['newslist__articles']}>{ArticleList}</div>
+      <div className={style['list__articles']}>{renderNewsList()}</div>
     </section>
   );
 };

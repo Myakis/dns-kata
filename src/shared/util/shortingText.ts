@@ -1,6 +1,5 @@
 /*
   банально обрезает по количеству букв до лимита, а после до ближайшего пробела.
-  если пробелов не будет то п***а))) может поставить точки в конце если dotdotdot = true.
 */
 
 type sdFunc = (prevText: string, limit: number, dotdotdot?: boolean) => string;

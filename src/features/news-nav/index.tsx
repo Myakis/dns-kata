@@ -1,13 +1,14 @@
 import { FC } from 'react';
 import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
+
 import { NewsSlice } from 'shared/store/slices/news-slice';
 import { filters } from './constants/filters';
 
 import style from './style.module.scss';
 
 const NewsNav: FC = () => {
-  const currentFilter = useAppSelector((state) => state.news.type);
   const dispatch = useAppDispatch();
+  const currentFilter = useAppSelector((state) => state.news.type);
   const { changeFilter } = NewsSlice.actions;
 
   const renderButtons = (filters: { name: string; filter: string }[]) => {

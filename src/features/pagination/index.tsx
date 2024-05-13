@@ -1,9 +1,10 @@
 import { FC } from 'react';
 import { Pagination, ConfigProvider } from 'antd';
+
 import style from './style.module.scss';
-import { DnsPaginationTypes } from './types';
 import './antd.css';
 
+type DnsPaginationTypes = { buttonEvent: () => void; paginationEvent: (page: number) => void; page: number };
 const DnsPagination: FC<DnsPaginationTypes> = ({ buttonEvent, paginationEvent, page }) => {
   return (
     <div className={style['pagination']}>

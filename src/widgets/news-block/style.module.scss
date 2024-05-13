@@ -1,10 +1,10 @@
-.news {
+.block {
   max-width: 1062px;
   margin: auto;
   color: var(--text-color);
 }
 
-.news__container {
+.block__container {
   box-shadow: var(--block-shadow);
   background-color: var(--white);
   max-width: 1060px;
@@ -12,17 +12,17 @@
   overflow: hidden;
   font-size: 18px;
 
-  .news--img {
+  .block--img {
     max-width: 100%;
   }
 
-  .news__post {
+  .block__post {
     display: flex;
     flex-direction: column;
     padding: 20px 32px;
   }
 
-  .news__stat {
+  .block__stat {
     display: flex;
     align-self: flex-end;
     align-items: center;

@@ -1,4 +1,4 @@
-.product {
+.productList {
   width: 300px;
   color: var(--text-color);
   box-shadow: var(--block-shadow);
@@ -15,19 +15,19 @@
   }
 }
 
-.product__header {
+.productList__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
 
-  .product--title {
+  .productList--title {
     display: inline-block;
     font-weight: bold;
     font-size: 18px;
   }
 
-  .product__link {
+  .productList__link {
     display: inline-block;
     color: #0d61af;
 
@@ -39,7 +39,7 @@
   }
 }
 
-.product__list {
+.productList__list {
   height: 1000px;
 
   @media (max-width: 991px) {

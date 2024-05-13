@@ -1,16 +1,18 @@
 import { useEffect, FC } from 'react';
 import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
+
 import { useGetNewsQuery } from 'shared/api/newsApi';
 import { NewsSlice } from 'shared/store/slices/news-slice';
+import { sortingNews } from 'shared/store/slices/news-slice';
+
 import NewsList from 'widgets/news-list';
 import DnsPagination from 'features/pagination';
-import { sortingNews } from 'shared/store/slices/news-slice';
 import style from './style.module.scss';
 
 const NewsListPage: FC = () => {
-  const { page, type, display, loadNews, newsData } = useAppSelector((state) => state.news);
   const dispatch = useAppDispatch();
   const { data } = useGetNewsQuery('');
+  const { page, type, display, loadNews, newsData } = useAppSelector((state) => state.news);
   const { getNews, showMore, changePage } = NewsSlice.actions;
 
   useEffect(() => {
@@ -25,14 +27,6 @@ const NewsListPage: FC = () => {
     }
   }, [dispatch, page, type, display, newsData, loadNews]);
 
-  const eventMoreClick = () => {
-    dispatch(showMore());
-  };
-
-  const eventChangePage = (page: number) => {
-    dispatch(changePage(page));
-  };
-
   return (
     <>
       <div className={style['page']}>
@@ -41,7 +35,11 @@ const NewsListPage: FC = () => {
           <NewsList />
         </div>
         <div className={style['page__pagination']}>
-          <DnsPagination buttonEvent={eventMoreClick} paginationEvent={eventChangePage} page={page} />
+          <DnsPagination
+            buttonEvent={() => dispatch(showMore())}
+            paginationEvent={() => dispatch(changePage(page))}
+            page={page}
+          />
         </div>
       </div>
     </>

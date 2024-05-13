@@ -1,10 +1,13 @@
 import { FC } from 'react';
-import style from './style.module.scss';
 import { ReactNode } from 'react';
 import { useAppSelector } from 'shared/hooks/redux';
+
 import randomBanner from 'entities/news-card/constants/articles-banners';
+
 import NewsStat from 'entities/news-stat';
 import ShareTooltip from 'features/share-tooltip';
+
+import style from './style.module.scss';
 
 function formatText(text: string): ReactNode {
   const arrT = text.split('\n').map((item) => {
@@ -24,15 +27,15 @@ const NewsBlock: FC = () => {
   const { name, description, date, viewsCount, commentsCount } = data;
 
   return (
-    <article className={style['news']}>
-      <div className={style['news__container']}>
-        <img className={style['news--img']} src={`${randomBanner()}`} alt='banner' />
-        <div className={style['news__post']}>
-          <p className={style['news__post--title']}>
+    <article className={style['block']}>
+      <div className={style['block__container']}>
+        <img className={style['block--img']} src={`${randomBanner()}`} alt='banner' />
+        <div className={style['block__post']}>
+          <p className={style['block__post--title']}>
             <b>{name}</b>
           </p>
-          <div className={style['news__description']}>{formatText(description)}</div>
-          <div className={style['news__stat']}>
+          <div className={style['block__description']}>{formatText(description)}</div>
+          <div className={style['block__stat']}>
             <NewsStat fullConfig={true} stat={{ date: date, viewsCount: viewsCount, commentsCount: commentsCount }} />
             <ShareTooltip />
           </div>

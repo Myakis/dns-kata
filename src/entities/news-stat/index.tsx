@@ -1,6 +1,8 @@
 import { FC } from 'react';
+
 import { StatTypes } from './types';
 import { formatDate } from 'shared/util/formateDate';
+
 import style from './style.module.scss';
 
 const NewsStat: FC<StatTypes> = ({ fullConfig, stat }) => {

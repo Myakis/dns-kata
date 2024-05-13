@@ -1,15 +1,15 @@
-.newslist {
+.list {
   background-color: var(--bg-color);
   border-radius: 16px;
   padding: 32px;
   box-shadow: var(--block-shadow);
 }
 
-.newslist__nav {
+.list__nav {
   margin-bottom: 28px;
 }
 
-.newslist__articles {
+.list__articles {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   row-gap: 24px;
