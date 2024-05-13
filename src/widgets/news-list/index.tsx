@@ -1,8 +1,6 @@
 import { useAppSelector } from 'shared/hooks/redux';
-
 import NewsNav from 'features/news-nav';
-import ArticleNewsCard from 'entities/news-card';
-
+import NewsCardArticle from 'entities/news-card';
 import style from './style.module.scss';
 
 const NewsList: React.FC = () => {
@@ -12,7 +10,7 @@ const NewsList: React.FC = () => {
 
   if (newsData) {
     ArticleList = newsData.map((item) => {
-      return <ArticleNewsCard key={self.crypto.randomUUID()} article={item} />;
+      return <NewsCardArticle key={self.crypto.randomUUID()} newsData={item} />;
     });
   }
 

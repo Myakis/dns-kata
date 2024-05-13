@@ -1,12 +1,10 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState } from 'react';
-
+import { useState, FC } from 'react';
 import style from './style.module.scss';
 
-const ShareTooltip: React.FC = () => {
+const ShareTooltip: FC = () => {
   const [shareModal, setShareModal] = useState(false);
 
-  const clickButtonShare = (): void => {
+  const clickOpenModal = (): void => {
     if (!shareModal) {
       const eventShareModal = (): void => {
         const event = (): void => {
@@ -27,7 +25,7 @@ const ShareTooltip: React.FC = () => {
 
   return (
     <div className={style['share']}>
-      <button className={`${style['share__button']} ${style['icon']}`} onClick={clickButtonShare}></button>
+      <button className={`${style['share__button']} ${style['icon']}`} onClick={clickOpenModal}></button>
       {shareModal && (
         <>
           <div className={style['mobile__background']} onClick={() => setShareModal(false)}></div>
@@ -38,24 +36,56 @@ const ShareTooltip: React.FC = () => {
             </div>
             <ul className={style['share__list']}>
               <li className={style['share__item']}>
-                <a className={`${style['share__link']} ${style['share__link_vk']}`} href='#'>
+                <button
+                  type='button'
+                  className={`${style['share__modal_button']} ${style['share__modal_button_vk']}`}
+                  onClick={() => {
+                    window.open(
+                      `https://vk.com/share.php?url=${location.href}`,
+                      'sharer',
+                      'status=0,toolbar=0,width=650,height=500'
+                    );
+                  }}
+                >
                   Вконтакте
-                </a>
+                </button>
               </li>
               <li className={style['share__item']}>
-                <a className={`${style['share__link']} ${style['share__link-ok']}`} href='#'>
+                <button
+                  type='button'
+                  className={`${style['share__modal_button']} ${style['share__modal_button-ok']}`}
+                  onClick={() => {
+                    window.open(
+                      `https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&st.shareUrl=${location.href}%2F`,
+                      'sharer',
+                      'status=0,toolbar=0,width=650,height=500'
+                    );
+                  }}
+                >
                   Одноклассники
-                </a>
+                </button>
               </li>
               <li className={style['share__item']}>
-                <a className={`${style['share__link']} ${style['share__link-copy']}`} href='#'>
+                <button
+                  type='button'
+                  className={`${style['share__modal_button']} ${style['share__modal_button-copy']}`}
+                  onClick={() => {
+                    navigator.clipboard.writeText(location.href);
+                  }}
+                >
                   Скопировать ссылку
-                </a>
+                </button>
               </li>
               <li className={style['share__item']}>
-                <a className={`${style['share__link']} ${style['share__link-other']}`} href='#'>
+                <button
+                  type='button'
+                  className={`${style['share__modal_button']} ${style['share__modal_button-other']}`}
+                  onClick={() => {
+                    navigator.share({ url: location.href });
+                  }}
+                >
                   Другие способы
-                </a>
+                </button>
               </li>
             </ul>
           </div>

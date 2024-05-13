@@ -1,13 +1,14 @@
 import { FC } from 'react';
 import { Pagination, ConfigProvider } from 'antd';
 import style from './style.module.scss';
+import { DnsPaginationTypes } from './types';
 import './antd.css';
 
-const DnsPagination: FC<{ button: () => void; pagination: (page: number) => void }> = ({ button, pagination }) => {
+const DnsPagination: FC<DnsPaginationTypes> = ({ buttonEvent, paginationEvent, page }) => {
   return (
     <div className={style['pagination']}>
       <div className={style['pagination__block__btn']}>
-        <button type='button' className={style['pagination__btn']} onClick={() => button()}>
+        <button type='button' className={style['pagination__btn']} onClick={() => buttonEvent()}>
           Показать ещё
         </button>
       </div>
@@ -39,8 +40,9 @@ const DnsPagination: FC<{ button: () => void; pagination: (page: number) => void
             showPrevNextJumpers={false}
             showQuickJumper={false}
             responsive={false}
+            current={page}
             onChange={(page) => {
-              pagination(page);
+              paginationEvent(page);
             }}
             itemRender={(page, type) => {
               if (type === 'prev') {

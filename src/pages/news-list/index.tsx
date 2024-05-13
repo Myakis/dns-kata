@@ -4,9 +4,8 @@ import { useGetNewsQuery } from 'shared/api/newsApi';
 import { NewsSlice } from 'shared/store/slices/news-slice';
 import NewsList from 'widgets/news-list';
 import DnsPagination from 'features/pagination';
-import style from './style.module.scss';
 import { sortingNews } from 'shared/store/slices/news-slice';
-import Footer from 'widgets/footer';
+import style from './style.module.scss';
 
 const NewsListPage: FC = () => {
   const { page, type, display, loadNews, newsData } = useAppSelector((state) => state.news);
@@ -17,14 +16,12 @@ const NewsListPage: FC = () => {
   useEffect(() => {
     if (!loadNews) {
       dispatch(getNews(data!));
-      // console.log('fetch');
     }
   }, [dispatch, data, getNews, loadNews]);
 
   useEffect(() => {
     if (loadNews) {
       dispatch(sortingNews(''));
-      // console.log('sorting');
     }
   }, [dispatch, page, type, display, newsData, loadNews]);
 
@@ -38,17 +35,15 @@ const NewsListPage: FC = () => {
 
   return (
     <>
-      <div className={style['mock-header']}>тест</div> {/* test */}
       <div className={style['page']}>
         <h1 className={style['page--title']}>Новости</h1>
         <div className={style['page__articles']}>
           <NewsList />
         </div>
         <div className={style['page__pagination']}>
-          <DnsPagination button={eventMoreClick} pagination={eventChangePage} />
+          <DnsPagination buttonEvent={eventMoreClick} paginationEvent={eventChangePage} page={page} />
         </div>
       </div>
-      <Footer /> {/* test */}
     </>
   );
 };

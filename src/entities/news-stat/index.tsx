@@ -1,10 +1,9 @@
 import { FC } from 'react';
 import { StatTypes } from './types';
 import { formatDate } from 'shared/util/formateDate';
-
 import style from './style.module.scss';
 
-const StatComponent: FC<StatTypes> = ({ fullConfig, stat }) => {
+const NewsStat: FC<StatTypes> = ({ fullConfig, stat }) => {
   return (
     <>
       <div className={`${style['stat']} ${fullConfig ? style['off-border'] : null}`}>
@@ -26,4 +25,4 @@ const StatComponent: FC<StatTypes> = ({ fullConfig, stat }) => {
   );
 };
 
-export default StatComponent;
+export default NewsStat;

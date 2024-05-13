@@ -13,7 +13,7 @@
     margin-top: 15px;
     margin-bottom: 15px;
     font-size: 32px;
-    color: #333;
+    color: var(--text-color);
 
     @media (max-width: 768px) {
       padding: 0 4px;
