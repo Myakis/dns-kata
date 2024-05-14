@@ -100,8 +100,5 @@ export default DropdownMenu;
 // toggleArrow={true}
 // listClassName={styles['upper-header__to-customers-dropdown']}
 // linkClassName={styles['header-link']}
-// linkAttributes={
-//   toCustomersLinks.find((el) => el.label === 'Доставка') ? { onMouseEnter: () => console.log('a') } : undefined
-// }
 // toggleClassname={styles['upper-header__to-customers-btn']}
 // />
