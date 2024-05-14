@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import zaglushkaPoster from './6f690fae9f30027edf79df2eb6dede25966ac55541ff57463a804b771a168b7a.jpg.webp';
-import zaglushkaProduct from './bb0ef449ff07b96c4d215aadef860333e565845637d76b7355cfe1282ecf5baf.jpg.webp';
+import zaglushkaPoster from '../../app/assets/img/stock/poster.webp';
+import zaglushkaProduct from '../../app/assets/img/stock/product.webp';
 import styles from './stock.module.scss';
 import { StockData } from './types';
 
@@ -11,11 +11,11 @@ interface IProps {
 const StockItem: FC<IProps> = ({
   data: {
     stock: {
-      id = 1,
-      endDate = '2023-10-24T10:28:53.363Z',
-      startDate = '2023-09-24T20:07:20.331Z',
-      name = 'Жестка скидка вау надо брать вери найс покупаю.',
-      image = 'https://c.dns-shop.ru/thumb/st1/crop/344/244/7d5921150dbc0f33074701ef505ab979/892e02c36283e1080a354592931d0bee60523b5b4292a466716309fef47f14ed.jpg.webp',
+      id,
+      endDate,
+      startDate,
+      name,
+      image = zaglushkaPoster,
     },
     vobler = { text: 'Скидка 0% ого', color: '#ff4081' },
   },
