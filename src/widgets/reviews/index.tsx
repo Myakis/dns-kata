@@ -25,6 +25,8 @@ const Reviews: React.FC = () => {
   const [selectedStars, setSelectedStars] = useState<number[]>([]);
   const [notFound, setNotFound] = useState<boolean>(false);
   const [addReviewsStatus, setAddReviewsStatus] = useState<boolean>(false);
+  const [totalReviews, setTotalReviews] = useState<number>(reviews.length);
+  const [lastReviewsIndex, setLastReviewsIndex] = useState<number>(10);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -33,6 +35,7 @@ const Reviews: React.FC = () => {
         const response = await axios.get<ReviewData[]>('http://localhost:8000/reviews');
 
         setReviews(response.data);
+        setTotalReviews(response.data.length); // Обновляем totalReviews после получения отзывов с сервера
         setLoading(false);
       } catch (error) {
         console.error('Ошибка при получении отзывов:', error);
@@ -44,9 +47,9 @@ const Reviews: React.FC = () => {
 
   useEffect(() => {
     setAddReviewsStatus(false);
-  }, [currentPage]);
+    setTotalReviews(reviews.length);
+  }, [currentPage, reviews.length]);
 
-  const lastReviewsIndex: number = currentPage * reviewsPerPage;
   const firstReviewsIndex: number = lastReviewsIndex - reviewsPerPage;
   const filteredReviews = reviews.filter((review) => selectedStars.includes(review.rating));
 
@@ -60,12 +63,21 @@ const Reviews: React.FC = () => {
     firstReviewsIndex,
     addReviewsStatus ? lastReviewsIndexAddTen : lastReviewsIndex
   );
-  const paginate = (pageNumber: number): void => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number): void => {
+    setCurrentPage(pageNumber);
+    setLastReviewsIndex(pageNumber * reviewsPerPage);
+    setLastReviewsIndexAddTen(pageNumber * reviewsPerPage); // Обновляем lastReviewsIndexAddTen при изменении страницы
+  };
+
+  console.log('currentPage:', currentPage);
 
   const addReviews = () => {
     setLastReviewsIndexAddTen((prev) => prev + 10);
+    setTotalReviews((prev) => prev - 10);
     setAddReviewsStatus(true);
   };
+
+  console.log('lastReviewsIndexAddTen:', lastReviewsIndexAddTen);
 
   const handleCheckboxChange = (value: number) => {
     console.log('Checkbox value:', value);
@@ -79,6 +91,8 @@ const Reviews: React.FC = () => {
 
     console.log('Selected stars after update:', selectedStars);
   };
+
+  console.log(addReviewsStatus);
 
   return (
     <div className={styles.owOpinionsContainer}>
@@ -144,16 +158,9 @@ const Reviews: React.FC = () => {
             style={{ display: 'flex' }}
             onClick={addReviews}
           >
-            <a href='!#' className={styles.paginatorWidget__more}>
-              Показать ещё
-            </a>
+            <div className={styles.paginatorWidget__more}>Показать ещё</div>
           </div>
-          <Pagination
-            reviewsPerPage={reviewsPerPage}
-            lastReviewsIndexAddTen={lastReviewsIndexAddTen - 10}
-            totalREviews={reviews.length}
-            paginate={paginate}
-          />
+          <Pagination reviewsPerPage={reviewsPerPage} totalReviews={totalReviews} paginate={paginate} />
         </div>
       </div>
     </div>

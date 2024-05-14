@@ -2,19 +2,12 @@ import styles from './pagination.module.scss';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
-const Pagination = ({ reviewsPerPage, lastReviewsIndexAddTen, totalREviews, paginate }) => {
+const Pagination = ({ reviewsPerPage, totalReviews, paginate }) => {
   const [activePage, setActivePage] = useState(1); // Состояние для отслеживания активной страницы
-
   const pageNumbers = [];
 
-  if (lastReviewsIndexAddTen !== 0) {
-    for (let i = 1; i <= Math.ceil(totalREviews / lastReviewsIndexAddTen); i++) {
-      pageNumbers.push(i);
-    }
-  } else {
-    for (let i = 1; i <= Math.ceil(totalREviews / reviewsPerPage); i++) {
-      pageNumbers.push(i);
-    }
+  for (let i = 1; i <= Math.ceil(totalReviews / reviewsPerPage); i++) {
+    pageNumbers.push(i);
   }
 
   const handleClick = (number) => {
@@ -48,7 +41,7 @@ const Pagination = ({ reviewsPerPage, lastReviewsIndexAddTen, totalREviews, pagi
   };
 
   const lastPage = () => {
-    const last = Math.ceil(totalREviews / reviewsPerPage); // Получаем номер последней страницы
+    const last = Math.ceil(totalReviews / reviewsPerPage); // Получаем номер последней страницы
 
     setActivePage(last); // Устанавливаем последнюю страницу как активную
     paginate(last); // Вызываем функцию paginate для перехода на последнюю страницу
@@ -57,50 +50,33 @@ const Pagination = ({ reviewsPerPage, lastReviewsIndexAddTen, totalREviews, pagi
   return (
     <div className={styles.paginatorWidget__block}>
       <div className={styles.paginatorWidget__pages}>
-        <a
-          href='!#'
-          className={`${styles.paginatorWidget__page} ${styles.paginatorWidget__page_first}`}
-          onClick={firstPage}
-        >
+        <div className={`${styles.paginatorWidget__page} ${styles.paginatorWidget__page_first}`} onClick={firstPage}>
           {}
-        </a>
-        <a
-          href='!#'
-          className={`${styles.paginatorWidget__page} ${styles.paginatorWidget__page_prev}`}
-          onClick={prevPage}
-        >
+        </div>
+        <div className={`${styles.paginatorWidget__page} ${styles.paginatorWidget__page_prev}`} onClick={prevPage}>
           {}
-        </a>
+        </div>
         <ul
           className={styles.paginatorWidget__pagesList}
-          style={{ flexBasis: `${Math.ceil(totalREviews / reviewsPerPage) * 65}px` }}
+          style={{ flexBasis: `${Math.ceil(totalReviews / reviewsPerPage) * 65}px` }}
         >
           {pageNumbers.map((number) => (
             <li key={number}>
-              <a
-                href={'!#'}
+              <div
                 className={`${styles.paginatorWidget__page} ${activePage === number ? styles.paginatorWidget__page_active : ''}`}
                 onClick={() => handleClick(number)}
               >
                 {number}
-              </a>
+              </div>
             </li>
           ))}
         </ul>
-        <a
-          href='!#'
-          className={`${styles.paginatorWidget__page} ${styles.paginatorWidget__page_next}`}
-          onClick={nextPage}
-        >
+        <div className={`${styles.paginatorWidget__page} ${styles.paginatorWidget__page_next}`} onClick={nextPage}>
           {}
-        </a>
-        <a
-          href='!#'
-          className={`${styles.paginatorWidget__page} ${styles.paginatorWidget__page_last}`}
-          onClick={lastPage}
-        >
+        </div>
+        <div className={`${styles.paginatorWidget__page} ${styles.paginatorWidget__page_last}`} onClick={lastPage}>
           {}
-        </a>
+        </div>
       </div>
     </div>
   );
@@ -108,8 +84,7 @@ const Pagination = ({ reviewsPerPage, lastReviewsIndexAddTen, totalREviews, pagi
 
 Pagination.propTypes = {
   reviewsPerPage: PropTypes.number.isRequired,
-  lastReviewsIndexAddTen: PropTypes.number.isRequired,
-  totalREviews: PropTypes.number.isRequired,
+  totalReviews: PropTypes.number.isRequired,
   paginate: PropTypes.func.isRequired,
 };
 

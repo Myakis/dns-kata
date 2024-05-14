@@ -1,6 +1,7 @@
 import Product from 'entities/product';
 import React, { useState } from 'react';
 import Footer from 'widgets/footer';
+import Reviews from 'widgets/reviews';
 
 const Main: React.FC = () => {
   const [isHorizontal, setIsHorizontal] = useState<boolean>(true);
@@ -34,6 +35,7 @@ const Main: React.FC = () => {
         }}
         isHorizontal={isHorizontal}
       />
+      <Reviews />
       <Footer />
     </>
   );
