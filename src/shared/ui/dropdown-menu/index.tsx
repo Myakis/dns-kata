@@ -93,12 +93,12 @@ export default DropdownMenu;
 
 // Пример:
 // <DropdownMenu
-// className={styles['upper-header__dropdown']}
+// className={styles['dropdown']}
 // key={index}
 // dropdownItems={toCustomersLinks}
 // toggleContent={el.label}
 // toggleArrow={true}
-// listClassName={styles['upper-header__to-customers-dropdown']}
-// linkClassName={styles['header-link']}
-// toggleClassname={styles['upper-header__to-customers-btn']}
+// listClassName={styles['dropdown-list']}
+// linkClassName={styles['dropdown-link']}
+// toggleClassname={styles['dropdown-btn']}
 // />
