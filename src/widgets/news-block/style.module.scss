@@ -12,6 +12,13 @@
   overflow: hidden;
   font-size: 18px;
 
+  .block__isLoading {
+    width: 100%;
+    height: 100%;
+    background-color: aqua;
+    text-align: center;
+  }
+
   .block--img {
     max-width: 100%;
   }

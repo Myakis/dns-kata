@@ -1,45 +1,54 @@
-import { useEffect, FC } from 'react';
-import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
+import { FC, useState } from 'react';
 
-import { useGetNewsQuery } from 'shared/api/newsApi';
-import { NewsSlice } from 'shared/store/slices/news-slice';
-import { sortingNews } from 'shared/store/slices/news-slice';
-
+import { useGetNewsQuery } from 'shared/api/DNS';
+import { News } from './types';
 import NewsList from 'widgets/news-list';
 import DnsPagination from 'features/pagination';
+import NewsNav from 'features/news-nav';
 import style from './style.module.scss';
 
 const NewsListPage: FC = () => {
-  const dispatch = useAppDispatch();
-  const { data } = useGetNewsQuery('');
-  const { page, type, display, loadNews, newsData } = useAppSelector((state) => state.news);
-  const { getNews, showMore, changePage } = NewsSlice.actions;
+  const { data, isLoading } = useGetNewsQuery('');
+  const [page, setPage] = useState(1);
+  const [type, setType] = useState('all');
+  const [display, setDisplay] = useState(9);
 
-  useEffect(() => {
-    if (!loadNews) {
-      dispatch(getNews(data!));
-    }
-  }, [dispatch, data, getNews, loadNews]);
+  if (isLoading) {
+    return <div className={style['page__isLoading']}>Loading...</div>;
+  } else if (!data) {
+    return <div className={style['page__isLoading']}>Error, please try again later...</div>;
+  }
 
-  useEffect(() => {
-    if (loadNews) {
-      dispatch(sortingNews(''));
-    }
-  }, [dispatch, page, type, display, newsData, loadNews]);
+  const sortingNews = (data: News[]) => {
+    const res = data.filter((item) => {
+      if (type === 'all' || item.type === type) {
+        return item;
+      }
+    });
+
+    return res.slice((page - 1) * 9, (page - 1) * 9 + display);
+  };
+
+  const articleList = sortingNews(data);
 
   return (
     <>
       <div className={style['page']}>
         <h1 className={style['page--title']}>Новости</h1>
         <div className={style['page__articles']}>
-          <NewsList />
+          <div className={style['page__nav']}>
+            <NewsNav
+              type={type}
+              handlerType={(type) => {
+                setType(type);
+              }}
+            />
+          </div>
+          {!articleList && <div className={style['page__isLoading']}>Таких билетов у нас нет</div>}
+          {articleList && <NewsList articleList={articleList} />}
         </div>
         <div className={style['page__pagination']}>
-          <DnsPagination
-            buttonEvent={() => dispatch(showMore())}
-            paginationEvent={() => dispatch(changePage(page))}
-            page={page}
-          />
+          <DnsPagination buttonEvent={() => console.log(1)} paginationEvent={() => console.log(1)} page={page} />
         </div>
       </div>
     </>

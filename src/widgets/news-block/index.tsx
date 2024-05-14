@@ -1,30 +1,27 @@
 import { FC } from 'react';
-import { ReactNode } from 'react';
-import { useAppSelector } from 'shared/hooks/redux';
 
 import randomBanner from 'entities/news-card/constants/articles-banners';
-
+import type { News } from 'shared/store/slices/news-slice/types';
 import NewsStat from 'entities/news-stat';
 import ShareTooltip from 'features/share-tooltip';
 
 import style from './style.module.scss';
 
-function formatText(text: string): ReactNode {
-  const arrT = text.split('\n').map((item) => {
-    return (
-      <div key={self.crypto.randomUUID()}>
-        <br />
-        <p>{item}</p>
-      </div>
-    );
-  });
+const NewsBlock: FC<{ article: News }> = ({ article }) => {
+  function formatText(text: string) {
+    const arrT = text.split('\n').map((item) => {
+      return (
+        <div key={self.crypto.randomUUID()}>
+          <br />
+          <p>{item}</p>
+        </div>
+      );
+    });
 
-  return arrT;
-}
+    return arrT;
+  }
 
-const NewsBlock: FC = () => {
-  const data = useAppSelector((state) => state.news.articleNews);
-  const { name, description, date, viewsCount, commentsCount } = data;
+  const { name, description, date, viewsCount, commentsCount } = article;
 
   return (
     <article className={style['block']}>

@@ -1,16 +1,10 @@
 import { FC } from 'react';
-import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
 
-import { NewsSlice } from 'shared/store/slices/news-slice';
 import { filters } from './constants/filters';
 
 import style from './style.module.scss';
 
-const NewsNav: FC = () => {
-  const dispatch = useAppDispatch();
-  const currentFilter = useAppSelector((state) => state.news.type);
-  const { changeFilter } = NewsSlice.actions;
-
+const NewsNav: FC<{ type: string; handlerType: (type: string) => void }> = ({ type, handlerType }) => {
   const renderButtons = (filters: { name: string; filter: string }[]) => {
     return filters.map((item) => {
       return (
@@ -20,7 +14,7 @@ const NewsNav: FC = () => {
           onClick={() => {
             eventClick(item.filter);
           }}
-          className={`${style['nav__button']} ${currentFilter === item.filter && style['nav__button--active']}`}
+          className={`${style['nav__button']} ${type === item.filter && style['nav__button--active']}`}
         >
           <p>{item.name}</p>
         </button>
@@ -29,7 +23,7 @@ const NewsNav: FC = () => {
   };
 
   const eventClick = (tag: string): void => {
-    dispatch(changeFilter(tag));
+    handlerType(tag);
   };
 
   return (

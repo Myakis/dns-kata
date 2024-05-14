@@ -1,10 +1,8 @@
-import { useEffect, FC } from 'react';
-import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
-import { useParams } from 'react-router-dom';
+import { FC } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import { useGetNewsQuery } from 'shared/api/newsApi';
-import { NewsSlice } from 'shared/store/slices/news-slice';
-
+import { useGetNewsQuery } from 'shared/api/DNS';
+import { News } from 'pages/news-list/types';
 import NewsBlock from 'widgets/news-block';
 import CommentBlock from 'widgets/comment';
 import NewsProductsList from 'widgets/news-products';
@@ -12,33 +10,36 @@ import NewsProductsList from 'widgets/news-products';
 import style from './style.module.scss';
 
 const NewsPage: FC = () => {
-  const dispatch = useAppDispatch();
-  const { data } = useGetNewsQuery('');
-  const param = useParams();
-  const { page, type, display, loadNews, newsData, articleNews } = useAppSelector((state) => state.news);
-  const { getNews, findNewsId } = NewsSlice.actions;
+  const { data, isLoading } = useGetNewsQuery('');
+  const navigate = useNavigate();
+  const { id } = useParams();
 
-  useEffect(() => {
-    if (!loadNews) {
-      dispatch(getNews(data!));
-    }
-  }, [dispatch, data, getNews, loadNews]);
+  if (isLoading) {
+    return <div className={style['page__isLoading']}>Loading...</div>;
+  } else if (!data) {
+    return <div className={style['page__isLoading']}>Error, please try again later...</div>;
+  }
 
-  useEffect(() => {
-    if (loadNews) {
-      const test = newsData.filter((item) => item.id === Number(param.id));
+  const findIdNews = (data: News[]): News | undefined => {
+    const res = data.find((item) => item.id === Number(id));
 
-      dispatch(findNewsId(test[0]));
-    }
-  }, [dispatch, page, type, display, newsData, loadNews, param.id, findNewsId]);
+    return res;
+  };
+
+  const article = findIdNews(data);
+
+  if (!article) {
+    navigate('*');
+    return;
+  }
 
   return (
     <div className={style['page']}>
       <div className={style['page__path']}>типо хлебные крошки</div>
-      <h1 className={style['page--title']}>{articleNews.name}</h1>
+      <h1 className={style['page--title']}>{article.name}</h1>
       <div className={style['page__content']}>
         <section className={style['page__article']}>
-          <NewsBlock />
+          <NewsBlock article={article} />
         </section>
         <section className={style['page__comment']}>
           <CommentBlock />
