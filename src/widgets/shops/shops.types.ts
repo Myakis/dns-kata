@@ -11,12 +11,6 @@ export interface IShop {
   inNear: boolean;
   streetAddress: string;
 }
-export interface ShopItemProps {
-  name: string;
-  address: string;
-  coords: number[];
-  clickHandler: (coord: ICoord) => void;
-}
 
 export interface ICurrentCity {
   name: string;

@@ -1,48 +1,12 @@
-import { AppstoreOutlined, HeartOutlined, MobileOutlined, SearchOutlined } from '@ant-design/icons'
-import { Checkbox, ConfigProvider } from 'antd'
-import { FC, useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { DnsAPI } from 'shared/api/DNS'
-import { OriginalDNSApi } from 'shared/api/original-DNS'
-import styles from './shops.module.scss'
-import { ICoord, ICurrentCity, ShopItemProps } from './shops.types'
-
-const ShopItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }) => {
-  return (
-    <div className={styles['shop-item']}>
-      <HeartOutlined className={styles['shop-item__like']} />
-      <div className={styles['shop-item__title-container']}>
-        <span
-          className={styles['shop-item__title']}
-          onClick={() =>
-            clickHandler({
-              latitude: coords[0],
-              longitude: coords[1],
-            })
-          }
-        >
-          {name}
-        </span>
-        <div className={styles['shop-item__title-icon']}>
-          <AppstoreOutlined />
-          <span className={styles['shop-item__title-vobler']}>
-            В этом магазине расположен Постамат DNS
-            <a href='/'>Подробнее</a>
-          </span>
-        </div>
-        <div className={styles['shop-item__title-icon']}>
-          <MobileOutlined />
-          <span className={styles['shop-item__title-vobler']}>
-            В магазине могут изготовить пленку для защиты экрана вашего устройства
-            <a href='/'>Подробнее</a>
-          </span>
-        </div>
-      </div>
-      <span className={styles['shop-item__address']}>{address}</span>
-      <span className={styles['shop-item__worktime']}>Пн-Сб с 10:00 до 20:00, Вс с 10:00 до 18:00</span>
-    </div>
-  );
-};
+import { SearchOutlined } from '@ant-design/icons';
+import { Checkbox, ConfigProvider } from 'antd';
+import ShopItem from 'entities/shop-item';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { DnsAPI } from 'shared/api/DNS';
+import { OriginalDNSApi } from 'shared/api/original-DNS';
+import styles from './shops.module.scss';
+import { ICoord, ICurrentCity } from './shops.types';
 
 const Shops = () => {
   const navigate = useNavigate();
@@ -118,50 +82,6 @@ const Shops = () => {
     }
   };
 
-  const ShopsList = () => {
-    if (error) {
-      return (
-        <span
-          style={{
-            margin: 'auto',
-          }}
-        >
-          Произошла ошибка. Пожалуйста, повторите запрос позже.
-        </span>
-      );
-    }
-
-    return (
-      <div className={styles['shops__list']}>
-        <h2 className={styles['shops__sale-channel']}>{sortByDistanceChecked ? 'Дистанция: до 1000 метров' : 'DNS'}</h2>
-        <ul>
-          {shops?.map((i) => {
-            if (
-              i.name.toLowerCase().includes(inputValue.toLowerCase().trim()) &&
-              (isOpenNowFilter ? i.inOpen : true) &&
-              (sortByDistanceChecked ? i.inNear : true)
-            ) {
-              return (
-                <ShopItem
-                  key={i.id}
-                  name={i.name}
-                  address={i.streetAddress}
-                  coords={i.location}
-                  clickHandler={setGeo}
-                />
-              );
-            }
-          })}
-        </ul>
-        <div className={styles['shops__not-found']}>
-          <img src='https://a.dns-shop.ru/static/05/1l166mw/css/502f45505da2fc318721.png' alt='Not found.' />
-          <h3>Странно, но ничего нет</h3>
-          <span>Попробуйте изменить критерии поиска</span>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div className={styles['container']}>
       <div className={styles['shops']}>
@@ -206,7 +126,46 @@ const Shops = () => {
             </ConfigProvider>
           </div>
           <div className={styles['shops__section']}>
-            {!isLoading && <ShopsList />}
+            {!isLoading &&
+              (error ? (
+                <span
+                  style={{
+                    margin: 'auto',
+                  }}
+                >
+                  Произошла ошибка. Пожалуйста, повторите запрос позже.
+                </span>
+              ) : (
+                <div className={styles['shops__list']}>
+                  <h2 className={styles['shops__sale-channel']}>
+                    {sortByDistanceChecked ? 'Дистанция: до 1000 метров' : 'DNS'}
+                  </h2>
+                  <ul>
+                    {shops?.map((i) => {
+                      if (
+                        i.name.toLowerCase().includes(inputValue.toLowerCase().trim()) &&
+                        (isOpenNowFilter ? i.inOpen : true) &&
+                        (sortByDistanceChecked ? i.inNear : true)
+                      ) {
+                        return (
+                          <ShopItem
+                            key={i.id}
+                            name={i.name}
+                            address={i.streetAddress}
+                            coords={i.location}
+                            clickHandler={setGeo}
+                          />
+                        );
+                      }
+                    })}
+                  </ul>
+                  <div className={styles['shops__not-found']}>
+                    <img src='https://a.dns-shop.ru/static/05/1l166mw/css/502f45505da2fc318721.png' alt='Not found.' />
+                    <h3>Странно, но ничего нет</h3>
+                    <span>Попробуйте изменить критерии поиска</span>
+                  </div>
+                </div>
+              ))}
             {!isLoading && (
               <iframe
                 title='y-map'
