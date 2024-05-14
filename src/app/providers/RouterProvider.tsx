@@ -1,59 +1,41 @@
 import Main from 'pages/main';
 import Page404 from 'pages/page-404';
-import { MainLayout } from 'pages/layout';
-import { Outlet } from 'react-router-dom';
+import { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-
-// Компоненты-заглушки для примера
-const News: React.FC = () => {
-  return <div>News</div>;
-};
-
-const Stocks: React.FC = () => {
-  return <div>Stocks</div>;
-};
-
-const PopularQuestions: React.FC = () => {
-  return <div>PopularQuestions</div>;
-};
+import { useAppDispatch } from 'shared/hooks/redux';
+import { currentCitySlice } from 'shared/store/slices/current-city-slice';
+import Shops from 'widgets/shops';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <MainLayout />,
+    element: <Main />,
     errorElement: <Page404 />,
-    children: [
-      {
-        path: '/',
-        element: <Outlet />,
-        children: [
-          {
-            path: '/',
-            element: <Main />,
-          },
-          {
-            path: 'stocks',
-            element: <Stocks />,
-          },
-          {
-            path: 'news',
-            element: <News />,
-          },
-          {
-            path: 'help',
-            children: [
-              {
-                path: 'popular-questions',
-                element: <PopularQuestions />,
-              },
-            ],
-          },
-        ],
-      },
-    ],
+  },
+  {
+    path: '/shops/:city',
+    element: <Shops />,
   },
 ]);
 
 export const BrowserRouter = () => {
+  const { chooseCurrentCity } = currentCitySlice.actions;
+  const dispatch = useAppDispatch();
+
+  /**
+   * useEffect используется для загрузки данных о текущем городе из localStorage.
+   * Если данные есть, они передаются в Redux Store.
+   * Если при загрузке данных возникает ошибка, localStorage очищается.
+   */
+  useEffect(() => {
+    try {
+      const localCity = localStorage.getItem('currentCity');
+
+      localCity && dispatch(chooseCurrentCity(JSON.parse(localCity)));
+    } catch {
+      localStorage.removeItem('currentCity');
+    }
+  }, [chooseCurrentCity, dispatch]);
+
   return <RouterProvider router={router} />;
 };

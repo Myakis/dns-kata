@@ -5,7 +5,7 @@
     justify-items: center;
     grid-template-rows: auto auto auto auto;
     grid-template-columns: 100%;
-    row-gap: 15px;
+    row-gap: 17px;
     background-color: #F6F6F6;
     overflow-x: hidden;
     font-family: 'PT Sans', sans-serif;
@@ -50,6 +50,7 @@
 .content__title {
     font-weight: 700;
     font-size: 32px;
+    color: var(--text-color);
     line-height: 30px;
     margin-bottom: 2vh;
 }

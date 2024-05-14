@@ -1,13 +1,11 @@
-import { useLocation, Outlet } from 'react-router-dom';
-import { getPageTitle } from 'shared/utils/page-title-utils';
 import { FC, ReactNode } from 'react';
 import styles from './layout.module.scss';
 import Footer from 'widgets/footer';
 import Header from 'widgets/header';
 
 interface IProps {
-  pageTitle: string | null;
-  breadcrumbs: any;
+  pageTitle?: string | null;
+  breadcrumbs?: any;
   children: ReactNode;
 }
 
@@ -37,13 +35,4 @@ export const Layout: FC<IProps> = ({ pageTitle, breadcrumbs, children }) => {
   );
 };
 
-export const MainLayout: React.FC = () => {
-  const location = useLocation();
-  const pageTitle = getPageTitle(location.pathname);
-
-  return (
-    <Layout pageTitle={pageTitle} breadcrumbs={'breadcrumbs'}>
-      <Outlet />
-    </Layout>
-  );
-};
+export default Layout;
