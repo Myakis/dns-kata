@@ -6,7 +6,6 @@
 }
 
 .baseFooter {
-  margin: 30px 0 0;
   padding: 0;
   background: #333;
   font-size: 16px;
@@ -292,7 +291,6 @@
 .menuContacts__subscription {
   padding-right: 17px;
   margin-top: 24px;
-  position: relative;
   width: 100%;
   max-width: 297px;
 }
@@ -304,25 +302,25 @@
   width: 100%;
 }
 .subscription__inputContainer {
-  position: relative;
+  display: flex;
   width: 100%;
 }
 .subscription__input {
-  border-radius: 8px;
-  border: 1px solid #eee;
+  border-radius: 8px 0 0 8px;
+  border: none;
   color: #777;
   display: block;
   font-size: 16px;
   padding: 12px;
+  padding-right: 0;
   width: inherit;
   line-height: normal;
   margin: 0;
   height: 46px;
 }
 .subscription__submitIcon {
-  border-radius: 8px;
-  background-image: linear-gradient(90deg, hsla(0, 0%, 100%, 0), #fff 20%, #fff);
-  position: absolute;
+  border-radius: 0 8px 8px 0;
+  background-color: #fff;
   padding: 0 12px;
   text-align: center;
   top: 1px;
@@ -330,7 +328,7 @@
   font-size: 20px;
   color: #777;
   cursor: pointer;
-  height: 45px;
+  height: 100%;
   line-height: 46px;
 }
 .subscription__policy {
