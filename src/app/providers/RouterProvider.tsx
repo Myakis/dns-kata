@@ -1,54 +1,55 @@
 import Main from 'pages/main';
 import Page404 from 'pages/page-404';
-import { MainLayout } from 'pages/layout';
-import { Outlet } from 'react-router-dom';
+import Layout from 'pages/layout';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 // Компоненты-заглушки для примера
 const News: React.FC = () => {
-  return <div>News</div>;
+  return (
+    <Layout pageTitle={'News'} breadcrumbs='news'>
+      <div>News</div>
+    </Layout>
+  );
 };
 
 const Stocks: React.FC = () => {
-  return <div>Stocks</div>;
+  return (
+    <Layout pageTitle={'Stocks'} breadcrumbs='stocks'>
+      {' '}
+      <div>Stocks</div>
+    </Layout>
+  );
 };
 
 const PopularQuestions: React.FC = () => {
-  return <div>PopularQuestions</div>;
+  return (
+    <Layout pageTitle={'PopularQuestions'} breadcrumbs='popularQuestions'>
+      {' '}
+      <div>PopularQuestions</div>
+    </Layout>
+  );
 };
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <MainLayout />,
+    element: <Main />,
     errorElement: <Page404 />,
+  },
+  {
+    path: 'stocks',
+    element: <Stocks />,
+  },
+  {
+    path: 'news',
+    element: <News />,
+  },
+  {
+    path: 'help',
     children: [
       {
-        path: '/',
-        element: <Outlet />,
-        children: [
-          {
-            path: '/',
-            element: <Main />,
-          },
-          {
-            path: 'stocks',
-            element: <Stocks />,
-          },
-          {
-            path: 'news',
-            element: <News />,
-          },
-          {
-            path: 'help',
-            children: [
-              {
-                path: 'popular-questions',
-                element: <PopularQuestions />,
-              },
-            ],
-          },
-        ],
+        path: 'popular-questions',
+        element: <PopularQuestions />,
       },
     ],
   },
