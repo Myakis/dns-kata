@@ -1,13 +1,7 @@
-import Reviews from 'widgets/reviews';
 import './index.scss';
-
+import Provider from './providers';
 const App = () => {
-  return (
-    <>
-      <h1>hello wrold</h1>
-      <Reviews />
-    </>
-  );
+  return <Provider />;
 };
 
 export default App;
