@@ -1,7 +1,8 @@
 import { useState, FC } from 'react';
+
 import style from './style.module.scss';
 
-const ShareTooltip: FC = () => {
+const NewsShare: FC = () => {
   const [shareModal, setShareModal] = useState(false);
 
   const clickOpenModal = (): void => {
@@ -95,4 +96,4 @@ const ShareTooltip: FC = () => {
   );
 };
 
-export default ShareTooltip;
+export default NewsShare;

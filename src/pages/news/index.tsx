@@ -4,30 +4,25 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useGetNewsQuery } from 'shared/api/DNS';
 import { News } from 'pages/news-list/types';
 import NewsBlock from 'widgets/news-block';
-import CommentBlock from 'widgets/comment';
-import NewsProductsList from 'widgets/news-products';
-
 import style from './style.module.scss';
 
 const NewsPage: FC = () => {
-  const { data, isLoading } = useGetNewsQuery('');
+  const { data: news, isLoading } = useGetNewsQuery('');
   const navigate = useNavigate();
   const { id } = useParams();
 
-  if (isLoading) {
-    return <div className={style['page__isLoading']}>Loading...</div>;
-  } else if (!data) {
-    return <div className={style['page__isLoading']}>Error, please try again later...</div>;
-  }
-
-  const findIdNews = (data: News[]): News | undefined => {
-    const res = data.find((item) => item.id === Number(id));
-
-    return res;
+  const findIdNews = (news: News[] | undefined): News | undefined => {
+    if (!news) {
+      return;
+    }
+    return news.find((item) => item.id === Number(id));
   };
 
-  const article = findIdNews(data);
+  const article = findIdNews(news);
 
+  if (isLoading) {
+    return <div className={style['page--warning']}>Загружаем...</div>;
+  }
   if (!article) {
     navigate('*');
     return;
@@ -42,10 +37,22 @@ const NewsPage: FC = () => {
           <NewsBlock article={article} />
         </section>
         <section className={style['page__comment']}>
-          <CommentBlock />
+          <h2 className={style['comment--title']}>Комментарии</h2>
+          <div className={style['comment__body']}>
+            <textarea className={style['comment--input']} placeholder='Написать комментарий...' />
+            <button className={style['comment--button']}>Отправить</button>
+          </div>
         </section>
         <section className={style['page__product']}>
-          <NewsProductsList />
+          <div className={style['product__header']}>
+            <p className={style['product--title']}>Товары</p>
+            <a className={style['product__link']} href='https://www.dns-shop.ru/#' target='__blank'>
+              <p>
+                Смотреть все<i></i>
+              </p>
+            </a>
+          </div>
+          <div className={style['product__list']}></div>
         </section>
       </div>
     </div>

@@ -1,10 +1,10 @@
-.block {
+.news {
   max-width: 1062px;
   margin: auto;
   color: var(--text-color);
 }
 
-.block__container {
+.news__container {
   box-shadow: var(--block-shadow);
   background-color: var(--white);
   max-width: 1060px;
@@ -12,26 +12,29 @@
   overflow: hidden;
   font-size: 18px;
 
-  .block__isLoading {
-    width: 100%;
-    height: 100%;
-    background-color: aqua;
-    text-align: center;
-  }
-
-  .block--img {
+  .news--img {
     max-width: 100%;
   }
 
-  .block__post {
+  .news__title {
     display: flex;
     flex-direction: column;
     padding: 20px 32px;
+
+    & p {
+      margin-bottom: 24px;
+    }
   }
 
-  .block__stat {
+  .news__description {
+    white-space: pre-wrap;
+    margin-bottom: 24px;
+  }
+
+  .news__stat {
     display: flex;
     align-self: flex-end;
-    align-items: center;
+    // align-items: center;
+    height: 30px;
   }
 }
