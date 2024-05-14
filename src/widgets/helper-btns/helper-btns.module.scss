@@ -1,7 +1,9 @@
 @import '../../app/styles/mixins.scss';
 
 .chatToggle {
-    display: block;
+    position:fixed;
+    right: 20px;
+    bottom: 20px;
     width: 60px;
     height: 60px;
     border: none;
@@ -15,12 +17,12 @@
 }
 
 
-.chatToggleClosed::after {
-    @include background-img('../../app/assets/img/chat/message-icon.svg', 20px, 20px, inline-block);
+.closed::after {
+    @include background-img('../../app/assets/img/chat-btns/message-icon.svg', 20px, 20px, inline-block);
     margin-top: 5px;
 }
 
-.chatToggleOpened::after {
-    @include background-img('../../app/assets/img/chat/cross-icon.svg', 20px, 20px, inline-block);
+.opened::after {
+    @include background-img('../../app/assets/img/chat-btns/cross-icon.svg', 20px, 20px, inline-block);
     margin-top: 5px;
 }

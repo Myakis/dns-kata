@@ -28,17 +28,19 @@ export const Layout: FC<IProps> = ({ pageTitle, breadcrumbs, children }) => {
           {children} {/*Здесь лежит контент страницы*/}
         </div>
       </main>
+      <aside className={styles.layout__aside}>
+        <div className={styles.layout__helperBtns}>
+          <ChatBtn />
+        </div>
+        <div className={styles.layout__chat}>
+          <Chat />
+        </div>
+      </aside>
       <footer className={styles.layout__footer}>
         <div className={styles.footer__container}>
           <Footer />
         </div>
       </footer>
-      <div className={styles.layout__helperBtns}>
-        <ChatBtn />
-      </div>
-      <div className={styles.layout__chat}>
-        <Chat />
-      </div>
     </div>
   );
 };

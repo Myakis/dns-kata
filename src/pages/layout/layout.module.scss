@@ -35,15 +35,14 @@
     &__content {
         padding: 0 10px;
     }
-    &__chat {
-        z-index: 9998;
-    }
-    &__helperBtns {
-        position:fixed;
+    &__aside {
         z-index: 9999;
-        right: 20px;
-        bottom: 20px;
     }
+    // &__helperBtns {
+    //     position:fixed;
+    //     right: 20px;
+    //     bottom: 20px;
+    // }
 }
 
 .breadcrumbs__container,

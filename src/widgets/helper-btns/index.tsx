@@ -1,7 +1,7 @@
 import styles from './helper-btns.module.scss';
-import classNames from 'classnames';
 import { helperBtnsSlice } from 'shared/store/slices/helper-btns-slice';
 import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
+import clsx from 'clsx';
 import { FC } from 'react';
 
 export const ChatBtn: FC = () => {
@@ -11,11 +11,7 @@ export const ChatBtn: FC = () => {
 
   return (
     <button
-      className={classNames(
-        styles.chatToggle,
-        { [styles.chatToggleClosed]: !chatBtnClicked },
-        { [styles.chatToggleOpened]: chatBtnClicked }
-      )}
+      className={clsx(styles.chatToggle, !chatBtnClicked && styles.closed, chatBtnClicked && styles.opened)}
       onClick={() => dispatch(chatBtn(!chatBtnClicked))}
     ></button>
   );
