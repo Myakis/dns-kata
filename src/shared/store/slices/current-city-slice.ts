@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface ICurrentCity {
   name: string;
+  slug: string;
   coords: {
     latitude: number;
     longitude: number;
@@ -10,6 +11,7 @@ interface ICurrentCity {
 
 const initialState: ICurrentCity = {
   name: 'Саратов',
+  slug: 'saratov',
   coords: {
     latitude: 51.5406,
     longitude: 46.0086,
@@ -23,6 +25,7 @@ export const currentCitySlice = createSlice({
     chooseCurrentCity(state, action: PayloadAction<ICurrentCity>) {
       state.name = action.payload.name;
       state.coords = action.payload.coords;
+      state.slug = action.payload.slug;
     },
   },
 });

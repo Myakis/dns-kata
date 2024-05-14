@@ -1,10 +1,11 @@
 import Product from 'entities/product';
+import Layout from 'pages/layout';
 import React, { useState } from 'react';
 const Main: React.FC = () => {
   const [isHorizontal, setIsHorizontal] = useState<boolean>(true);
 
   return (
-    <>
+    <Layout pageTitle='Главная' breadcrumbs='Главная'>
       <button type='button' onClick={() => setIsHorizontal((prev) => !prev)}>
         Change Layout
       </button>
@@ -32,7 +33,7 @@ const Main: React.FC = () => {
         }}
         isHorizontal={isHorizontal}
       />
-    </>
+    </Layout>
   );
 };
 
