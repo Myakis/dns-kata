@@ -3,9 +3,8 @@ import classNames from 'classnames';
 import { useClickOutside } from 'shared/hooks/useClickOutside';
 import { navigationLinks, toCustomersLinks, sideNavigationItems } from './constants';
 import { useState, useRef, useEffect, FC } from 'react';
-import { useCatalog } from 'shared/hooks/useCatalog';
-import Subcategories from './subcategories';
 import DropdownMenu from 'shared/ui/dropdown-menu';
+import Catalog from './component';
 
 const Header: FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -13,15 +12,14 @@ const Header: FC = () => {
   const [onSearchFocus, setOnSearchFocus] = useState(false);
   const [onPhoneHover, setOnPhoneHover] = useState(false);
 
-  const iconsUrl = 'src/app/assets/img/header/';
   const catalogRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
 
-  const { categories, updateSubcategoryItems, activeCategory, subcategoryItems } = useCatalog();
-
+  // Действия при клике вне блока
   useClickOutside(catalogRef, () => setIsOnCatalogBtnClick(false), styles['main-header__catalog-btn']);
   useClickOutside(searchRef, () => setOnSearchFocus(false));
 
+  // useEffect для фиксации хедера при скролле
   useEffect(() => {
     window.addEventListener('scroll', () => setIsScrolled(window.scrollY > 50));
     return () => {
@@ -49,24 +47,6 @@ const Header: FC = () => {
       </li>
     )
   );
-
-  const mainCategories = categories.map((el, index) => (
-    <li key={index} className={styles['main-header__categories-item']}>
-      <a
-        href='/'
-        className={classNames(styles['main-header__categories-link'], styles['header-link'], {
-          [styles['main-header__categories-link--active']]: activeCategory === el.category,
-        })}
-        onMouseEnter={(e) => updateSubcategoryItems(e.currentTarget.innerText)}
-      >
-        <span
-          className={styles['main-header__categories-icon']}
-          style={{ backgroundImage: `url(${iconsUrl}${el.icon})` }}
-        ></span>
-        {el.category}
-      </a>
-    </li>
-  ));
 
   return (
     <div className={styles.header}>
@@ -123,21 +103,7 @@ const Header: FC = () => {
               Каталог
             </button>
           </div>
-          <div
-            ref={catalogRef}
-            className={classNames(styles['main-header__catalog'], {
-              [styles['main-header__catalog--closed']]: !isOnCatalogBtnClick,
-              [styles['main-header__catalog--opened']]: isOnCatalogBtnClick,
-              [styles['main-header__catalog--fixed']]: isScrolled,
-            })}
-          >
-            <nav className={styles['main-header__categories']}>
-              <ul>{mainCategories}</ul>
-            </nav>
-            <nav className={styles['main-header__subcategories']}>
-              <Subcategories subcategoryItems={subcategoryItems} />
-            </nav>
-          </div>
+          <Catalog catalogRef={catalogRef} isOnCatalogBtnClick={isOnCatalogBtnClick} isScrolled={isScrolled} />
           <div
             ref={searchRef}
             className={classNames(styles['main-header__search-wrapper'], {

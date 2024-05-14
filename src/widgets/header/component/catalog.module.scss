@@ -1,0 +1,110 @@
+
+.catalog {
+    &--opened {
+        display: flex;
+        position: absolute;
+        box-sizing: border-box;
+        top: 130px;
+        left: 50;
+        max-width: fit-content;
+        width: 100%;
+        height: 736px;
+        background-color: #fff;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, .04), 0 4px 4px rgba(0, 0, 0, .04), 0 20px 40px rgba(0, 0, 0, .08);
+        border-radius: 12px;
+        z-index: 1;
+    }
+    &--fixed {
+        top: 79px; 
+    }
+    &--closed {
+        display: none;
+    }
+}
+
+.catalog-link {
+    font-family: 'PT Sans', sans-serif;
+    text-decoration: none;
+    color: var(--dark-gray);
+}
+
+.categories {
+    padding: 24px 0;
+    min-width: 280px;
+    &__link {
+        display: flex;
+        align-items: center;
+        border-left: 2px solid transparent;
+        padding: 7px 0;
+        padding-left: 12px;
+    }
+    &__link--active {
+        border-left: 2px solid var(--main-color);
+        color: var(--main-color);
+        cursor: pointer;
+    }
+    &__icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 20px;
+    }
+}
+
+.subcategories {
+    padding: 24px 23px 32px 20px;
+    &--first {
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+    }
+    &--second {
+        display: grid;
+        column-gap: 30px;
+        row-gap: 5px;
+        align-items: baseline;
+        grid-template-columns: repeat(3, minmax(auto, 1fr));
+        font-size: 14px;
+        line-height: 18px;
+    }
+    &--third {
+        top: 0;
+        display: block;
+        left: calc(100% + 10px);
+        width: max-content;
+        padding: 24px;
+        position: absolute;
+        background-color: #fafafa;
+        border-radius: 5px;
+        z-index: 1000;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, .1);
+    }
+    &--third a {
+        display: inline-block;
+        padding: 2px 0;
+    }
+    &__name--first {
+        display: block;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 24px;
+        margin-bottom: 12px;
+    }
+    &__item-wrapper {
+        display: inline-block;
+        position: relative;
+    }
+    &__item--active &__name--second {
+        color: var(--main-color);
+        cursor: pointer;
+    }
+    &__name--second {
+        display: block;
+        word-break: break-all;
+    }
+    &__info {
+        display: inline-flex;
+        column-gap: 6px;
+        margin: 0 6px;
+        color: #6c757d
+    }
+}
