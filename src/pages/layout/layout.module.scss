@@ -1,0 +1,57 @@
+@import '../../app/styles/fonts.scss'; 
+
+.layout {
+    display: grid;
+    justify-items: center;
+    grid-template-rows: auto auto auto auto;
+    grid-template-columns: 100%;
+    row-gap: 17px;
+    background-color: #F6F6F6;
+    overflow-x: hidden;
+    font-family: 'PT Sans', sans-serif;
+
+    &__header,
+    &__footer,
+    &__breadcrumbs,
+    &__content {
+        width: 100%;
+    }
+
+    &__header {
+        height: 145px;
+        background-color: #fff;
+        z-index: 999;
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+    }
+
+    &__footer {
+        min-height: auto;
+        background-color: #333333;
+        margin-top: 10px;
+    }
+
+    &__breadcrumbs {
+        margin-bottom: 1vh;
+    }
+
+    &__content {
+        padding: 0 10px;
+    }
+}
+
+.breadcrumbs__container,
+.content__container,
+.header__container,
+.footer__container {
+    max-width: 1360px;
+    margin: auto;
+    height: 100%;
+}
+
+.content__title {
+    font-weight: 700;
+    font-size: 32px;
+    color: var(--text-color);
+    line-height: 30px;
+    margin-bottom: 2vh;
+}
