@@ -1,0 +1,520 @@
+{
+    "catalog": {
+        "categories": [
+            {
+                "category": "Бытовая техника",
+                "icon": "appliances.svg",
+                "items": [
+                    {
+                        "subcategory": "Встраиваемая техника",
+                        "items": [
+                            {
+                                "subcategory": "Варочные панели",
+                                "itemsCount": 500,
+                                "items": [
+                                    {
+                                        "subcategory": "Варочные панели электрические",
+                                        "itemsCount": 243
+                                    },
+                                    {
+                                        "subcategory": "Варочные панели индукционные",
+                                        "itemsCount": 139
+                                    },
+                                    {
+                                        "subcategory": "Варочные панели газовые",
+                                        "itemsCount": 296
+                                    },
+                                    {
+                                        "subcategory": "Варочные панели комбинированные",
+                                        "itemsCount": 2
+                                    },
+                                    {
+                                        "subcategory": "Аксессуары к варочным панелям",
+                                        "itemsCount": 10
+                                    }
+                                ]
+                            },
+                            {
+                                "subcategory": "Духовые шкафы",
+                                "itemsCount": 355,
+                                "items": [
+                                    {
+                                        "subcategory": "Духовые шкафы электрические",
+                                        "itemsCount": 334
+                                    },
+                                    {
+                                        "subcategory": "Духовые шкафы газовые",
+                                        "itemsCount": 21
+                                    }
+                                ]
+                            },
+                            {
+                                "subcategory": "Вытяжки",
+                                "itemsCount": 802,
+                                "items": [
+                                    {
+                                        "subcategory": "Вытяжки",
+                                        "itemsCount": 743
+                                    },
+                                    {
+                                        "subcategory": "Полновстраиваемые вытяжки",
+                                        "itemsCount": 143
+                                    },
+                                    {
+                                        "subcategory": "Телескопические вытяжки",
+                                        "itemsCount": 150
+                                    },
+                                    {
+                                        "subcategory": "Каминные вытяжки",
+                                        "itemsCount": 168
+                                    },
+                                    {
+                                        "subcategory": "Наклонные вытяжки",
+                                        "itemsCount": 183
+                                    },
+                                    {
+                                        "subcategory": "Подвесные вытяжки",
+                                        "itemsCount": 49
+                                    },
+                                    {
+                                        "subcategory": "Островные вытяжки",
+                                        "itemsCount": 17
+                                    },
+                                    {
+                                        "subcategory": "Пристенные вытяжки",
+                                        "itemsCount": 33
+                                    },
+                                    {
+                                        "subcategory": "Аксессуары к вытяжкам",
+                                        "itemsCount": 59
+                                    }
+                                ]
+                            },
+                            {
+                                "subcategory": "Встраиваемые микроволновые печи",
+                                "itemsCount": 64
+                            },
+                            {
+                                "subcategory": "Встраиваемые холодильники",
+                                "itemsCount": 86
+                            },
+                            {
+                                "subcategory": "Встраиваемые морозильные шкафы",
+                                "itemsCount": 16
+                            },
+                            {
+                                "subcategory": "Встраиваемые посудочные машины",
+                                "itemsCount": 164
+                            },
+                            {
+                                "subcategory": "Встраиваемые стиральные машины",
+                                "itemsCount": 21
+                            }
+                        ]
+                    },
+                    {
+                        "subcategory": "Техника для кухни",
+                        "items": [
+                            {
+                                "subcategory": "Плиты и печи",
+                                "itemsCount": 1484,
+                                "items": [
+                                    {
+                                        "subcategory": "Плиты электрические",
+                                        "itemsCount": 191
+                                    },
+                                    {
+                                        "subcategory": "Плиты газовые",
+                                        "itemsCount": 203
+                                    },
+                                    {
+                                        "subcategory": "Плиты комбинированные",
+                                        "itemsCount": 153
+                                    },
+                                    {
+                                        "subcategory": "Настольные газовые плиты",
+                                        "itemsCount": 18
+                                    },
+                                    {
+                                        "subcategory": "Настольные электрические плиты",
+                                        "itemsCount": 278
+                                    },
+                                    {
+                                        "subcategory": "Настольные стеклокерамические плиты",
+                                        "itemsCount": 162
+                                    },
+                                    {
+                                        "subcategory": "Мини-печи",
+                                        "itemsCount": 269
+                                    },
+                                    {
+                                        "subcategory": "Аксессуары к плитам",
+                                        "itemsCount": 15
+                                    },
+                                    {
+                                        "subcategory": "Микроволновые печи",
+                                        "itemsCount": 256
+                                    },
+                                    {
+                                        "subcategory": "Аксессуары к микроволновым печам",
+                                        "itemsCount": 44
+                                    },
+                                    {
+                                        "subcategory": "Хлебопечки",
+                                        "itemsCount": 57
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "category": "Красота и здоровье",
+                "icon": "beauty-and-health.svg",
+                "items": [
+                    {
+                        "subcategory": "Укладка и сушка волос",
+                        "items": [
+                            {
+                                "subcategory": "Варочные панели",
+                                "itemsCount": 500,
+                                "items": [
+                                    {
+                                        "subcategory": "Варочные панели электрические",
+                                        "itemsCount": 243
+                                    },
+                                    {
+                                        "subcategory": "Варочные панели индукционные",
+                                        "itemsCount": 139
+                                    },
+                                    {
+                                        "subcategory": "Варочные панели газовые",
+                                        "itemsCount": 296
+                                    },
+                                    {
+                                        "subcategory": "Варочные панели комбинированные",
+                                        "itemsCount": 2
+                                    },
+                                    {
+                                        "subcategory": "Аксессуары к варочным панелям",
+                                        "itemsCount": 10
+                                    }
+                                ]
+                            },
+                            {
+                                "subcategory": "Духовые шкафы",
+                                "itemsCount": 355,
+                                "items": [
+                                    {
+                                        "subcategory": "Духовые шкафы электрические",
+                                        "itemsCount": 334
+                                    },
+                                    {
+                                        "subcategory": "Духовые шкафы газовые",
+                                        "itemsCount": 21
+                                    }
+                                ]
+                            },
+                            {
+                                "subcategory": "Вытяжки",
+                                "itemsCount": 802,
+                                "items": [
+                                    {
+                                        "subcategory": "Вытяжки",
+                                        "itemsCount": 743
+                                    },
+                                    {
+                                        "subcategory": "Полновстраиваемые вытяжки",
+                                        "itemsCount": 143
+                                    },
+                                    {
+                                        "subcategory": "Телескопические вытяжки",
+                                        "itemsCount": 150
+                                    },
+                                    {
+                                        "subcategory": "Каминные вытяжки",
+                                        "itemsCount": 168
+                                    },
+                                    {
+                                        "subcategory": "Наклонные вытяжки",
+                                        "itemsCount": 183
+                                    },
+                                    {
+                                        "subcategory": "Подвесные вытяжки",
+                                        "itemsCount": 49
+                                    },
+                                    {
+                                        "subcategory": "Островные вытяжки",
+                                        "itemsCount": 17
+                                    },
+                                    {
+                                        "subcategory": "Пристенные вытяжки",
+                                        "itemsCount": 33
+                                    },
+                                    {
+                                        "subcategory": "Аксессуары к вытяжкам",
+                                        "itemsCount": 59
+                                    }
+                                ]
+                            },
+                            {
+                                "subcategory": "Встраиваемые микроволновые печи",
+                                "itemsCount": 64
+                            },
+                            {
+                                "subcategory": "Встраиваемые холодильники",
+                                "itemsCount": 86
+                            },
+                            {
+                                "subcategory": "Встраиваемые морозильные шкафы",
+                                "itemsCount": 16
+                            },
+                            {
+                                "subcategory": "Встраиваемые посудочные машины",
+                                "itemsCount": 164
+                            },
+                            {
+                                "subcategory": "Встраиваемые стиральные машины",
+                                "itemsCount": 21
+                            }
+                        ]
+                    },
+                    {
+                        "subcategory": "Бритье, стрижка и эпиляция",
+                        "items": [
+                            {
+                                "subcategory": "Плиты и печи",
+                                "itemsCount": 1484,
+                                "items": [
+                                    {
+                                        "subcategory": "Плиты электрические",
+                                        "itemsCount": 191
+                                    },
+                                    {
+                                        "subcategory": "Плиты газовые",
+                                        "itemsCount": 203
+                                    },
+                                    {
+                                        "subcategory": "Плиты комбинированные",
+                                        "itemsCount": 153
+                                    },
+                                    {
+                                        "subcategory": "Настольные газовые плиты",
+                                        "itemsCount": 18
+                                    },
+                                    {
+                                        "subcategory": "Настольные электрические плиты",
+                                        "itemsCount": 278
+                                    },
+                                    {
+                                        "subcategory": "Настольные стеклокерамические плиты",
+                                        "itemsCount": 162
+                                    },
+                                    {
+                                        "subcategory": "Мини-печи",
+                                        "itemsCount": 269
+                                    },
+                                    {
+                                        "subcategory": "Аксессуары к плитам",
+                                        "itemsCount": 15
+                                    },
+                                    {
+                                        "subcategory": "Микроволновые печи",
+                                        "itemsCount": 256
+                                    },
+                                    {
+                                        "subcategory": "Аксессуары к микроволновым печам",
+                                        "itemsCount": 44
+                                    },
+                                    {
+                                        "subcategory": "Хлебопечки",
+                                        "itemsCount": 57
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "category": "Смартфоны и фототехника",
+                "icon": "phones-and-cameras.svg",
+                "items": [
+                    {
+                        "subcategory": "Смартфоны и гаджеты",
+                        "items": [
+                            {
+                                "subcategory": "Варочные панели",
+                                "itemsCount": 500,
+                                "items": [
+                                    {
+                                        "subcategory": "Варочные панели электрические",
+                                        "itemsCount": 243
+                                    },
+                                    {
+                                        "subcategory": "Варочные панели индукционные",
+                                        "itemsCount": 139
+                                    },
+                                    {
+                                        "subcategory": "Варочные панели газовые",
+                                        "itemsCount": 296
+                                    },
+                                    {
+                                        "subcategory": "Варочные панели комбинированные",
+                                        "itemsCount": 2
+                                    },
+                                    {
+                                        "subcategory": "Аксессуары к варочным панелям",
+                                        "itemsCount": 10
+                                    }
+                                ]
+                            },
+                            {
+                                "subcategory": "Духовые шкафы",
+                                "itemsCount": 355,
+                                "items": [
+                                    {
+                                        "subcategory": "Духовые шкафы электрические",
+                                        "itemsCount": 334
+                                    },
+                                    {
+                                        "subcategory": "Духовые шкафы газовые",
+                                        "itemsCount": 21
+                                    }
+                                ]
+                            },
+                            {
+                                "subcategory": "Вытяжки",
+                                "itemsCount": 802,
+                                "items": [
+                                    {
+                                        "subcategory": "Вытяжки",
+                                        "itemsCount": 743
+                                    },
+                                    {
+                                        "subcategory": "Полновстраиваемые вытяжки",
+                                        "itemsCount": 143
+                                    },
+                                    {
+                                        "subcategory": "Телескопические вытяжки",
+                                        "itemsCount": 150
+                                    },
+                                    {
+                                        "subcategory": "Каминные вытяжки",
+                                        "itemsCount": 168
+                                    },
+                                    {
+                                        "subcategory": "Наклонные вытяжки",
+                                        "itemsCount": 183
+                                    },
+                                    {
+                                        "subcategory": "Подвесные вытяжки",
+                                        "itemsCount": 49
+                                    },
+                                    {
+                                        "subcategory": "Островные вытяжки",
+                                        "itemsCount": 17
+                                    },
+                                    {
+                                        "subcategory": "Пристенные вытяжки",
+                                        "itemsCount": 33
+                                    },
+                                    {
+                                        "subcategory": "Аксессуары к вытяжкам",
+                                        "itemsCount": 59
+                                    }
+                                ]
+                            },
+                            {
+                                "subcategory": "Телефоны",
+                                "itemsCount": 64,
+                                "items": [
+                                    {
+                                        "subcategory": "Iphone",
+                                        "itemsCount": 102
+                                    },
+                                    {
+                                        "subcategory": "Sumsung",
+                                        "itemsCount": 200
+                                    }
+                                ]
+                            },
+                            {
+                                "subcategory": "Встраиваемые холодильники",
+                                "itemsCount": 86
+                            },
+                            {
+                                "subcategory": "Встраиваемые морозильные шкафы",
+                                "itemsCount": 16
+                            },
+                            {
+                                "subcategory": "Встраиваемые посудочные машины",
+                                "itemsCount": 164
+                            },
+                            {
+                                "subcategory": "Встраиваемые стиральные машины",
+                                "itemsCount": 21
+                            }
+                        ]
+                    },
+                    {
+                        "subcategory": "Планшеты, электронные книги",
+                        "items": [
+                            {
+                                "subcategory": "Плиты и печи",
+                                "itemsCount": 1484,
+                                "items": [
+                                    {
+                                        "subcategory": "Плиты электрические",
+                                        "itemsCount": 191
+                                    },
+                                    {
+                                        "subcategory": "Плиты газовые",
+                                        "itemsCount": 203
+                                    },
+                                    {
+                                        "subcategory": "Плиты комбинированные",
+                                        "itemsCount": 153
+                                    },
+                                    {
+                                        "subcategory": "Настольные газовые плиты",
+                                        "itemsCount": 18
+                                    },
+                                    {
+                                        "subcategory": "Настольные электрические плиты",
+                                        "itemsCount": 278
+                                    },
+                                    {
+                                        "subcategory": "Настольные стеклокерамические плиты",
+                                        "itemsCount": 162
+                                    },
+                                    {
+                                        "subcategory": "Мини-печи",
+                                        "itemsCount": 269
+                                    },
+                                    {
+                                        "subcategory": "Аксессуары к плитам",
+                                        "itemsCount": 15
+                                    },
+                                    {
+                                        "subcategory": "Микроволновые печи",
+                                        "itemsCount": 256
+                                    },
+                                    {
+                                        "subcategory": "Аксессуары к микроволновым печам",
+                                        "itemsCount": 44
+                                    },
+                                    {
+                                        "subcategory": "Хлебопечки",
+                                        "itemsCount": 57
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
