@@ -29,6 +29,7 @@ const Catalog: FC<IProps> = ({ catalogRef, isOnCatalogBtnClick = true, isScrolle
 
   const handleOnSubcategoryHover = (e: MouseEvent<HTMLLIElement>) => {
     const pureSubcategoryName = getPureInnerText(e.currentTarget);
+
     setOnSubcategoryHover(pureSubcategoryName);
   };
 
