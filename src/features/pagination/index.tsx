@@ -4,12 +4,17 @@ import { Pagination, ConfigProvider } from 'antd';
 import style from './style.module.scss';
 import './antd.css';
 
-type DnsPaginationTypes = { buttonEvent: () => void; paginationEvent: (page: number) => void; page: number };
-const DnsPagination: FC<DnsPaginationTypes> = ({ buttonEvent, paginationEvent, page }) => {
+interface DnsPaginationI {
+  handleShowMore: () => void;
+  handlePage: (page: number) => void;
+  page: number;
+}
+
+const DnsPagination: FC<DnsPaginationI> = ({ handleShowMore, handlePage, page }) => {
   return (
     <div className={style['pagination']}>
       <div className={style['pagination__block__btn']}>
-        <button type='button' className={style['pagination__btn']} onClick={() => buttonEvent()}>
+        <button type='button' className={style['pagination__btn']} onClick={() => handleShowMore()}>
           Показать ещё
         </button>
       </div>
@@ -43,7 +48,7 @@ const DnsPagination: FC<DnsPaginationTypes> = ({ buttonEvent, paginationEvent, p
             responsive={false}
             current={page}
             onChange={(page) => {
-              paginationEvent(page);
+              handlePage(page);
             }}
             itemRender={(page, type) => {
               if (type === 'prev') {

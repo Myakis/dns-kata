@@ -1,56 +1,54 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import { News } from 'shared/store/slices/news-slice/types';
-import { shortingText } from 'shared/util/shortingText';
+import { News } from 'pages/news-list/types';
 import randomBanner from './constants/articles-banners';
-import NewsStat from 'entities/news-stat'; /* --- */
-
 import style from './style.module.scss';
 
-const NewsCardArticle: FC<{ newsData: News }> = ({ newsData }) => {
+const NewsCard: FC<{ news: News }> = ({ news }) => {
   const tagColor = (tag: string): string => {
     const colorsBase: { [key in string]: string } = {
       new: style['tag--new'],
       commonInfo: style['tag--commonInfo'],
       exclusives: style['tag--exclusives'],
       services: style['tag--services'],
-      shops: style['tag--services'],
+      shops: style['tag--shops'],
       advertising: style['tag--advertising'],
     };
 
     return colorsBase[tag];
   };
 
+  const shortingText: (prevText: string, limit: number) => string = (prevText, limit) => {
+    const arrd = prevText.split('');
+    const newText = arrd.slice(0, arrd.indexOf(' ', limit));
+
+    return `${newText.join('')}...`;
+  };
+
   return (
     <article className={style['card']}>
       <div className={style['card__banner']}>
-        <Link to={`${newsData.id}`}>
-          <img src={randomBanner(true)} alt='banner' /> {/* рандомный баннер */}
+        <Link to={`${news.id}`}>
+          <img src={randomBanner(true)} alt='banner' />
         </Link>
       </div>
 
       <div className={style['card__title']}>
-        <Link to={`${newsData.id}`}>{newsData.name}</Link>
+        <Link to={`${news.id}`}>{news.name}</Link>
       </div>
 
       <div className={style['card__discription']}>
-        <p>{shortingText(newsData.description, 250, true)}</p>
+        <p>{shortingText(news.description, 250)}</p>
       </div>
 
       <div className={style['card__tags']}>
-        <div className={`${style['card__tag']} ${tagColor(newsData.type)}`}>
-          <p>{newsData.type}</p>
+        <div className={`${style['card__tag']} ${tagColor(news.type)}`}>
+          <p>{news.type}</p>
         </div>
-      </div>
-
-      <div className={style['card__stat']}>
-        <NewsStat
-          stat={{ date: newsData.date, commentsCount: newsData.commentsCount, viewsCount: newsData.viewsCount }}
-        />
       </div>
     </article>
   );
 };
 
-export default NewsCardArticle;
+export default NewsCard;

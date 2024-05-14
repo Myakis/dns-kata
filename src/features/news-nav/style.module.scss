@@ -1,7 +1,7 @@
-.container--scroll {
+.container__scroll {
   position: relative;
 
-  .container--shadow {
+  .container__shadow {
     overflow: scroll;
 
     &::-webkit-scrollbar {

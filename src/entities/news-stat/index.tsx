@@ -1,14 +1,26 @@
 import { FC } from 'react';
 
-import { StatTypes } from './types';
-import { formatDate } from 'shared/util/formateDate';
-
 import style from './style.module.scss';
 
-const NewsStat: FC<StatTypes> = ({ fullConfig, stat }) => {
+interface NewsStatI {
+  stat: {
+    date: string;
+    viewsCount: number;
+    commentsCount?: number | null;
+  };
+}
+
+const NewsStat: FC<NewsStatI> = ({ stat }) => {
+  const formatDate = (date: string): string => {
+    const newDate: Date = new Date(date);
+    const dateArr: number[] = [newDate.getDate(), newDate.getMonth() + 1];
+
+    return `${dateArr.map((item) => (item < 10 ? `0${item}` : item)).join('.')}.${newDate.getFullYear()}`;
+  };
+
   return (
     <>
-      <div className={`${style['stat']} ${fullConfig ? style['off-border'] : null}`}>
+      <div className={`${style['stat']} ${!stat.commentsCount ? style['off-border'] : null}`}>
         <div className={style['stat__container']}>
           <p>{formatDate(stat.date)}</p>
         </div>
@@ -18,7 +30,7 @@ const NewsStat: FC<StatTypes> = ({ fullConfig, stat }) => {
         </div>
 
         <div className={style['stat__container']}>
-          {!fullConfig && (
+          {stat.commentsCount && (
             <p className={`${style['stat__icon']} ${style['stat__icon-comments']}`}>{stat.commentsCount}</p>
           )}
         </div>

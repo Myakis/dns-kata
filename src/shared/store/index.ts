@@ -2,11 +2,9 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { DnsAPI } from 'shared/api/DNS/';
 import { OriginalDNSApi } from 'shared/api/original-DNS';
 import currentCityReducer from './slices/current-city-slice';
-import newsSlice from './slices/news-slice';
 
 const rootReducer = combineReducers({
   currentCity: currentCityReducer,
-  news: newsSlice,
   [OriginalDNSApi.reducerPath]: OriginalDNSApi.reducer,
   [DnsAPI.reducerPath]: DnsAPI.reducer,
 });
