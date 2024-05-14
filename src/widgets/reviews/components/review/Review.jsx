@@ -245,6 +245,7 @@ Review.propTypes = {
   reviews: PropTypes.arrayOf(PropTypes.object).isRequired,
   loading: PropTypes.bool.isRequired,
   selectedStars: PropTypes.arrayOf(PropTypes.number).isRequired,
+  filteredCurrentReviews: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default Review;

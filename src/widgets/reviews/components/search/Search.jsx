@@ -1,7 +1,7 @@
 import styles from './search.module.scss';
 import PropTypes from 'prop-types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 const Search = ({ reviews, setReviews, setNotFound }) => {
   const [value, setValue] = useState('');

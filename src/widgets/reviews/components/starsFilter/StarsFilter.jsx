@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './starsFilter.module.scss';
+import PropTypes from 'prop-types';
 
 const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars }) => {
   const [fiveStars, setFiveStars] = useState([]);
@@ -11,16 +12,17 @@ const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars }) => {
   useEffect(() => {
     const filteredReviews = reviews.reduce(
       (acc, review) => {
-        if (review.rating === 5) {
-          return { ...acc, fiveStars: [...acc.fiveStars, review] };
-        } else if (review.rating === 4) {
-          return { ...acc, fourStars: [...acc.fourStars, review] };
-        } else if (review.rating === 3) {
-          return { ...acc, threeStars: [...acc.threeStars, review] };
-        } else if (review.rating === 2) {
-          return { ...acc, twoStars: [...acc.twoStars, review] };
-        } else {
-          return { ...acc, oneStars: [...acc.oneStars, review] };
+        switch (review.rating) {
+          case 5:
+            return { ...acc, fiveStars: [...acc.fiveStars, review] };
+          case 4:
+            return { ...acc, fourStars: [...acc.fourStars, review] };
+          case 3:
+            return { ...acc, threeStars: [...acc.threeStars, review] };
+          case 2:
+            return { ...acc, twoStars: [...acc.twoStars, review] };
+          default:
+            return { ...acc, oneStars: [...acc.oneStars, review] };
         }
       },
       { fiveStars: [], fourStars: [], threeStars: [], twoStars: [], oneStars: [] }
@@ -35,7 +37,7 @@ const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars }) => {
 
   return (
     <div className={`${styles.owFilters__rating} ${styles.uiCheckboxGroup}`} data-role='filter-rating'>
-      <label className={`${styles.uiCheckbox} ${styles.owFilters__ratingItem}`}>
+      <label className={`${styles.uiCheckbox} ${styles.owFilters__ratingItem}`} htmlFor='fiveStars'>
         <span>
           <i></i>
           <i></i>
@@ -47,12 +49,13 @@ const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars }) => {
         <input
           type='checkbox'
           className={styles.uiCheckbox__input}
-          checked={selectedStars.includes(5)} // Устанавливаем атрибут checked в зависимости от выбранных звезд
-          onChange={() => handleCheckboxChange(5)} // Обработчик изменения состояния чекбокса
+          checked={selectedStars.includes(5)}
+          onChange={() => handleCheckboxChange(5)}
+          id='fiveStars'
         />
         <span className={styles.uiCheckbox__box}></span>
       </label>
-      <label className={`${styles.uiCheckbox} ${styles.owFilters__ratingItem}`}>
+      <label className={`${styles.uiCheckbox} ${styles.owFilters__ratingItem}`} htmlFor='fourStars'>
         <span>
           <i></i>
           <i></i>
@@ -63,12 +66,13 @@ const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars }) => {
         <input
           type='checkbox'
           className={styles.uiCheckbox__input}
-          checked={selectedStars.includes(4)} // Устанавливаем атрибут checked в зависимости от выбранных звезд
-          onChange={() => handleCheckboxChange(4)} // Обработчик изменения состояния чекбокса
+          checked={selectedStars.includes(4)}
+          onChange={() => handleCheckboxChange(4)}
+          id='fourStars'
         />
         <span className={styles.uiCheckbox__box}></span>
       </label>
-      <label className={`${styles.uiCheckbox} ${styles.owFilters__ratingItem}`}>
+      <label className={`${styles.uiCheckbox} ${styles.owFilters__ratingItem}`} htmlFor='threeStars'>
         <span>
           <i></i>
           <i></i>
@@ -78,12 +82,13 @@ const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars }) => {
         <input
           type='checkbox'
           className={styles.uiCheckbox__input}
-          checked={selectedStars.includes(3)} // Устанавливаем атрибут checked в зависимости от выбранных звезд
-          onChange={() => handleCheckboxChange(3)} // Обработчик изменения состояния чекбокса
+          checked={selectedStars.includes(3)}
+          onChange={() => handleCheckboxChange(3)}
+          id='threeStars'
         />
         <span className={styles.uiCheckbox__box}></span>
       </label>
-      <label className={`${styles.uiCheckbox} ${styles.owFilters__ratingItem}`}>
+      <label className={`${styles.uiCheckbox} ${styles.owFilters__ratingItem}`} htmlFor='twoStars'>
         <span>
           <i></i>
           <i></i>
@@ -92,12 +97,13 @@ const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars }) => {
         <input
           type='checkbox'
           className={styles.uiCheckbox__input}
-          checked={selectedStars.includes(2)} // Устанавливаем атрибут checked в зависимости от выбранных звезд
-          onChange={() => handleCheckboxChange(2)} // Обработчик изменения состояния чекбокса
+          checked={selectedStars.includes(2)}
+          onChange={() => handleCheckboxChange(2)}
+          id='twoStars'
         />
         <span className={styles.uiCheckbox__box}></span>
       </label>
-      <label className={`${styles.uiCheckbox} ${styles.owFilters__ratingItem}`}>
+      <label className={`${styles.uiCheckbox} ${styles.owFilters__ratingItem}`} htmlFor='oneStars'>
         <span>
           <i></i>
           <div className={styles.owFilters__ratingItem_count}>{oneStars.length}</div>
@@ -105,13 +111,20 @@ const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars }) => {
         <input
           type='checkbox'
           className={styles.uiCheckbox__input}
-          checked={selectedStars.includes(1)} // Устанавливаем атрибут checked в зависимости от выбранных звезд
-          onChange={() => handleCheckboxChange(1)} // Обработчик изменения состояния чекбокса
+          checked={selectedStars.includes(1)}
+          onChange={() => handleCheckboxChange(1)}
+          id='oneStars'
         />
         <span className={styles.uiCheckbox__box}></span>
       </label>
     </div>
   );
+};
+
+StarsFilter.propTypes = {
+  reviews: PropTypes.array.isRequired,
+  handleCheckboxChange: PropTypes.func.isRequired,
+  selectedStars: PropTypes.array.isRequired,
 };
 
 export default StarsFilter;

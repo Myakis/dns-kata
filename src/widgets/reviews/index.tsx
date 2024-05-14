@@ -21,8 +21,8 @@ const Reviews: React.FC = () => {
   const [reviews, setReviews] = useState<ReviewData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [reviewsPerPage, setReviewsPerPage] = useState<number>(10);
-  const [selectedStars, setSelectedStars] = useState([]);
+  const [reviewsPerPage] = useState<number>(10);
+  const [selectedStars, setSelectedStars] = useState<number[]>([]);
   const [notFound, setNotFound] = useState<boolean>(false);
   const [addReviewsStatus, setAddReviewsStatus] = useState<boolean>(false);
 
@@ -67,7 +67,7 @@ const Reviews: React.FC = () => {
     setAddReviewsStatus(true);
   };
 
-  const handleCheckboxChange = (value) => {
+  const handleCheckboxChange = (value: number) => {
     console.log('Checkbox value:', value);
     console.log('Selected stars before update:', selectedStars);
 
@@ -150,9 +150,8 @@ const Reviews: React.FC = () => {
           </div>
           <Pagination
             reviewsPerPage={reviewsPerPage}
+            lastReviewsIndexAddTen={lastReviewsIndexAddTen - 10}
             totalREviews={reviews.length}
-            totalFilteredReviews={filteredReviews.length}
-            selectedStars={selectedStars}
             paginate={paginate}
           />
         </div>
