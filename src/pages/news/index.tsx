@@ -29,6 +29,34 @@ const NewsPage: FC = () => {
     return;
   }
 
+  const mockComment = () => {
+    return (
+      <>
+        <h2 className={style['comment--title']}>Комментарии</h2>
+        <div className={style['comment__body']}>
+          <textarea className={style['comment--input']} placeholder='Написать комментарий...' />
+          <button className={style['comment--button']}>Отправить</button>
+        </div>
+      </>
+    );
+  };
+
+  const mockProductList = () => {
+    return (
+      <>
+        <div className={style['product__header']}>
+          <p className={style['product--title']}>Товары</p>
+          <a className={style['product__link']} href='https://www.dns-shop.ru/#' target='__blank'>
+            <p>
+              Смотреть все<i></i>
+            </p>
+          </a>
+        </div>
+        <div className={style['product__list']}></div>
+      </>
+    );
+  };
+
   return (
     <Layout pageTitle={article.name || null} breadcrumbs='Главная'>
       <div className={style['page']}>
@@ -36,24 +64,8 @@ const NewsPage: FC = () => {
           <section className={style['page__article']}>
             <NewsBlock article={article} />
           </section>
-          <section className={style['page__comment']}>
-            <h2 className={style['comment--title']}>Комментарии</h2>
-            <div className={style['comment__body']}>
-              <textarea className={style['comment--input']} placeholder='Написать комментарий...' />
-              <button className={style['comment--button']}>Отправить</button>
-            </div>
-          </section>
-          <section className={style['page__product']}>
-            <div className={style['product__header']}>
-              <p className={style['product--title']}>Товары</p>
-              <a className={style['product__link']} href='https://www.dns-shop.ru/#' target='__blank'>
-                <p>
-                  Смотреть все<i></i>
-                </p>
-              </a>
-            </div>
-            <div className={style['product__list']}></div>
-          </section>
+          <section className={style['page__comment']}>{mockComment()}</section>
+          <section className={style['page__product']}>{mockProductList()}</section>
         </div>
       </div>
     </Layout>
