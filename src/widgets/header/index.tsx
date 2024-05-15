@@ -27,11 +27,11 @@ const Header: FC = () => {
     };
   }, []);
 
-  const navigationItems = navigationLinks.map((el, index) =>
+  const navigationItems = navigationLinks.map((el) =>
     el.label === 'Покупателям' ? (
       <DropdownMenu
         className={styles['upper-header__dropdown']}
-        key={index}
+        key={el.label}
         dropdownItems={toCustomersLinks}
         toggleContent={el.label}
         toggleArrow={true}
@@ -40,7 +40,7 @@ const Header: FC = () => {
         toggleClassname={styles['upper-header__to-customers-btn']}
       />
     ) : (
-      <li key={index}>
+      <li key={el.label}>
         <a className={styles['header-link']} href={el.address}>
           {el.label}
         </a>
@@ -120,8 +120,8 @@ const Header: FC = () => {
           </div>
           <nav>
             <ul className={styles['main-header__side-nav']}>
-              {sideNavigationItems.map((item, index) => (
-                <li key={index} className={styles[item.className]}>
+              {sideNavigationItems.map((item) => (
+                <li key={item.label} className={styles[item.className]}>
                   <a href='/' className={styles['header-link']}>
                     {item.label}
                   </a>

@@ -2,6 +2,7 @@ export interface CatalogItem {
   subcategory: string;
   itemsCount?: number;
   items?: CatalogItem[];
+  id: number;
 }
 
 export interface Category {
