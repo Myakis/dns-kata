@@ -7,7 +7,7 @@ import NewsShare from 'features/share-tooltip';
 import style from './style.module.scss';
 
 const NewsBlock: FC<{ article: News }> = ({ article: { name, description, date, viewsCount } }) => {
-  function formatText(text: string) {
+  function addIndentText(text: string) {
     return text.split('\n').join('\n\n');
   }
 
@@ -19,7 +19,7 @@ const NewsBlock: FC<{ article: News }> = ({ article: { name, description, date, 
           <p>
             <b>{name}</b>
           </p>
-          <div className={style['news__description']}>{formatText(description)}</div>
+          <div className={style['news__description']}>{addIndentText(description)}</div>
           <div className={style['news__stat']}>
             <NewsStat stat={{ date: date, viewsCount: viewsCount }} />
             <NewsShare />

@@ -12,14 +12,14 @@ const NewsPage: FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const findIdNews = (news: News[] | undefined): News | undefined => {
+  const searchByIdNews = (news: News[] | undefined): News | undefined => {
     if (!news) {
       return;
     }
     return news.find((item) => item.id === Number(id));
   };
 
-  const article = findIdNews(news);
+  const article = searchByIdNews(news);
 
   if (isLoading) {
     return <div className={style['page--warning']}>Загружаем...</div>;
@@ -41,7 +41,7 @@ const NewsPage: FC = () => {
     );
   };
 
-  const mockProductList = () => {
+  const mockProducts = () => {
     return (
       <>
         <div className={style['product__header']}>
@@ -65,7 +65,7 @@ const NewsPage: FC = () => {
             <NewsBlock article={article} />
           </section>
           <section className={style['page__comment']}>{mockComment()}</section>
-          <section className={style['page__product']}>{mockProductList()}</section>
+          <section className={style['page__product']}>{mockProducts()}</section>
         </div>
       </div>
     </Layout>

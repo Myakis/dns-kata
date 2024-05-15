@@ -21,7 +21,7 @@ const NewsListPage: FC = () => {
     setParams({ page: String(page), type: filter });
   }, [setParams, filter, page]);
 
-  const handlePage = (page: number) => {
+  const handlePagination = (page: number) => {
     setPage(page);
     setDisplay(0);
     document.body.scrollIntoView({ behavior: 'smooth' });
@@ -73,7 +73,11 @@ const NewsListPage: FC = () => {
           <div className={style['page__articles']}>{articleList.length ? articleList : 'Таких новостей у нас нет'}</div>
         </div>
         <div className={style['page__pagination']}>
-          <DnsPagination handleShowMore={() => handleShowMore()} handlePage={(page) => handlePage(page)} page={page} />
+          <DnsPagination
+            handleShowMore={() => handleShowMore()}
+            handlePage={(page) => handlePagination(page)}
+            page={page}
+          />
         </div>
       </div>
     </Layout>

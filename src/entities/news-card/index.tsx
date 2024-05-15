@@ -6,7 +6,7 @@ import randomBanner from './constants/articles-banners';
 import style from './style.module.scss';
 
 const NewsCard: FC<{ news: News }> = ({ news }) => {
-  const tagColor = (tag: string): string => {
+  const renderTagColor = (tag: string): string => {
     const colorsBase: { [key in string]: string } = {
       new: style['tag--new'],
       commonInfo: style['tag--commonInfo'],
@@ -43,7 +43,7 @@ const NewsCard: FC<{ news: News }> = ({ news }) => {
       </div>
 
       <div className={style['card__tags']}>
-        <div className={`${style['card__tag']} ${tagColor(news.type)}`}>
+        <div className={`${style['card__tag']} ${renderTagColor(news.type)}`}>
           <p>{news.type}</p>
         </div>
       </div>
