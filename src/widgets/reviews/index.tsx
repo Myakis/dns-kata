@@ -78,18 +78,31 @@ const Reviews: React.FC = () => {
   };
 
   console.log('lastReviewsIndexAddTen:', lastReviewsIndexAddTen);
+  console.log('totalReviews:', totalReviews);
 
   const handleCheckboxChange = (value: number) => {
     console.log('Checkbox value:', value);
     console.log('Selected stars before update:', selectedStars);
 
+    let updatedStars = [];
+
     if (selectedStars.includes(value)) {
-      setSelectedStars(selectedStars.filter((star) => star !== value));
+      updatedStars = selectedStars.filter((star) => star !== value);
     } else {
-      setSelectedStars([...selectedStars, value]);
+      updatedStars = [...selectedStars, value];
     }
 
-    console.log('Selected stars after update:', selectedStars);
+    // Если не выбраны никакие звезды, totalReviews должно быть равно reviews.length
+    const newTotalReviews =
+      updatedStars.length === 0
+        ? reviews.length
+        : reviews.filter((review) => updatedStars.includes(review.rating)).length;
+
+    // Обновляем состояние выбранных звезд и общее количество отзывов
+    setSelectedStars(updatedStars);
+    setTotalReviews(newTotalReviews);
+
+    console.log('Selected stars after update:', updatedStars);
   };
 
   console.log(addReviewsStatus);

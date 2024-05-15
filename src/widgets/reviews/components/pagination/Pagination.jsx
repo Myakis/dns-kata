@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 
 const Pagination = ({ reviewsPerPage, totalReviews, paginate }) => {
   const [activePage, setActivePage] = useState(1);
-  const [firstSlice, setFirstSlice] = useState(0);
-  const [lastSlice, setLastSlice] = useState(8);
+  const [firstSlice, setFirstSlice] = useState(totalReviews - totalReviews);
+  const [lastSlice, setLastSlice] = useState(totalReviews - totalReviews + 8);
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalReviews / reviewsPerPage); i++) {
