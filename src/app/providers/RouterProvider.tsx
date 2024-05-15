@@ -1,3 +1,5 @@
+import Vacancy from 'entities/vacancy';
+import Career from 'pages/career';
 import Main from 'pages/main';
 import Page404 from 'pages/page-404';
 import { useEffect } from 'react';
@@ -15,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: '/shops/:city',
     element: <Shops />,
+  },
+  {
+    path: '/career',
+    element: <Career />,
   },
 ]);
 
