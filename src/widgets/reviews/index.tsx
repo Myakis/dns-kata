@@ -75,7 +75,7 @@ const Reviews: React.FC = () => {
 
   const addReviews = () => {
     setLastReviewsIndexAddTen((prev) => prev + 10);
-    setTotalReviews((prev) => prev - 10);
+    // setTotalReviews((prev) => prev - 10);
     setAddReviewsStatus(true);
   };
 
@@ -130,7 +130,12 @@ const Reviews: React.FC = () => {
           </div>
         </div>
         <Search reviews={reviews} setReviews={setReviews} setNotFound={setNotFound} />
-        <StarsFilter reviews={reviews} handleCheckboxChange={handleCheckboxChange} selectedStars={selectedStars} />
+        <StarsFilter
+          reviews={reviews}
+          handleCheckboxChange={handleCheckboxChange}
+          selectedStars={selectedStars}
+          notFound={notFound}
+        />
         <div id='bottom-opinions-filters' style={{ visibility: 'hidden' }}></div>
       </div>
       {/* Выводим верстку, если поиск ничего не находит */}
@@ -166,18 +171,27 @@ const Reviews: React.FC = () => {
           filteredCurrentReviews={filteredCurrentReviews}
         />
       )}
-      <div className={styles.opinionsWidget__pagination}>
-        <div className={styles.paginatorWidget}>
-          <div
-            className={`${styles.paginatorWidget__block} ${styles.paginatorWidget__block_above}`}
-            style={{ display: 'flex' }}
-            onClick={addReviews}
-          >
-            <div className={styles.paginatorWidget__more}>Показать ещё</div>
+      {totalReviews > 0 && totalReviews / lastReviewsIndexAddTen >= 1 && !notFound && (
+        <div className={styles.opinionsWidget__pagination}>
+          <div className={styles.paginatorWidget}>
+            <div
+              className={`${styles.paginatorWidget__block} ${styles.paginatorWidget__block_above}`}
+              style={{ display: 'flex' }}
+              onClick={addReviews}
+            >
+              <div className={styles.paginatorWidget__more}>Показать ещё</div>
+            </div>
+            <Pagination
+              reviewsPerPage={reviewsPerPage}
+              totalReviews={totalReviews}
+              paginate={paginate}
+              addReviewsStatus={addReviewsStatus}
+              lastReviewsIndexAddTen={lastReviewsIndexAddTen}
+              setAddReviewsStatus={setAddReviewsStatus}
+            />
           </div>
-          <Pagination reviewsPerPage={reviewsPerPage} totalReviews={totalReviews} paginate={paginate} />
         </div>
-      </div>
+      )}
     </div>
   );
 };

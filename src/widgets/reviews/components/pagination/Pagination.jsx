@@ -1,8 +1,15 @@
 import styles from './pagination.module.scss';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Pagination = ({ reviewsPerPage, totalReviews, paginate }) => {
+const Pagination = ({
+  reviewsPerPage,
+  totalReviews,
+  paginate,
+  addReviewsStatus,
+  setAddReviewsStatus,
+  lastReviewsIndexAddTen,
+}) => {
   const [activePage, setActivePage] = useState(1);
   const [firstSlice, setFirstSlice] = useState(totalReviews - totalReviews);
   const [lastSlice, setLastSlice] = useState(totalReviews - totalReviews + 8);
@@ -26,6 +33,7 @@ const Pagination = ({ reviewsPerPage, totalReviews, paginate }) => {
 
   const handleClick = (number) => {
     updatePagination(number);
+    setAddReviewsStatus(false);
   };
 
   const nextPage = () => {
@@ -51,6 +59,7 @@ const Pagination = ({ reviewsPerPage, totalReviews, paginate }) => {
         setFirstSlice((prev) => prev - 1);
         setLastSlice((prev) => prev - 1);
       }
+      setAddReviewsStatus(false);
     }
   };
 
@@ -59,6 +68,7 @@ const Pagination = ({ reviewsPerPage, totalReviews, paginate }) => {
     paginate(1);
     setFirstSlice(0);
     setLastSlice(8);
+    setAddReviewsStatus(false);
   };
 
   const lastPage = () => {
@@ -68,7 +78,12 @@ const Pagination = ({ reviewsPerPage, totalReviews, paginate }) => {
     paginate(last);
     setFirstSlice(last - 8);
     setLastSlice(last);
+    setAddReviewsStatus(false);
   };
+
+  useEffect(() => {
+    addReviewsStatus && nextPage();
+  }, [lastReviewsIndexAddTen]);
 
   return (
     <div className={styles.paginatorWidget__block}>
