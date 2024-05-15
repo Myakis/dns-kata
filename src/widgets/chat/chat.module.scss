@@ -14,6 +14,7 @@
     width: 360px;
     height: 628px;
     max-height: 630px;
+    color: var(--text-color);
     background: #fff;
     box-shadow: 0 4px 12px 0 rgba(0, 0, 0, .2);
     transform: translateY(0);
@@ -32,6 +33,7 @@
     height: auto;
     text-align: center;
     width: 100%;
+    z-index: 2;
     box-shadow: 0 8px 20px 0 rgba(0, 0, 0, .05);
 }
 
@@ -42,13 +44,86 @@
 
 
 .contentWrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
     height: 515px;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 54px 15px 15px;
+    font-size: 16px;
+    padding: 54px 15px 15px 15px;
 }
 
-.messagePanel {
+.dnsMessage {
+    display: flex;
+    column-gap: 10px;
+}
+
+.avatar {
+    width: 100%;
+    @include background-img('../../app/assets/img/chat/chat-avatar.png', 60%, 40px, block, '', start);
+    background-size: contain;
+}
+
+.startMessage {
+    background: rgb(242, 242, 242);
+    border-radius: 10px;
+    padding: 10px 15px;
+}
+
+.dnsText {
+    line-height: 20px;
+    color: var(--dark-gray);
+}
+
+.issuesList {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 20px;
+    row-gap: 12px;
+}
+
+.btn {
+    box-sizing: border-box;
+    background: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    padding: 8px;
+    line-height: 1.42857;
+}
+
+.userMessage {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    align-items: flex-end;
+    text-align: right;
+}
+
+.userText {
+    background-image: linear-gradient(-180deg, rgb(20, 189, 240), rgb(0, 142, 248));
+    border-radius: 12px 12px 0px;
+    color: rgb(255, 255, 255);
+    display: inline-block;
+    padding: 8px 16px;
+}
+
+.time {
+    color: #AFAFAF;
+    font-size: 12px;
+}
+
+
+
+
+
+
+
+
+.sendPanel {
     position: absolute;
     bottom: 0;
     display: flex;
@@ -74,7 +149,7 @@
     cursor: pointer;
 }
 
-.messageForm {
+.form {
     display: flex;
     align-items: center;
     column-gap: 8px;
