@@ -35,6 +35,7 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ isModalOpen, closeModalHandl
   const setCurrentCity = (i: ICity) => {
     const currentCity = {
       name: i.name,
+      slug: i.citySlug,
       coords: {
         latitude: i.latitude,
         longitude: i.longitude,
@@ -150,18 +151,6 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ isModalOpen, closeModalHandl
       </div>
     </div>
   );
-
-  //   <>
-  // <Modal
-  //   isModalOpen={isModalOpen}
-  //   dialog={}
-  //   closeModalHandler={() => setIsModalOpen(false)}
-  // />
-  // <span style={labelStyle} onClick={() => setIsModalOpen(true)}>
-  //   {label}
-  // </span>
-  //   </>
-  // );
 };
 
 export default CitiesModalPage404;

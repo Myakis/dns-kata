@@ -8,6 +8,7 @@ import NewsNav from 'features/news-nav';
 import style from './style.module.scss';
 import NewsCard from 'entities/news-card';
 import NewsStat from 'entities/news-stat';
+import Layout from 'pages/layout';
 
 const NewsListPage: FC = () => {
   const { data: news, isLoading } = useGetNewsQuery('');
@@ -59,26 +60,23 @@ const NewsListPage: FC = () => {
     return <div className={style['page--warning']}>Загружаем...</div>;
   }
   if (!articleList) {
-    return <div className={style['page--warning']}>Ошибка, таких новостей у нас нету...</div>;
+    return <div className={style['page--warning']}>Ошибка, попробуйте чуть позже...</div>;
   }
 
   return (
-    <>
+    <Layout pageTitle='Новости'>
       <div className={style['page']}>
-        <h1 className={style['page--title']}>Новости</h1>
-
         <div className={style['page__content']}>
           <div className={style['page__nav']}>
             <NewsNav type={filter} handlerFilter={(filtr) => handleFilter(filtr)} />
           </div>
-          <div className={style['page__articles']}>{articleList}</div>
+          <div className={style['page__articles']}>{articleList.length ? articleList : 'Таких новостей у нас нет'}</div>
         </div>
-
         <div className={style['page__pagination']}>
           <DnsPagination handleShowMore={() => handleShowMore()} handlePage={(page) => handlePage(page)} page={page} />
         </div>
       </div>
-    </>
+    </Layout>
   );
 };
 

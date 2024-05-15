@@ -22,17 +22,19 @@
     "clsx": "^2.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-redux": "^9.1.1",
-    "react-router-dom": "^6.23.0"
+    "react-router-dom": "^6.23.0",
+    "react-redux": "^9.1.1"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
+    "@reduxjs/toolkit": "^2.2.2",
     "@types/node": "^20.4.10",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.3.0",
     "@typescript-eslint/parser": "^6.3.0",
-    "@vitejs/plugin-react": "^4.0.3",
+    "@vitejs/plugin-react": "^4.2.0",
+    "axios": "^1.4.0",
     "concurrently": "^8.2.0",
     "eslint": "^8.45.0",
     "eslint-config-prettier": "^9.0.0",
@@ -44,6 +46,9 @@
     "eslint-plugin-react-refresh": "^0.4.3",
     "json-server": "^0.17.3",
     "prettier": "^3.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.23.0",
     "sass": "^1.65.1",
     "typescript": "^5.0.2",
     "vite": "^5.0.6"
