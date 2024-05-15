@@ -1,5 +1,6 @@
 @import './styles/mixins.scss';
 @import './styles/fonts.scss';
+@import './styles/variables.css';
 
 /*! modern-normalize v2.0.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
 
@@ -37,6 +38,8 @@ Sections
 */
 
 body {
+  background: var(--main-bg-color);
+  font-family: var(--fonts);
   margin: 0; /* Remove the margin in all browsers. */
 }
 
