@@ -21,12 +21,12 @@ interface ILinks {
 }
 
 export const navigationLinks: ILinks[] = [
-  { label: 'Акции', address: '/' },
-  { label: 'Магазины', address: '/' },
+  { label: 'Акции', address: '/stocks' },
+  { label: 'Магазины', address: '/shops/moscow' },
   { label: 'Покупателям', address: '/' },
   { label: 'Физическим лицам', address: '/' },
   { label: 'Клуб DNS', address: '/' },
-  { label: 'Вакансии', address: '/' },
+  { label: 'Вакансии', address: '/career' },
 ];
 
 export const toCustomersLinks: ILinks[] = [

@@ -5,6 +5,7 @@ import { navigationLinks, toCustomersLinks, sideNavigationItems } from './consta
 import { useState, useRef, useEffect, FC } from 'react';
 import DropdownMenu from 'shared/ui/dropdown-menu';
 import Catalog from './component';
+import { Link } from 'react-router-dom';
 
 const Header: FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -41,9 +42,9 @@ const Header: FC = () => {
       />
     ) : (
       <li key={el.label}>
-        <a className={styles['header-link']} href={el.address}>
+        <Link className={styles['header-link']} to={el.address}>
           {el.label}
-        </a>
+        </Link>
       </li>
     )
   );
