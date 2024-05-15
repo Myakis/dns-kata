@@ -47,8 +47,10 @@ const Reviews: React.FC = () => {
 
   useEffect(() => {
     setAddReviewsStatus(false);
-    setTotalReviews(reviews.length);
-  }, [currentPage, reviews.length]);
+    if (selectedStars.length === 0) {
+      setTotalReviews(reviews.length);
+    }
+  }, [selectedStars, reviews.length]);
 
   const firstReviewsIndex: number = lastReviewsIndex - reviewsPerPage;
   const filteredReviews = reviews.filter((review) => selectedStars.includes(review.rating));
