@@ -1,4 +1,5 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { useGetNewsQuery } from 'shared/api/DNS';
 import { News } from './types';
@@ -10,9 +11,14 @@ import NewsStat from 'entities/news-stat';
 
 const NewsListPage: FC = () => {
   const { data: news, isLoading } = useGetNewsQuery('');
-  const [page, setPage] = useState(1);
-  const [filter, setFilter] = useState('all');
+  const [params, setParams] = useSearchParams();
+  const [page, setPage] = useState(Number(params.get('page')) || 1);
+  const [filter, setFilter] = useState(params.get('type') || 'all');
   const [display, setDisplay] = useState(0);
+
+  useEffect(() => {
+    setParams({ page: String(page), type: filter });
+  }, [setParams, filter, page]);
 
   const handlePage = (page: number) => {
     setPage(page);

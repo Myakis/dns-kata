@@ -40,7 +40,7 @@ const DnsPagination: FC<DnsPaginationI> = ({ handleShowMore, handlePage, page })
           }}
         >
           <Pagination
-            pageSize={6}
+            pageSize={9}
             total={100}
             showSizeChanger={false}
             showPrevNextJumpers={false}
