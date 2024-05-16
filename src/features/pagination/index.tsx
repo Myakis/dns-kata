@@ -8,16 +8,20 @@ interface DnsPaginationI {
   handleShowMore: () => void;
   handlePage: (page: number) => void;
   page: number;
+  total: number;
 }
 
-const DnsPagination: FC<DnsPaginationI> = ({ handleShowMore, handlePage, page }) => {
+const DnsPagination: FC<DnsPaginationI> = ({ handleShowMore, handlePage, page, total }) => {
+  console.log(Math.ceil(total / 9), page);
   return (
     <div className={style['pagination']}>
-      <div className={style['pagination__block__btn']}>
-        <button type='button' className={style['pagination__btn']} onClick={() => handleShowMore()}>
-          Показать ещё
-        </button>
-      </div>
+      {Math.ceil(total / 9) !== page && (
+        <div className={style['pagination__block__btn']}>
+          <button type='button' className={style['pagination__btn']} onClick={() => handleShowMore()}>
+            Показать ещё
+          </button>
+        </div>
+      )}
       <div className={style['pagination__widget']}>
         <ConfigProvider
           theme={{
@@ -41,7 +45,7 @@ const DnsPagination: FC<DnsPaginationI> = ({ handleShowMore, handlePage, page })
         >
           <Pagination
             pageSize={9}
-            total={100}
+            total={total}
             showSizeChanger={false}
             showPrevNextJumpers={false}
             showQuickJumper={false}

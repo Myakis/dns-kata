@@ -39,7 +39,7 @@ const NewsCard: FC<{ news: News }> = ({ news }) => {
       </div>
 
       <div className={style['card__discription']}>
-        <p>{shortingText(news.description, 250)}</p>
+        <p>{shortingText(news.description, 200)}</p>
       </div>
 
       <div className={style['card__tags']}>

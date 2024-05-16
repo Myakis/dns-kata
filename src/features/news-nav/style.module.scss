@@ -37,6 +37,11 @@
       font-family: 'PT Sans';
       border-bottom: 1px #333 dotted;
     }
+
+    p:hover {
+      cursor: pointer;
+      color: var(--primary-color);
+    }
   }
 
   .nav__button--active {
@@ -46,6 +51,10 @@
 
     p {
       border-bottom: none;
+    }
+
+    p:hover {
+      color: inherit;
     }
   }
 }

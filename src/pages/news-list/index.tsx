@@ -38,16 +38,21 @@ const NewsListPage: FC = () => {
     setDisplay(0);
   };
 
-  const sortingNews = (news: News[] | undefined) => {
+  const sortingNews = (news: News[] | undefined): { totalNews: number; sortedNews: News[] } => {
     if (!news) {
-      return [];
+      return { totalNews: 0, sortedNews: [] };
     }
     const result = news.filter((item) => filter === 'all' || item.type === filter);
 
-    return result.slice((page - 1) * 9 - display * 9, page * 9);
+    return {
+      totalNews: result.length,
+      sortedNews: result.slice((page - 1) * 9 - display * 9, page * 9),
+    };
   };
 
-  const articleList = sortingNews(news).map((item) => {
+  const { totalNews, sortedNews } = sortingNews(news);
+
+  const articleList = sortedNews.map((item) => {
     return (
       <div key={self.crypto.randomUUID()} className={style['page__article']}>
         <NewsCard news={item} />
@@ -77,6 +82,7 @@ const NewsListPage: FC = () => {
             handleShowMore={() => handleShowMore()}
             handlePage={(page) => handlePagination(page)}
             page={page}
+            total={totalNews}
           />
         </div>
       </div>
