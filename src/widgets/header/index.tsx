@@ -88,7 +88,7 @@ const Header: FC = () => {
             )}
           >
             <a className={styles['main-header__logo-btn']} href='/'>
-              &nbsp;
+              {' '}
             </a>
             <button
               onClick={() => setIsOnCatalogBtnClick((prevState) => !prevState)}
