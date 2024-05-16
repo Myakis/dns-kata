@@ -3,60 +3,149 @@ import robot from '../../app/assets/img/career/robot.svg';
 import sparkles from '../../app/assets/img/career/sparkles.svg';
 import stonks from '../../app/assets/img/career/stonks.svg';
 import lamp from '../../app/assets/img/career/lamp.svg';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useClickOutside } from 'shared/hooks/useClickOutside';
+import { useGetVacanciesQuery } from 'shared/api/DNS';
+import { IVacancy } from './types';
 
 type DropDown = {
   isOpen: boolean;
   selected: string;
-  options: React.ReactElement[];
+  allOptions: React.ReactElement[] | null;
+  currentOptions: React.ReactElement[] | null;
   input: string;
 };
 
+function filteredVacanciesList(vacancies: IVacancy[], query: string, attribute: 'city' | 'name' = 'city') {
+  const filterAttribute = query.trim().toLowerCase();
+
+  return vacancies
+    .filter((vacancy) => {
+      const vacancyAttribute = vacancy[attribute].trim().toLowerCase();
+
+      if (filterAttribute === 'all') {
+        return true;
+      }
+      switch (attribute) {
+        case 'name':
+          return vacancyAttribute.includes(filterAttribute);
+        case 'city':
+          return vacancyAttribute === filterAttribute;
+      }
+    })
+    .map((vacancy) => (
+      <a href='/career' key={vacancy.id} className={styles.vacancy}>
+        <div className={styles.vacancy__top}>
+          <h5 className={styles.vacancy__title}>{vacancy.name}</h5>
+          <div className={styles.vacancy__salary}>
+            {vacancy.salaryMin.toLocaleString()} - {vacancy.salaryMax.toLocaleString()} ₽
+          </div>
+        </div>
+        <div className={styles.vacancy__city}>г. {vacancy.city}</div>
+      </a>
+    ));
+}
+
 const Career = () => {
-  const handleSelect = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const input = event.currentTarget;
-    const city = input.textContent ? input.textContent : '';
-
-    setDropDown(() => ({ isOpen: false, selected: city, options: cityList, input: '' }));
-  };
-
-  const cityList = ['Москва', 'Абакан', 'Сочи', 'Сочник', 'Каша', 'Масло'].map((elem) => {
-    return (
-      <button key={elem} onClick={handleSelect} type='button' className={styles.dropDown__option}>
-        {elem}
-      </button>
-    );
-  });
+  const { data: vacancies } = useGetVacanciesQuery('');
 
   const [dropDown, setDropDown] = useState<DropDown>({
     isOpen: false,
-    selected: 'Москва',
-    options: cityList,
+    selected: '',
+    allOptions: null,
+    currentOptions: null,
     input: '',
   });
 
-  const citySearchRef = useClickOutside(
-    () => setDropDown((prev) => ({ ...prev, isOpen: false, input: '', options: cityList })),
-    'dropDown__selected'
-  );
+  const [jobList, setJobList] = useState<JSX.Element[]>();
+  const [jobSearch, setJobSearch] = useState<string>('');
 
-  const handleCitySearch = (event: React.FormEvent<HTMLInputElement>, jsxList: React.ReactElement[]) => {
-    const query = event.currentTarget.value;
+  const handleSelect = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const option = event.currentTarget;
+    const city = option.textContent ? option.textContent : '';
 
-    if (!query) {
-      setDropDown((prev) => ({ ...prev, options: cityList, input: query ?? '' }));
+    setJobList(filteredVacanciesList(vacancies!, city));
+    setDropDown((prev) => ({ ...prev, currentOptions: prev.allOptions, isOpen: false, selected: city, input: '' }));
+  };
+
+  const buildOptionsList = useCallback((vacancies: IVacancy[]) => {
+    const options = vacancies.map((vacancy) => (
+      <button key={vacancy.city + vacancy.id} onClick={handleSelect} type='button' className={styles.dropDown__option}>
+        {vacancy.city}
+      </button>
+    ));
+
+    return [
+      <button key={'all'} onClick={handleSelect} type='button' className={styles.dropDown__option}>
+        All
+      </button>,
+      ...options,
+    ];
+  }, [vacancies]);
+
+  useEffect(() => {
+    if (!vacancies || !vacancies.length) {
       return;
     }
 
-    const newList = jsxList.filter((elem) => {
-      const city = elem.key?.toLowerCase() ?? '';
+    const optionsList = buildOptionsList(vacancies);
+    const selected = optionsList[0].props.children as string;
+
+    setDropDown((prev) => ({
+      ...prev,
+      allOptions: optionsList,
+      currentOptions: optionsList,
+      selected: selected,
+    }));
+
+    setJobList(filteredVacanciesList(vacancies, selected));
+  }, [vacancies, buildOptionsList]);
+
+  const citySearchRef = useClickOutside(
+    () => setDropDown((prev) => ({ ...prev, currentOptions: prev.allOptions, isOpen: false, input: '' })),
+    'dropDown__selected'
+  );
+
+  if (!vacancies) {
+    return <div>Минуточку плюс секундочку</div>;
+  }
+
+  const handleCitySearch = (event: React.FormEvent<HTMLInputElement>) => {
+    const query = event.currentTarget.value;
+
+    if (!query) {
+      setDropDown((prev) => ({ ...prev, currentOptions: prev.allOptions, input: query ?? '' }));
+      return;
+    }
+
+    const newList = dropDown.allOptions?.filter((elem) => {
+      const city = elem.props.children?.toLowerCase() ?? '';
 
       return city.includes(query.toLowerCase());
     });
 
-    setDropDown((prev) => ({ ...prev, options: newList, input: query }));
+    if (!newList) {
+      setDropDown((prev) => ({ ...prev, currentOptions: prev.allOptions, input: query ?? '' }));
+      return;
+    }
+
+    setDropDown((prev) => ({ ...prev, currentOptions: newList, input: query }));
+  };
+
+  const handleJobSearch = (event: React.FormEvent<HTMLInputElement>) => {
+    const query = event.currentTarget.value;
+
+    setJobSearch(query);
+    if (!query) {
+      const returnJobs = filteredVacanciesList(vacancies, dropDown.selected);
+
+      setJobList(returnJobs);
+    }
+
+    const filteredJobs = filteredVacanciesList(vacancies, query, 'name');
+
+    setJobList(filteredJobs);
   };
 
   return (
@@ -115,82 +204,24 @@ const Career = () => {
                     value={dropDown.input}
                     className={styles.dropDown__input}
                     type='text'
-                    onChange={(event: React.FormEvent<HTMLInputElement>) => handleCitySearch(event, cityList)}
+                    onChange={handleCitySearch}
                   />
                 </label>
-                <div className={styles.dropDown__options}>{dropDown.options}</div>
+                <div className={styles.dropDown__options}>{dropDown.currentOptions}</div>
               </div>
             </div>
           </div>
           <label className={styles.search}>
             <span className={styles.search__icon}></span>
-            <input className={styles.search__input} type='text' placeholder='Найти вакансию' />
+            <input
+              value={jobSearch}
+              onChange={handleJobSearch}
+              className={styles.search__input}
+              type='text'
+              placeholder='Найти вакансию'
+            />
           </label>
-          <div className={styles.vacancies__list}>
-            <a href='/career/:id' className={styles.vacancy}>
-              <div className={styles.vacancy__top}>
-                <h5 className={styles.vacancy__title}>Бухгалтер по учету затрат</h5>
-                <div className={styles.vacancy__salary}>90 000 - 95 000 ₽</div>
-              </div>
-              <div className={styles.vacancy__city}>г. Москва</div>
-            </a>
-            <a href='/career/:id' className={styles.vacancy}>
-              <div className={styles.vacancy__top}>
-                <h5 className={styles.vacancy__title}>Кладовщик магазина (ТРЦ Афимолл сити)</h5>
-                <div className={styles.vacancy__salary}>5 000 - 9 000 ₽</div>
-              </div>
-              <div className={styles.vacancy__city}>г. Москва</div>
-            </a>
-            <a href='/career/:id' className={styles.vacancy}>
-              <div className={styles.vacancy__top}>
-                <h5 className={styles.vacancy__title}>Программист-анальник</h5>
-                <div className={styles.vacancy__salary}>100 000 - 500 000 ₽</div>
-              </div>
-              <div className={styles.vacancy__city}>г. Москва</div>
-            </a>
-            <a href='/career/:id' className={styles.vacancy}>
-              <div className={styles.vacancy__top}>
-                <h5 className={styles.vacancy__title}>Бухгалтер по учету затрат</h5>
-                <div className={styles.vacancy__salary}>90 000 - 95 000 ₽</div>
-              </div>
-              <div className={styles.vacancy__city}>г. Москва</div>
-            </a>
-            <a href='/career/:id' className={styles.vacancy}>
-              <div className={styles.vacancy__top}>
-                <h5 className={styles.vacancy__title}>Кладовщик магазина (ТРЦ Афимолл сити)</h5>
-                <div className={styles.vacancy__salary}>5 000 - 9 000 ₽</div>
-              </div>
-              <div className={styles.vacancy__city}>г. Москва</div>
-            </a>
-            <a href='/career/:id' className={styles.vacancy}>
-              <div className={styles.vacancy__top}>
-                <h5 className={styles.vacancy__title}>Программист-анальник</h5>
-                <div className={styles.vacancy__salary}>100 000 - 500 000 ₽</div>
-              </div>
-              <div className={styles.vacancy__city}>г. Москва</div>
-            </a>
-            <a href='/career/:id' className={styles.vacancy}>
-              <div className={styles.vacancy__top}>
-                <h5 className={styles.vacancy__title}>Бухгалтер по учету затрат</h5>
-                <div className={styles.vacancy__salary}>90 000 - 95 000 ₽</div>
-              </div>
-              <div className={styles.vacancy__city}>г. Москва</div>
-            </a>
-            <a href='/career/:id' className={styles.vacancy}>
-              <div className={styles.vacancy__top}>
-                <h5 className={styles.vacancy__title}>Кладовщик магазина (ТРЦ Афимолл сити)</h5>
-                <div className={styles.vacancy__salary}>5 000 - 9 000 ₽</div>
-              </div>
-              <div className={styles.vacancy__city}>г. Москва</div>
-            </a>
-            <a href='/career/:id' className={styles.vacancy}>
-              <div className={styles.vacancy__top}>
-                <h5 className={styles.vacancy__title}>Программист-анальник</h5>
-                <div className={styles.vacancy__salary}>100 000 - 500 000 ₽</div>
-              </div>
-              <div className={styles.vacancy__city}>г. Москва</div>
-            </a>
-          </div>
+          <div className={styles.vacancies__list}>{jobList}</div>
         </section>
         <section className={styles.questions}>
           <div className={styles.questions__text}>

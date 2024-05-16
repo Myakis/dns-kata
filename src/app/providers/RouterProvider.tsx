@@ -26,6 +26,7 @@ const router = createBrowserRouter([
   {
     path: '/career',
     element: <Career />,
+    errorElement: <Page404 />,
   },
 ]);
 
