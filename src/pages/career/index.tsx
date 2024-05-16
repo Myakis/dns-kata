@@ -3,8 +3,62 @@ import robot from '../../app/assets/img/career/robot.svg';
 import sparkles from '../../app/assets/img/career/sparkles.svg';
 import stonks from '../../app/assets/img/career/stonks.svg';
 import lamp from '../../app/assets/img/career/lamp.svg';
+import { useState } from 'react';
+import clsx from 'clsx';
+import { useClickOutside } from 'shared/hooks/useClickOutside';
+
+type DropDown = {
+  isOpen: boolean;
+  selected: string;
+  options: React.ReactElement[];
+  input: string;
+};
 
 const Career = () => {
+  const handleSelect = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const input = event.currentTarget;
+    const city = input.textContent ? input.textContent : '';
+
+    setDropDown(() => ({ isOpen: false, selected: city, options: cityList, input: '' }));
+  };
+
+  const cityList = ['Москва', 'Абакан', 'Сочи', 'Сочник', 'Каша', 'Масло'].map((elem) => {
+    return (
+      <button key={elem} onClick={handleSelect} type='button' className={styles.dropDown__option}>
+        {elem}
+      </button>
+    );
+  });
+
+  const [dropDown, setDropDown] = useState<DropDown>({
+    isOpen: false,
+    selected: 'Москва',
+    options: cityList,
+    input: '',
+  });
+
+  const citySearchRef = useClickOutside(
+    () => setDropDown((prev) => ({ ...prev, isOpen: false, input: '', options: cityList })),
+    'dropDown__selected'
+  );
+
+  const handleCitySearch = (event: React.FormEvent<HTMLInputElement>, jsxList: React.ReactElement[]) => {
+    const query = event.currentTarget.value;
+
+    if (!query) {
+      setDropDown((prev) => ({ ...prev, options: cityList, input: query ?? '' }));
+      return;
+    }
+
+    const newList = jsxList.filter((elem) => {
+      const city = elem.key?.toLowerCase() ?? '';
+
+      return city.includes(query.toLowerCase());
+    });
+
+    setDropDown((prev) => ({ ...prev, options: newList, input: query }));
+  };
+
   return (
     <div className={styles.page}>
       <h1 className={styles.head}>Карьера</h1>
@@ -45,29 +99,26 @@ const Career = () => {
           <div className={styles.city}>
             <p className={styles.city__title}>Вакансии по городу:&nbsp;</p>
             <div className={styles.dropDown}>
-              <div className={styles.dropDown__selected}>Москва</div>
-              <div className={styles.dropDown__inner}>
+              <button
+                type='button'
+                className={styles.dropDown__selected}
+                onClick={() => setDropDown((prev) => ({ ...prev, isOpen: !prev.isOpen }))}
+              >
+                {dropDown.selected}
+              </button>
+              <div
+                ref={citySearchRef}
+                className={clsx(styles.dropDown__inner, dropDown.isOpen || styles.visually_hidden)}
+              >
                 <label className={styles.dropDown__search}>
-                  <input className={styles.dropDown__input} type='text' />
+                  <input
+                    value={dropDown.input}
+                    className={styles.dropDown__input}
+                    type='text'
+                    onChange={(event: React.FormEvent<HTMLInputElement>) => handleCitySearch(event, cityList)}
+                  />
                 </label>
-                <div className={styles.dropDown__options}>
-                  <div className={styles.dropDown__option}>Абаза</div>
-                  <div className={styles.dropDown__option}>Абакан</div>
-                  <div className={styles.dropDown__option}>Алтуфьево</div>
-                  <div className={styles.dropDown__option}>Антананариву</div>
-                  <div className={styles.dropDown__option}>Абаза</div>
-                  <div className={styles.dropDown__option}>Абакан</div>
-                  <div className={styles.dropDown__option}>Алтуфьево</div>
-                  <div className={styles.dropDown__option}>Антананариву</div>
-                  <div className={styles.dropDown__option}>Абаза</div>
-                  <div className={styles.dropDown__option}>Абакан</div>
-                  <div className={styles.dropDown__option}>Алтуфьево</div>
-                  <div className={styles.dropDown__option}>Антананариву</div>
-                  <div className={styles.dropDown__option}>Абаза</div>
-                  <div className={styles.dropDown__option}>Абакан</div>
-                  <div className={styles.dropDown__option}>Алтуфьево</div>
-                  <div className={styles.dropDown__option}>Антананариву</div>
-                </div>
+                <div className={styles.dropDown__options}>{dropDown.options}</div>
               </div>
             </div>
           </div>
