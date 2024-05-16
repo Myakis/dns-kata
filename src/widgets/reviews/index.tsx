@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import styles from './reviews.module.scss';
 import Review from './components/review/';
@@ -27,6 +27,8 @@ const Reviews: React.FC = () => {
   const [addReviewsStatus, setAddReviewsStatus] = useState<boolean>(false);
   const [totalReviews, setTotalReviews] = useState<number>(reviews.length);
   const [lastReviewsIndex, setLastReviewsIndex] = useState<number>(10);
+  const [initialReviews, setInitialReviews] = useState<ReviewData[]>([]);
+  const allReviews = useRef(reviews.length);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -35,7 +37,9 @@ const Reviews: React.FC = () => {
         const response = await axios.get<ReviewData[]>('http://localhost:8000/reviews');
 
         setReviews(response.data);
+        setInitialReviews(response.data); // Сохраняем изначальные отзывы
         setTotalReviews(response.data.length); // Обновляем totalReviews после получения отзывов с сервера
+        allReviews.current = response.data.length; // Обновляем значение allReviews
         setLoading(false);
       } catch (error) {
         console.error('Ошибка при получении отзывов:', error);
@@ -75,7 +79,6 @@ const Reviews: React.FC = () => {
 
   const addReviews = () => {
     setLastReviewsIndexAddTen((prev) => prev + 10);
-    // setTotalReviews((prev) => prev - 10);
     setAddReviewsStatus(true);
   };
 
@@ -109,6 +112,11 @@ const Reviews: React.FC = () => {
 
   console.log(addReviewsStatus);
 
+  const handleReset = () => {
+    setReviews(initialReviews);
+    setNotFound(false);
+  };
+
   return (
     <div className={styles.owOpinionsContainer}>
       <div className={`${styles.owFilters} ${styles.opinionsWidget__filters}`} data-role='filters'>
@@ -119,13 +127,13 @@ const Reviews: React.FC = () => {
               className={`${styles.owFilters__countFilterBtnCount} ${styles.owFilters__countFilterBtnCount_active}`}
               data-role='btn-count'
             >
-              {reviews.length}
+              {allReviews.current}
             </span>
           </div>
           <div className={styles.owFilters__countFilterBtn}>
             Только к этой модели{' '}
             <span className={styles.owFilters__countFilterBtnCount} data-role='btn-count'>
-              {reviews.length}
+              {allReviews.current}
             </span>
           </div>
         </div>
@@ -154,7 +162,7 @@ const Reviews: React.FC = () => {
               <button
                 className={`${styles.buttonUi} ${styles.buttonUi_white} ${styles.buttonUi_md} ${styles.owOpinions__notFound_button}`}
                 data-role='reset-button'
-                onClick={() => setNotFound(false)}
+                onClick={handleReset}
               >
                 Сбросить
               </button>
@@ -171,6 +179,7 @@ const Reviews: React.FC = () => {
           filteredCurrentReviews={filteredCurrentReviews}
         />
       )}
+      {/* Скрывыем блок пагинации, если поиск не дал результатов */}
       {totalReviews > 0 && totalReviews / lastReviewsIndexAddTen >= 1 && !notFound && (
         <div className={styles.opinionsWidget__pagination}>
           <div className={styles.paginatorWidget}>
