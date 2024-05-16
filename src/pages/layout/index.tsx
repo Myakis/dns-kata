@@ -1,6 +1,7 @@
 import { FC, ReactNode } from 'react';
 import styles from './layout.module.scss';
 import Footer from 'widgets/footer';
+import Header from 'widgets/header';
 
 interface IProps {
   pageTitle?: string | null;
@@ -13,7 +14,7 @@ export const Layout: FC<IProps> = ({ pageTitle, breadcrumbs, children }) => {
     <div className={styles.layout}>
       <header className={styles.layout__header}>
         <div className={styles.header__container}>
-          <header>Header</header>
+          <Header />
         </div>
       </header>
       <div className={styles.layout__breadcrumbs}>
