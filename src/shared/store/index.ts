@@ -1,12 +1,14 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { DnsAPI } from 'shared/api/DNS/';
 import { OriginalDNSApi } from 'shared/api/original-DNS';
+import authSlice from './slices/auth-slice';
 import currentCityReducer from './slices/current-city-slice';
 
 const rootReducer = combineReducers({
   currentCity: currentCityReducer,
   [OriginalDNSApi.reducerPath]: OriginalDNSApi.reducer,
   [DnsAPI.reducerPath]: DnsAPI.reducer,
+  auth: authSlice,
 });
 
 export const setupStore = () => {

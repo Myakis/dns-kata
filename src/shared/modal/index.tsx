@@ -13,7 +13,7 @@ const Modal: FC<IModalProps> = ({ Dialog, isModalOpen, closeModalHandler }) => {
 
   if (isModalOpen) {
     return (
-      <div className={styles['modal']} onClick={closeModalHandler}>
+      <div className={styles['modal']} onMouseDown={closeModalHandler}>
         <Dialog isModalOpen={isModalOpen} closeModalHandler={closeModalHandler} />
       </div>
     );
