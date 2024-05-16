@@ -1,10 +1,11 @@
 import styles from './header.module.scss';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { useClickOutside } from 'shared/hooks/useClickOutside';
 import { navigationLinks, toCustomersLinks, sideNavigationItems } from './constants';
-import { useState, useRef, useEffect, FC } from 'react';
+import { useState, useEffect, FC } from 'react';
 import DropdownMenu from 'shared/ui/dropdown-menu';
 import Catalog from './component';
+import { Link } from 'react-router-dom';
 
 const Header: FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -12,12 +13,9 @@ const Header: FC = () => {
   const [onSearchFocus, setOnSearchFocus] = useState(false);
   const [onPhoneHover, setOnPhoneHover] = useState(false);
 
-  const catalogRef = useRef<HTMLDivElement>(null);
-  const searchRef = useRef<HTMLDivElement>(null);
-
   // Действия при клике вне блока
-  useClickOutside(catalogRef, () => setIsOnCatalogBtnClick(false), styles['main-header__catalog-btn']);
-  useClickOutside(searchRef, () => setOnSearchFocus(false));
+  const catalogRef = useClickOutside(() => setIsOnCatalogBtnClick(false), styles['main-header__catalog-btn']);
+  const searchRef = useClickOutside(() => setOnSearchFocus(false));
 
   // useEffect для фиксации хедера при скролле
   useEffect(() => {
@@ -27,11 +25,11 @@ const Header: FC = () => {
     };
   }, []);
 
-  const navigationItems = navigationLinks.map((el, index) =>
+  const navigationItems = navigationLinks.map((el) =>
     el.label === 'Покупателям' ? (
       <DropdownMenu
         className={styles['upper-header__dropdown']}
-        key={index}
+        key={el.label}
         dropdownItems={toCustomersLinks}
         toggleContent={el.label}
         toggleArrow={true}
@@ -40,10 +38,10 @@ const Header: FC = () => {
         toggleClassname={styles['upper-header__to-customers-btn']}
       />
     ) : (
-      <li key={index}>
-        <a className={styles['header-link']} href={el.address}>
+      <li key={el.label}>
+        <Link className={styles['header-link']} to={el.address}>
           {el.label}
-        </a>
+        </Link>
       </li>
     )
   );
@@ -75,30 +73,29 @@ const Header: FC = () => {
           ) : null}
         </div>
       </div>
-      <div
-        className={classNames(styles['main-header'], {
-          [styles['main-header--fixed']]: isScrolled,
-        })}
-      >
+      <div className={clsx(styles['main-header'], isScrolled && styles['main-header--fixed'])}>
         <div
-          className={classNames(styles['main-header__container'], {
-            [styles['main-header__container--fixed']]: isScrolled,
-            [styles['main-header--bg-shadow']]: isOnCatalogBtnClick || onSearchFocus,
-          })}
+          className={clsx(
+            styles['main-header__container'],
+            isScrolled && styles['main-header__container--fixed'],
+            (isOnCatalogBtnClick || onSearchFocus) && styles['main-header--bg-shadow']
+          )}
         >
           <div
-            className={classNames(styles['main-header__btn-bg'], {
-              [styles['main-header__btn-bg--active']]: isOnCatalogBtnClick,
-            })}
+            className={clsx(
+              styles['main-header__btn-bg'],
+              isOnCatalogBtnClick && styles['main-header__btn-bg--active']
+            )}
           >
             <a className={styles['main-header__logo-btn']} href='/'>
-              &nbsp;
+              {' '}
             </a>
             <button
               onClick={() => setIsOnCatalogBtnClick((prevState) => !prevState)}
-              className={classNames(styles['main-header__catalog-btn'], {
-                [styles['main-header__catalog-btn--active']]: isOnCatalogBtnClick,
-              })}
+              className={clsx(
+                styles['main-header__catalog-btn'],
+                isOnCatalogBtnClick && styles['main-header__catalog-btn--active']
+              )}
             >
               Каталог
             </button>
@@ -106,9 +103,10 @@ const Header: FC = () => {
           <Catalog catalogRef={catalogRef} isOnCatalogBtnClick={isOnCatalogBtnClick} isScrolled={isScrolled} />
           <div
             ref={searchRef}
-            className={classNames(styles['main-header__search-wrapper'], {
-              [styles['main-header__search-wrapper--focused']]: onSearchFocus,
-            })}
+            className={clsx(
+              styles['main-header__search-wrapper'],
+              onSearchFocus && styles['main-header__search-wrapper--focused']
+            )}
           >
             <input
               type='text'
@@ -120,8 +118,8 @@ const Header: FC = () => {
           </div>
           <nav>
             <ul className={styles['main-header__side-nav']}>
-              {sideNavigationItems.map((item, index) => (
-                <li key={index} className={styles[item.className]}>
+              {sideNavigationItems.map((item) => (
+                <li key={item.label} className={styles[item.className]}>
                   <a href='/' className={styles['header-link']}>
                     {item.label}
                   </a>

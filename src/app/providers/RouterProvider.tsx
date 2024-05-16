@@ -1,5 +1,6 @@
 import Main from 'pages/main';
 import Page404 from 'pages/page-404';
+import Stocks from 'pages/stocks';
 import { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useAppDispatch } from 'shared/hooks/redux';
@@ -16,6 +17,11 @@ const router = createBrowserRouter([
     path: '/shops/:city',
     element: <Shops />,
   },
+  {
+    path: '/stocks',
+    element: <Stocks />,
+    errorElement: <Page404 />,
+  }
 ]);
 
 export const BrowserRouter = () => {

@@ -1,19 +1,24 @@
-import { RefObject, useCallback, useEffect } from 'react';
+import { useCallback, RefObject, useEffect, useRef } from 'react';
 
-// Пример работы хука:
-// useClickOutside(<реф модалки>, <функция>, <класс кнопки, открывающей/закрывающей модалку>(необязательный параметр))
-// useClickOutside(catalogRef, () => setIsOnCatalogBtnClick(false), styles['main-header__catalog-btn']);
+/**
+ * ОПИСАНИЕ
+ * @param callback колбек с действием при клике вне модалки
+ * @param classname класс кнопки, открывающей/закрывающей модалку(необязательный параметр)
+ * @returns ref модалки
+ **/
 
-export const useClickOutside = (ref: RefObject<any>, callback: () => void, classname: string | null = null) => {
+export const useClickOutside = (callback: () => void, classname: string | null = null) => {
+  const ref: RefObject<any> = useRef(null);
+
   const handleClick = useCallback(
     (e: any) => {
       if (classname) {
-        ref.current && !ref.current.contains(e.target) && !e.target.classList.contains(classname) ? callback() : null;
+        !ref.current?.contains(e.target) && !e.target.classList.contains(classname) && callback();
       } else {
-        ref.current && !ref.current.contains(e.target) ? callback() : null;
+        !ref.current?.contains(e.target) && callback();
       }
     },
-    [ref, callback, classname]
+    [callback, classname]
   );
 
   useEffect(() => {
@@ -21,5 +26,7 @@ export const useClickOutside = (ref: RefObject<any>, callback: () => void, class
     return () => {
       document.removeEventListener('mousedown', handleClick);
     };
-  }, [ref, callback, classname, handleClick]);
+  }, [handleClick]);
+
+  return ref;
 };

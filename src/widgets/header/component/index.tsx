@@ -1,7 +1,7 @@
 import styles from './catalog.module.scss';
 import classNames from 'classnames';
 import { getPureInnerText } from 'shared/utils/pure-inner-text-utils';
-import { CatalogItem } from '../constants';
+import { CatalogItem, Category } from '../constants';
 import catalog from '../catalog.json';
 import { useState, MouseEvent, FC, Ref } from 'react';
 
@@ -33,8 +33,8 @@ const Catalog: FC<IProps> = ({ catalogRef, isOnCatalogBtnClick = true, isScrolle
     setOnSubcategoryHover(pureSubcategoryName);
   };
 
-  const renderThirdLevelItem = (el: CatalogItem, index: number) => (
-    <li key={index}>
+  const renderThirdLevelItem = (el: CatalogItem) => (
+    <li key={el.id}>
       <a href='/' className={styles['catalog-link']}>
         {el.subcategory}
         <span className={styles['subcategories__info']}>{el.itemsCount ? el.itemsCount : null}</span>
@@ -42,9 +42,9 @@ const Catalog: FC<IProps> = ({ catalogRef, isOnCatalogBtnClick = true, isScrolle
     </li>
   );
 
-  const renderSecondLevelItem = (el: CatalogItem, index: number) => (
+  const renderSecondLevelItem = (el: CatalogItem) => (
     <li
-      key={index}
+      key={el.id}
       className={classNames(styles['subcategories__item--second'], [
         {
           [styles['subcategories__item--active']]: onSubcategoryHover === el.subcategory,
@@ -62,29 +62,25 @@ const Catalog: FC<IProps> = ({ catalogRef, isOnCatalogBtnClick = true, isScrolle
           </div>
         </a>
         {el.subcategory === onSubcategoryHover && el.items ? (
-          <ul className={styles['subcategories--third']}>
-            {el.items?.map((el, index) => renderThirdLevelItem(el, index))}
-          </ul>
+          <ul className={styles['subcategories--third']}>{el.items?.map((el) => renderThirdLevelItem(el))}</ul>
         ) : null}
       </div>
     </li>
   );
 
   const renderFirstLevelItem = () => {
-    return subcategoryItems.map((item: CatalogItem, index: number) => (
-      <li key={index}>
+    return subcategoryItems.map((item: CatalogItem) => (
+      <li key={item.id}>
         <a className={classNames(styles['subcategories__name--first'], styles['catalog-link'])} href='/'>
           {item.subcategory}
         </a>
-        <ul className={styles['subcategories--second']}>
-          {item.items?.map((el, index) => renderSecondLevelItem(el, index))}
-        </ul>
+        <ul className={styles['subcategories--second']}>{item.items?.map((el) => renderSecondLevelItem(el))}</ul>
       </li>
     ));
   };
 
-  const mainCategories = categories.map((el, index) => (
-    <li key={index} className={styles['categories__item']}>
+  const mainCategories = categories.map((el: Category) => (
+    <li key={el.id} className={styles['categories__item']}>
       <a
         href='/'
         className={classNames(styles['categories__link'], styles['catalog-link'], {

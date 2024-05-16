@@ -1,23 +1,32 @@
 import { useClickOutside } from 'shared/hooks/useClickOutside';
-import { FC, HTMLAttributes, useRef, useState } from 'react';
+import { IDropdownMenuProps } from './types';
+import { FC, useState } from 'react';
 import classNames from 'classnames';
 import styles from './dropdown-menu.module.scss';
-interface IProps {
-  dropdownItems: { label: string; address: string }[];
-  className?: string;
-  listClassName?: string;
-  listAttributes?: HTMLAttributes<HTMLUListElement>;
-  itemClassName?: string;
-  itemAttributes?: HTMLAttributes<HTMLLIElement>;
-  linkClassName?: string;
-  linkAttributes?: HTMLAttributes<HTMLAnchorElement>;
-  toggleContent: string;
-  toggleClassname?: string;
-  toggleArrow: boolean;
-  toggleArrowClassname?: string;
-}
 
-const DropdownMenu: FC<IProps> = ({
+/**
+ * @typedef {Object} DropdownItem
+ * @property {string} label - Контент элемента.
+ * @property {string} address - Адрес элемента.
+ */
+
+/**
+ * Пропсы компонента DropdownMenu.
+ * @property {DropdownItem[]} dropdownItems - Элементы внутри выпадающего меню.
+ * @property {string} [className] - Внешний класс для всего выпадающего меню (указываем и используем вместе с вашим кастомным селектором, если хотите изменить дефолтные стили).
+ * @property {string} [listClassName] - Пользовательский класс для списка.
+ * @property {HTMLAttributes<HTMLUListElement>} [listAttributes] - Атрибуты для списка.
+ * @property {string} [itemClassName] - Пользовательский класс для элемента.
+ * @property {HTMLAttributes<HTMLLIElement>} [itemAttributes] - Атрибуты для элемента.
+ * @property {string} [linkClassName] - Пользовательский класс для ссылки.
+ * @property {HTMLAttributes<HTMLAnchorElement>} [linkAttributes] - Атрибуты для ссылки.
+ * @property {string} toggleContent - Содержимое внутри кнопки.
+ * @property {string} [toggleClassname] - Пользовательский класс для кнопки.
+ * @property {boolean} toggleArrow - Отображать ли стрелку.
+ * @property {string} [toggleArrowClassname] - Пользовательский класс для стрелки.
+ */
+
+const DropdownMenu: FC<IDropdownMenuProps> = ({
   dropdownItems,
   className,
   listClassName,
@@ -31,16 +40,8 @@ const DropdownMenu: FC<IProps> = ({
   toggleArrow,
   toggleArrowClassname,
 }) => {
-  const dropdownRef = useRef<HTMLUListElement>(null);
   const [isDropdownOpened, setIsDropdownOpened] = useState(false);
-
-  useClickOutside(
-    dropdownRef,
-    () => {
-      setIsDropdownOpened(false);
-    },
-    styles.dropdownToggle
-  );
+  const dropdownRef = useClickOutside(() => setIsDropdownOpened(false), styles.dropdownToggle);
 
   return (
     <div className={className}>
@@ -72,33 +73,3 @@ const DropdownMenu: FC<IProps> = ({
 };
 
 export default DropdownMenu;
-
-// dropdownItems - айтемсы внутри downdrop-menu
-
-// className - внешний класс всего dropdown (указываем и используем вместе с вашим кастомным селектором, если хотите изменить дефолтный стиль)
-
-// listClassName - ваш кастомный класс для списка
-// listAttributes - атрибуты для списка
-
-// itemClassName - ваш кастомный класс для айтема
-// itemAttributes - атрибуты для айтема
-
-// linkClassName - ваш кастомный класс для ссылки
-// linkAttributes - атрибуты для ссылки
-
-// toggleContent - контент внутри кнопки
-// toggleClassname - ваш кастомный класс для кнопки
-// toggleArrow - надо/не надо стрелочку
-// toggleArrowClassname - ваш кастомный класс для стрелочки
-
-// Пример:
-// <DropdownMenu
-// className={styles['dropdown']}
-// key={index}
-// dropdownItems={toCustomersLinks}
-// toggleContent={el.label}
-// toggleArrow={true}
-// listClassName={styles['dropdown-list']}
-// linkClassName={styles['dropdown-link']}
-// toggleClassname={styles['dropdown-btn']}
-// />

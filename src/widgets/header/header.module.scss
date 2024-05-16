@@ -1,4 +1,3 @@
-@import '../../app/styles/fonts.scss';
 @import '../../app/styles/mixins.scss';
 
 
@@ -231,7 +230,6 @@
     &__side-nav {
         display: flex;
         font-size: 14px;
-
         li {
             display: flex;
             flex-direction: column;
