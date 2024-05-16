@@ -11,3 +11,12 @@
       url('#{font-path}#{$url}.woff') format('woff');
   }
 }
+
+@mixin background-img($url, $width, $height, $display: block, $content: '') {
+  content: '';
+  display: $display;
+  background-image: url($url);
+  background-repeat: no-repeat;
+  height: $height;
+  width: $width;
+}

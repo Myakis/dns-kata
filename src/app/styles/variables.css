@@ -1,5 +1,5 @@
 :root {
-  --main-bg-color: linear-gradient(180deg, #fff 6.1%, #f7f7f7 68.7%);
+  --main-bg-color: #f6f6f6;
   --bg-color: #ffffff;
   --primary-color: #ff7300;
   --fonts: 'PT Sans', 'Helvetica', 'Arial', sans-serif;
@@ -8,11 +8,14 @@
   --text-color: #333333;
   --white: #ffffff;
   --black: #000000;
-  --brand-color: rgb(242, 85, 8);
+  --brand-color: rgb(242, 86, 7);
   --block-shadow: 0 1px 2px 0 #0000001a;
   --star: url('../assets/img/product/star.svg');
   --half-star: url('../assets/img/product/halfStar.svg');
   --empty-star: url('../assets/img/product/emptyStar.svg');
   --comment: url('../assets/img/product/comment.svg');
   --picPlus: url('../assets/img/product/picPlus.svg');
+  --main-color: #fc8507;
+  --light-gray: #f7f7f7;
+  --dark-gray: #4e4e4e;
 }

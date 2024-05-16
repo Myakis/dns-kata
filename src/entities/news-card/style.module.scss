@@ -14,7 +14,7 @@
       max-width: 350px;
       border-radius: 12px;
     }
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 
   .card__title {
@@ -23,6 +23,7 @@
       font-size: 20px;
       font-weight: bold;
       line-height: 24px;
+      text-decoration: none;
 
       @media (max-width: 1120px) {
         font-size: 16px;

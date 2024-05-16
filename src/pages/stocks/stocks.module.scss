@@ -1,0 +1,76 @@
+.sort {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 16px;
+  min-height: 39px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #333;
+  font-family: 'PT Sans', Helvetica, Arial, sans-serif;
+
+  &__item {
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 8px;
+    cursor: pointer;
+    line-height: 20px;
+    padding: 8px 12px;
+    white-space: nowrap;
+    margin-left: 8px;
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  &__item_active {
+    background-color: #fff;
+    box-shadow:
+      0 5px 14px rgba(0, 0, 0, 0.11),
+      0 2px 1px rgba(0, 0, 0, 0.05);
+  }
+
+  &__button {
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+  }
+}
+
+.showMore {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #f2f2f2;
+  height: 48px;
+  margin-bottom: 32px;
+
+  &__button {
+    padding: 1px 6px;
+    background-color: #fff;
+    border: 0;
+    cursor: pointer;
+    width: 100%;
+    line-height: 48px;
+    border-radius: 8px;
+    &:hover {
+      background-color: #f9f9f9;
+    }
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #f2f2f2;
+  height: 48px;
+  margin-bottom: 10px;
+}

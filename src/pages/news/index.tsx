@@ -46,7 +46,7 @@ const NewsPage: FC = () => {
       <>
         <div className={style['product__header']}>
           <p className={style['product--title']}>Товары</p>
-          <a className={style['product__link']} href='https://www.dns-shop.ru/#' target='__blank'>
+          <a className={style['product__link']} href='/'>
             <p>
               Смотреть все<i></i>
             </p>

@@ -26,14 +26,12 @@
 
     &__footer {
         min-height: auto;
-        background-color: #333333;
-        margin-top: 10px;
+        background-color: var(--text-color);
     }
 
     &__breadcrumbs {
         margin-bottom: 1vh;
     }
-
     &__content {
         padding: 0 10px;
     }

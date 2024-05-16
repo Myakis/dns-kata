@@ -1,0 +1,44 @@
+@import '../../../app/styles/mixins.scss';
+
+.dropdownToggle {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background-color: transparent;
+}
+
+.dropdownToggle:hover {
+    cursor: pointer;
+}
+
+.dropdownList {
+    position: absolute;
+    border-radius: 12px;
+    min-width: max-content;
+    background-color: #fff;
+    text-align: left;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .04), 0 4px 4px rgba(0, 0, 0, .04), 0 20px 40px rgba(0, 0, 0, .08);
+    margin-top: 20px;
+    list-style: none;
+    z-index: 20;
+}
+
+.dropdownList a {
+    color: var(--text-color)
+}
+
+.toggleArrow::after {
+    @include background-img('../../../app/assets/img/header/nav-arrow.svg', 7.5px, 4.63px, inline-block );
+    align-self: center;
+    margin-left: 5px;
+    transition: transform .3s ease;
+}
+
+.toggleActive::after {
+    transform: rotate(180deg);
+    transition: transform .3s ease;
+}

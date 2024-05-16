@@ -7,7 +7,7 @@ export interface Link {
 
 export const companyLinks: Link[] = [
   { title: 'О Компании', href: 'https://www.dns-shop.ru/about' },
-  { title: 'Новости', href: 'https://www.dns-shop.ru/news/' },
+  { title: 'Новости', href: '/news' },
   { title: 'Партнерам', href: 'https://www.dns-shop.ru/about/partners' },
   { title: 'Вакансии', href: 'https://www.dns-shop.ru/about/career' },
   { title: 'Политика конфеденциальности', href: 'https://www.dns-shop.ru/rules/policy/#policy-one' },

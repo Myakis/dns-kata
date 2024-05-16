@@ -21,6 +21,16 @@ Use a better box model (opinionated).
 
 ul {
   list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+  padding: 0;
 }
 
 html {
