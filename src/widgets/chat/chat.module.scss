@@ -1,5 +1,9 @@
 @import '../../app/styles/mixins.scss';
 
+p {
+    padding: 0;
+    margin: 0;
+}
 
 .btns {
     border: none;
@@ -11,6 +15,7 @@
     display: grid;
     grid-template-rows: auto auto auto;
     align-content: flex-start;
+    position: fixed;
     width: 360px;
     height: 628px;
     max-height: 630px;
@@ -18,13 +23,29 @@
     background: #fff;
     box-shadow: 0 4px 12px 0 rgba(0, 0, 0, .2);
     transform: translateY(0);
-    transition: all .6s ease;
-    visibility: visible;
+    transition: all .5s ease;
     border-radius: 8px;
-    bottom: 115px;
-    position: fixed;
     right: 24px;
     transform: none;
+    &.disabled {
+        visibility: hidden;
+        bottom: 50px;
+        opacity: 0;   
+    }
+    &.active {
+        visibility: visible;
+        bottom: 115px;
+    }
+
+    @media (max-width: 990px) {
+        width: 100vw;
+        min-height: 100vh;
+        bottom: 0;
+        right: 0;
+        top: 0;
+        transition: none;
+        padding-bottom: 65px;
+    }
 }
 
 .modalHeader {
@@ -35,13 +56,47 @@
     width: 100%;
     z-index: 2;
     box-shadow: 0 8px 20px 0 rgba(0, 0, 0, .05);
+
+    @media (max-width: 990px) {
+        display: grid;
+        grid-template-columns: 95% 5%;
+        align-items: center;
+     }
+
 }
 
 .modalHeader h2 {
     font-size: 18px;
     font-weight: 400;
+    @media (max-width: 990px) {
+        justify-self: center;
+    }
 }
 
+.mobileExitBtn {
+    &.active {
+        cursor: pointer;
+        i::before {
+            content: "\e014";
+        display: inline-block;
+        font-family: 'i-icon';
+        line-height: 1;
+        color: #8c8c8c;
+        font-size: 24px;
+        font-weight: 400;
+        font-style: normal;
+        }
+    }
+    &:hover i::before {
+        color: var(--text-color);
+    }
+    &.disabled {
+        display: none;
+    }
+    @media (max-width: 990px) {
+        margin-right: 5px;
+    }
+}
 
 .contentWrapper {
     display: flex;
@@ -52,40 +107,34 @@
     overflow-x: hidden;
     font-size: 16px;
     padding: 54px 15px 15px 15px;
-    /* Общие стили скроллбара */
-&::-webkit-scrollbar {
-    width: 6px; /* ширина скроллбара */
-  }
+
+    &::-webkit-scrollbar {
+        width: 7px;
+    }
   
-  /* Track (фон скроллбара) */
-  &::-webkit-scrollbar-track {
-    background: transparent; /* цвет фона */
-  }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
   
-  /* Handle (бегунок) */
- &::-webkit-scrollbar-thumb {
-    background: #888; /* цвет бегунка */
-    border-radius: 6px; /* скругление углов бегунка */
-    height: 10px; /* высота бегунка */
-  }
-  
-  /* Неактивное состояние скроллбара */
-  &::-webkit-scrollbar-thumb{
-        background: #888; /* цвет бегунка */
-        border-radius: 6px; /* скругление углов бегунка */
-        height: 10px; /* высота бегунка */
-  }
+    &::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 6px;
+    }
+
+    @media (max-width: 990px) {
+       height: auto;
+       padding: 54px 20px 20px 20px;
+    }
 }
 
-.dnsMessage {
+.dnsMessage {   
     display: flex;
     column-gap: 10px;
 }
 
 .avatar {
-    width: 100%;
-    @include background-img('../../app/assets/img/chat/chat-avatar.png', 60%, 40px, block, '', start);
-    background-size: contain;
+    width: 40px;
+    height: 40px;
 }
 
 .startMessage {
@@ -123,28 +172,23 @@
     flex-direction: column;
     row-gap: 5px;
     align-items: flex-end;
-    text-align: right;
+    width: 100%;
 }
 
 .userText {
     background-image: linear-gradient(-180deg, rgb(20, 189, 240), rgb(0, 142, 248));
     border-radius: 12px 12px 0px;
     color: rgb(255, 255, 255);
-    display: inline-block;
+    display: block;
+    word-wrap: break-word;
     padding: 8px 16px;
+    max-width: 100%;
 }
 
 .time {
     color: #AFAFAF;
     font-size: 12px;
 }
-
-
-
-
-
-
-
 
 .sendPanel {
     position: absolute;
@@ -161,6 +205,9 @@
     box-shadow: 0 -8px 20px 0 rgba(0, 0, 0, .05);
     background: hsla(0, 0%, 100%, .8);
     border-radius: 0 0 8px 8px;
+    @media (max-width: 990px) {
+        padding: 0 20px;
+     }
 }
 
 .dropBtn {
@@ -199,6 +246,9 @@
     padding: 12px 40px 12px 12px;
     max-height: 104px;
     overflow: auto;
+    @media (max-width: 990px) {
+        width: 100%;
+    }
 }
 
 .sendBtn {
@@ -207,16 +257,14 @@
     display: inline-block;
     background-image: linear-gradient(-180deg, #14bdf0, #008ef8);
     border-radius: 50%;
-}
-
-.disabled {
-    opacity: .5;
-    cursor: default;
-}
-
-.active {
-    opacity: 1;
-    cursor: pointer;
+    &.disabled {
+        opacity: .5;
+        cursor: default;
+    }
+    &.active {
+        opacity: 1;
+        cursor: pointer;
+    }
 }
 
 .sendBtn::before {

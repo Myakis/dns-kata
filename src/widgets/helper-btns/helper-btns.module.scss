@@ -1,28 +1,54 @@
 @import '../../app/styles/mixins.scss';
 
-.chatToggle {
+.btns {
     position:fixed;
-    right: 20px;
-    bottom: 20px;
     width: 60px;
     height: 60px;
     border: none;
+}
+
+.chatToggle {
+    right: 20px;
+    bottom: 20px;
     border-radius: 100%;
-    background-color: var(--main-color);
     box-shadow: 0 4px 12px 0 rgba(0, 0, 0, .2);
-}
-
-.chatToggle:hover {
+    background-color: var(--main-color);
     cursor: pointer;
+    &.closed::after {
+        @include background-img('../../app/assets/img/chat-btns/message-icon.svg', 20px, 20px, inline-block);
+        margin-top: 5px;
+    }
+    
+    &.opened::after {
+        @include background-img('../../app/assets/img/chat-btns/cross-icon.svg', 20px, 20px, inline-block);
+        margin-top: 5px;
+    }
 }
 
-
-.closed::after {
-    @include background-img('../../app/assets/img/chat-btns/message-icon.svg', 20px, 20px, inline-block);
-    margin-top: 5px;
-}
-
-.opened::after {
-    @include background-img('../../app/assets/img/chat-btns/cross-icon.svg', 20px, 20px, inline-block);
-    margin-top: 5px;
+.scrollToggle {
+    right: 150px;
+    bottom: 20px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .25);
+    cursor: pointer;
+    &.disabled {
+        visibility: hidden;
+    }
+    &.active {
+        visibility: visible;
+    }
+    i::before {
+        content: '\e933';
+        display: inline-block;
+        font-family: 'i-icon';
+        line-height: 1;
+        color: #8c8c8c;
+        font-size: 24px;
+        font-weight: 400;
+        font-style: normal;
+    }
+    &:hover i::before{
+        color: var(--text-color);
+    }
 }

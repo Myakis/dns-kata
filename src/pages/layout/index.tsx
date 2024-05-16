@@ -3,7 +3,7 @@ import styles from './layout.module.scss';
 import Footer from 'widgets/footer';
 import Header from 'widgets/header';
 import Chat from 'widgets/chat';
-import { ChatBtn } from 'widgets/helper-btns';
+import { ChatBtn, ScrollBtn } from 'widgets/helper-btns';
 
 interface IProps {
   pageTitle?: string | null;
@@ -31,6 +31,7 @@ export const Layout: FC<IProps> = ({ pageTitle, breadcrumbs, children }) => {
       <aside className={styles.layout__aside}>
         <div className={styles.layout__helperBtns}>
           <ChatBtn />
+          <ScrollBtn />
         </div>
         <div className={styles.layout__chat}>
           <Chat />
