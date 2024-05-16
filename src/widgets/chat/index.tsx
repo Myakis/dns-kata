@@ -75,7 +75,10 @@ const Chat: FC = () => {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
             />
-            <button type='submit' className={clsx(styles.sendBtn, styles.btns)}></button>
+            <button
+              type='submit'
+              className={clsx(styles.sendBtn, styles.btns, inputValue.length > 0 ? styles.active : styles.disabled)}
+            ></button>
           </form>
         </div>
       </div>
