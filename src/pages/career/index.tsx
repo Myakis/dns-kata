@@ -69,20 +69,28 @@ const Career = () => {
     setDropDown((prev) => ({ ...prev, currentOptions: prev.allOptions, isOpen: false, selected: city, input: '' }));
   };
 
-  const buildOptionsList = useCallback((vacancies: IVacancy[]) => {
-    const options = vacancies.map((vacancy) => (
-      <button key={vacancy.city + vacancy.id} onClick={handleSelect} type='button' className={styles.dropDown__option}>
-        {vacancy.city}
-      </button>
-    ));
+  const buildOptionsList = useCallback(
+    (vacancies: IVacancy[]) => {
+      const options = vacancies.map((vacancy) => (
+        <button
+          key={vacancy.city + vacancy.id}
+          onClick={handleSelect}
+          type='button'
+          className={styles.dropDown__option}
+        >
+          {vacancy.city}
+        </button>
+      ));
 
-    return [
-      <button key={'all'} onClick={handleSelect} type='button' className={styles.dropDown__option}>
-        All
-      </button>,
-      ...options,
-    ];
-  }, [vacancies]);
+      return [
+        <button key={'all'} onClick={handleSelect} type='button' className={styles.dropDown__option}>
+          All
+        </button>,
+        ...options,
+      ];
+    },
+    [vacancies]
+  );
 
   useEffect(() => {
     if (!vacancies || !vacancies.length) {
@@ -104,7 +112,7 @@ const Career = () => {
 
   const citySearchRef = useClickOutside(
     () => setDropDown((prev) => ({ ...prev, currentOptions: prev.allOptions, isOpen: false, input: '' })),
-    'dropDown__selected'
+    styles.dropDown__selected
   );
 
   if (!vacancies) {
@@ -200,6 +208,7 @@ const Career = () => {
                 className={clsx(styles.dropDown__inner, dropDown.isOpen || styles.visually_hidden)}
               >
                 <label className={styles.dropDown__search}>
+                  {''}
                   <input
                     value={dropDown.input}
                     className={styles.dropDown__input}
@@ -212,6 +221,7 @@ const Career = () => {
             </div>
           </div>
           <label className={styles.search}>
+            {''}
             <span className={styles.search__icon}></span>
             <input
               value={jobSearch}
