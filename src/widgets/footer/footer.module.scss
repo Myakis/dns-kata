@@ -282,6 +282,10 @@
   color: #fff;
   cursor: pointer;
   a {
+    color: #fff;
+    text-decoration: none;
+  }
+  a {
     &:hover {
       color: #f28a1e;
       transition: 0.5s;
