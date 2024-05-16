@@ -26,16 +26,22 @@ const NewsCard: FC<{ news: News }> = ({ news }) => {
     return `${newText.join('')}...`;
   };
 
+  const handlerLinkScroll = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <article className={style['card']}>
       <div className={style['card__banner']}>
-        <Link to={`${news.id}`}>
+        <Link to={`${news.id}`} onClick={() => handlerLinkScroll()}>
           <img src={randomBanner(true)} alt='banner' />
         </Link>
       </div>
 
       <div className={style['card__title']}>
-        <Link to={`${news.id}`}>{news.name}</Link>
+        <Link to={`${news.id}`} onClick={() => handlerLinkScroll()}>
+          {news.name}
+        </Link>
       </div>
 
       <div className={style['card__discription']}>

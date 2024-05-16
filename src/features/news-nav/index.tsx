@@ -3,12 +3,12 @@ import { FC } from 'react';
 import { filters } from './constants/filters';
 import style from './style.module.scss';
 
-interface NewsNavI {
+interface INewsNav {
   type: string;
   handlerFilter: (filtr: string) => void;
 }
 
-const NewsNav: FC<NewsNavI> = ({ type, handlerFilter }) => {
+const NewsNav: FC<INewsNav> = ({ type, handlerFilter }) => {
   const renderButtons = (filters: { name: string; filter: string }[]) => {
     return filters.map((item) => {
       return (

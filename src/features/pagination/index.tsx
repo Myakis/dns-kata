@@ -4,18 +4,18 @@ import { Pagination, ConfigProvider } from 'antd';
 import style from './style.module.scss';
 import './antd.css';
 
-interface DnsPaginationI {
+interface IDnsPagination {
   handleShowMore: () => void;
   handlePage: (page: number) => void;
-  page: number;
-  total: number;
+  page: number; // контроль страницы
+  pageSize: number; // элементы на странице
+  total: number; // сколько всего элементов
 }
 
-const DnsPagination: FC<DnsPaginationI> = ({ handleShowMore, handlePage, page, total }) => {
-  console.log(Math.ceil(total / 9), page);
+const DnsPagination: FC<IDnsPagination> = ({ handleShowMore, handlePage, page, pageSize, total }) => {
   return (
     <div className={style['pagination']}>
-      {Math.ceil(total / 9) !== page && (
+      {Math.ceil(total / pageSize) !== page && (
         <div className={style['pagination__block__btn']}>
           <button type='button' className={style['pagination__btn']} onClick={() => handleShowMore()}>
             Показать ещё
@@ -44,7 +44,7 @@ const DnsPagination: FC<DnsPaginationI> = ({ handleShowMore, handlePage, page, t
           }}
         >
           <Pagination
-            pageSize={9}
+            pageSize={pageSize}
             total={total}
             showSizeChanger={false}
             showPrevNextJumpers={false}

@@ -82,6 +82,7 @@ const NewsListPage: FC = () => {
             handleShowMore={() => handleShowMore()}
             handlePage={(page) => handlePagination(page)}
             page={page}
+            pageSize={9}
             total={totalNews}
           />
         </div>

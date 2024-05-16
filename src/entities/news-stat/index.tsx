@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import style from './style.module.scss';
 
-interface NewsStatI {
+interface INewsStat {
   stat: {
     date: string;
     viewsCount: number;
@@ -10,7 +10,7 @@ interface NewsStatI {
   };
 }
 
-const NewsStat: FC<NewsStatI> = ({ stat }) => {
+const NewsStat: FC<INewsStat> = ({ stat }) => {
   const formatDate = (date: string): string => {
     const newDate: Date = new Date(date);
     const dateArr: number[] = [newDate.getDate(), newDate.getMonth() + 1];
