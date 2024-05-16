@@ -1,7 +1,7 @@
 import styles from './catalog.module.scss';
 import classNames from 'classnames';
 import { getPureInnerText } from 'shared/utils/pure-inner-text-utils';
-import { CatalogItem } from '../constants';
+import { CatalogItem, Category } from '../constants';
 import catalog from '../catalog.json';
 import { useState, MouseEvent, FC, Ref } from 'react';
 
@@ -79,7 +79,7 @@ const Catalog: FC<IProps> = ({ catalogRef, isOnCatalogBtnClick = true, isScrolle
     ));
   };
 
-  const mainCategories = categories.map((el) => (
+  const mainCategories = categories.map((el: Category) => (
     <li key={el.id} className={styles['categories__item']}>
       <a
         href='/'

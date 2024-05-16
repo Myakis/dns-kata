@@ -2,13 +2,14 @@ export interface CatalogItem {
   subcategory: string;
   itemsCount?: number;
   items?: CatalogItem[];
-  id: number;
+  id?: number;
 }
 
 export interface Category {
   category: string;
   icon: string;
   items: CatalogItem[];
+  id?: number;
 }
 
 export interface Catalog {
