@@ -78,7 +78,9 @@ const Reviews: React.FC = () => {
   console.log('currentPage:', currentPage);
 
   const addReviews = () => {
-    setLastReviewsIndexAddTen((prev) => prev + 10);
+    if (lastReviewsIndexAddTen !== totalReviews) {
+      setLastReviewsIndexAddTen((prev) => prev + 10);
+    }
     setAddReviewsStatus(true);
   };
 
