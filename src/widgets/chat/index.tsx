@@ -1,12 +1,12 @@
 import { FC, useRef, useState, useEffect } from 'react';
 import styles from './chat.module.scss';
 import { useAppSelector, useAppDispatch } from 'shared/hooks/redux';
-import { helperBtnsSlice } from 'shared/store/slices/helper-btns-slice';
+import { asideHelperBtnsSlice } from 'shared/store/slices/aside-helper-btns-slice';
 import { issueBtnsContent, startMessageContent } from './constants';
 import { v4 as uuidv4 } from 'uuid';
 import clsx from 'clsx';
 
-interface Message {
+interface IMessage {
   id: string;
   text: string;
   timestamp: string;
@@ -14,32 +14,35 @@ interface Message {
 
 const Chat: FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<IMessage[]>([]);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const chatBtnClicked = useAppSelector((state) => state.helperBtns.chatBtnClicked);
   const chatContentRef = useRef<HTMLDivElement>(null);
 
-  const { chatBtn } = helperBtnsSlice.actions;
+  const { chatBtn } = asideHelperBtnsSlice.actions;
   const dispatch = useAppDispatch();
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (inputValue.trim() !== '') {
-      const newMessage: Message = {
+      const newMessage: IMessage = {
         id: uuidv4(),
         text: inputValue,
         timestamp: new Date().toLocaleTimeString([], { hour: 'numeric', minute: 'numeric' }),
       };
+
       setMessages([...messages, newMessage]);
       setInputValue('');
     }
   };
 
+  // Узнаем ширину окна
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
+
     window.addEventListener('resize', handleResize);
 
     return () => {
@@ -47,12 +50,14 @@ const Chat: FC = () => {
     };
   }, []);
 
+  // Если чат открыт и ширина окна меньше 990, то убираем скролл страницы
   useEffect(() => {
     chatBtnClicked && windowWidth < 990
       ? (document.body.style.overflow = 'hidden')
       : (document.body.style.overflow = 'auto');
   }, [chatBtnClicked, windowWidth]);
 
+  // Прокрутка вниз чата при его открытии и при написании сообщения
   useEffect(() => {
     if (chatContentRef.current) {
       chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
@@ -74,7 +79,7 @@ const Chat: FC = () => {
 
   const dnsMessage = (
     <div className={styles.dnsMessage}>
-      <img className={styles.avatar} src='src/app/assets/img/chat/chat-avatar.png' />
+      <img className={styles.avatar} src='src/app/assets/img/chat/chat-avatar.png' alt='dns-avatar' />
       <div className={styles.message}>{startDnsMessage}</div>
     </div>
   );

@@ -1,11 +1,11 @@
-import styles from './helper-btns.module.scss';
-import { helperBtnsSlice } from 'shared/store/slices/helper-btns-slice';
+import styles from './aside-helper-btns.module.scss';
+import { asideHelperBtnsSlice } from 'shared/store/slices/aside-helper-btns-slice';
 import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
 import clsx from 'clsx';
 import { FC, useEffect, useState } from 'react';
 
 export const ChatBtn: FC = () => {
-  const { chatBtn } = helperBtnsSlice.actions;
+  const { chatBtn } = asideHelperBtnsSlice.actions;
   const chatBtnClicked = useAppSelector((state) => state.helperBtns.chatBtnClicked);
   const dispatch = useAppDispatch();
 

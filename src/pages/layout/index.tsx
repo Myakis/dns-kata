@@ -3,7 +3,7 @@ import styles from './layout.module.scss';
 import Footer from 'widgets/footer';
 import Header from 'widgets/header';
 import Chat from 'widgets/chat';
-import { ChatBtn, ScrollBtn } from 'widgets/helper-btns';
+import { ChatBtn, ScrollBtn } from 'features/aside-helper-btns';
 
 interface IProps {
   pageTitle?: string | null;

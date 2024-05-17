@@ -2,11 +2,11 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { DnsAPI } from 'shared/api/DNS/';
 import { OriginalDNSApi } from 'shared/api/original-DNS';
 import currentCityReducer from './slices/current-city-slice';
-import helperBtnsReducer from './slices/helper-btns-slice';
+import asideHelperBtnsReducer from './slices/aside-helper-btns-slice';
 
 const rootReducer = combineReducers({
   currentCity: currentCityReducer,
-  helperBtns: helperBtnsReducer,
+  helperBtns: asideHelperBtnsReducer,
   [OriginalDNSApi.reducerPath]: OriginalDNSApi.reducer,
   [DnsAPI.reducerPath]: DnsAPI.reducer,
 });

@@ -8,8 +8,8 @@ const initialState: IBtnsType = {
   chatBtnClicked: false,
 };
 
-export const helperBtnsSlice = createSlice({
-  name: 'helperBtns',
+export const asideHelperBtnsSlice = createSlice({
+  name: 'asideHelperBtns',
   initialState,
   reducers: {
     chatBtn(state, action: PayloadAction<boolean>) {
@@ -18,4 +18,4 @@ export const helperBtnsSlice = createSlice({
   },
 });
 
-export default helperBtnsSlice.reducer;
+export default asideHelperBtnsSlice.reducer;
