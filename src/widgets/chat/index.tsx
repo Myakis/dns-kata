@@ -25,6 +25,9 @@ const Chat: FC = () => {
   const { chatBtn } = asideHelperBtnsSlice.actions;
   const dispatch = useAppDispatch();
 
+  const chatRef = useOnEscBtn(() => dispatch(chatBtn(false)));
+  const windowWidth = useWindowWidth();
+
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (inputValue.trim() !== '') {
@@ -38,11 +41,6 @@ const Chat: FC = () => {
       setInputValue('');
     }
   };
-
-  // Узнаем ширину окна
-  const windowWidth = useWindowWidth();
-
-  const chatRef = useOnEscBtn(() => dispatch(chatBtn(false)));
 
   // Если чат открыт и ширина окна меньше 990, то убираем скролл страницы
   useEffect(() => {
