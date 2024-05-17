@@ -2,7 +2,8 @@ import styles from './aside-helper-btns.module.scss';
 import { asideHelperBtnsSlice } from 'shared/store/slices/aside-helper-btns-slice';
 import { useAppDispatch, useAppSelector } from 'shared/hooks/redux';
 import clsx from 'clsx';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
+import { useOnScroll } from 'shared/hooks/useOnScroll';
 
 export const ChatBtn: FC = () => {
   const { chatBtn } = asideHelperBtnsSlice.actions;
@@ -18,14 +19,7 @@ export const ChatBtn: FC = () => {
 };
 
 export const ScrollBtn: FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    window.addEventListener('scroll', () => setIsScrolled(window.scrollY > 50));
-    return () => {
-      window.removeEventListener('scroll', () => setIsScrolled(window.scrollY > 50));
-    };
-  }, []);
+  const isScrolled = useOnScroll();
 
   return (
     <button
