@@ -1,10 +1,13 @@
 import { FC, useRef, useState, useEffect } from 'react';
 import styles from './chat.module.scss';
 import { useAppSelector, useAppDispatch } from 'shared/hooks/redux';
+import { useWindowWidth } from 'shared/hooks/useWindowWidth';
 import { asideHelperBtnsSlice } from 'shared/store/slices/aside-helper-btns-slice';
 import { issueBtnsContent, startMessageContent } from './constants';
+import dnsAvatar from '../../app/assets/img/chat/chat-avatar.png';
 import { v4 as uuidv4 } from 'uuid';
 import clsx from 'clsx';
+import { useOnEscBtn } from 'shared/hooks/useOnEscBtn';
 
 interface IMessage {
   id: string;
@@ -15,7 +18,6 @@ interface IMessage {
 const Chat: FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [messages, setMessages] = useState<IMessage[]>([]);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const chatBtnClicked = useAppSelector((state) => state.helperBtns.chatBtnClicked);
   const chatContentRef = useRef<HTMLDivElement>(null);
@@ -38,23 +40,14 @@ const Chat: FC = () => {
   };
 
   // Узнаем ширину окна
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
+  const windowWidth = useWindowWidth();
 
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  const chatRef = useOnEscBtn(() => dispatch(chatBtn(false)));
 
   // Если чат открыт и ширина окна меньше 990, то убираем скролл страницы
   useEffect(() => {
-    chatBtnClicked && windowWidth < 990
-      ? (document.body.style.overflow = 'hidden')
-      : (document.body.style.overflow = 'auto');
+    const overflowStyle = chatBtnClicked && windowWidth < 990 ? 'hidden' : 'auto';
+    document.body.style.overflow = overflowStyle;
   }, [chatBtnClicked, windowWidth]);
 
   // Прокрутка вниз чата при его открытии и при написании сообщения
@@ -79,7 +72,7 @@ const Chat: FC = () => {
 
   const dnsMessage = (
     <div className={styles.dnsMessage}>
-      <img className={styles.avatar} src='src/app/assets/img/chat/chat-avatar.png' alt='dns-avatar' />
+      <img className={styles.avatar} src={dnsAvatar} alt='dns-avatar' />
       <div className={styles.message}>{startDnsMessage}</div>
     </div>
   );
@@ -92,7 +85,7 @@ const Chat: FC = () => {
   ));
 
   return (
-    <div className={styles.chat}>
+    <div className={styles.chat} ref={chatRef}>
       <div className={clsx(styles.modal, chatBtnClicked ? styles.active : styles.disabled)}>
         <header className={styles.modalHeader}>
           <h2>Чат DNS</h2>
