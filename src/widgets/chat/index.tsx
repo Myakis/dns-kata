@@ -28,6 +28,8 @@ const Chat: FC = () => {
   const chatRef = useOnEscBtn(() => dispatch(chatBtn(false)));
   const windowWidth = useWindowWidth();
 
+  console.log(windowWidth);
+
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (inputValue.trim() !== '') {
