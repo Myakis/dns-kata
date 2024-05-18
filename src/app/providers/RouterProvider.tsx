@@ -1,3 +1,4 @@
+import Career from 'pages/career';
 import Main from 'pages/main';
 import Page404 from 'pages/page-404';
 import Stocks from 'pages/stocks';
@@ -21,7 +22,12 @@ const router = createBrowserRouter([
     path: '/stocks',
     element: <Stocks />,
     errorElement: <Page404 />,
-  }
+  },
+  {
+    path: '/career',
+    element: <Career />,
+    errorElement: <Page404 />,
+  },
 ]);
 
 export const BrowserRouter = () => {
