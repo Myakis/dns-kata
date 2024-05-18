@@ -1,10 +1,10 @@
-import { useRef, RefObject, useCallback, useEffect } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 
 export const useOnEscBtn = (callback: () => void) => {
-  const ref: RefObject<any> = useRef(null);
+  const ref = useRef<any>(null);
 
   const handleKeydown = useCallback(
-    (e: any) => {
+    (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         callback();
       }

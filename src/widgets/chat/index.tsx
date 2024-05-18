@@ -6,6 +6,7 @@ import { asideHelperBtnsSlice } from 'shared/store/slices/aside-helper-btns-slic
 import { issueBtnsContent, startMessageContent } from './constants';
 import dnsAvatar from '../../app/assets/img/chat/chat-avatar.png';
 import { v4 as uuidv4 } from 'uuid';
+import { format } from 'date-fns';
 import clsx from 'clsx';
 import { useOnEscBtn } from 'shared/hooks/useOnEscBtn';
 
@@ -28,15 +29,13 @@ const Chat: FC = () => {
   const chatRef = useOnEscBtn(() => dispatch(chatBtn(false)));
   const windowWidth = useWindowWidth();
 
-  console.log(windowWidth);
-
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (inputValue.trim() !== '') {
       const newMessage: IMessage = {
         id: uuidv4(),
         text: inputValue,
-        timestamp: new Date().toLocaleTimeString([], { hour: 'numeric', minute: 'numeric' }),
+        timestamp: format(new Date(), 'HH:mm'),
       };
 
       setMessages([...messages, newMessage]);

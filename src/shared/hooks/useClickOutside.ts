@@ -1,4 +1,4 @@
-import { useCallback, RefObject, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 /**
  * Кастомный хук, позволяющий задать определенное действие при клике вне блока
@@ -9,7 +9,7 @@ import { useCallback, RefObject, useEffect, useRef } from 'react';
  **/
 
 export const useClickOutside = (callback: () => void, classname: string | null = null) => {
-  const ref: RefObject<any> = useRef(null);
+  const ref = useRef<any>(null);
 
   const handleClick = useCallback(
     (e: any) => {
