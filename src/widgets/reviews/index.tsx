@@ -1,57 +1,37 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import clsx from 'clsx';
 import styles from './reviews.module.scss';
-import Review from './components/review/';
-import Pagination from './components/pagination/';
+import Review from './components/review';
+import Pagination from './components/pagination';
 import StarsFilter from './components/starsFilter';
 import Search from './components/search';
-
-interface ReviewData {
-  id: number;
-  productId: number;
-  comment: {
-    pluses: string;
-    minuses: string;
-    commentText: string;
-  };
-  rating: number;
-}
+import { useGetReviewsQuery } from 'shared/api/DNS';
+import { IReview } from 'widgets/reviews/components/review/types';
 
 const Reviews: React.FC = () => {
-  const [reviews, setReviews] = useState<ReviewData[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const { data: serverReviews, isLoading } = useGetReviewsQuery('');
+  const [reviews, setReviews] = useState<IReview[]>([]);
   const [reviewsPerPage] = useState<number>(10);
   const [selectedStars, setSelectedStars] = useState<number[]>([]);
   const [notFound, setNotFound] = useState<boolean>(false);
   const [addReviewsStatus, setAddReviewsStatus] = useState<boolean>(false);
   const [totalReviews, setTotalReviews] = useState<number>(reviews.length);
   const [lastReviewsIndex, setLastReviewsIndex] = useState<number>(10);
-  const [initialReviews, setInitialReviews] = useState<ReviewData[]>([]);
+  const [initialReviews, setInitialReviews] = useState<IReview[]>([]);
   const allReviews = useRef(reviews.length);
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get<ReviewData[]>('http://localhost:8000/reviews');
-
-        setReviews(response.data);
-        setInitialReviews(response.data); // Сохраняем изначальные отзывы
-        setTotalReviews(response.data.length); // Обновляем totalReviews после получения отзывов с сервера
-        allReviews.current = response.data.length; // Обновляем значение allReviews
-        setLoading(false);
-      } catch (error) {
-        console.error('Ошибка при получении отзывов:', error);
-      }
-    };
-
-    fetchReviews();
-  }, []);
+    if (serverReviews) {
+      setReviews(serverReviews);
+      setInitialReviews(serverReviews); // Сохраняем изначальные отзывы
+      setTotalReviews(serverReviews.length); // Обновляем totalReviews после получения отзывов с сервера
+      allReviews.current = serverReviews.length; // Обновляем значение allReviews
+    }
+  }, [serverReviews]);
 
   useEffect(() => {
     setAddReviewsStatus(false);
-    if (selectedStars.length === 0) {
+    if (!selectedStars.length) {
       setTotalReviews(reviews.length);
     }
   }, [selectedStars, reviews.length]);
@@ -65,17 +45,14 @@ const Reviews: React.FC = () => {
     firstReviewsIndex,
     addReviewsStatus ? lastReviewsIndexAddTen : lastReviewsIndex
   );
-  const currentReviews: ReviewData[] = reviews.slice(
+  const currentReviews: IReview[] = reviews.slice(
     firstReviewsIndex,
     addReviewsStatus ? lastReviewsIndexAddTen : lastReviewsIndex
   );
-  const paginate = (pageNumber: number): void => {
-    setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number) => {
     setLastReviewsIndex(pageNumber * reviewsPerPage);
     setLastReviewsIndexAddTen(pageNumber * reviewsPerPage); // Обновляем lastReviewsIndexAddTen при изменении страницы
   };
-
-  console.log('currentPage:', currentPage);
 
   const addReviews = () => {
     if (lastReviewsIndexAddTen !== totalReviews) {
@@ -84,13 +61,7 @@ const Reviews: React.FC = () => {
     setAddReviewsStatus(true);
   };
 
-  console.log('lastReviewsIndexAddTen:', lastReviewsIndexAddTen);
-  console.log('totalReviews:', totalReviews);
-
   const handleCheckboxChange = (value: number) => {
-    console.log('Checkbox value:', value);
-    console.log('Selected stars before update:', selectedStars);
-
     let updatedStars = [];
 
     if (selectedStars.includes(value)) {
@@ -100,19 +71,14 @@ const Reviews: React.FC = () => {
     }
 
     // Если не выбраны никакие звезды, totalReviews должно быть равно reviews.length
-    const newTotalReviews =
-      updatedStars.length === 0
-        ? reviews.length
-        : reviews.filter((review) => updatedStars.includes(review.rating)).length;
+    const newTotalReviews = !updatedStars.length
+      ? reviews.length
+      : reviews.filter((review) => updatedStars.includes(review.rating)).length;
 
     // Обновляем состояние выбранных звезд и общее количество отзывов
     setSelectedStars(updatedStars);
     setTotalReviews(newTotalReviews);
-
-    console.log('Selected stars after update:', updatedStars);
   };
-
-  console.log(addReviewsStatus);
 
   const handleReset = () => {
     setReviews(initialReviews);
@@ -121,22 +87,16 @@ const Reviews: React.FC = () => {
 
   return (
     <div className={styles.owOpinionsContainer}>
-      <div className={`${styles.owFilters} ${styles.opinionsWidget__filters}`} data-role='filters'>
+      <div className={clsx(styles.owFilters, styles.opinionsWidget__filters)}>
         <div className={styles.owFilters__countsFiltersWrapper}>
-          <div className={`${styles.owFilters__countFilterBtn} ${styles.owFilters__countFilterBtn_active}`}>
+          <div className={clsx(styles.owFilters__countFilterBtn, styles.owFilters__countFilterBtn_active)}>
             Все отзывы{' '}
-            <span
-              className={`${styles.owFilters__countFilterBtnCount} ${styles.owFilters__countFilterBtnCount_active}`}
-              data-role='btn-count'
-            >
+            <span className={clsx(styles.owFilters__countFilterBtnCount, styles.owFilters__countFilterBtnCount_active)}>
               {allReviews.current}
             </span>
           </div>
           <div className={styles.owFilters__countFilterBtn}>
-            Только к этой модели{' '}
-            <span className={styles.owFilters__countFilterBtnCount} data-role='btn-count'>
-              {allReviews.current}
-            </span>
+            Только к этой модели <span className={styles.owFilters__countFilterBtnCount}>{allReviews.current}</span>
           </div>
         </div>
         <Search reviews={reviews} setReviews={setReviews} setNotFound={setNotFound} />
@@ -151,19 +111,22 @@ const Reviews: React.FC = () => {
       {/* Выводим верстку, если поиск ничего не находит */}
       {notFound && (
         <div
-          className={`${styles.owOpinions} ${styles.opinionsWidget__opinions}`}
-          data-role='opinionsContainer'
+          className={clsx(styles.owOpinions, styles.opinionsWidget__opinions)}
           id='opinionsBlock'
           style={{ opacity: 1 }}
         >
-          <div className={styles.owOpinions__notFound} data-role='not-found'>
+          <div className={styles.owOpinions__notFound}>
             <div className={styles.owOpinions__notFound_image}></div>
             <div className={styles.owOpinions__notFound_content}>
               <div className={styles.owOpinions__notFound_title}>Ничего не нашлось</div>
               <div className={styles.owOpinions__notFound_text}>Попробуйте изменить критерии поиска</div>
               <button
-                className={`${styles.buttonUi} ${styles.buttonUi_white} ${styles.buttonUi_md} ${styles.owOpinions__notFound_button}`}
-                data-role='reset-button'
+                className={clsx(
+                  styles.buttonUi,
+                  styles.buttonUi_white,
+                  styles.buttonUi_md,
+                  styles.owOpinions__notFound_button
+                )}
                 onClick={handleReset}
               >
                 Сбросить
@@ -176,7 +139,7 @@ const Reviews: React.FC = () => {
       {!notFound && (
         <Review
           reviews={currentReviews}
-          loading={loading}
+          loading={isLoading}
           selectedStars={selectedStars}
           filteredCurrentReviews={filteredCurrentReviews}
         />
@@ -186,7 +149,7 @@ const Reviews: React.FC = () => {
         <div className={styles.opinionsWidget__pagination}>
           <div className={styles.paginatorWidget}>
             <div
-              className={`${styles.paginatorWidget__block} ${styles.paginatorWidget__block_above}`}
+              className={clsx(styles.paginatorWidget__block, styles.paginatorWidget__block_above)}
               style={{ display: 'flex' }}
               onClick={addReviews}
             >

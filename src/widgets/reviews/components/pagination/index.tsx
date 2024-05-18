@@ -1,9 +1,17 @@
 import styles from './pagination.module.scss';
-import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 
-const Pagination = ({
+interface PaginationProps {
+  reviewsPerPage: number;
+  totalReviews: number;
+  paginate: (pageNumber: number) => void;
+  addReviewsStatus: boolean;
+  setAddReviewsStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  lastReviewsIndexAddTen: number;
+}
+
+const Pagination: React.FC<PaginationProps> = ({
   reviewsPerPage,
   totalReviews,
   paginate,
@@ -11,10 +19,10 @@ const Pagination = ({
   setAddReviewsStatus,
   lastReviewsIndexAddTen,
 }) => {
-  const [activePage, setActivePage] = useState(1); // Активная страница
-  const [firstSlice, setFirstSlice] = useState(totalReviews - totalReviews);
-  const [lastSlice, setLastSlice] = useState(totalReviews - totalReviews + 8);
-  const pageNumbers = []; // Массив для хранения номеров страниц
+  const [activePage, setActivePage] = useState<number>(1); // Активная страница
+  const [firstSlice, setFirstSlice] = useState<number>(0);
+  const [lastSlice, setLastSlice] = useState<number>(8);
+  const pageNumbers: number[] = []; // Массив для хранения номеров страниц
 
   // Генерация номеров страниц на основе totalReviews и reviewsPerPage
   for (let i = 1; i <= Math.ceil(totalReviews / reviewsPerPage); i++) {
@@ -22,7 +30,7 @@ const Pagination = ({
   }
 
   // Функция для обновления пагинации при клике на номер страницы
-  const updatePagination = (number) => {
+  const updatePagination = (number: number) => {
     setActivePage(number);
     paginate(number);
     if (number > 4 && lastSlice !== pageNumbers.length) {
@@ -35,7 +43,7 @@ const Pagination = ({
   };
 
   // Функция для обработки клика на номер страницы
-  const handleClick = (number) => {
+  const handleClick = (number: number) => {
     updatePagination(number);
     setAddReviewsStatus(false); // Сброс addReviewsStatus
   };
@@ -98,11 +106,11 @@ const Pagination = ({
     <div className={styles.paginatorWidget__block}>
       <div className={styles.paginatorWidget__pages}>
         {/* Кнопка для перехода на первую страницу */}
-        <div className={`${styles.paginatorWidget__page} ${styles.paginatorWidget__page_first}`} onClick={firstPage}>
+        <div className={clsx(styles.paginatorWidget__page, styles.paginatorWidget__page_first)} onClick={firstPage}>
           {}
         </div>
         {/* Кнопка для перехода на предыдущую страницу */}
-        <div className={`${styles.paginatorWidget__page} ${styles.paginatorWidget__page_prev}`} onClick={prevPage}>
+        <div className={clsx(styles.paginatorWidget__page, styles.paginatorWidget__page_prev)} onClick={prevPage}>
           {}
         </div>
         {/* Список номеров страниц */}
@@ -124,25 +132,16 @@ const Pagination = ({
           ))}
         </ul>
         {/* Кнопка для перехода на следующую страницу */}
-        <div className={`${styles.paginatorWidget__page} ${styles.paginatorWidget__page_next}`} onClick={nextPage}>
+        <div className={clsx(styles.paginatorWidget__page, styles.paginatorWidget__page_next)} onClick={nextPage}>
           {}
         </div>
         {/* Кнопка для перехода на последнюю страницу */}
-        <div className={`${styles.paginatorWidget__page} ${styles.paginatorWidget__page_last}`} onClick={lastPage}>
+        <div className={clsx(styles.paginatorWidget__page, styles.paginatorWidget__page_last)} onClick={lastPage}>
           {}
         </div>
       </div>
     </div>
   );
-};
-
-Pagination.propTypes = {
-  reviewsPerPage: PropTypes.number.isRequired,
-  totalReviews: PropTypes.number.isRequired,
-  paginate: PropTypes.func.isRequired,
-  addReviewsStatus: PropTypes.bool.isRequired,
-  setAddReviewsStatus: PropTypes.func.isRequired,
-  lastReviewsIndexAddTen: PropTypes.number.isRequired,
 };
 
 export default Pagination;
