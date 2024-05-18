@@ -16,6 +16,9 @@ const AuthModal: FC<AuthModalProps> = ({ closeModalHandler }) => {
   const [authErr, setAuthErr] = useState(false);
   const [isOccupied, setIsOccupied] = useState(false);
 
+  const regEmail =
+    /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+
   const {
     register,
     handleSubmit,
@@ -92,8 +95,7 @@ const AuthModal: FC<AuthModalProps> = ({ closeModalHandler }) => {
               {...register('email', {
                 required: 'e-mail обязателен к заполнению.',
                 pattern: {
-                  value:
-                    /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu,
+                  value: regEmail,
                   message: 'Пожалуйста, введите валидный e-mail.',
                 },
               })}
