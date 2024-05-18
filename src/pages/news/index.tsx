@@ -12,7 +12,7 @@ const NewsPage: FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const searchByIdNews = (news: News[] | undefined): News | undefined => {
+  const searchByIdNews = (news?: News[]): News | undefined => {
     if (!news) {
       return;
     }

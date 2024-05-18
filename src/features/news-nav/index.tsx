@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import clsx from 'clsx';
 
 import { filters } from './constants/filters';
 import style from './style.module.scss';
@@ -16,7 +17,7 @@ const NewsNav: FC<INewsNav> = ({ type, handlerFilter }) => {
           key={self.crypto.randomUUID()}
           type='button'
           onClick={() => handlerFilter(item.filter)}
-          className={`${style['nav__button']} ${type === item.filter && style['nav__button--active']}`}
+          className={clsx(style.nav__button, type === item.filter && style['nav__button_active'])}
         >
           <p>{item.name}</p>
         </button>
