@@ -1,12 +1,13 @@
-import styles from './header.module.scss';
 import clsx from 'clsx';
-import { useClickOutside } from 'shared/hooks/useClickOutside';
-import { navigationLinks, toCustomersLinks, sideNavigationItems } from './constants';
-import { useState, FC } from 'react';
-import DropdownMenu from 'shared/ui/dropdown-menu';
-import Catalog from './component';
-import { Link } from 'react-router-dom';
 import { useOnScroll } from 'shared/hooks/useOnScroll';
+import { FC, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useClickOutside } from 'shared/hooks/useClickOutside';
+import DropdownMenu from 'shared/ui/dropdown-menu';
+import Auth from 'widgets/auth';
+import Catalog from './component';
+import { navigationLinks, sideNavigationItems, toCustomersLinks } from './constants';
+import styles from './header.module.scss';
 
 const Header: FC = () => {
   const [isOnCatalogBtnClick, setIsOnCatalogBtnClick] = useState(false);
@@ -119,6 +120,9 @@ const Header: FC = () => {
                   </a>
                 </li>
               ))}
+              <li>
+                <Auth />
+              </li>
             </ul>
           </nav>
         </div>

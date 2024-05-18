@@ -43,5 +43,4 @@ export const sideNavigationItems = [
   { label: 'Сравнение', className: 'side-nav__compare' },
   { label: 'Избранное', className: 'side-nav__favorited' },
   { label: 'Корзина', className: 'side-nav__basket' },
-  { label: 'Войти', className: 'side-nav__log-in' },
 ];
