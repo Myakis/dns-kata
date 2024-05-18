@@ -2,6 +2,7 @@ import { CloseOutlined, EyeInvisibleOutlined, EyeOutlined, QuestionCircleOutline
 import { FC, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import { REGEX_EMAIL } from 'shared/constants';
 import { useAppDispatch } from 'shared/hooks/redux';
 import { authSlice } from 'shared/store/slices/auth-slice';
 import styles from './auth-modal.module.scss';
@@ -15,9 +16,6 @@ const AuthModal: FC<AuthModalProps> = ({ closeModalHandler }) => {
   const [isReg, setIsReg] = useState(false);
   const [authErr, setAuthErr] = useState(false);
   const [isOccupied, setIsOccupied] = useState(false);
-
-  const regEmail =
-    /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
 
   const {
     register,
@@ -95,7 +93,7 @@ const AuthModal: FC<AuthModalProps> = ({ closeModalHandler }) => {
               {...register('email', {
                 required: 'e-mail обязателен к заполнению.',
                 pattern: {
-                  value: regEmail,
+                  value: REGEX_EMAIL,
                   message: 'Пожалуйста, введите валидный e-mail.',
                 },
               })}
