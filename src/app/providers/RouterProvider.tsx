@@ -1,3 +1,4 @@
+import Career from 'pages/career';
 import Main from 'pages/main';
 import NewsListPage from 'pages/news-list';
 import NewsPage from 'pages/news';
@@ -25,12 +26,19 @@ const router = createBrowserRouter([
     errorElement: <Page404 />,
   },
   {
+    path: '/career',
+    element: <Career />,
+    errorElement: <Page404 />,
+  },
+  {
     path: 'news',
     element: <NewsListPage />,
+    errorElement: <Page404 />,
   },
   {
     path: 'news/:id',
     element: <NewsPage />,
+    errorElement: <Page404 />,
   },
 ]);
 
