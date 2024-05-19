@@ -3,14 +3,16 @@ import clsx from 'clsx';
 
 import Layout from 'pages/layout';
 import HelpNav from 'features/help-nav';
+import ModalFeedback from 'features/modal-feedback';
 import { useClickOutside } from 'shared/hooks/useClickOutside';
 import { readmeOl } from './constants';
 import style from './style.module.scss';
 
 const FeedbackPage: FC = () => {
   const [modalOpen, setModalOpen] = useState('');
+  const [currentForm, setCurrentForm] = useState('');
 
-  const renderOl = (data: { title: string; bold: boolean }[]) => {
+  const renderReadmeOl = (data: { title: string; bold: boolean }[]) => {
     return data.map((item) => {
       return (
         <li key={self.crypto.randomUUID()} className={clsx(item.bold ? style.olBold : null)}>
@@ -31,11 +33,9 @@ const FeedbackPage: FC = () => {
     });
   };
 
-  // const modalClass = (state: string) => {
-  //   if (state === 'up') {
-  //     return
-  //   }
-  // }
+  const applyClasses = (classDown: string, classUp: string) => {
+    return (modalOpen === 'down' ? style[classDown] : null) || (modalOpen === 'up' ? style[classUp] : null);
+  };
 
   const modalRef = useClickOutside(() => setModalOpen('')); // о боже какой же крутой это хук
 
@@ -51,7 +51,7 @@ const FeedbackPage: FC = () => {
               В целях оперативного рассмотрения ваших обращений просим максимально точно изложить суть вопроса и
               имеющиеся факты.
             </p>
-            <ol>{renderOl(readmeOl)}</ol>
+            <ol>{renderReadmeOl(readmeOl)}</ol>
             <p>Чтобы заполнить форму обращения, пожалуйста, выберите раздел.</p>
             <div className={style.readme_blueBg}>
               <p>
@@ -64,31 +64,17 @@ const FeedbackPage: FC = () => {
             <h3>Выберите раздел</h3>
             <div className={style.modal}>
               <span
-                className={clsx(
-                  style.form_modalBtn,
-                  modalOpen === 'down' ? style.btnDown : null,
-                  modalOpen === 'up' ? style.btnUp : null
-                )}
+                className={clsx(style.form_modalBtn, applyClasses('btnDown', 'btnUp'))}
                 onClick={(e) => handleOpenModal(e)}
               >
-                <span className={style.modalBtn_text}>Не выбрано</span>
-                <span
-                  className={clsx(
-                    style.modalBtn_icon,
-                    modalOpen === 'down' ? style.iconDown : null,
-                    modalOpen === 'up' ? style.iconUp : null
-                  )}
-                ></span>
+                <span className={clsx(style.modalBtn_text, currentForm ? style.text_black : null)}>
+                  {currentForm || 'Не выбрано'}
+                </span>
+                <span className={clsx(style.modalBtn_icon, applyClasses('iconDown', 'iconUp'))}></span>
               </span>
-              <div
-                className={clsx(
-                  style.form_modalBlock,
-                  modalOpen === 'down' ? style.modalDown : null,
-                  modalOpen === 'up' ? style.modalUp : null
-                )}
-                ref={modalRef}
-              >
-                {modalOpen}
+
+              <div className={clsx(style.form_modalBlock, applyClasses('modalDown', 'modalUp'))} ref={modalRef}>
+                <ModalFeedback currentForm={currentForm} setCurrentForm={setCurrentForm} />
               </div>
             </div>
           </div>
