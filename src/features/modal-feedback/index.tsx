@@ -1,35 +1,35 @@
 import { FC, useState } from 'react';
 
 import style from './style.module.scss';
-import { formVersion } from './constants/forms';
 import clsx from 'clsx';
 
 interface IModalFeedback {
+  formsData: { theme: string; sections: string[] }[];
   currentForm: string;
   setCurrentForm: (form: string) => void;
 }
 
-const ModalFeedback: FC<IModalFeedback> = ({ currentForm, setCurrentForm }) => {
+const ModalFeedback: FC<IModalFeedback> = ({ formsData, currentForm, setCurrentForm }) => {
   const [search, setSearch] = useState('');
 
-  const renderFormVers = (data: string[]) => {
+  const renderFormVers = (data: { theme: string; sections: string[] }[]) => {
     let arr = data;
 
     if (search) {
-      arr = data.filter((item) => item.includes(search));
+      arr = data.filter((item) => item.theme.includes(search));
     }
     return arr.map((item) => {
       return (
         <li key={crypto.randomUUID()}>
           <a
-            className={clsx(item === currentForm ? style.active : null)}
+            className={clsx(item.theme === currentForm ? style.active : null)}
             onClick={(e) => {
-              setCurrentForm(item);
+              setCurrentForm(item.theme);
               e.preventDefault();
             }}
             href='/'
           >
-            {item}
+            {item.theme}
           </a>
         </li>
       );
@@ -42,7 +42,7 @@ const ModalFeedback: FC<IModalFeedback> = ({ currentForm, setCurrentForm }) => {
         <input className={style.input} value={search} onChange={(e) => setSearch(e.target.value)} />
       </div>
       <div className={style.modal_ulDiv}>
-        <ul>{renderFormVers(formVersion)}</ul>
+        <ul>{renderFormVers(formsData)}</ul>
       </div>
     </div>
   );

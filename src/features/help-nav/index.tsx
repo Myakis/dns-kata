@@ -19,7 +19,7 @@ const HelpNav: FC = () => {
 
       return (
         <li key={self.crypto.randomUUID()}>
-          <a className={clsx(itemIcon, itemActive)} onClick={() => handlerItem()} href={item.href}>
+          <a className={clsx(itemIcon, itemActive)} onClick={() => handlerItem()} target='__blank' href={item.href}>
             <i></i>
             {item.title}
           </a>
