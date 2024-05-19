@@ -1,7 +1,7 @@
 import Main from 'pages/main';
 import NewsListPage from 'pages/news-list';
 import NewsPage from 'pages/news';
-import HelpNav from 'features/help-nav';
+import FeedbackPage from 'pages/feedback';
 import Page404 from 'pages/page-404';
 import Stocks from 'pages/stocks';
 import { useEffect } from 'react';
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
   },
   {
     path: 'feedback',
-    element: <HelpNav />,
+    element: <FeedbackPage />,
   },
 ]);
 
