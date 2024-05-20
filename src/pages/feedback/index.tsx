@@ -18,7 +18,6 @@ type FormTypes = {
 };
 
 const FeedbackPage: FC = () => {
-  const [modalOpen, setModalOpen] = useState('');
   const [currentTheme, setCurrentTheme] = useState('');
 
   const renderTextList = (dataText: { title: string; bold: boolean }[]) => {
@@ -28,17 +27,6 @@ const FeedbackPage: FC = () => {
           {item.title}
         </li>
       );
-    });
-  };
-
-  const handleOpenModal = (e: any) => {
-    const cursorPositionY = window.innerHeight - e.clientY;
-
-    setModalOpen((prevModal) => {
-      if (prevModal === '') {
-        return cursorPositionY > 400 ? 'down' : 'up';
-      }
-      return '';
     });
   };
 
@@ -52,14 +40,8 @@ const FeedbackPage: FC = () => {
   } = useForm<FormTypes>({ mode: 'onBlur' });
 
   useEffect(() => {
-    setModalOpen('');
     setValue('theme', '');
   }, [currentTheme]);
-
-  const modalBlockClass = (classDown: string, classUp: string) => {
-    return (modalOpen === 'down' ? style[classDown] : null) || (modalOpen === 'up' ? style[classUp] : null);
-  };
-  const modalRef = useClickOutside(() => setModalOpen('')); //как же шикарно
 
   const renderFormBlock = (formVersion: { theme: string; sections: string[] }[]) => {
     const theme = formVersion.find((item) => item.theme === currentTheme);
@@ -103,21 +85,7 @@ const FeedbackPage: FC = () => {
 
           <div className={style.feedback_form}>
             <h3>Выберите раздел</h3>
-            <div className={style.form_modal}>
-              <span
-                className={clsx(style.form_modalBtn, modalBlockClass('btnDown', 'btnUp'))}
-                onClick={(e) => handleOpenModal(e)}
-              >
-                <span className={clsx(style.modalBtn_text, currentTheme ? style.text_black : null)}>
-                  {currentTheme || 'Не выбрано'}
-                </span>
-                <span className={clsx(style.modalBtn_icon, modalBlockClass('iconDown', 'iconUp'))}></span>
-              </span>
-
-              <div className={clsx(style.form_modalBlock, modalBlockClass('modalDown', 'modalUp'))} ref={modalRef}>
-                <ModalFeedback formsData={formVersion} currentForm={currentTheme} setCurrentForm={setCurrentTheme} />
-              </div>
-            </div>
+            <ModalFeedback formsData={formVersion} currentTheme={currentTheme} setCurrentTheme={setCurrentTheme} />
 
             <form onSubmit={handleSubmit(onSubmitForm)}>
               {renderFormBlock(formVersion)}
