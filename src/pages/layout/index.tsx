@@ -4,6 +4,7 @@ import Footer from 'widgets/footer';
 import Header from 'widgets/header';
 import Chat from 'widgets/chat';
 import { ChatBtn, ScrollBtn } from 'features/aside-helper-btns';
+import ShopCard from 'pages/shopCard';
 
 interface IProps {
   pageTitle?: string | null;
@@ -26,6 +27,7 @@ export const Layout: FC<IProps> = ({ pageTitle, breadcrumbs, children }) => {
         <div className={styles.content__container}>
           <h1 className={styles.content__title}>{pageTitle}</h1>
           {children} {/*Здесь лежит контент страницы*/}
+          <ShopCard />
         </div>
       </main>
       <aside className={styles.layout__aside}>
