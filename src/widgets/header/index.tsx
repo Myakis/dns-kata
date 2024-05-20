@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import { FC, useEffect, useState } from 'react';
+import { useOnScroll } from 'shared/hooks/useOnScroll';
+import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useClickOutside } from 'shared/hooks/useClickOutside';
 import DropdownMenu from 'shared/ui/dropdown-menu';
@@ -9,7 +10,6 @@ import { navigationLinks, sideNavigationItems, toCustomersLinks } from './consta
 import styles from './header.module.scss';
 
 const Header: FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isOnCatalogBtnClick, setIsOnCatalogBtnClick] = useState(false);
   const [onSearchFocus, setOnSearchFocus] = useState(false);
   const [onPhoneHover, setOnPhoneHover] = useState(false);
@@ -18,13 +18,7 @@ const Header: FC = () => {
   const catalogRef = useClickOutside(() => setIsOnCatalogBtnClick(false), styles['main-header__catalog-btn']);
   const searchRef = useClickOutside(() => setOnSearchFocus(false));
 
-  // useEffect для фиксации хедера при скролле
-  useEffect(() => {
-    window.addEventListener('scroll', () => setIsScrolled(window.scrollY > 50));
-    return () => {
-      window.removeEventListener('scroll', () => setIsScrolled(window.scrollY > 50));
-    };
-  }, []);
+  const isScrolled = useOnScroll();
 
   const navigationItems = navigationLinks.map((el) =>
     el.label === 'Покупателям' ? (

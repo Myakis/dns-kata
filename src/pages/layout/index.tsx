@@ -2,6 +2,8 @@ import { FC, ReactNode } from 'react';
 import styles from './layout.module.scss';
 import Footer from 'widgets/footer';
 import Header from 'widgets/header';
+import Chat from 'widgets/chat';
+import { ChatBtn, ScrollBtn } from 'features/aside-helper-btns';
 
 interface IProps {
   pageTitle?: string | null;
@@ -26,6 +28,15 @@ export const Layout: FC<IProps> = ({ pageTitle, breadcrumbs, children }) => {
           {children} {/*Здесь лежит контент страницы*/}
         </div>
       </main>
+      <aside className={styles.layout__aside}>
+        <div className={styles.layout__helperBtns}>
+          <ChatBtn />
+          <ScrollBtn />
+        </div>
+        <div className={styles.layout__chat}>
+          <Chat />
+        </div>
+      </aside>
       <footer className={styles.layout__footer}>
         <div className={styles.footer__container}>
           <Footer />

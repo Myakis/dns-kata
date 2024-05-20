@@ -25,7 +25,10 @@ ul {
   padding: 0;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3,
+p {
   margin: 0;
   padding: 0;
 }
@@ -281,5 +284,3 @@ Add the correct display in Chrome and Safari.
 summary {
   display: list-item;
 }
-
-
