@@ -1,12 +1,20 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import styles from './starsFilter.module.scss';
-import PropTypes from 'prop-types';
+import { IReview } from 'widgets/reviews/components/review/types';
+import clsx from 'clsx';
 
-const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars, notFound }) => {
-  const [filteredReviews, setFilteredReviews] = useState(null);
+interface StarsFilterProps {
+  reviews: IReview[];
+  handleCheckboxChange: (rating: number) => void;
+  selectedStars: number[];
+  notFound: boolean;
+}
+
+const StarsFilter: React.FC<StarsFilterProps> = ({ reviews, handleCheckboxChange, selectedStars, notFound }) => {
+  const [filteredReviews, setFilteredReviews] = useState<Record<number, IReview[]> | null>(null);
 
   useMemo(() => {
-    const filtered = reviews.reduce((acc, review) => {
+    const filtered = reviews.reduce<Record<number, IReview[]>>((acc, review) => {
       const { rating } = review;
 
       return { ...acc, [rating]: acc[rating] ? [...acc[rating], review] : [review] };
@@ -15,23 +23,19 @@ const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars, notFound })
     setFilteredReviews(filtered);
   }, [reviews]);
 
-  const getFilteredLength = (arr) => (notFound || !arr ? 0 : arr.length);
+  const getFilteredLength = (arr: IReview[] | undefined): number => (notFound || !arr ? 0 : arr.length);
 
   const handleChange = useCallback(
-    (rating) => {
+    (rating: number) => {
       handleCheckboxChange(rating);
     },
     [handleCheckboxChange]
   );
 
   return (
-    <div className={`${styles.owFilters__rating} ${styles.uiCheckboxGroup}`} data-role='filter-rating'>
+    <div className={clsx(styles.owFilters__rating, styles.uiCheckboxGroup)} data-role='filter-rating'>
       {[5, 4, 3, 2, 1].map((rating) => (
-        <label
-          key={rating}
-          className={`${styles.uiCheckbox} ${styles.owFilters__ratingItem}`}
-          htmlFor={`stars${rating}`}
-        >
+        <label key={rating} className={clsx(styles.uiCheckbox, styles.owFilters__ratingItem)} htmlFor={`stars${rating}`}>
           <span>
             {[...Array(rating)].map((_, index) => (
               <i key={index}></i>
@@ -52,13 +56,6 @@ const StarsFilter = ({ reviews, handleCheckboxChange, selectedStars, notFound })
       ))}
     </div>
   );
-};
-
-StarsFilter.propTypes = {
-  reviews: PropTypes.array.isRequired,
-  handleCheckboxChange: PropTypes.func.isRequired,
-  selectedStars: PropTypes.array.isRequired,
-  notFound: PropTypes.bool.isRequired,
 };
 
 export default StarsFilter;
