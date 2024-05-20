@@ -1,4 +1,4 @@
-export const readmeOl: { title: string; bold: boolean }[] = [
+export const feedbaackMessage: { title: string; bold: boolean }[] = [
   { title: 'Номер оформленного заказа на покупку товара;', bold: true },
   { title: 'Номер документа на сервисное обслуживание;', bold: true },
   { title: 'Адрес магазина и/или сервисного центра;', bold: false },
@@ -7,7 +7,7 @@ export const readmeOl: { title: string; bold: boolean }[] = [
   { title: 'Наименование товара.', bold: false },
 ];
 
-export const formVersion: { theme: string; sections: string[] }[] = [
+export const feedbackTheme: { theme: string; sections: string[] }[] = [
   {
     theme: 'Покупка товара',
     sections: ['В магазине', 'На сайте', 'Нет в наличии', 'Корпоративные продажи', 'Покупатель заблокирован'],

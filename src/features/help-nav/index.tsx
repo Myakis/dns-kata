@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import clsx from 'clsx';
 
 import { Pages, Links, LinkPageType } from './constants';
+
 import style from './style.module.scss';
 
 const HelpNav: FC = () => {
@@ -11,7 +12,9 @@ const HelpNav: FC = () => {
     return data.map((item) => {
       const itemIcon = item.icon ? style[item.icon] : '';
       const itemActive = active === item.icon ? style.active : null;
-      const handlerItem = () => {
+
+      const handlerItem = (e: any) => {
+        e.preventDefault();
         if (item.icon) {
           setActive(item.icon);
         }
@@ -19,7 +22,7 @@ const HelpNav: FC = () => {
 
       return (
         <li key={self.crypto.randomUUID()}>
-          <a className={clsx(itemIcon, itemActive)} onClick={() => handlerItem()} target='__blank' href={item.href}>
+          <a className={clsx(itemIcon, itemActive)} onClick={(e) => handlerItem(e)} target='' href={item.href}>
             <i></i>
             {item.title}
           </a>
