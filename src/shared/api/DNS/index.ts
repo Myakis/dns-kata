@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IShop } from 'widgets/shops-page-404/shops-page-404.types';
 import { IStock } from 'entities/stock/types';
 import { IVacancy } from 'pages/career/types';
+import { News } from 'pages/news-list/types';
 
 export const DnsAPI = createApi({
   reducerPath: 'DnsAPI',
@@ -22,7 +23,12 @@ export const DnsAPI = createApi({
         url: 'vacancies',
       }),
     }),
+    getNews: build.query<News[], unknown>({
+      query: () => ({
+        url: 'news',
+      }),
+    }),
   }),
 });
 
-export const { useGetStocksQuery, useGetVacanciesQuery } = DnsAPI;
+export const { useGetStocksQuery, useGetVacanciesQuery, useGetNewsQuery } = DnsAPI;

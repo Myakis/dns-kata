@@ -1,5 +1,5 @@
 @mixin font-face($family, $url, $weight: normal, $style: normal, $display: swap) {
-  $font-path: 'fonts/';
+  $font-path: '../../../public/fonts/';
 
   @font-face {
     font-family: $family;
@@ -10,7 +10,7 @@
       url('#{$font-path}#{$url}.woff2') format('woff2'),
       url('#{font-path}#{$url}.woff') format('woff');
   }
-};
+}
 
 @mixin background-img($url, $width, $height, $display: block, $content: '') {
   content: '';
