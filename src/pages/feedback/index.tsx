@@ -14,7 +14,7 @@ import style from './style.module.scss';
 
 const FeedbackPage: FC = () => {
   const stateCity = useAppSelector((state) => state.currentCity.name);
-  const [currentTheme, setCurrentTheme] = useState('');
+  const [currentChapter, setCurrentChapter] = useState('');
   const [currentCity, setCurrentCity] = useState('' || stateCity);
   const [fileModal, setFileModal] = useState(false);
   const [drugActive, setDragActive] = useState(false);
@@ -31,9 +31,9 @@ const FeedbackPage: FC = () => {
   useEffect(() => {
     reset();
     setValue('theme', '');
-  }, [currentTheme, reset, setValue]);
+  }, [currentChapter, reset, setValue]);
 
-  const renderMessageList = (dataText: { title: string; bold: boolean }[]) => {
+  const MessageRules = (dataText: { title: string; bold: boolean }[]) => {
     return dataText.map((item) => {
       return (
         <li key={self.crypto.randomUUID()} className={clsx(item.bold ? style.liBold : null)}>
@@ -43,8 +43,8 @@ const FeedbackPage: FC = () => {
     });
   };
 
-  const renderRadioButtons = (dataBtns: { theme: string; sections: string[] }[]) => {
-    const theme = dataBtns.find((item) => item.theme === currentTheme);
+  const RadioThemes = (dataBtns: { theme: string; sections: string[] }[]) => {
+    const theme = dataBtns.find((item) => item.theme === currentChapter);
 
     return theme?.sections.map((item) => {
       return (
@@ -58,7 +58,7 @@ const FeedbackPage: FC = () => {
     });
   };
 
-  const renderUploadFiles = (watch: any = {}) => {
+  const UploadFiles = (watch: any = {}) => {
     const result = Object.keys(watch).map((item) => watch[item].name);
 
     return result.join(', ');
@@ -85,10 +85,10 @@ const FeedbackPage: FC = () => {
     setValue('photo', null);
   };
 
-  const renderMainForm = (formTheme: string, dataTheme: { theme: string; sections: string[] }[]) => {
-    const sectionsTheme = dataTheme.find((item) => item.theme === currentTheme);
+  const MainForm = (formTheme: string, dataTheme: { theme: string; sections: string[] }[]) => {
+    const sectionsTheme = dataTheme.find((item) => item.theme === currentChapter);
 
-    if (currentTheme && (!sectionsTheme?.sections.length || formTheme)) {
+    if (currentChapter && (!sectionsTheme?.sections.length || formTheme)) {
       return (
         <>
           <div className={style.form_message}>
@@ -154,7 +154,7 @@ const FeedbackPage: FC = () => {
                     'выберите на компьютере'
                   ) : (
                     <>
-                      {renderUploadFiles(watch('photo'))}
+                      {UploadFiles(watch('photo'))}
                       <button className={style.clearBtn} onClick={handleUloadClear}>
                         Очистить
                       </button>
@@ -198,7 +198,7 @@ const FeedbackPage: FC = () => {
 
   const onSubmit = (form: any) => {
     reset();
-    const resultForm = { ...form, theme: currentTheme + ' ' + form.theme, city: currentCity };
+    const resultForm = { ...form, theme: currentChapter + ' ' + form.theme, city: currentCity };
 
     console.log(resultForm);
   };
@@ -214,7 +214,7 @@ const FeedbackPage: FC = () => {
               В целях оперативного рассмотрения ваших обращений просим максимально точно изложить суть вопроса и
               имеющиеся факты.
             </p>
-            <ol>{renderMessageList(feedbaackMessage)}</ol>
+            <ol>{MessageRules(feedbaackMessage)}</ol>
             <p>Чтобы заполнить форму обращения, пожалуйста, выберите раздел.</p>
             <div className={style.blueBg}>
               <p>
@@ -225,11 +225,11 @@ const FeedbackPage: FC = () => {
           <div className={style.feedback_form}>
             <h3>Выберите раздел</h3>
             <div className={style.form_theme}>
-              <ModalFeedback data={feedbackTheme} currentState={currentTheme} setCurrentState={setCurrentTheme} />
+              <ModalFeedback data={feedbackTheme} currentState={currentChapter} setCurrentState={setCurrentChapter} />
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
-              {renderRadioButtons(feedbackTheme)}
-              {renderMainForm(watch('theme'), feedbackTheme)}
+              {RadioThemes(feedbackTheme)}
+              {MainForm(watch('theme'), feedbackTheme)}
             </form>
           </div>
         </div>

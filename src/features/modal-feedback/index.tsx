@@ -19,7 +19,7 @@ const ModalFeedback: FC<IModalFeedback> = ({ data, currentState, setCurrentState
     setModalOpen('');
   }, [currentState]);
 
-  const renderListItems = (data: { theme: string; sections: string[] }[] | string[]) => {
+  const ListItems = (data: { theme: string; sections: string[] }[] | string[]) => {
     let res = data.map((item) => {
       if (typeof item === 'object') {
         return item.theme;
@@ -49,7 +49,7 @@ const ModalFeedback: FC<IModalFeedback> = ({ data, currentState, setCurrentState
     });
   };
 
-  const modalBlockClass = (classDown: string, classUp: string) => {
+  const upDownClass = (classDown: string, classUp: string) => {
     return (modalOpen === 'down' ? style[classDown] : null) || (modalOpen === 'up' ? style[classUp] : null);
   };
 
@@ -68,23 +68,20 @@ const ModalFeedback: FC<IModalFeedback> = ({ data, currentState, setCurrentState
 
   return (
     <div className={style.form_modal}>
-      <span
-        className={clsx(style.form_modalBtn, modalBlockClass('btnDown', 'btnUp'))}
-        onClick={(e) => handleOpenModal(e)}
-      >
+      <span className={clsx(style.form_modalBtn, upDownClass('btnDown', 'btnUp'))} onClick={(e) => handleOpenModal(e)}>
         <span className={clsx(style.modalBtn_text, currentState ? style.text_black : null)}>
           {currentState || 'Не выбрано'}
         </span>
-        <span className={clsx(style.modalBtn_icon, modalBlockClass('iconDown', 'iconUp'))}></span>
+        <span className={clsx(style.modalBtn_icon, upDownClass('iconDown', 'iconUp'))}></span>
       </span>
 
-      <div className={clsx(style.form_modalMenu, modalBlockClass('modalDown', 'modalUp'))} ref={modalRef}>
+      <div className={clsx(style.form_modalMenu, upDownClass('modalDown', 'modalUp'))} ref={modalRef}>
         <div className={style.modal}>
           <div className={style.modal_inputDiv}>
             <input className={style.input} value={search} onChange={(e) => setSearch(e.target.value)} />
           </div>
           <div className={style.modal_ulDiv}>
-            <ul>{renderListItems(data)}</ul>
+            <ul>{ListItems(data)}</ul>
           </div>
         </div>
       </div>
