@@ -166,6 +166,20 @@
         display: none;
       }
     }
+
+    &.uploadDrug {
+      background-color: rgb(255, 230, 199);
+    }
+
+    .clearBtn {
+      border: none;
+      background-color: transparent;
+      z-index: 3;
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: var(--text-color);
+    }
   }
 
   .attachment {

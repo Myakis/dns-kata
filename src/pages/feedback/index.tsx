@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 
 import { useAppSelector } from 'shared/hooks/redux';
 import { feedbaackMessage, feedbackTheme, cityCollection } from './constants';
+import { FeedbackForm } from './types';
 
 import HelpNav from 'features/help-nav';
 import ModalFeedback from 'features/modal-feedback';
@@ -11,21 +12,12 @@ import Layout from 'pages/layout';
 
 import style from './style.module.scss';
 
-interface IFeedbackForm {
-  theme: string;
-  name: string;
-  email: string;
-  phone: number;
-  message: string;
-  city: string;
-  photo: any;
-}
-
 const FeedbackPage: FC = () => {
   const stateCity = useAppSelector((state) => state.currentCity.name);
   const [currentTheme, setCurrentTheme] = useState('');
   const [currentCity, setCurrentCity] = useState('' || stateCity);
   const [fileModal, setFileModal] = useState(false);
+  const [drugActive, setDragActive] = useState(false);
 
   const {
     register,
@@ -34,7 +26,7 @@ const FeedbackPage: FC = () => {
     reset,
     watch,
     setValue,
-  } = useForm<IFeedbackForm>();
+  } = useForm<FeedbackForm>();
 
   useEffect(() => {
     reset();
@@ -64,6 +56,33 @@ const FeedbackPage: FC = () => {
         </div>
       );
     });
+  };
+
+  const renderUploadFiles = (watch: any = {}) => {
+    const result = Object.keys(watch).map((item) => watch[item].name);
+
+    return result.join(', ');
+  };
+
+  const handleUploadDrug = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setDragActive(true);
+  };
+
+  const handleUploadLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setDragActive(false);
+  };
+
+  const handleUploadDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setDragActive(false);
+    setValue('photo', e.dataTransfer.files);
+  };
+
+  const handleUloadClear = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    setValue('photo', null);
   };
 
   const renderMainForm = (formTheme: string, dataTheme: { theme: string; sections: string[] }[]) => {
@@ -110,30 +129,41 @@ const FeedbackPage: FC = () => {
               })}
             />
           </div>
-
           <div className={style.form_error}>
             {errors.email && <p className={style.inputInvalid}>{errors.email.message}</p>}
             {errors.message && <p className={style.inputInvalid}>{errors.message.message}</p>}
             {errors.name && <p className={style.inputInvalid}>{errors.name.message}</p>}
             {errors.phone && <p className={style.inputInvalid}>{errors.phone.message}</p>}
           </div>
-
           <div className={style.form_city}>
             <ModalFeedback data={cityCollection} currentState={currentCity} setCurrentState={setCurrentCity} />
           </div>
-
           <div className={style.form_upload}>
-            <div className={style.upload}>
+            <div
+              className={clsx(style.upload, drugActive && style.uploadDrug)}
+              onDragEnter={handleUploadDrug}
+              onDragOver={handleUploadDrug}
+              onDragLeave={handleUploadLeave}
+              onDrop={handleUploadDrop}
+            >
               <i></i>
               <p>
-                Перетащите файлы, или{' '}
+                Перетащите файлы, или&#32;
                 <label className={style.inputFile}>
-                  выберите на компьютере
-                  <input type='file' {...register('photo')} />
+                  {!watch('photo') ? (
+                    'выберите на компьютере'
+                  ) : (
+                    <>
+                      {renderUploadFiles(watch('photo'))}
+                      <button className={style.clearBtn} onClick={handleUloadClear}>
+                        Очистить
+                      </button>
+                    </>
+                  )}
+                  <input type='file' multiple {...register('photo')} />
                 </label>
               </p>
             </div>
-
             <div className={style.attachment}>
               <p>Требования к файлам</p>
               <i
@@ -151,11 +181,9 @@ const FeedbackPage: FC = () => {
               )}
             </div>
           </div>
-
           <button className={style.form_submit} type='submit'>
             Отправить обращение
           </button>
-
           <div className={style.form_politics}>
             <p>
               Нажимая кнопку «Отправить», Вы соглашаетесь c <a href='/'>Политикой конфиденциальности</a> и
@@ -170,14 +198,15 @@ const FeedbackPage: FC = () => {
 
   const onSubmit = (form: any) => {
     reset();
-    console.log({ ...form, theme: currentTheme + ' ' + form.theme, city: currentCity });
+    const resultForm = { ...form, theme: currentTheme + ' ' + form.theme, city: currentCity };
+
+    console.log(resultForm);
   };
 
   return (
     <Layout pageTitle='Обратная связь'>
       <div className={style.page}>
         <HelpNav />
-
         <div className={style.feedback}>
           <div className={style.feedback_message}>
             <h2>Уважаемые клиенты!</h2>
@@ -193,14 +222,11 @@ const FeedbackPage: FC = () => {
               </p>
             </div>
           </div>
-
           <div className={style.feedback_form}>
             <h3>Выберите раздел</h3>
-
             <div className={style.form_theme}>
               <ModalFeedback data={feedbackTheme} currentState={currentTheme} setCurrentState={setCurrentTheme} />
             </div>
-
             <form onSubmit={handleSubmit(onSubmit)}>
               {renderRadioButtons(feedbackTheme)}
               {renderMainForm(watch('theme'), feedbackTheme)}
