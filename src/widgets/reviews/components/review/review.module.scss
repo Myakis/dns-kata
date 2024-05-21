@@ -1,0 +1,250 @@
+.owOpinions {
+  position: relative;
+}
+.owOpinion {
+  padding-bottom: 15px;
+  position: relative;
+  + {
+    .owOpinion {
+      margin-top: 20px;
+    }
+  }
+}
+.owOpinions__item:not(:last-child) {
+  border-bottom: 1px solid #d9d9d9;
+}
+.owOpinion__header {
+  margin-bottom: 28px;
+}
+.owOpinion__headerTop {
+  margin-bottom: 13px;
+}
+.owOpinion__headerLeft {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.profileInfo__user {
+  align-items: center;
+  display: flex;
+}
+.profileInfo__avatarWrapper {
+  display: flex;
+  height: 46px;
+  margin-right: 15px;
+  position: relative;
+  width: 46px;
+}
+.profileInfo__avatar {
+  align-items: center;
+  border-radius: 50%;
+  display: flex;
+  height: 46px;
+  justify-content: center;
+  padding: 4px;
+  width: 46px;
+  img {
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+  }
+}
+.profileInfo__level {
+  position: absolute;
+}
+.profileInfo__userData {
+  align-items: center;
+  display: flex;
+}
+.profileInfo__name {
+  color: #0d61af;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  height: 26px;
+  margin-right: 12px;
+  transition-duration: 0.3s;
+}
+.profileInfo__activity {
+  .owOpinion__dateSite {
+    display: flex;
+    flex-direction: column;
+  }
+}
+.owOpinion__dateSite {
+  color: #8c8c8c;
+  font-size: 14px;
+}
+.owOpinion__date {
+  margin-right: 9px;
+}
+.owOpinion__rating {
+  display: none;
+}
+.starRating__star {
+  svg {
+    path {
+      fill: transparent;
+      stroke: #ff7400;
+    }
+  }
+  padding: 0 5px;
+  display: contents;
+}
+.starRating__stars {
+  display: flex;
+  span[data-state='selected'] {
+    svg {
+      path {
+        fill: #ff7400;
+        stroke: #ff7400;
+      }
+    }
+  }
+}
+.owOpinionMobile__userRatings {
+  padding-top: 12px;
+  .opinionRatingSlider__tab {
+    background: #eee;
+    border-radius: 8px;
+    .starRating__star {
+      span {
+        padding: 0 5px;
+      }
+    }
+  }
+  .opinionRatingSlider__tabTitle {
+    color: #000;
+    display: inline-flex;
+    flex-direction: row-reverse;
+  }
+}
+.opinionRatingSlider {
+  color: inherit;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+.opinionRatingSlider__tab {
+  display: flex;
+  margin-right: 8px;
+  outline: none;
+}
+.opinionRatingSlider__tabTitle {
+  align-items: center;
+  font-size: 14px;
+  padding: 8px;
+  white-space: nowrap;
+}
+.opinionRatingSlider__tabTitle_name {
+  margin-right: 5px;
+}
+.opinionMulticard {
+  margin-bottom: 23px;
+}
+.opinionMulticardSlider {
+  color: inherit;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  scrollbar-width: thin;
+}
+.opinionMulticardSlider__tab {
+  align-items: center;
+  background: #eee;
+  border-radius: 8px;
+  display: flex;
+  font-size: 14px;
+  margin-right: 8px;
+  outline: none;
+  padding: 8px;
+  white-space: nowrap;
+}
+.owOpinion__infoList {
+  margin: 0;
+  padding: 0;
+}
+.owOpinion__infoListItem {
+  color: #3a3a3a;
+  font-size: 14px;
+  list-style: none;
+  margin-bottom: 8px;
+}
+.owOpinion__infoTitle {
+  font-weight: 700;
+  margin-right: 4px;
+}
+.owOpinion__text {
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+.owOpinion__textTitle {
+  align-items: center;
+  display: flex;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.owOpinion__textDesc {
+  line-height: 24px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+@media (min-width: 768px) {
+  .owOpinion__headerTop {
+    margin-bottom: 13px;
+  }
+  .owOpinion__headerLeft {
+    margin-bottom: 0;
+  }
+  .owOpinion__infoListItem {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+}
+@media (min-width: 992px) {
+  .owOpinionMobile__userRatings {
+    overflow: hidden;
+    .opinionRatingSlider__tab {
+      .starRating {
+        margin-top: -2px;
+        max-height: 20px;
+      }
+      .starRating__star {
+        span {
+          display: inline-block;
+          transform: scale(0.5);
+          margin: 0 -4px;
+          padding: 0;
+        }
+      }
+      span[data-state='selected'] {
+        svg {
+          path {
+            fill: #ffa319;
+            stroke: #ffa319;
+          }
+        }
+      }
+      span {
+        svg {
+          path {
+            fill: #afafaf;
+            stroke: #afafaf;
+          }
+        }
+      }
+    }
+    .opinionRatingSlider__tabTitle {
+      color: #000;
+      display: inline-flex;
+      flex-direction: row-reverse;
+      align-items: self-end;
+    }
+  }
+  .opinionMulticard {
+    margin-right: -16px;
+    overflow: hidden;
+  }
+}

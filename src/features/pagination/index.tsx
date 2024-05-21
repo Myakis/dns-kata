@@ -55,15 +55,16 @@ const DnsPagination: FC<IDnsPagination> = ({ handleShowMore, handlePage, page, p
               handlePage(page);
             }}
             itemRender={(page, type) => {
-              if (type === 'prev') {
-                return <i className={` ${style['fastButton']} ${style['prevButton']}`}></i>;
-              }
-              if (type === 'next') {
-                return <i className={`${style['fastButton']} ${style['nextButton']}`}></i>;
-              }
-              if (type === 'page') {
-                return <p className={style['pageButton']}>{page}</p>;
-              }
+              const btnElements = {
+                page: <p className={style['pageButton']}>{page}</p>,
+                prev: <i className={` ${style['fastButton']} ${style['prevButton']}`}></i>,
+                next: <i className={`${style['fastButton']} ${style['nextButton']}`}></i>,
+                'jump-prev': <i></i>,
+                'jump-next': <i></i>,
+                // в типе type jumps иконки обязательны, а по факту отключены
+              };
+
+              return btnElements[type];
             }}
           />
         </ConfigProvider>

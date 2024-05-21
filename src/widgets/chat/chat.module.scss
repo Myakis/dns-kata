@@ -1,0 +1,272 @@
+@import '../../app/styles/mixins.scss';
+
+p {
+    padding: 0;
+    margin: 0;
+}
+
+.btns {
+    border: none;
+    background: transparent;
+}
+
+.modal {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    align-content: flex-start;
+    position: fixed;
+    width: 360px;
+    height: 628px;
+    max-height: 630px;
+    color: var(--text-color);
+    background: #fff;
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, .2);
+    transition: all .5s ease;
+    border-radius: 8px;
+    right: 24px;
+    transform: none;
+    &.disabled {
+        visibility: hidden;
+        bottom: 50px;
+        opacity: 0;   
+    }
+    &.active {
+        visibility: visible;
+        bottom: 115px;
+    }
+
+    @media (max-width: 990px) {
+        width: 100vw;
+        min-height: 100vh;
+        bottom: 0;
+        right: 0;
+        top: 0;
+        transition: none;
+        padding-bottom: 65px;
+    }
+}
+
+.modalHeader {
+    margin: auto;
+    padding: 12px 0 12px 0;
+    height: auto;
+    text-align: center;
+    width: 100%;
+    z-index: 2;
+    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, .05);
+
+    @media (max-width: 990px) {
+        display: grid;
+        grid-template-columns: 95% 5%;
+        align-items: center;
+     }
+
+}
+
+.modalHeader h2 {
+    font-size: 18px;
+    font-weight: 400;
+    @media (max-width: 990px) {
+        justify-self: center;
+    }
+}
+
+.mobileExitBtn {
+    &.active {
+        cursor: pointer;
+        i::before {
+            content: "\e014";
+        display: inline-block;
+        font-family: 'i-icon';
+        line-height: 1;
+        color: #8c8c8c;
+        font-size: 24px;
+        font-weight: 400;
+        font-style: normal;
+        }
+    }
+    &:hover i::before {
+        color: var(--text-color);
+    }
+    &.disabled {
+        display: none;
+    }
+    @media (max-width: 990px) {
+        margin-right: 5px;
+    }
+}
+
+.contentWrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    height: 515px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-size: 16px;
+    padding: 54px 15px 15px 15px;
+
+    &::-webkit-scrollbar {
+        width: 7px;
+    }
+  
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 6px;
+    }
+
+    @media (max-width: 990px) {
+       height: auto;
+       padding: 54px 20px 20px 20px;
+    }
+}
+
+.dnsMessage {   
+    display: flex;
+    column-gap: 10px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+}
+
+.startMessage {
+    background: rgb(242, 242, 242);
+    border-radius: 10px;
+    padding: 10px 15px;
+}
+
+.dnsText {
+    line-height: 20px;
+    color: var(--dark-gray);
+}
+
+.issuesList {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 20px;
+    row-gap: 12px;
+}
+
+.btn {
+    box-sizing: border-box;
+    background: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    padding: 8px;
+    line-height: 1.42857;
+}
+
+.userMessage {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.userText {
+    background-image: linear-gradient(-180deg, rgb(20, 189, 240), rgb(0, 142, 248));
+    border-radius: 12px 12px 0px;
+    color: rgb(255, 255, 255);
+    display: block;
+    word-wrap: break-word;
+    padding: 8px 16px;
+    max-width: 100%;
+}
+
+.time {
+    color: #AFAFAF;
+    font-size: 12px;
+}
+
+.sendPanel {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    padding: 0 7px;
+    column-gap: 8px;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    height: auto;
+    min-height: 65px;
+    font-size: 0;
+    box-shadow: 0 -8px 20px 0 rgba(0, 0, 0, .05);
+    background: hsla(0, 0%, 100%, .8);
+    border-radius: 0 0 8px 8px;
+    @media (max-width: 990px) {
+        padding: 0 20px;
+     }
+}
+
+.dropBtn {
+    @include background-img('../../app/assets/img/chat/clip.svg', 24px, 24px);
+    background-size: 50%;
+}
+
+.dropBtn:hover {
+    cursor: pointer;
+}
+
+.form {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    width: 100%;
+    height: 100%;
+}
+
+.input {
+    display: inline-block;
+    background-color: #f2f2f2;
+    color: #4e4e4e;
+    border: none;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+    min-height: 40px;
+    outline: none;
+    width: 260px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    vertical-align: middle;
+    padding: 12px 40px 12px 12px;
+    max-height: 104px;
+    overflow: auto;
+    @media (max-width: 990px) {
+        width: 100%;
+    }
+}
+
+.sendBtn {
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    background-image: linear-gradient(-180deg, #14bdf0, #008ef8);
+    border-radius: 50%;
+    &.disabled {
+        opacity: .5;
+        cursor: default;
+    }
+    &.active {
+        opacity: 1;
+        cursor: pointer;
+    }
+}
+
+.sendBtn::before {
+    @include background-img('../../app/assets/img/chat/send-icon.svg', 12.39px, 13.3px, inline-block);
+    text-align: center;
+}
+

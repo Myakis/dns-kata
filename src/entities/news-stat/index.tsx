@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import clsx from 'clsx';
 
 import style from './style.module.scss';
 
@@ -20,7 +21,7 @@ const NewsStat: FC<INewsStat> = ({ stat }) => {
 
   return (
     <>
-      <div className={`${style['stat']} ${!stat.commentsCount ? style['off-border'] : null}`}>
+      <div className={clsx(style.stat, !stat.commentsCount ? style.offBorder : null)}>
         <div className={style['stat__container']}>
           <p>{formatDate(stat.date)}</p>
         </div>

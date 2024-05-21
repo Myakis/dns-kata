@@ -1,0 +1,156 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: #f6f6f6;
+  font-family: 'PT Sans', sans-serif;
+}
+img {
+  vertical-align: middle;
+}
+p {
+  margin: 0 0 10px;
+}
+.owOpinionsContainer {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  padding: 24px;
+}
+.opinionsWidget__filters {
+  border-bottom: 1px solid #d9d9d9;
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+}
+.owFilters__countsFiltersWrapper {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  padding-bottom: 20px;
+}
+.owFilters__countFilterBtn {
+  background-color: #f2f2f2;
+  border-radius: 8px;
+  color: #4e4e4e;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  font-weight: 400;
+  margin: 4px 8px 0 0;
+  padding: 8px 12px;
+  white-space: nowrap;
+}
+.owFilters__countFilterBtn_active {
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  color: #333;
+  font-size: 16px;
+  font-weight: 700;
+}
+.owFilters__countFilterBtnCount {
+  padding-left: 5px;
+}
+.owFilters__countFilterBtnCount_active {
+  color: #8c8c8c;
+}
+.owOpinions {
+  position: relative;
+}
+.owOpinions__notFound_image {
+  background-image: url('../../app/assets/img/reviews/alien.png');
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 210px;
+  margin: 0 auto;
+  width: 220px;
+}
+.owOpinions__notFound_title {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 26px;
+}
+.owOpinions__notFound_text {
+  color: #4e4e4e;
+  font-size: 14px;
+  line-height: 21px;
+  margin-bottom: 16px;
+}
+.owOpinions__notFound_button {
+  width: 100%;
+}
+.buttonUi {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 16px;
+  justify-content: center;
+  line-height: 24px;
+  outline: none;
+  overflow: hidden;
+  padding: 0;
+  &:hover {
+    transition: opacity 0.3s;
+    filter: brightness(99%);
+  }
+}
+.buttonUi_white {
+  color: #333;
+  background: #fff;
+  border-color: #d9d9d9;
+}
+.buttonUi_md {
+  height: 44px;
+  padding: 10px 19px;
+  white-space: nowrap;
+}
+.starRating {
+  display: flex;
+}
+.paginatorWidget__block {
+  background-color: #fff;
+  border: 1px solid #f2f2f2;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  display: flex;
+  height: 48px;
+}
+.paginatorWidget__block_above {
+  margin-bottom: 16px;
+}
+.paginatorWidget__more {
+  align-items: center;
+  display: flex;
+  font-size: 16px;
+  justify-content: center;
+  width: 100%;
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+@media (min-width: 768px) {
+  .paginatorWidget__block {
+    height: 58px;
+  }
+  .owOpinions__notFound {
+    display: flex;
+    padding: 8px;
+  }
+  .owOpinions__notFound_content {
+    flex-grow: 1;
+    text-align: left;
+  }
+  .owOpinions__notFound_button {
+    width: auto;
+  }
+}
+@media (min-width: 1200px) {
+  .paginatorWidget__block {
+    height: 52px;
+  }
+}

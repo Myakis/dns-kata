@@ -54,7 +54,7 @@ const CitiesModalPage404: FC<CitiesModalProps> = ({ isModalOpen, closeModalHandl
   }, [isModalOpen]);
 
   return (
-    <div className={styles['cities-modal']}>
+    <div className={styles['cities-modal']} onMouseDown={(e) => e.stopPropagation()}>
       <div className={classes} onClick={(e) => e.stopPropagation()}>
         <CloseOutlined
           className={styles['cities-modal__close-icon']}
