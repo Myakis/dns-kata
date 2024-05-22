@@ -53,7 +53,7 @@ const FeedbackModal: FC<IModalFeedback> = ({ data, currentState, setCurrentState
     return (modalOpen === 'down' ? style[classDown] : null) || (modalOpen === 'up' ? style[classUp] : null);
   };
 
-  const handleOpenModal = (e: any) => {
+  const handleOpenModal = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     const cursorPositionY = window.innerHeight - e.clientY;
 
     setModalOpen((prevModal) => {
@@ -64,11 +64,15 @@ const FeedbackModal: FC<IModalFeedback> = ({ data, currentState, setCurrentState
     });
   };
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
   const modalRef = useClickOutside(() => setModalOpen('')); //как же шикарно
 
   return (
     <div className={style.form_modal}>
-      <span className={clsx(style.form_modalBtn, upDownClass('btnDown', 'btnUp'))} onClick={(e) => handleOpenModal(e)}>
+      <span className={clsx(style.form_modalBtn, upDownClass('btnDown', 'btnUp'))} onClick={handleOpenModal}>
         <span className={clsx(style.modalBtn_text, currentState ? style.text_black : null)}>
           {currentState || 'Не выбрано'}
         </span>
@@ -78,7 +82,7 @@ const FeedbackModal: FC<IModalFeedback> = ({ data, currentState, setCurrentState
       <div className={clsx(style.form_modalMenu, upDownClass('modalDown', 'modalUp'))} ref={modalRef}>
         <div className={style.modal}>
           <div className={style.modal_inputDiv}>
-            <input className={style.input} value={search} onChange={(e) => setSearch(e.target.value)} />
+            <input className={style.input} value={search} onChange={handleSearch} />
           </div>
           <div className={style.modal_ulDiv}>
             <ul>{ListItems(data)}</ul>

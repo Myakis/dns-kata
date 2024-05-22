@@ -22,7 +22,7 @@ const HelpNav: FC = () => {
 
       return (
         <li key={self.crypto.randomUUID()}>
-          <a className={clsx(itemIcon, itemActive)} onClick={(e) => handlerItem(e)} target='' href={item.href}>
+          <a className={clsx(itemIcon, itemActive)} onClick={handlerItem} target='' href={item.href}>
             <i></i>
             {item.title}
           </a>
