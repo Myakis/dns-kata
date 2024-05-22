@@ -11,7 +11,7 @@ interface IModalFeedback {
   setCurrentState: (form: string) => void;
 }
 
-const ModalFeedback: FC<IModalFeedback> = ({ data, currentState, setCurrentState }) => {
+const FeedbackModal: FC<IModalFeedback> = ({ data, currentState, setCurrentState }) => {
   const [search, setSearch] = useState('');
   const [modalOpen, setModalOpen] = useState('');
 
@@ -89,4 +89,4 @@ const ModalFeedback: FC<IModalFeedback> = ({ data, currentState, setCurrentState
   );
 };
 
-export default ModalFeedback;
+export default FeedbackModal;

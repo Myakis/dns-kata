@@ -1,6 +1,7 @@
 .form_modal {
   position: relative;
   overflow: visible;
+  z-index: 3;
 
   .form_modalBtn {
     display: flex;
@@ -68,7 +69,7 @@
   }
 
   .form_modalMenu {
-    z-index: 1;
+    z-index: 3;
     display: none;
     position: absolute;
     width: 100%;

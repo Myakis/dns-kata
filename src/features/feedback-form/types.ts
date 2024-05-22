@@ -1,4 +1,4 @@
-export type FeedbackForm = {
+export type TFeedbackForm = {
   theme: string;
   name: string;
   email: string;
