@@ -7,3 +7,8 @@ export type TFeedbackForm = {
   city: string;
   photo: any;
 };
+
+export interface IFeedbackForm {
+  data: { theme: string; sections: string[] }[];
+  currentChapter: string;
+}
