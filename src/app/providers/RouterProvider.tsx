@@ -29,6 +29,7 @@ import { currentCitySlice } from 'shared/store/slices/current-city-slice';
 // Импортируем currentCitySlice из директории shared/store/slices/current-city-slice.
 
 import Shops from 'widgets/shops';
+import ShopCard from 'pages/shopCard';
 // Импортируем компонент Shops из директории widgets/shops.
 
 const router = createBrowserRouter([
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
     path: '/shops/:city',
     element: <Shops />,
     // Определяем маршрут для страниц магазинов, который рендерит компонент Shops.
+  },
+  {
+    path: '/shops/:city/:id',
+    element: <ShopCard />,
   },
   {
     path: '/stocks',

@@ -3,9 +3,11 @@ import { AppstoreOutlined, HeartOutlined, MobileOutlined } from '@ant-design/ico
 import { FC } from 'react'; // Импортируем тип FC (Functional Component) из библиотеки React
 import { ICoord } from 'widgets/shops/shops.types'; // Импортируем тип ICoord из файла widgets/shops/shops.types
 import styles from './shop-item.module.scss'; // Импортируем стили из файла shop-item.module.scss
+import { Link } from 'react-router-dom';
 
 // Определяем интерфейс ShopItemProps для пропсов компонента
 interface ShopItemProps {
+  id: number;
   name: string; // Название магазина
   address: string; // Адрес магазина
   coords: number[]; // Координаты магазина
@@ -13,7 +15,7 @@ interface ShopItemProps {
 }
 
 // Определяем функциональный компонент ShopItem
-const ShopItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }) => {
+const ShopItem: FC<ShopItemProps> = ({ id, name, address, coords, clickHandler }) => {
   return (
     <div className={styles['shop-item']}>
       <HeartOutlined className={styles['shop-item__like']} /> {/* Иконка "Избранное" */}
@@ -27,7 +29,9 @@ const ShopItem: FC<ShopItemProps> = ({ name, address, coords, clickHandler }) =>
             })
           }
         >
-          {name} {/* Отображаем название магазина */}
+          <Link to={`${id}?latitude=${coords[0]}&longitude=${coords[1]}`}>
+            {name} {/* Отображаем название магазина */}
+          </Link>
         </span>
         <div className={styles['shop-item__title-icon']}>
           <AppstoreOutlined /> {/* Иконка "Магазин" */}

@@ -70,5 +70,5 @@ export const DnsAPI = createApi({
   }),
 });
 
-export const { useGetStocksQuery, useGetVacanciesQuery, useGetNewsQuery, useGetReviewsQuery } = DnsAPI;
+export const { useGetShopsQuery, useGetStocksQuery, useGetVacanciesQuery, useGetNewsQuery, useGetReviewsQuery } = DnsAPI;
 // Экспортируем хуки для запросов: useGetStocksQuery, useGetVacanciesQuery, useGetNewsQuery, useGetReviewsQuery, которые создаются автоматически функцией createApi.

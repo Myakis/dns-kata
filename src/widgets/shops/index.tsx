@@ -165,6 +165,7 @@ const Shops = () => {
                         return (
                           <ShopItem
                             key={i.id}
+                            id={i.id}
                             name={i.name}
                             address={i.streetAddress}
                             coords={i.location}
