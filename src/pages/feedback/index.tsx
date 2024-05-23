@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { useAppSelector } from 'shared/hooks/redux';
 import { useForm } from 'react-hook-form';
 
-import type { TFeedbackForm, IFeedbackForm } from './types';
+import type { TForm, IForm } from './types';
 import { feedbaackMessage, feedbackThemes, cityCollection } from './constants';
 import HelpNav from 'features/help-nav';
 import FeedbackModal from 'features/feedback-modal';
@@ -11,7 +11,7 @@ import Layout from 'pages/layout';
 
 import style from './style.module.scss';
 
-const FeedbackForm: FC<IFeedbackForm> = ({ data, currentChapter }) => {
+const Form: FC<IForm> = ({ dataThemes, currentChapter }) => {
   const stateCity = useAppSelector((state) => state.currentCity.name);
   const [currentCity, setCurrentCity] = useState('' || stateCity);
   const [fileModal, setFileModal] = useState(false);
@@ -24,14 +24,14 @@ const FeedbackForm: FC<IFeedbackForm> = ({ data, currentChapter }) => {
     reset,
     watch,
     setValue,
-  } = useForm<TFeedbackForm>();
+  } = useForm<TForm>({ criteriaMode: 'all', defaultValues: { photo: null, chapter: currentChapter } });
 
+  // сброс формы пры изменении раздела
   useEffect(() => {
     reset();
-    setValue('theme', '');
-  }, [currentChapter, reset, setValue]);
+  }, [currentChapter, reset]);
 
-  const RadioThemes = (dataBtns: { theme: string; sections: string[] }[]) => {
+  const radioThemesBtn = (dataBtns: { theme: string; sections: string[] }[]) => {
     const theme = dataBtns.find((item) => item.theme === currentChapter);
 
     return theme?.sections.map((item) => {
@@ -44,12 +44,6 @@ const FeedbackForm: FC<IFeedbackForm> = ({ data, currentChapter }) => {
         </div>
       );
     });
-  };
-
-  const UploadFiles = (watch: any = {}) => {
-    return Object.keys(watch)
-      .map((item) => watch[item].name)
-      .join(', ');
   };
 
   const handleUploadDrug = (e: React.DragEvent<HTMLDivElement>) => {
@@ -73,19 +67,45 @@ const FeedbackForm: FC<IFeedbackForm> = ({ data, currentChapter }) => {
     setValue('photo', null);
   };
 
-  const onSubmit = (form: any) => {
-    reset();
-    const resultForm = { ...form, theme: currentChapter + ' ' + form.theme, city: currentCity };
+  // вывод названий файлов в виде кнопки
+  const uploadFilesBtn = (photo: object | any) => {
+    if (!photo) {
+      return 'выберите на компьютере';
+    }
 
-    console.log(resultForm);
+    const fileNames = Object.keys(photo)
+      .map((item) => photo[item].name)
+      .join(', ');
+
+    return (
+      <>
+        {fileNames}
+        <button className={style.clearBtn} onClick={handleUloadClear}>
+          Очистить
+        </button>
+      </>
+    );
   };
 
-  const sectionsTheme = data.find((item) => item.theme === currentChapter);
+  // вывод ошибок формы
+  const inputErrors = (errors: any) => {
+    const res: string[] = Object.keys(errors).map((item) => errors[item].message);
+
+    return res.join(', ');
+  };
+
+  const onSubmit = (form: TForm) => {
+    console.log({ ...form, city: currentCity });
+    reset({}, { keepDefaultValues: true });
+  };
+
+  const dataCurrentTheme = dataThemes.find((item) => item.theme === currentChapter);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {RadioThemes(data)}
-      {currentChapter && (!sectionsTheme?.sections.length || watch('theme')) && (
+      {radioThemesBtn(dataThemes)}
+
+      {currentChapter && (!dataCurrentTheme?.sections.length || watch('theme')) && (
         <>
           <div className={style.form_message}>
             <textarea
@@ -126,11 +146,8 @@ const FeedbackForm: FC<IFeedbackForm> = ({ data, currentChapter }) => {
             />
           </div>
 
-          <div className={style.form_error}>
-            {errors.email && <p className={style.inputInvalid}>{errors.email.message}</p>}
-            {errors.message && <p className={style.inputInvalid}>{errors.message.message}</p>}
-            {errors.name && <p className={style.inputInvalid}>{errors.name.message}</p>}
-            {errors.phone && <p className={style.inputInvalid}>{errors.phone.message}</p>}
+          <div className={clsx(style.form_error, !Object.keys(errors).length && style.dspl_none)}>
+            {inputErrors(errors)}
           </div>
 
           <div className={style.form_city}>
@@ -149,20 +166,12 @@ const FeedbackForm: FC<IFeedbackForm> = ({ data, currentChapter }) => {
               <p>
                 Перетащите файлы, или&#32;
                 <label className={style.inputFile}>
-                  {!watch('photo') ? (
-                    'выберите на компьютере'
-                  ) : (
-                    <>
-                      {UploadFiles(watch('photo'))}
-                      <button className={style.clearBtn} onClick={handleUloadClear}>
-                        Очистить
-                      </button>
-                    </>
-                  )}
+                  {uploadFilesBtn(watch('photo'))}
                   <input type='file' multiple {...register('photo')} />
                 </label>
               </p>
             </div>
+
             <div className={style.attachment}>
               <p>Требования к файлам</p>
               <i
@@ -180,9 +189,11 @@ const FeedbackForm: FC<IFeedbackForm> = ({ data, currentChapter }) => {
               )}
             </div>
           </div>
+
           <button className={style.form_submit} type='submit'>
             Отправить обращение
           </button>
+
           <div className={style.form_politics}>
             <p>
               Нажимая кнопку «Отправить», Вы соглашаетесь c <a href='/'>Политикой конфиденциальности</a> и
@@ -199,7 +210,7 @@ const FeedbackForm: FC<IFeedbackForm> = ({ data, currentChapter }) => {
 const FeedbackPage: FC = () => {
   const [currentChapter, setCurrentChapter] = useState('');
 
-  const MessageRules = (dataText: { title: string; bold: boolean }[]) => {
+  const messageRules = (dataText: { title: string; bold: boolean }[]) => {
     return dataText.map((item) => {
       return (
         <li key={self.crypto.randomUUID()} className={clsx(item.bold ? style.liBold : null)}>
@@ -220,7 +231,7 @@ const FeedbackPage: FC = () => {
               В целях оперативного рассмотрения ваших обращений просим максимально точно изложить суть вопроса и
               имеющиеся факты.
             </p>
-            <ol>{MessageRules(feedbaackMessage)}</ol>
+            <ol>{messageRules(feedbaackMessage)}</ol>
             <p>Чтобы заполнить форму обращения, пожалуйста, выберите раздел.</p>
             <div className={style.blueBg}>
               <p>
@@ -233,7 +244,7 @@ const FeedbackPage: FC = () => {
             <div className={style.form_theme}>
               <FeedbackModal data={feedbackThemes} currentState={currentChapter} setCurrentState={setCurrentChapter} />
             </div>
-            <FeedbackForm data={feedbackThemes} currentChapter={currentChapter} />
+            <Form dataThemes={feedbackThemes} currentChapter={currentChapter} />
           </div>
         </div>
       </div>

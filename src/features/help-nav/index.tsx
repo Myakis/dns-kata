@@ -8,7 +8,7 @@ import style from './style.module.scss';
 const HelpNav: FC = () => {
   const [active, setActive] = useState('dialog');
 
-  const NavItems = (data: LinkPageType) => {
+  const navItems = (data: LinkPageType) => {
     return data.map((item) => {
       const itemIcon = item.icon ? style[item.icon] : '';
       const itemActive = active === item.icon ? style.active : null;
@@ -36,10 +36,10 @@ const HelpNav: FC = () => {
       <div className={style.helpNav}>
         <div className={style.nav}>
           <div className={style.pages}>
-            <ul>{NavItems(Pages)}</ul>
+            <ul>{navItems(Pages)}</ul>
           </div>
           <div className={style.links}>
-            <ul>{NavItems(Links)}</ul>
+            <ul>{navItems(Links)}</ul>
           </div>
         </div>
       </div>

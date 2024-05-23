@@ -1,14 +1,16 @@
-export type TFeedbackForm = {
+export type TForm = {
+  chapter: string;
   theme: string;
   name: string;
+  city: string;
   email: string;
   phone: number;
   message: string;
-  city: string;
-  photo: any;
+  photo: object | null;
+  multipleErrorInput: string;
 };
 
-export interface IFeedbackForm {
-  data: { theme: string; sections: string[] }[];
+export interface IForm {
+  dataThemes: { theme: string; sections: string[] }[];
   currentChapter: string;
 }

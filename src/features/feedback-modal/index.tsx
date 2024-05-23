@@ -19,7 +19,7 @@ const FeedbackModal: FC<IModalFeedback> = ({ data, currentState, setCurrentState
     setModalOpen('');
   }, [currentState]);
 
-  const ListItems = (data: { theme: string; sections: string[] }[] | string[]) => {
+  const listItems = (data: { theme: string; sections: string[] }[] | string[]) => {
     let res = data.map((item) => {
       if (typeof item === 'object') {
         return item.theme;
@@ -85,7 +85,7 @@ const FeedbackModal: FC<IModalFeedback> = ({ data, currentState, setCurrentState
             <input className={style.input} value={search} onChange={handleSearch} />
           </div>
           <div className={style.modal_ulDiv}>
-            <ul>{ListItems(data)}</ul>
+            <ul>{listItems(data)}</ul>
           </div>
         </div>
       </div>

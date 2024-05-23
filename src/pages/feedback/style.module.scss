@@ -124,10 +124,17 @@
 }
 
 .form_error {
+  padding: 20px;
+  border-radius: 10px;
   margin-top: 15px;
   width: 100%;
   color: var(--error-color);
   text-align: center;
+  background-color: rgb(255, 216, 216);
+
+  &.dspl_none {
+    display: none;
+  }
 }
 
 .form_city {
