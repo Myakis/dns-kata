@@ -185,14 +185,26 @@ ol.breadcrumb-list {
   width: 48px;
 }
 
-.shop-image-slider button[disabled] {
-  display: none;
-}
+// .shop-image-slider button[disabled] {
+//   display: none;
+// }
 
 .shop-image-slider button[data-controls='prev'] {
   box-shadow: inset 76px 0 61px -35px #fff;
   left: 0;
   text-align: left;
+}
+
+.shop-image-slider button[data-controls='prev']::before {
+  content: '\e99a';
+  speak: none;
+  display: inline-block;
+  font-family: i-icon !important;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 1;
+  text-transform: none;
 }
 
 .shop-image-slider button[data-controls='next'] {
@@ -240,7 +252,6 @@ ol.breadcrumb-list {
   -webkit-transition: all 0s;
   -moz-transition: all 0s;
   transition: all 0s;
-  transform: translate3d(0px, 0px, 0px);
 }
 
 #tns1 > .tns-item {
