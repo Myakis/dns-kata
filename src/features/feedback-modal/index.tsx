@@ -68,10 +68,10 @@ const FeedbackModal: FC<IModalFeedback> = ({ data, currentState, setCurrentState
     setSearch(e.target.value);
   };
 
-  const modalRef = useClickOutside(() => setModalOpen('')); //как же шикарно
+  const modalRef = useClickOutside(() => setModalOpen(''), style.form_modalBtn); //как же шикарно
 
   return (
-    <div className={style.form_modal}>
+    <div className={style.form_modal} ref={modalRef}>
       <span className={clsx(style.form_modalBtn, upDownClass('btnDown', 'btnUp'))} onClick={handleOpenModal}>
         <span className={clsx(style.modalBtn_text, currentState ? style.text_black : null)}>
           {currentState || 'Не выбрано'}
@@ -79,7 +79,7 @@ const FeedbackModal: FC<IModalFeedback> = ({ data, currentState, setCurrentState
         <span className={clsx(style.modalBtn_icon, upDownClass('iconDown', 'iconUp'))}></span>
       </span>
 
-      <div className={clsx(style.form_modalMenu, upDownClass('modalDown', 'modalUp'))} ref={modalRef}>
+      <div className={clsx(style.form_modalMenu, upDownClass('modalDown', 'modalUp'))}>
         <div className={style.modal}>
           <div className={style.modal_inputDiv}>
             <input className={style.input} value={search} onChange={handleSearch} />
