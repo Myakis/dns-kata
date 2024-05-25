@@ -1474,10 +1474,38 @@ textarea.form-control {
 .media-viewer-slider__arrow {
   display: flex;
   justify-content: center;
+
+  &::before {
+    color: #666;
+  }
 }
 
 .media-viewer-slider .tns-controls > *:last-child {
   right: 10px;
+}
+
+.media-viewer-slider__arrow_left::before {
+  content: '\e99a';
+  font-family: 'i-icon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  display: inline-block;
+  line-height: 1;
+}
+
+.media-viewer-slider__arrow_right::before {
+  content: '\e99b';
+  font-family: 'i-icon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  display: inline-block;
+  line-height: 1;
 }
 
 .tns-visually-hidden {

@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react';
+import { FC, useRef, useState, useEffect } from 'react';
 import './shopCard.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetShopsQuery } from 'shared/api/DNS';
@@ -35,10 +35,41 @@ const ShopCard: FC = () => {
   const [next, setNext] = useState(0); // Состояние для кнопки слайдера
   const totalSlides = shopImages.length; // Общее количество слайдов
   const [sliderLength, setSliderLength] = useState(totalSlides * 150);
+  const [sliderLengthFullscreen, setSliderLengthFullscreen] = useState(totalSlides * 82);
   const initialSliderLength = useRef(sliderLength);
+  const initialSliderLengthFullscreen = useRef(sliderLengthFullscreen);
   // State для отслеживания полноэкранного режима
   const [fullscreenMode, setFullscreenMode] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
+  const [nextFullscreen, setNextFullscreen] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (!fullscreenMode) return;
+
+      const tnsControls = document.querySelector('.tns-controls');
+
+      if (tnsControls) {
+        if (window.innerWidth >= sliderLengthFullscreen && nextFullscreen === 0) {
+          tnsControls.style.display = 'none';
+        } else {
+          tnsControls.style.display = 'initial';
+        }
+      }
+    };
+
+    if (fullscreenMode) {
+      window.addEventListener('resize', handleResize);
+    } else {
+      window.removeEventListener('resize', handleResize);
+    }
+
+    handleResize(); // Call initially in case we enter fullscreen mode
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [fullscreenMode, sliderLengthFullscreen]);
 
   // Функция для переключения между режимами слайдера и полноэкранного режима
   const toggleFullscreenMode = (id) => {
@@ -55,6 +86,25 @@ const ShopCard: FC = () => {
     setNext((prev) => prev + 150);
     setSliderLength((prev) => prev + 150);
   };
+
+  const moveSlidesRightFullscreen = () => {
+    const screenWidth = window.innerWidth;
+
+    if (screenWidth <= sliderLengthFullscreen) {
+      setNextFullscreen((prev) => prev - 82);
+      setSliderLengthFullscreen((prev) => prev - 82);
+    }
+  };
+
+  const moveSlidesLeftFullscreen = () => {
+    if (sliderLengthFullscreen < initialSliderLengthFullscreen.current) {
+      setNextFullscreen((prev) => prev + 82);
+      setSliderLengthFullscreen((prev) => prev + 82);
+    }
+  };
+
+  console.log('Экран:', window.innerWidth);
+  console.log('sliderLengthFullscreen:', sliderLengthFullscreen);
 
   // Функция для получения query параметров из URL
   const getQueryParams = () => {
@@ -193,12 +243,24 @@ const ShopCard: FC = () => {
               <div class='media-viewer-slider media-viewer-image__slider'>
                 <div class='tns-outer' id='tns8-ow'>
                   <div class='tns-controls' aria-label='Carousel Navigation' tabindex='0' style={{ display: 'none' }}>
-                    <button type='button' data-controls='prev' tabindex='-1' aria-controls='tns8'>
+                    <button
+                      type='button'
+                      data-controls='prev'
+                      tabindex='-1'
+                      aria-controls='tns8'
+                      onClick={moveSlidesLeftFullscreen}
+                    >
                       <div class='media-viewer-slider__arrow media-viewer-slider__arrow_left'>
                         <i></i>
                       </div>
                     </button>
-                    <button type='button' data-controls='next' tabindex='-1' aria-controls='tns8'>
+                    <button
+                      type='button'
+                      data-controls='next'
+                      tabindex='-1'
+                      aria-controls='tns8'
+                      onClick={moveSlidesRightFullscreen}
+                    >
                       <div class='media-viewer-slider__arrow media-viewer-slider__arrow_right'>
                         <i></i>
                       </div>
@@ -212,7 +274,10 @@ const ShopCard: FC = () => {
                       <div
                         class='media-viewer-slider__wrap  tns-slider tns-carousel tns-subpixel tns-calc tns-autowidth tns-horizontal'
                         id='tns8'
-                        style={{ transitionDuration: '0.3s', transform: 'translate3d(px, 0px, 0px)' }}
+                        style={{
+                          transform: `translate3d(${nextFullscreen}px, 0px, 0px)`,
+                          transition: 'transform 500ms ease 0s',
+                        }}
                       >
                         {shopImages.map((image) => generaTnsItem(image))}
                       </div>
