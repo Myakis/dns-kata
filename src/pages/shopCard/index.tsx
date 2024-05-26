@@ -1,14 +1,38 @@
 import { FC, useRef, useState, useEffect } from 'react';
-import './shopCard.scss';
+import styles from './shopCard.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetShopsQuery } from 'shared/api/DNS';
 import Layout from 'pages/layout';
 import { IShop } from 'widgets/shops-page-404/shops-page-404.types';
+import clsx from 'clsx';
 
 interface ShopImage {
   id: number;
   url: string;
 }
+
+// Данные для списка
+const banks = [
+  { name: 'КБ "Ренессанс Кредит" (ООО)' },
+  { name: 'ПАО "Совкомбанк"' },
+  { name: 'ПАО "Сбербанк"' },
+  { name: 'АО «Банк Русский Стандарт»' },
+  { name: 'ООО "ХКФ Банк"' },
+  { name: 'АО "ОТП Банк"' },
+  { name: 'АО «Почта Банк»' },
+  { name: 'ПАО «МТС-Банк»' },
+  { name: 'Тинькофф Банк, АО' },
+  { name: 'АО «КРЕДИТ ЕВРОПА БАНК (Россия)»' },
+];
+
+// Функция для рендеринга элемента списка
+const renderBankItem = (bank, index) => (
+  <li key={index} className={clsx(styles.shopPageContent__text_small, styles.shopPageContent__text_darkGray)}>
+    <a className={clsx(styles.uiLink, styles.uiLink_blue)} href='!#'>
+      {bank.name}
+    </a>
+  </li>
+);
 
 const ShopCard: FC = () => {
   const { data: shops, isLoading } = useGetShopsQuery('');
@@ -47,7 +71,7 @@ const ShopCard: FC = () => {
     const handleResize = () => {
       if (!fullscreenMode) return;
 
-      const tnsControls = document.querySelector('.tns-controls');
+      const tnsControls = document.querySelector('.tnsControls');
 
       if (tnsControls) {
         if (window.innerWidth >= sliderLengthFullscreen && nextFullscreen === 0) {
@@ -129,7 +153,7 @@ const ShopCard: FC = () => {
 
   if (isLoading) {
     // Если новости загружаются, отображаем сообщение
-    return <div className='page--warning'>Загружаем...</div>;
+    return <div className={styles.pageWarning}>Загружаем...</div>;
   }
   if (!article) {
     // Если новость не найдена, перенаправляем на страницу ошибки
@@ -142,7 +166,7 @@ const ShopCard: FC = () => {
     return (
       <div
         key={image.id}
-        className='shop-image-slider__item tns-item tns-slide-active'
+        className={clsx(styles.shopImageSlider__item, styles.tnsItem, styles.tnsSlideActive)}
         id={`tns1-item${image.id}`}
         onClick={() => toggleFullscreenMode(image.id)}
       >
@@ -156,16 +180,16 @@ const ShopCard: FC = () => {
     return (
       <div
         key={image.id}
-        className='tns-item tns-slide-active'
+        className={clsx(styles.tnsItem, styles.tnsSlideActive)}
         id={`tns8-item${image.id}`}
         onClick={() => chooseImage(image.id)}
       >
         <picture
-          className={`media-viewer-image__slider-item media-viewer-slider__item ${
-            image.id === imageIndex + 1 ? 'media-viewer-slider__item_active' : ''
-          }`}
+          className={clsx(styles.mediaViewerImage__sliderItem, styles.mediaViewerSlider__item, {
+            mediaViewerSlider__item_active: image.id === imageIndex + 1,
+          })}
         >
-          <img className='media-viewer-image__slider-img' src={image.url} alt='' title='' />
+          <img className={styles.mediaViewerImage__sliderImg} src={image.url} alt='' title='' />
         </picture>
       </div>
     );
@@ -178,13 +202,13 @@ const ShopCard: FC = () => {
   // Функция для переключения на следующий элемент слайдера
   const stepRight = () => {
     // Добавляем класс загрузки
-    const mainImg = document.querySelector('.media-viewer-image__main-img');
+    const mainImg = document.querySelector('.mediaViewerImage__mainImg');
 
-    mainImg.classList.add('media-viewer-image__main-img__loading');
+    mainImg.classList.add('mediaViewerImage__mainImg__loading');
 
     // Через 1 секунду удаляем класс загрузки
     setTimeout(() => {
-      mainImg.classList.remove('media-viewer-image__main-img__loading');
+      mainImg.classList.remove('mediaViewerImage__mainImg__loading');
 
       // Переключаем на следующее изображение
       imageIndex === totalSlides - 1 ? setImageIndex(0) : setImageIndex((prev) => prev + 1);
@@ -194,13 +218,13 @@ const ShopCard: FC = () => {
   // Функция для переключения на предыдущий элемент слайдера
   const stepLeft = () => {
     // Добавляем класс загрузки
-    const mainImg = document.querySelector('.media-viewer-image__main-img');
+    const mainImg = document.querySelector('.mediaViewerImage__mainImg');
 
-    mainImg.classList.add('media-viewer-image__main-img__loading');
+    mainImg.classList.add('mediaViewerImage__mainImg__loading');
 
     // Через 1 секунду удаляем класс загрузки
     setTimeout(() => {
-      mainImg.classList.remove('media-viewer-image__main-img__loading');
+      mainImg.classList.remove('mediaViewerImage__mainImg__loading');
 
       // Если imageIndex равен 0, переключаемся на последний слайд
       if (imageIndex === 0) {
@@ -219,60 +243,66 @@ const ShopCard: FC = () => {
     <div>
       {fullscreenMode ? (
         // Полноэкранный режим
-        <div class='media-viewer'>
-          <div class='media-viewer__head'>
-            <div class='media-viewer__head-text'>Магнитогорск - {article.name}</div>
-            <i class='media-viewer__close' onClick={toggleFullscreenMode}></i>
+        <div className={styles.mediaViewer}>
+          <div className={styles.mediaViewer__head}>
+            <div className={styles.mediaViewer__headText}>Магнитогорск - {article.name}</div>
+            <i className={styles.mediaViewer__close} onClick={toggleFullscreenMode}></i>
           </div>
-          <div class='media-viewer__titles'>
-            <div class='media-viewer__title media-viewer__title_active'>Фото {totalSlides}</div>
+          <div className={styles.mediaViewer__titles}>
+            <div className={clsx(styles.mediaViewer__title, styles.mediaViewer__title_active)}>Фото {totalSlides}</div>
           </div>
-          <div class='media-viewer__content'>
-            <div class='media-viewer-image'>
-              <div class='media-viewer-image__main'>
-                <div class='media-viewer-image__control media-viewer-image__control_left' onClick={stepLeft}></div>
-                <div class='media-viewer-image__control media-viewer-image__control_right' onClick={stepRight}></div>
-                <picture class='media-viewer-image__img-wrap'>
+          <div className={styles.mediaViewer__content}>
+            <div className={styles.mediaViewerImage}>
+              <div className={styles.mediaViewerImage__main}>
+                <div
+                  className={clsx(styles.mediaViewerImage__control, styles.mediaViewerImage__control_left)}
+                  onClick={stepLeft}
+                ></div>
+                <div
+                  className={clsx(styles.mediaViewerImage__control, styles.mediaViewerImage__control_right)}
+                  onClick={stepRight}
+                ></div>
+                <picture className={styles.mediaViewerImage__imgWrap}>
                   <img
-                    class='media-viewer-image__main-img'
+                    className={styles.mediaViewerImage__mainImg}
                     style={{ transform: 'none' }}
                     src={shopImages[imageIndex].url}
+                    alt='Фото отсутствует'
                   />
                 </picture>
               </div>
-              <div class='media-viewer-slider media-viewer-image__slider'>
-                <div class='tns-outer' id='tns8-ow'>
-                  <div class='tns-controls' aria-label='Carousel Navigation' tabindex='0' style={{ display: 'none' }}>
-                    <button
-                      type='button'
-                      data-controls='prev'
-                      tabindex='-1'
-                      aria-controls='tns8'
-                      onClick={moveSlidesLeftFullscreen}
-                    >
-                      <div class='media-viewer-slider__arrow media-viewer-slider__arrow_left'>
+              <div className={styles.mediaViewerImage__imageCounter}>2 из 45</div>
+              <div className={clsx(styles.mediaViewerSlider, styles.mediaViewerImage__slider)}>
+                <div className={styles.tnsOuter} id='tns8-ow'>
+                  <div className={styles.tnsControls} aria-label='Carousel Navigation' style={{ display: 'none' }}>
+                    <button type='button' data-controls='prev' aria-controls='tns8' onClick={moveSlidesLeftFullscreen}>
+                      <div className={(styles.mediaViewerSlider__arrow, styles.mediaViewerSlider__arrow_left)}>
                         <i></i>
                       </div>
                     </button>
-                    <button
-                      type='button'
-                      data-controls='next'
-                      tabindex='-1'
-                      aria-controls='tns8'
-                      onClick={moveSlidesRightFullscreen}
-                    >
-                      <div class='media-viewer-slider__arrow media-viewer-slider__arrow_right'>
+                    <button type='button' data-controls='next' aria-controls='tns8' onClick={moveSlidesRightFullscreen}>
+                      <div className={clsx(styles.mediaViewerSlider__arrow, styles.mediaViewerSlider__arrow_right)}>
                         <i></i>
                       </div>
                     </button>
                   </div>
-                  <div class='tns-liveregion tns-visually-hidden' aria-live='polite' aria-atomic='true'>
-                    slide <span class='current'>1 to 17</span> of 17
+                  <div
+                    className={clsx(styles.tnsLiveregion, styles.tnsVisuallyHidden)}
+                    aria-live='polite'
+                    aria-atomic='true'
+                  >
+                    slide <span className={styles.current}>1 to 12</span> of 45
                   </div>
-                  <div id='tns8-mw' class='tns-ovh'>
-                    <div class='tns-inner' id='tns8-iw'>
+                  <div id='tns8-mw' className={styles.tnsOvh}>
+                    <div className={styles.tnsInner} id='tns8-iw'>
                       <div
-                        class='media-viewer-slider__wrap  tns-slider tns-carousel tns-subpixel tns-calc tns-autowidth tns-horizontal'
+                        className={clsx(
+                          styles.mediaViewerSlider__wrap,
+                          styles.tnsSlider,
+                          styles.tnsSubpixel,
+                          styles.tnsAutowidth,
+                          styles.tnsHorizontal
+                        )}
                         id='tns8'
                         style={{
                           transform: `translate3d(${nextFullscreen}px, 0px, 0px)`,
@@ -292,19 +322,11 @@ const ShopCard: FC = () => {
         // Обычный режим со слайдером
         <Layout pageTitle={article.name || null} breadcrumbs={'Главная'}>
           <article>
-            <div class='container'>
-              <div class='shop-page'>
-                <div class='shops-page-city-select'>
-                  <div class='shops-page-city-select'>Ваш город:</div>
-                  <div class='shops-page-city-select__wrapper'>
-                    <div class='city-select-widget__wrapper'>
-                      <div class='city-select-widget__city-name'>Магнитогорск </div>
-                    </div>
-                  </div>
-                </div>
-                <div class='shop-page-content'>
-                  <div class='shop-page-content__map '>
-                    <div class='ya-map-container'>
+            <div className={styles.container}>
+              <div className={styles.shopPage}>
+                <div className={styles.shopPageContent}>
+                  <div className={styles.shopPageContent__map}>
+                    <div className={styles.yaMapContainer}>
                       <iframe
                         title='y-map'
                         src={`https://yandex.ru/map-widget/v1/?ll=${latitude}%2C${longitude}&z=12&pt=${latitude}%2C${longitude}`}
@@ -314,13 +336,12 @@ const ShopCard: FC = () => {
                       ></iframe>
                     </div>
                   </div>
-                  <div class='shop-page-content__photo-slider shop-image-slider'>
-                    <div class='tns-outer'>
-                      <div class='tns-controls' aria-label='Carousel Navigation' tabindex='0'>
+                  <div className={clsx(styles.shopPageContent__photoSlider, styles.shopImageSlider)}>
+                    <div className={styles.tnsOuter}>
+                      <div className={styles.tnsControls} aria-label='Carousel Navigation'>
                         <button
                           type='button'
                           data-controls='prev'
-                          tabindex='-1'
                           aria-controls='tns1'
                           onClick={() => moveSlidesLeft()}
                           style={
@@ -332,7 +353,6 @@ const ShopCard: FC = () => {
                         <button
                           type='button'
                           data-controls='next'
-                          tabindex='-1'
                           aria-controls='tns1'
                           onClick={() => moveSlidesRight()}
                           style={sliderLength === 1650 ? { display: 'none' } : { display: 'initial' }}
@@ -340,14 +360,18 @@ const ShopCard: FC = () => {
                           next
                         </button>
                       </div>
-                      <div class='tns-liveregion tns-visually-hidden' aria-live='polite' aria-atomic='true'>
-                        slide <span class='current'>1 to 12</span> of 45
+                      <div
+                        className={clsx(styles.tnsLiveregion, styles.tnsVisuallyHidden)}
+                        aria-live='polite'
+                        aria-atomic='true'
+                      >
+                        slide <span className={styles.current}>1 to 12</span> of 45
                       </div>
-                      <div id='tns1-mw' class='tns-ovh'>
-                        <div class='tns-inner' id='tns1-iw'>
+                      <div id='tns1-mw' className={styles.tnsOvh}>
+                        <div className={styles.tnsInner} id='tns1-iw'>
                           <div
                             data-role='slider'
-                            class='  tns-slider tns-carousel tns-subpixel tns-calc tns-horizontal'
+                            className={clsx(styles.tnsSlider, styles.tnsSubpixel, styles.tnsHorizontal)}
                             id='tns1'
                             style={{ transitionDuration: '0.3s', transform: `translate3d(${next}px, 0px, 0px)` }}
                           >
@@ -357,39 +381,42 @@ const ShopCard: FC = () => {
                       </div>
                     </div>
                   </div>
-                  <div class='shop-page-content__section' itemscope='' itemtype='http://schema.org/Place'>
-                    <meta itemprop='name' content='Цифровой супермаркет DNS Москва DNS Мега Белая Дача' />
-                    <div class='shop-page-content__container'>
-                      <div class='shop-page-content__info-block'>
-                        <div class='shop-page-content__main-info'>
-                          <div itemprop='address' itemscope='' itemtype='http://schema.org/PostalAddress'>
-                            <meta itemprop='addressLocality' content='Москва' />
+                  <div className={styles.shopPageContent__section}>
+                    <div className={styles.shopPageContent__container}>
+                      <div className={styles.shopPageContent__infoBlock}>
+                        <div className={styles.shopPageContent__mainInfo}>
+                          <div itemprop='address'>
                             <div
-                              class='shop-page-content__text_larger shop-page-content__text_bold'
+                              className={clsx(styles.shopPageContent__textLarger, styles.shopPageContent__textBold)}
                               itemprop='streetAddress'
                             >
                               {article.streetAddress}{' '}
                             </div>
                           </div>
-                          <div class='shop-page-content__text_small shop-page-content__text_small-offset'>
+                          <div
+                            className={clsx(
+                              styles.shopPageContent__text_small,
+                              styles.shopPageContent__text_smallOffset
+                            )}
+                          >
                             {article.description}{' '}
                           </div>
-                          <span class='shop-page-content__text_small'>
-                            <div class='shop-work-time'>
-                              <span class='shop-work-time__text-group'>Пн-Вт с 10:00 до 22:00</span>
-                              <span class='shop-work-time__dot-icon'></span>
-                              <span class='shop-work-time__text-group'>Ср-Вс с 10:00 до 23:00</span>
+                          <span className={styles.shopPageContent__text_small}>
+                            <div className={styles.shopWorkTime}>
+                              <span className={styles.shopWorkTime__textGroup}>Пн-Вт с 10:00 до 22:00</span>
+                              <span className={styles.shopWorkTime__dotIcon}></span>
+                              <span className={styles.shopWorkTime__textGroup}>Ср-Вс с 10:00 до 23:00</span>
                               <br />
                             </div>
                           </span>
-                          <span class='shop-page-content__text_gray shop-page-content__text_small'>
-                            <span class='shop-page-content__open-status '>
+                          <span className={clsx(styles.shopPageContent__text_gray, styles.shopPageContent__text_small)}>
+                            <span className={styles.shopPageContent__openStatus}>
                               {article.inOpen ? 'Открыто' : 'Закрыто'}
                             </span>
                           </span>
-                          <div class='shop-page-content__voblers'>
+                          <div className={styles.shopPageContent__voblers}>
                             <div
-                              class='shop-vobler'
+                              className={styles.shopVobler}
                               data-role='shop-vobler'
                               data-info='В магазине могут изготовить пленку для защиты экрана вашего устройства'
                               data-url='/specialization/hydrogel/'
@@ -410,30 +437,34 @@ const ShopCard: FC = () => {
                             </div>
                           </div>
                         </div>
-                        <div class='shop-page-content__contacts'>
-                          <div class='shop-page-content__contacts-title'>Телефон</div>
-                          <div class='shop-page-content__main-phone' itemprop='telephone'>
+                        <div className={styles.shopPageContent__contacts}>
+                          <div className={styles.shopPageContent__contactsTitle}>Телефон</div>
+                          <div className={styles.shopPageContent__mainPhone} itemprop='telephone'>
                             +7 (499) 704-46-40; +7 (499) 285-00-53
                           </div>
-                          <div class='shop-page-content__text-to-manager'>
-                            <a class='ui-link ui-link_blue' href='javascript:' data-role='to-feedback-block'>
+                          <div className={styles.shopPageContent__textToManager}>
+                            <a
+                              className={clsx(styles.uiLink, styles.uiLink_blue)}
+                              href='!#'
+                              data-role='to-feedback-block'
+                            >
                               Написать управляющему магазина
                             </a>
                           </div>
                         </div>
                       </div>
-                      <div class='shop-page-content__favorite-shop-checkbox'>
+                      <div className={styles.shopPageContent__favoriteShopCheckbox}>
                         <div id='id2GlHnr'>
-                          <label class='ui-checkbox shop-page-content__checkbox-content'>
+                          <label className={clsx(styles.uiCheckbox, styles.shopPageContent__checkboxContent)}>
                             <span>Добавить в избранные магазины</span>
                             <input
                               type='checkbox'
-                              class='ui-checkbox__input'
+                              className={styles.uiCheckbox__input}
                               data-role='set-default-shop-chbx'
                               data-save-url='/shops/save-default/?guid=9f9b1b68-3e39-11eb-a219-00155d28220e&amp;source=2'
                               data-remove-url='/shops/remove-default/?guid=9f9b1b68-3e39-11eb-a219-00155d28220e'
                             />
-                            <span class='ui-checkbox__box'></span>
+                            <span className={styles.uiCheckbox__box}></span>
                           </label>
                         </div>
                       </div>
@@ -444,198 +475,225 @@ const ShopCard: FC = () => {
                     </div>
                   </div>
                   <a
-                    class='navigation-link ui-link ui-link_black'
-                    href='#'
+                    className={clsx(styles.navigationLink, styles.uiLink, styles.uiLink_black)}
+                    href='!#'
                     data-show-navigation-modal=''
                     data-latitude='55.658328'
                     data-longitude='37.846731'
                   >
                     Проложить маршрут{' '}
-                    <span class='navigation-link__icons'>
-                      <i class='navigation-link__icon navigation-link__icon_ya-nav'></i>
-                      <i class='navigation-link__icon navigation-link__icon_google-map'></i>
-                      <i class='navigation-link__icon navigation-link__icon_2-gis'></i>
+                    <span className={styles.navigationLink__icons}>
+                      <i className={clsx(styles.navigationLink__icon, styles.navigationLink__icon_yaNav)}></i>
+                      <i className={clsx(styles.navigationLink__icon, styles.navigationLink__icon_googleMap)}></i>
+                      <i className={clsx(styles.navigationLink__icon, styles.navigationLink__icon_2Gis)}></i>
                     </span>
                   </a>
-                  <div class='shop-page-content__section'>
-                    <div class='shop-page-content__add-info-blocks'>
-                      <div class='shop-page-content__add-info-item'>
-                        <p class='shop-page-content__text_bold'>Способы покупки</p>
+                  <div className={styles.shopPageContent__section}>
+                    <div className={styles.shopPageContent__addInfoBlocks}>
+                      <div className={styles.shopPageContent__addInfoItem}>
+                        <p className={styles.shopPageContent__textBold}>Способы покупки</p>
                         <ul>
-                          <li class='shop-page-content__text_small shop-page-content__text_dark-gray'>В магазине</li>
-                          <li class='shop-page-content__text_small shop-page-content__text_dark-gray'>
+                          <li
+                            className={clsx(styles.shopPageContent__text_small, styles.shopPageContent__text_darkGray)}
+                          >
+                            В магазине
+                          </li>
+                          <li
+                            className={clsx(styles.shopPageContent__text_small, styles.shopPageContent__text_darkGray)}
+                          >
                             Через интернет
                           </li>
                         </ul>
                       </div>
-                      <div class='shop-page-content__add-info-item'>
-                        <p class='shop-page-content__text_bold'>Способы оплаты</p>
+                      <div className={styles.shopPageContent__addInfoItem}>
+                        <p className={styles.shopPageContent__textBold}>Способы оплаты</p>
                         <ul>
-                          <li class='shop-page-content__text_small shop-page-content__text_dark-gray'>
+                          <li
+                            className={clsx(styles.shopPageContent__text_small, styles.shopPageContent__text_darkGray)}
+                          >
                             Подарочные карты
                           </li>
-                          <li class='shop-page-content__text_small shop-page-content__text_dark-gray'>
+                          <li
+                            className={clsx(styles.shopPageContent__text_small, styles.shopPageContent__text_darkGray)}
+                          >
                             Наличный расчёт
                           </li>
-                          <li class='shop-page-content__text_small shop-page-content__text_dark-gray'>
+                          <li
+                            className={clsx(styles.shopPageContent__text_small, styles.shopPageContent__text_darkGray)}
+                          >
                             Безналичный расчёт
                           </li>
-                          <li class='shop-page-content__text_small shop-page-content__text_dark-gray'>Mastercard</li>
-                          <li class='shop-page-content__text_small shop-page-content__text_dark-gray'>VISA</li>
+                          <li
+                            className={clsx(styles.shopPageContent__text_small, styles.shopPageContent__text_darkGray)}
+                          >
+                            Mastercard
+                          </li>
+                          <li
+                            className={clsx(styles.shopPageContent__text_small, styles.shopPageContent__text_darkGray)}
+                          >
+                            VISA
+                          </li>
                         </ul>
                       </div>
-                      <div class='shop-page-content__add-info-item'>
-                        <p class='shop-page-content__text_bold'>Способы получения</p>
+                      <div className={styles.shopPageContent__addInfoItem}>
+                        <p className={styles.shopPageContent__textBold}>Способы получения</p>
                         <ul>
-                          <li class='shop-page-content__text_small'>
-                            <span class='shop-page-content__text_small shop-page-content__text_dark-gray'>
+                          <li className={styles.shopPageContent__text_small}>
+                            <span
+                              className={clsx(
+                                styles.shopPageContent__text_small,
+                                styles.shopPageContent__text_darkGray
+                              )}
+                            >
                               Самовывоз{' '}
                             </span>
                           </li>
-                          <li class='shop-page-content__text_small'>
-                            <a class='ui-link ui-link_blue' href='/help/delivery/'>
+                          <li className={styles.shopPageContent__text_small}>
+                            <a className={clsx(styles.uiLink, styles.uiLink_blue)} href='/help/delivery/'>
                               Служба доставки
                             </a>
                           </li>
                         </ul>
                       </div>
-                      <div class='shop-page-content__add-info-item'>
-                        <p class='shop-page-content__text_bold'>Кредиты</p>
-                        <ul>
-                          <li class='shop-page-content__text_small shop-page-content__text_dark-gray'>
-                            <a class='ui-link ui-link_blue' href='/credit/#05134bab-436b-11df-bf99-001517c526f1'>
-                              АО «Банк Русский Стандарт»
-                            </a>
-                          </li>
-                          <li class='shop-page-content__text_small shop-page-content__text_dark-gray'>
-                            <a class='ui-link ui-link_blue' href='/credit/#05134bb3-436b-11df-bf99-001517c526f1'>
-                              ООО "ХКФ Банк"
-                            </a>
-                          </li>
-                          <li class='shop-page-content__text_small shop-page-content__text_dark-gray'>
-                            <a class='ui-link ui-link_blue' href='/credit/#05134bbe-436b-11df-bf99-001517c526f1'>
-                              АО "ОТП Банк"
-                            </a>
-                          </li>
-                          <li class='shop-page-content__text_small shop-page-content__text_dark-gray'>
-                            <a class='ui-link ui-link_blue' href='/credit/#05134bbf-436b-11df-bf99-001517c526f1'>
-                              Совкомбанк
-                            </a>
-                          </li>
-                          <li class='shop-page-content__text_small shop-page-content__text_dark-gray'>
-                            <a class='ui-link ui-link_blue' href='/credit/#db776ae8-232e-11e2-8df9-00155d030b1f'>
-                              АО «Почта Банк»
-                            </a>
-                          </li>
-                          <li class='shop-page-content__text_small shop-page-content__text_dark-gray'>
-                            <a class='ui-link ui-link_blue' href='/credit/#3cf0fbc7-3fe5-11e9-a206-00155d03332b'>
-                              ПАО «МТС-Банк»
-                            </a>
-                          </li>
-                          <li class='shop-page-content__text_small shop-page-content__text_dark-gray'>
-                            <a class='ui-link ui-link_blue' href='/credit/#bdf89e95-418f-11ea-a20d-00155df1b805'>
-                              МКК «Купи не копи» (ООО)
-                            </a>
-                          </li>
-                          <li class='shop-page-content__text_small shop-page-content__text_dark-gray'>
-                            <a class='ui-link ui-link_blue' href='/credit/#56607e1e-69bd-11e6-a720-00155d033307'>
-                              Тинькофф Банк, АО
-                            </a>
-                          </li>
-                          <li class='shop-page-content__text_small shop-page-content__text_dark-gray'>
-                            <a class='ui-link ui-link_blue' href='/credit/#b55c5be3-4475-11e4-b3d3-00155d031202'>
-                              КБ "Ренессанс Кредит" (ООО)
-                            </a>
-                          </li>
-                          <li class='shop-page-content__text_small shop-page-content__text_dark-gray'>
-                            <a class='ui-link ui-link_blue' href='/credit/#ff6ac355-5c39-11e0-b61b-001517c526f0'>
-                              АО «КРЕДИТ ЕВРОПА БАНК (Россия)»
-                            </a>
-                          </li>
-                        </ul>
+                      <div className={styles.shopPageContent__addInfoItem}>
+                        <p className={styles.shopPageContent__textBold}>Кредиты</p>
+                        <ul>{banks.map(renderBankItem)}</ul>
                       </div>
                     </div>
                   </div>
-                  <div class='shop-page-content__section'>
-                    <div class='shop-corp-info-block__title shop-corp-info-block__title_small-offset shop-page-content__title shop-page-content__title_bold shop-page-content__title_small'>
+                  <div className={styles.shopPageContent__section}>
+                    <div
+                      className={clsx(
+                        styles.shopCorpInfoBlock__title,
+                        styles.shopCorpInfoBlock__title_smallOffset,
+                        styles.shopPageContent__title,
+                        styles.shopPageContent__title_bold,
+                        styles.shopPageContent__title_small
+                      )}
+                    >
                       Корпоративный отдел
                     </div>
-                    <div id='corporate' class='shop-corp-info-block' data-role='corp-info-container'>
-                      <div class='shop-corp-info-block__row'>
-                        <div class='shop-work-time'>
-                          <span class='shop-work-time__text-group'>Пн-Вт с 10:00 до 22:00</span>
-                          <span class='shop-work-time__dot-icon'></span>
-                          <span class='shop-work-time__text-group'>Ср-Вс с 10:00 до 23:00</span>
+                    <div id='corporate' className={styles.shopCorpInfoBlock} data-role='corp-info-container'>
+                      <div className={styles.shopCorpInfoBlock__row}>
+                        <div className={styles.shopWorkTime}>
+                          <span className={styles.shopWorkTime__textGroup}>Пн-Вт с 10:00 до 22:00</span>
+                          <span className={styles.shopWorkTime__dotIcon}></span>
+                          <span className={styles.shopWorkTime__textGroup}>Ср-Вс с 10:00 до 23:00</span>
                           <br />
                         </div>
-                        <span class='shop-page-content__text_gray shop-page-content__text_small'>
-                          <span class='shop-page-content__open-status '>закрыто еще 3 ч. </span>
+                        <span className={clsx(styles.shopPageContent__text_gray, styles.shopPageContent__text_small)}>
+                          <span className={styles.shopPageContent__openStatus}>закрыто еще 3 ч. </span>
                         </span>
                       </div>
-                      <div class='shop-corp-info-block shop-corp-info-block__row'>
-                        <div class='shop-corp-info-block__title shop-corp-info-block__title_small-offset'>
-                          <div class='shop-page-content__text_bold'>Руководитель:</div>
+                      <div className={clsx(styles.shopCorpInfoBlock, styles.shopCorpInfoBlock__row)}>
+                        <div
+                          className={clsx(styles.shopCorpInfoBlock__title, styles.shopCorpInfoBlock__title_smallOffset)}
+                        >
+                          <div className={styles.shopPageContent__textBold}>Руководитель:</div>
                           Баландин Дмитрий Евгеньевич{' '}
                         </div>
-                        <div class='shop-page-content__text_small'>
-                          <span class='title shop-page-content__text_darker-gray'>Тел.: </span>+7(499)285 00 53{' '}
+                        <div className={styles.shopPageContent__text_small}>
+                          <span className={clsx(styles.title, styles.shopPageContent__text_darkerGray)}>Тел.: </span>
+                          +7(499)285 00 53{' '}
                         </div>
-                        <div class='shop-page-content__text_small'>
-                          <span class='title shop-page-content__text_darker-gray'>E-mail: </span>
-                          <a class='ui-link ui-link_blue' href='mailto:KotelnikiTRCMegaGiper@dns-shop.ru'>
+                        <div className={styles.shopPageContent__text_small}>
+                          <span className={clsx(styles.title, styles.shopPageContent__text_darkerGray)}>E-mail: </span>
+                          <a
+                            className={clsx(styles.uiLink, styles.uiLink_blue)}
+                            href='mailto:KotelnikiTRCMegaGiper@dns-shop.ru'
+                          >
                             KotelnikiTRCMegaGiper@dns-shop.ru
                           </a>
                         </div>
                       </div>
-                      <div class='shop-corp-info-block__row shop-corp-info-block__row_without-offset'>
-                        <p class='shop-corp-info-block__title shop-corp-info-block__title_large-offset shop-page-content__text_bold'>
+                      <div className={clsx(styles.shopCorpInfoBlock__row, styles.shopCorpInfoBlock__row_withoutOffset)}>
+                        <p
+                          className={clsx(
+                            styles.shopCorpInfoBlock__title,
+                            styles.shopCorpInfoBlock__title_largeOffset,
+                            styles.shopPageContent__textBold
+                          )}
+                        >
                           Специалисты по работе с юридическими лицами:
                         </p>
-                        <div class='shop-corp-info-block__manager'>
-                          <div class='shop-corp-info-block__title shop-corp-info-block__title_small-offset'>
+                        <div className={styles.shopCorpInfoBlock__manager}>
+                          <div
+                            className={clsx(
+                              styles.shopCorpInfoBlock__title,
+                              styles.shopCorpInfoBlock__title_smallOffset
+                            )}
+                          >
                             Пучкова Татьяна Ивановна
                           </div>
-                          <div class='shop-page-content__text_small'>
-                            <span class='title shop-page-content__text_darker-gray'>Тел.: </span>+7(499)285 00 53{' '}
+                          <div className={styles.shopPageContent__text_small}>
+                            <span className={clsx(styles.title, styles.shopPageContent__text_darkerGray)}>Тел.: </span>
+                            +7(499)285 00 53{' '}
                           </div>
-                          <div class='shop-page-content__text_small'>
-                            <span class='title shop-page-content__text_darker-gray'>E-mail: </span>
-                            <a class='ui-link ui-link_blue' href='mailto:KotelnikiTRCMegaGiper@dns-shop.ru'>
+                          <div className={styles.shopPageContent__text_small}>
+                            <span className={clsx(styles.title, styles.shopPageContent__text_darkerGray)}>
+                              E-mail:{' '}
+                            </span>
+                            <a
+                              className={clsx(styles.uiLink, styles.uiLink_blue)}
+                              href='mailto:KotelnikiTRCMegaGiper@dns-shop.ru'
+                            >
                               KotelnikiTRCMegaGiper@dns-shop.ru
                             </a>
                           </div>
                         </div>
-                        <div class='shop-corp-info-block__manager'>
-                          <div class='shop-corp-info-block__title shop-corp-info-block__title_small-offset'>
+                        <div className={styles.shopCorpInfoBlock__manager}>
+                          <div
+                            className={clsx(
+                              styles.shopCorpInfoBlock__title,
+                              styles.shopCorpInfoBlock__title_smallOffset
+                            )}
+                          >
                             Фистунова Дарья Евгеньевна
                           </div>
-                          <div class='shop-page-content__text_small'>
-                            <span class='title shop-page-content__text_darker-gray'>Тел.: </span>+7(499)285 00 53{' '}
+                          <div className={styles.shopPageContent__text_small}>
+                            <span className={clsx(styles.title, styles.shopPageContent__text_darkerGray)}>Тел.: </span>
+                            +7(499)285 00 53{' '}
                           </div>
-                          <div class='shop-page-content__text_small'>
-                            <span class='title shop-page-content__text_darker-gray'>E-mail: </span>
-                            <a class='ui-link ui-link_blue' href='mailto:KotelnikiTRCMegaGiper@dns-shop.ru'>
+                          <div className={styles.shopPageContent__text_small}>
+                            <span className={clsx(styles.title, styles.shopPageContent__text_darkerGray)}>
+                              E-mail:{' '}
+                            </span>
+                            <a
+                              className={clsx(styles.uiLink, styles.uiLink_blue)}
+                              href='mailto:KotelnikiTRCMegaGiper@dns-shop.ru'
+                            >
                               KotelnikiTRCMegaGiper@dns-shop.ru
                             </a>
                           </div>
                         </div>
-                        <div class='shop-corp-info-block__manager'>
-                          <div class='shop-corp-info-block__title shop-corp-info-block__title_small-offset'>
+                        <div className={styles.shopCorpInfoBlock__manager}>
+                          <div
+                            className={clsx(
+                              styles.shopCorpInfoBlock__title,
+                              styles.shopCorpInfoBlock__title_smallOffset
+                            )}
+                          >
                             Никифоров Виталий Всеволодович
                           </div>
-                          <div class='shop-page-content__text_small'>
-                            <span class='title shop-page-content__text_darker-gray'>Тел.: </span>+7(499)285 00 53{' '}
+                          <div className={styles.shopPageContent__text_small}>
+                            <span className={clsx(styles.title, styles.shopPageContent__text_darkerGray)}>Тел.: </span>
+                            +7(499)285 00 53{' '}
                           </div>
-                          <div class='shop-page-content__text_small'>
-                            <span class='title shop-page-content__text_darker-gray'>E-mail: </span>
-                            <a class='ui-link ui-link_blue' href='mailto:KotelnikiTRCMegaGiper@dns-shop.ru'>
+                          <div className={styles.shopPageContent__text_small}>
+                            <span className={clsx(styles.title, styles.shopPageContent__text_darkerGray)}>
+                              E-mail:{' '}
+                            </span>
+                            <a
+                              className={clsx(styles.uiLink, styles.uiLink_blue)}
+                              href='mailto:KotelnikiTRCMegaGiper@dns-shop.ru'
+                            >
                               KotelnikiTRCMegaGiper@dns-shop.ru
                             </a>
                           </div>
                         </div>
                       </div>
-                      <div class='shop-corp-info-block__invoice-payment'>
-                        <div class='shop-page-content__text_small-offset'>Проверка оплаты счета</div>
+                      <div className={styles.shopCorpInfoBlock__invoicePayment}>
+                        <div className={styles.shopPageContent__text_smallOffset}>Проверка оплаты счета</div>
                         <form
                           id='f-check-invoice-payment'
                           action='/checkInvoicePayment/check/index/'
@@ -647,66 +705,94 @@ const ShopCard: FC = () => {
                             name='_csrf'
                             value='r0hK4lx2f_BmqmUFGm3F1UYbqR0K98MIpqAL9q8JQozkLD-NGhUoryHgAF1cOby-AC7wUzy49Ebu0l-82nA15g=='
                           />
-                          <div class='check-invoice-widget'>
+                          <div className={styles.checkInvoiceWidget}>
                             <input
                               type='text'
                               id='invoice'
-                              class='check-invoice-widget__input'
+                              className={styles.checkInvoiceWidget__input}
                               name='number'
                               placeholder='Например: РК1-000201'
                             />
                             <button
-                              class='button-ui button-ui_brand button-ui_md check-invoice-widget__button'
+                              className={clsx(
+                                styles.buttonUi,
+                                styles.buttonUi_brand,
+                                styles.buttonUi_md,
+                                styles.checkInvoiceWidget__button
+                              )}
                               type='submit'
                             >
                               Проверить
                             </button>
-                            <div id='b-check-invoice-payment-result' class='check-invoice-widget__result'></div>
+                            <div
+                              id='b-check-invoice-payment-result'
+                              className={styles.checkInvoiceWidget__result}
+                            ></div>
                           </div>
                         </form>
                       </div>
                     </div>
                   </div>
-                  <div class='shop-page-content__section'>
-                    <h2 class='shop-page-content__title shop-page-content__title_bold shop-page-content__title_small'>
+                  <div className={styles.shopPageContent__section}>
+                    <h2
+                      className={clsx(
+                        styles.shopPageContent__title,
+                        styles.shopPageContent__title_bold,
+                        styles.shopPageContent__title_small
+                      )}
+                    >
                       Реквизиты
                     </h2>
-                    <div class='shop-requisites-block'>
-                      <div class='shop-requisites-block__row'>
-                        <div class='shop-page-content__text_gray shop-page-content__text_small'>Название</div>
+                    <div className={styles.shopRequisitesBlock}>
+                      <div className={styles.shopRequisitesBlock__row}>
+                        <div className={clsx(styles.shopPageContent__text_gray, styles.shopPageContent__text_small)}>
+                          Название
+                        </div>
                         <div>Филиал Центральный ООО "ДНС Ритейл"</div>
                       </div>
-                      <div class='shop-requisites-block__row'>
-                        <div class='shop-requisites-block__info-item'>
-                          <div class='shop-page-content__text_gray shop-page-content__text_small'>Почтовый адрес</div>
+                      <div className={styles.shopRequisitesBlock__row}>
+                        <div className={styles.shopRequisitesBlock__infoItem}>
+                          <div className={clsx(styles.shopPageContent__text_gray, styles.shopPageContent__text_small)}>
+                            Почтовый адрес
+                          </div>
                           <div>111141, город Москва, проезд Перова Поля 1-й, дом 9, строение 2, помещение 3</div>
                         </div>
-                        <div class='shop-requisites-block__info-item'>
-                          <div class='shop-page-content__text_gray shop-page-content__text_small'>
+                        <div className={styles.shopRequisitesBlock__infoItem}>
+                          <div className={clsx(styles.shopPageContent__text_gray, styles.shopPageContent__text_small)}>
                             Юридический адрес
                           </div>
                           <div>111141, город Москва, проезд Перова Поля 1-й, дом 9, строение 2, помещение 3</div>
                         </div>
                       </div>
-                      <div class='shop-requisites-block__row'>
-                        <div class='shop-requisites-block__info-item'>
-                          <div class='shop-page-content__text_gray shop-page-content__text_small'>ИНН / КПП</div>
+                      <div className={styles.shopRequisitesBlock__row}>
+                        <div className={styles.shopRequisitesBlock__infoItem}>
+                          <div className={clsx(styles.shopPageContent__text_gray, styles.shopPageContent__text_small)}>
+                            ИНН / КПП
+                          </div>
                           <div>2540167061 / 772043001</div>
                         </div>
-                        <div class='shop-requisites-block__info-item'>
-                          <div class='shop-page-content__text_gray shop-page-content__text_small'>ОГРН</div>
+                        <div className={styles.shopRequisitesBlock__infoItem}>
+                          <div className={clsx(styles.shopPageContent__text_gray, styles.shopPageContent__text_small)}>
+                            ОГРН
+                          </div>
                           <div>1102540008230</div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class='shop-page-content__section'>
-                    <h2 class='shop-page-content__title shop-page-content__title_bold shop-page-content__title_small'>
+                  <div className={styles.shopPageContent__section}>
+                    <h2
+                      className={clsx(
+                        styles.shopPageContent__title,
+                        styles.shopPageContent__title_bold,
+                        styles.shopPageContent__title_small
+                      )}
+                    >
                       Обратная связь
                     </h2>
-                    <div class='shop-feedback-block'>
+                    <div className={styles.shopFeedbackBlock}>
                       <a
-                        class='shop-feedback-block__spoiler-btn'
+                        className={styles.shopFeedbackBlock__spoilerBtn}
                         href='javascript:'
                         data-target='#shop-feedback-info-block'
                         data-toggle='collapse'
@@ -715,13 +801,16 @@ const ShopCard: FC = () => {
                         <span>Справочная информация</span>
                         <i></i>
                       </a>
-                      <div id='shop-feedback-info-block' class='shop-feedback-block__info collapse'>
-                        <p class='shop-feedback-block__text_bold'>Уважаемые клиенты!</p>
-                        <p class='shop-feedback-block__text_bold'>
+                      <div
+                        id='shop-feedback-info-block'
+                        className={clsx(styles.shopFeedbackBlock__info, styles.collapse)}
+                      >
+                        <p className={styles.shopFeedbackBlock__textBold}>Уважаемые клиенты!</p>
+                        <p className={styles.shopFeedbackBlock__textBold}>
                           В целях оперативного рассмотрения ваших обращений просим максимально точно изложить суть
                           вопроса и имеющиеся факты.
                         </p>
-                        <p class='shop-feedback-block__text_small'>
+                        <p className={styles.shopFeedbackBlock__text_small}>
                           1. Адрес магазина и/или сервисного центра;
                           <br />
                           2. Время описываемых событий;
@@ -735,11 +824,11 @@ const ShopCard: FC = () => {
                           6. Наименование товара.
                           <br />
                         </p>
-                        <p class='shop-feedback-block__text_small'>
+                        <p className={styles.shopFeedbackBlock__text_small}>
                           Благодарим вас за сотрудничество и конструктивную обратную связь о работе нашей компании.
                         </p>
                       </div>
-                      <div id='shop-feedback-form-wrap' class='shop-feedback-block__form'>
+                      <div id='shop-feedback-form-wrap' className={styles.shopFeedbackBlock__form}>
                         <form id='ticket-create-form' action='/feedback/' method='post' enctype='multipart/form-data'>
                           <input
                             type='hidden'
@@ -747,125 +836,125 @@ const ShopCard: FC = () => {
                             value='r0hK4lx2f_BmqmUFGm3F1UYbqR0K98MIpqAL9q8JQozkLD-NGhUoryHgAF1cOby-AC7wUzy49Ebu0l-82nA15g=='
                           />
                           <input type='hidden' id='ticketcreateform-key' name='TicketCreateForm[key]' />
-                          <div class='shop-feedback-block__short_fields'>
-                            <div class='form-group field-ticketcreateform-username'>
+                          <div className={styles.shopFeedbackBlock__short_fields}>
+                            <div className={clsx(styles.formGroup, styles.fieldTicketcreateformUsername)}>
                               <input
                                 type='text'
                                 id='ticketcreateform-username'
-                                class='form-control'
+                                className={styles.formControl}
                                 name='TicketCreateForm[userName]'
                                 value='egorizz'
                                 required=''
                               />
-                              <label class='control-label' for='ticketcreateform-username'>
+                              <label className={styles.controlLabel} for='ticketcreateform-username'>
                                 Имя
                               </label>
-                              <p class='help-block help-block-error'></p>
+                              <p className={clsx(styles.helpBlock, styles.helpBlockError)}></p>
                             </div>
-                            <div class='form-group field-ticketcreateform-useremail'>
+                            <div className={clsx(styles.formGroup, styles.fieldTicketcreateformUseremail)}>
                               <input
                                 type='text'
                                 id='ticketcreateform-useremail'
-                                class='form-control'
+                                className={styles.formControl}
                                 name='TicketCreateForm[userEmail]'
                                 value='egorizz@mail.ru'
                                 required=''
                               />
-                              <label class='control-label' for='ticketcreateform-useremail'>
+                              <label className={styles.controlLabel} for='ticketcreateform-useremail'>
                                 Адрес эл. почты
                               </label>
-                              <p class='help-block help-block-error'></p>
+                              <p className={clsx(styles.helpBlock, styles.helpBlockError)}></p>
                             </div>
-                            <div class='form-group field-ticketcreateform-phone'>
+                            <div className={clsx(styles.formGroup, styles.fieldTicketcreateformPhone)}>
                               <input
                                 type='text'
                                 id='ticketcreateform-phone'
-                                class='form-control'
+                                className={styles.formControl}
                                 name='TicketCreateForm[phone]'
                                 value='79090935656'
                                 required=''
                                 data-phone='1'
                               />
-                              <label class='control-label' for='ticketcreateform-phone'>
+                              <label className={styles.controlLabel} for='ticketcreateform-phone'>
                                 Телефон
                               </label>
-                              <p class='help-block help-block-error'></p>
+                              <p className={clsx(styles.helpBlock, styles.helpBlockError)}></p>
                             </div>
                           </div>
-                          <div class='form-group field-ticketcreateform-text required'>
+                          <div className={clsx(styles.formGroup, styles.fieldTicketcreateformText, styles.required)}>
                             <textarea
                               id='ticketcreateform-text'
-                              class='form-control'
+                              className={styles.formControl}
                               name='TicketCreateForm[text]'
                               rows='5'
                               required=''
                               aria-required='true'
                             ></textarea>
-                            <label class='control-label' for='ticketcreateform-text'>
+                            <label className={styles.controlLabel} for='ticketcreateform-text'>
                               Текст сообщения
                             </label>
-                            <p class='help-block help-block-error'></p>
+                            <p className={clsx(styles.helpBlock, styles.helpBlockError)}></p>
                           </div>
-                          <div class='form-group field-ticketcreateform-city required'>
+                          <div className={clsx(styles.formGroup, styles.fieldTicketcreateformCity, styles.required)}>
                             <input
                               type='hidden'
                               id='ticketcreateform-city'
-                              class='form-control'
+                              className={styles.formControl}
                               name='TicketCreateForm[city]'
                               value='30b7c1f3-03fb-11dc-95ee-00151716f9f5'
                             />
                           </div>
-                          <div class='form-group field-ticketcreateform-charter required'>
+                          <div className={clsx(styles.formGroup, styles.fieldTicketcreateformCharter, styles.required)}>
                             <input
                               type='hidden'
                               id='ticketcreateform-charter'
-                              class='form-control'
+                              className={styles.formControl}
                               name='TicketCreateForm[charter]'
                               value='0c4a702f-0acd-45c0-adb3-8ebe213e6bd8'
                             />
                           </div>
-                          <div class='form-group field-ticketcreateform-theme'>
+                          <div className={clsx(styles.formGroup, styles.fieldTicketcreateformTheme)}>
                             <input
                               type='hidden'
                               id='ticketcreateform-theme'
-                              class='form-control'
+                              className={styles.formControl}
                               name='TicketCreateForm[theme]'
                               value='5d5f3faf-8455-480a-a7fb-26b41ba5d51c'
                             />
                           </div>
-                          <div class='form-group field-ticketcreateform-branch required'>
+                          <div className={clsx(styles.formGroup, styles.fieldTicketcreateformBranch, styles.required)}>
                             <input
                               type='hidden'
                               id='ticketcreateform-branch'
-                              class='form-control'
+                              className={styles.formControl}
                               name='TicketCreateForm[branch]'
                               value='9f9b1b68-3e39-11eb-a219-00155d28220e'
                             />
                           </div>
-                          <div class='form-group field-ticketcreateform-filesuploadhash'>
+                          <div className={clsx(styles.formGroup, styles.fieldTicketcreateformFilesuploadhash)}>
                             <input
                               type='hidden'
                               id='ticketcreateform-filesuploadhash'
-                              class='form-control'
+                              className={styles.formControl}
                               name='TicketCreateForm[filesUploadHash]'
                               value='cb783719-a30a-4cdf-9e66-ab0cca787b56'
                             />
                           </div>
                           <div
-                            class='ajax-file-upload-widget'
+                            className={styles.ajaxFileUploadWidget}
                             data-role='ajax-file-upload-widget'
                             id='cb783719-a30a-4cdf-9e66-ab0cca787b56'
                             data-widget-hash='cb783719-a30a-4cdf-9e66-ab0cca787b56'
                           >
-                            <div class='form-group field-ajaxfileuploadform-uploadedfiles'>
+                            <div className={clsx(styles.formGroup, styles.fieldAjaxfileuploadformUploadedfiles)}>
                               <label
-                                class='ajax-file-upload-widget__label'
+                                className={styles.ajaxFileUploadWidget__label}
                                 data-role='file-input-label'
                                 for='ajaxfileuploadform-uploadedfiles'
                               >
-                                <div class='ajax-file-upload-widget__label-icon'></div>
+                                <div className={styles.ajaxFileUploadWidget__labelIcon}></div>
                                 <span
-                                  class='ajax-file-upload-widget__label-text'
+                                  className={styles.ajaxFileUploadWidget__labelText}
                                   data-toggle='tooltip'
                                   data-html='true'
                                   data-trigger='hover'
@@ -883,34 +972,52 @@ const ShopCard: FC = () => {
                               <input
                                 type='file'
                                 id='ajaxfileuploadform-uploadedfiles'
-                                class='ajax-file-upload-widget__file-input'
+                                className={styles.ajaxFileUploadWidget__fileInput}
                                 name='AjaxFileUploadForm[uploadedFiles][]'
                                 multiple=''
                                 data-role='file-input'
                               />
                             </div>
                             <div
-                              class='ajax-file-upload-widget__error ajax-file-upload-widget__error_hidden'
+                              className={clsx(
+                                styles.ajaxFileUploadWidget__error,
+                                styles.ajaxFileUploadWidget__error_hidden
+                              )}
                               data-role='error'
                             ></div>
                             <div
                               id='base-modal-2iQfxNUe'
-                              class='ajax-file-input-rules-modal base-modal base-modal_hidden'
+                              className={clsx(
+                                styles.ajaxFileInputRulesModal,
+                                styles.baseModal,
+                                styles.baseModal_hidden
+                              )}
                               tabindex='-1'
                               role='dialog'
                               data-role='rules-modal'
                               data-handler-active=''
                               hidden=''
                             >
-                              <div class='base-modal__backdrop handler-active' data-base-modal-action='close'></div>
-                              <div class='ajax-file-input-rules-modal__container base-modal__container'>
-                                <div class='base-modal__header'>
+                              <div
+                                className={clsx(styles.baseModal__backdrop, styles.handlerActive)}
+                                data-base-modal-action='close'
+                              ></div>
+                              <div
+                                className={clsx(styles.ajaxFileInputRulesModal__container, styles.baseModal__container)}
+                              >
+                                <div className={styles.baseModal__header}>
                                   <i
-                                    class='ajax-file-input-rules-modal__header-close-icon base-modal__header-close-icon handler-active'
+                                    className={clsx(
+                                      styles.ajaxFileInputRulesModal__headerCloseIcon,
+                                      styles.baseModal__headerCloseIcon,
+                                      styles.handlerActive
+                                    )}
                                     data-base-modal-action='close'
                                   ></i>
                                 </div>
-                                <div class='ajax-file-input-rules-modal__content base-modal__content'>
+                                <div
+                                  className={clsx(styles.ajaxFileInputRulesModal__content, styles.baseModal__content)}
+                                >
                                   <p>
                                     Вы можете прикрепить изображение или документ формата: doc, docx, xls, xlsx, txt,
                                     pdf, jpeg, jpg, png.
@@ -920,7 +1027,11 @@ const ShopCard: FC = () => {
                                     Количество документов не более 15.
                                   </p>
                                   <div
-                                    class='ajax-file-input-rules-modal__select-file-button btn btn-additional'
+                                    className={clsx(
+                                      styles.ajaxFileInputRulesModal__selectFileButton,
+                                      styles.btn,
+                                      styles.btnAdditional
+                                    )}
                                     data-role='select-file-button'
                                   >
                                     Выбрать файл
@@ -929,29 +1040,53 @@ const ShopCard: FC = () => {
                               </div>
                             </div>
                             <div
-                              class='ajax-file-upload-widget__uploaded-files ajax-file-upload-files-list ajax-file-upload-files-list_hidden'
+                              className={clsx(
+                                styles.ajaxFileUploadWidget__uploadedFiles,
+                                styles.ajaxFileUploadFilesList,
+                                styles.ajaxFileUploadFilesList_hidden
+                              )}
                               data-role='files-list'
                               data-upload-url='/file-upload/'
                               data-files-limit='15'
                             >
-                              <div class='ajax-file-upload-files-list__file-sample'>
-                                <div class='files-list__file ajax-file-upload-file file' data-role='file-sample'>
-                                  <div class='file__preview' data-role='preview'>
-                                    <div class='file__header'>
-                                      <div class='file__size' data-role='size'></div>
-                                      <div class='ajax-file-upload-file__remove' data-role='remove-button'></div>
+                              <div className={styles.ajaxFileUploadFilesList__fileSample}>
+                                <div
+                                  className={clsx(styles.filesList__file, styles.ajaxFileUploadFile, styles.file)}
+                                  data-role='file-sample'
+                                >
+                                  <div className={styles.file__preview} data-role='preview'>
+                                    <div className={styles.file__header}>
+                                      <div className={styles.file__size} data-role='size'></div>
+                                      <div
+                                        className={styles.ajaxFileUploadFile__remove}
+                                        data-role='remove-button'
+                                      ></div>
                                     </div>
-                                    <div class='file__icon file-icon file-icon_hidden' data-role='icon'></div>
-                                    <div class='file__image file__image_hidden' data-role='preview-image'></div>
                                     <div
-                                      class='ajax-file-upload-file__progress-bar progress-bar progress-bar_hidden'
+                                      className={clsx(styles.file__icon, styles.fileIcon, styles.fileIcon_hidden)}
+                                      data-role='icon'
+                                    ></div>
+                                    <div
+                                      className={clsx(styles.file__image, styles.file__image_hidden)}
+                                      data-role='preview-image'
+                                    ></div>
+                                    <div
+                                      className={clsx(
+                                        styles.ajaxFileUploadFile__progressBar,
+                                        styles.progressBar,
+                                        styles.progressBar_hidden
+                                      )}
                                       data-role='progress-bar'
                                     >
-                                      <div class='progress-bar__bar' data-role='bar'></div>
+                                      <div className={styles.progressBar__bar} data-role='bar'></div>
                                     </div>
                                   </div>
                                   <div
-                                    class='ajax-file-upload-file__title ajax-file-upload-file__tile_hidden file__title'
+                                    className={clsx(
+                                      styles.ajaxFileUploadFile__title,
+                                      styles.ajaxFileUploadFile__tile_hidden,
+                                      styles.file__title
+                                    )}
                                     data-role='title'
                                     data-filetype='... .'
                                   ></div>
@@ -961,7 +1096,7 @@ const ShopCard: FC = () => {
                             <input
                               type='hidden'
                               id='ajaxfileuploadform-widgethash'
-                              class='form-control'
+                              className={styles.formControl}
                               name='AjaxFileUploadForm[widgetHash]'
                               value='cb783719-a30a-4cdf-9e66-ab0cca787b56'
                               data-role='ajax-file-upload-widget-hash-input'
@@ -969,28 +1104,38 @@ const ShopCard: FC = () => {
                             <input
                               type='hidden'
                               id='ajaxfileuploadform-objecttype'
-                              class='form-control'
+                              className={styles.formControl}
                               name='AjaxFileUploadForm[objectType]'
                               value='feedback'
                               data-role='ajax-file-upload-widget-object-type-input'
                             />
                           </div>
-                          <div class='dns-row'>
-                            <div class='shop-feedback-block__policy shop-feedback-block__text_small'>
+                          <div className={styles.dnsRow}>
+                            <div
+                              className={clsx(styles.shopFeedbackBlock__policy, styles.shopFeedbackBlock__text_small)}
+                            >
                               Нажимая кнопку «Отправить», Вы соглашаетесь c
-                              <a class='ui-link ui-link_blue' href='/rules/policy/' target='_blank'>
+                              <a
+                                className={clsx(styles.uiLink, styles.uiLink_blue)}
+                                href='/rules/policy/'
+                                target='_blank'
+                              >
                                 Политикой конфиденциальности
                               </a>
                               и
-                              <a class='ui-link ui-link_blue' href='/rules/personal-data/' target='_blank'>
+                              <a
+                                className={clsx(styles.uiLink, styles.uiLink_blue)}
+                                href='/rules/personal-data/'
+                                target='_blank'
+                              >
                                 Политикой компании в отношении обработки персональных данных
                               </a>
                               , а также - на получение почтовых рассылок рекламного и/или информационного характера.{' '}
                             </div>
-                            <div class='shop-feedback-block__submit-block'>
+                            <div className={styles.shopFeedbackBlock__submitBlock}>
                               <button
                                 type='submit'
-                                class='ns-btn btn-primary shop-feedback-block__submit-btn'
+                                className={clsx(styles.nsBtn, styles.btnPrimary, styles.shopFeedbackBlock__submitBtn)}
                                 data-role='btn-submit'
                                 formnovalidate=''
                               >
@@ -1001,28 +1146,33 @@ const ShopCard: FC = () => {
                         </form>
                       </div>
                     </div>
-                    <div class='modal fade' id='email-confirm-modal'>
-                      <div class='modal-dialog'>
-                        <div class='modal-content'>
-                          <div class='modal-header'>
+                    <div className={clsx(styles.modal, styles.fade)} id='email-confirm-modal'>
+                      <div className={styles.modalDialog}>
+                        <div className={styles.modalContent}>
+                          <div className={styles.modalHeader}>
                             <button
                               type='button'
-                              class='btn btn-default modal-close-btn'
+                              className={clsx(styles.btn, styles.btnDefault, styles.modalCloseBtn)}
                               data-dismiss='modal'
                               aria-hidden='true'
                             >
-                              <span class='remove' aria-hidden='true'></span>
+                              <span className={styles.remove} aria-hidden='true'></span>
                             </button>
                           </div>
-                          <div class='modal-body'>
+                          <div className={styles.modalBody}>
                             Пожалуйста, обратите внимание, что Вы не заполнили поле «Адрес эл.почты». В этом случае мы
                             не сможем сообщить результат рассмотрения Вашего обращения.{' '}
                           </div>
-                          <div class='modal-footer'>
-                            <button type='button' class='btn btn-primary' data-dismiss='modal'>
+                          <div className={styles.modalFooter}>
+                            <button type='button' className={clsx(styles.btn, styles.btnPrimary)} data-dismiss='modal'>
                               Указать адрес
                             </button>
-                            <button type='button' class='btn btn-default' data-dismiss='modal' id='email-modal-submit'>
+                            <button
+                              type='button'
+                              className={clsx(styles.btn, styles.btnDefault)}
+                              data-dismiss='modal'
+                              id='email-modal-submit'
+                            >
                               Отправить{' '}
                             </button>
                           </div>
@@ -1030,8 +1180,8 @@ const ShopCard: FC = () => {
                       </div>
                     </div>
                   </div>
-                  <div class='shop-page-content__section'>
-                    <a class='ui-link ui-link_blue' href='/shops/moscow/'>
+                  <div className={styles.shopPageContent__section}>
+                    <a className={clsx(styles.uiLink, styles.uiLink_blue)} href='/shops/moscow/'>
                       Все магазины в г.Москва
                     </a>
                   </div>
