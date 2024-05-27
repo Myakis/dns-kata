@@ -72,6 +72,19 @@ const ShopCard: FC = () => {
   const [nextFullscreen, setNextFullscreen] = useState(0);
   // Состояние для отслеживания добавления класса загрузки к изображению
   const [isLoadingImage, setIsLoadingImage] = useState(false);
+  const [inputName, setInputName] = useState('');
+  const [inputMail, setInputMail] = useState('');
+  const [inputPhone, setInputPhone] = useState('');
+  const [inputMessage, setInputMessage] = useState('');
+  const [nameValidation, setNameValidation] = useState(false);
+  const [mailValidation, setMailValidation] = useState(false);
+  const [phoneValidation, setPhoneValidation] = useState(false);
+  const [messageValidation, setMessageValidation] = useState(false);
+  const [files, setFiles] = useState([]);
+  const [previews, setPreviews] = useState([]);
+  
+  console.log('files:', files);
+  console.log('previews:', previews);
 
   useEffect(() => {
     const handleResize = () => {
@@ -227,8 +240,64 @@ const ShopCard: FC = () => {
     setTimeout(() => setIsLoadingImage(false), 500); // Сбрасываем состояние после изменения imageIndex
   };
 
-  console.log('totalSlides:', totalSlides);
-  console.log('imageIndex:', imageIndex);
+  const saveForm = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Тримминг значений для предотвращения пробелов
+    const trimmedName = inputName.trim();
+    const trimmedMail = inputMail.trim();
+    const trimmedPhone = inputPhone.trim();
+    const trimmedMessage = inputMessage.trim();
+
+    // Проверка на наличие всех полей
+    const isFormValid = trimmedName !== '' && trimmedMail !== '' && trimmedPhone !== '' && trimmedMessage !== '';
+
+    if (isFormValid) {
+      // Установка валидации на false, так как все поля заполнены
+      setNameValidation(false);
+      setMailValidation(false);
+      setPhoneValidation(false);
+      setMessageValidation(false);
+
+      // Логирование значений полей
+      console.log('Имя:', trimmedName);
+      console.log('Почта:', trimmedMail);
+      console.log('Номер телефона:', trimmedPhone);
+      console.log('Сообщение:', trimmedMessage);
+
+      // Очистка полей формы
+      setInputName('');
+      setInputMail('');
+      setInputPhone('');
+      setInputMessage('');
+    } else {
+      // Установка валидации на true для каждого незаполненного поля
+      setNameValidation(trimmedName === '');
+      setMailValidation(trimmedMail === '');
+      setPhoneValidation(trimmedPhone === '');
+      setMessageValidation(trimmedMessage === '');
+    }
+  };
+
+  const handleFileChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    setFiles(selectedFiles);
+
+    const newPreviews = selectedFiles.map((file) => URL.createObjectURL(file));
+    setPreviews(newPreviews);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (files.length > 0) {
+      files.forEach((file) => {
+        console.log('Selected file:', file);
+      });
+      alert(`Selected files: ${files.map((file) => file.name).join(', ')}`);
+    } else {
+      alert('No files selected');
+    }
+  };
 
   return (
     <div>
@@ -828,7 +897,7 @@ const ShopCard: FC = () => {
                         </p>
                       </div>
                       <div id='shop-feedback-form-wrap' className={styles.shopFeedbackBlock__form}>
-                        <form id='ticket-create-form' action='/feedback/' method='post' enctype='multipart/form-data'>
+                        <form id='ticket-create-form' method='post' enctype='multipart/form-data'>
                           <input
                             type='hidden'
                             name='_csrf'
@@ -836,51 +905,80 @@ const ShopCard: FC = () => {
                           />
                           <input type='hidden' id='ticketcreateform-key' name='TicketCreateForm[key]' />
                           <div className={styles.shopFeedbackBlock__short_fields}>
-                            <div className={clsx(styles.formGroup, styles.fieldTicketcreateformUsername)}>
+                            <div
+                              className={clsx(styles.formGroup, styles.fieldTicketcreateformUsername, styles.hasError)}
+                            >
                               <input
                                 type='text'
                                 id='ticketcreateform-username'
                                 className={styles.formControl}
                                 name='TicketCreateForm[userName]'
-                                value='egorizz'
+                                value={inputName}
                                 required=''
+                                onChange={(e) => setInputName(e.target.value)}
                               />
                               <label className={styles.controlLabel} for='ticketcreateform-username'>
                                 Имя
                               </label>
-                              <p className={clsx(styles.helpBlock, styles.helpBlockError)}></p>
+                              <p
+                                className={clsx(styles.helpBlock, styles.helpBlockError)}
+                                style={{ display: !nameValidation ? 'none' : '' }}
+                              >
+                                Введите ваше имя
+                              </p>
                             </div>
-                            <div className={clsx(styles.formGroup, styles.fieldTicketcreateformUseremail)}>
+                            <div
+                              className={clsx(styles.formGroup, styles.fieldTicketcreateformUseremail, styles.hasError)}
+                            >
                               <input
                                 type='text'
                                 id='ticketcreateform-useremail'
                                 className={styles.formControl}
                                 name='TicketCreateForm[userEmail]'
-                                value='egorizz@mail.ru'
+                                value={inputMail}
                                 required=''
+                                onChange={(e) => setInputMail(e.target.value)}
                               />
                               <label className={styles.controlLabel} for='ticketcreateform-useremail'>
                                 Адрес эл. почты
                               </label>
-                              <p className={clsx(styles.helpBlock, styles.helpBlockError)}></p>
+                              <p
+                                className={clsx(styles.helpBlock, styles.helpBlockError)}
+                                style={{ display: !mailValidation ? 'none' : '' }}
+                              >
+                                Почта
+                              </p>
                             </div>
-                            <div className={clsx(styles.formGroup, styles.fieldTicketcreateformPhone)}>
+                            <div className={clsx(styles.formGroup, styles.fieldTicketcreateformPhone, styles.hasError)}>
                               <input
                                 type='text'
                                 id='ticketcreateform-phone'
                                 className={styles.formControl}
                                 name='TicketCreateForm[phone]'
-                                value='79090935656'
+                                value={inputPhone}
                                 required=''
                                 data-phone='1'
+                                onChange={(e) => setInputPhone(e.target.value)}
                               />
                               <label className={styles.controlLabel} for='ticketcreateform-phone'>
                                 Телефон
                               </label>
-                              <p className={clsx(styles.helpBlock, styles.helpBlockError)}></p>
+                              <p
+                                className={clsx(styles.helpBlock, styles.helpBlockError)}
+                                style={{ display: !phoneValidation ? 'none' : '' }}
+                              >
+                                Телефон
+                              </p>
                             </div>
                           </div>
-                          <div className={clsx(styles.formGroup, styles.fieldTicketcreateformText, styles.required)}>
+                          <div
+                            className={clsx(
+                              styles.formGroup,
+                              styles.fieldTicketcreateformText,
+                              styles.required,
+                              styles.hasError
+                            )}
+                          >
                             <textarea
                               id='ticketcreateform-text'
                               className={styles.formControl}
@@ -888,11 +986,18 @@ const ShopCard: FC = () => {
                               rows='5'
                               required=''
                               aria-required='true'
+                              value={inputMessage}
+                              onChange={(e) => setInputMessage(e.target.value)}
                             ></textarea>
                             <label className={styles.controlLabel} for='ticketcreateform-text'>
                               Текст сообщения
                             </label>
-                            <p className={clsx(styles.helpBlock, styles.helpBlockError)}></p>
+                            <p
+                              className={clsx(styles.helpBlock, styles.helpBlockError)}
+                              style={{ display: !messageValidation ? 'none' : '' }}
+                            >
+                              Необходимо заполнить "Текст сообщения".
+                            </p>
                           </div>
                           <div className={clsx(styles.formGroup, styles.fieldTicketcreateformCity, styles.required)}>
                             <input
@@ -975,6 +1080,7 @@ const ShopCard: FC = () => {
                                 name='AjaxFileUploadForm[uploadedFiles][]'
                                 multiple=''
                                 data-role='file-input'
+                                onChange={handleFileChange}
                               />
                             </div>
                             <div
@@ -1038,60 +1144,67 @@ const ShopCard: FC = () => {
                                 </div>
                               </div>
                             </div>
-                            <div
-                              className={clsx(
-                                styles.ajaxFileUploadWidget__uploadedFiles,
-                                styles.ajaxFileUploadFilesList,
-                                styles.ajaxFileUploadFilesList_hidden
-                              )}
-                              data-role='files-list'
-                              data-upload-url='/file-upload/'
-                              data-files-limit='15'
-                            >
-                              <div className={styles.ajaxFileUploadFilesList__fileSample}>
-                                <div
-                                  className={clsx(styles.filesList__file, styles.ajaxFileUploadFile, styles.file)}
-                                  data-role='file-sample'
-                                >
-                                  <div className={styles.file__preview} data-role='preview'>
-                                    <div className={styles.file__header}>
-                                      <div className={styles.file__size} data-role='size'></div>
-                                      <div
-                                        className={styles.ajaxFileUploadFile__remove}
-                                        data-role='remove-button'
-                                      ></div>
-                                    </div>
-                                    <div
-                                      className={clsx(styles.file__icon, styles.fileIcon, styles.fileIcon_hidden)}
-                                      data-role='icon'
-                                    ></div>
-                                    <div
-                                      className={clsx(styles.file__image, styles.file__image_hidden)}
-                                      data-role='preview-image'
-                                    ></div>
+                            {previews.length > 0 && (
+                              <div
+                                className={clsx(
+                                  styles.ajaxFileUploadWidget__uploadedFiles,
+                                  styles.ajaxFileUploadFilesList,
+                                  styles.filesList
+                                )}
+                                data-role='files-list'
+                                data-upload-url='/file-upload/'
+                                data-files-limit='15'
+                              >
+                                <div>
+                                  <div
+                                    className={clsx(styles.filesList__file, styles.ajaxFileUploadFile, styles.file)}
+                                    data-role='file-sample'
+                                  >
+                                    {previews.map((preview, index) => (
+                                      <div className={styles.file__preview} data-role='preview' key={index}>
+                                        <div className={styles.file__header}>
+                                          <div className={styles.file__size} data-role='size'></div>
+                                          <div
+                                            className={styles.ajaxFileUploadFile__remove}
+                                            data-role='remove-button'
+                                          ></div>
+                                        </div>
+                                        <div className={clsx(styles.file__icon, styles.fileIcon)} data-role='icon'>
+                                          <img
+                                            src={preview}
+                                            alt={`File Preview ${index + 1}`}
+                                            style={{ maxWidth: '100px', maxHeight: '100px' }}
+                                          />
+                                        </div>
+                                        <div
+                                          className={clsx(styles.file__image, styles.file__image_hidden)}
+                                          data-role='preview-image'
+                                        ></div>
+                                        <div
+                                          className={clsx(
+                                            styles.ajaxFileUploadFile__progressBar,
+                                            styles.progressBar,
+                                            styles.progressBar_hidden
+                                          )}
+                                          data-role='progress-bar'
+                                        >
+                                          <div className={styles.progressBar__bar} data-role='bar'></div>
+                                        </div>
+                                      </div>
+                                    ))}
                                     <div
                                       className={clsx(
-                                        styles.ajaxFileUploadFile__progressBar,
-                                        styles.progressBar,
-                                        styles.progressBar_hidden
+                                        styles.ajaxFileUploadFile__title,
+                                        styles.ajaxFileUploadFile__tile_hidden,
+                                        styles.file__title
                                       )}
-                                      data-role='progress-bar'
-                                    >
-                                      <div className={styles.progressBar__bar} data-role='bar'></div>
-                                    </div>
+                                      data-role='title'
+                                      data-filetype='... .'
+                                    ></div>
                                   </div>
-                                  <div
-                                    className={clsx(
-                                      styles.ajaxFileUploadFile__title,
-                                      styles.ajaxFileUploadFile__tile_hidden,
-                                      styles.file__title
-                                    )}
-                                    data-role='title'
-                                    data-filetype='... .'
-                                  ></div>
                                 </div>
                               </div>
-                            </div>
+                            )}
                             <input
                               type='hidden'
                               id='ajaxfileuploadform-widgethash'
@@ -1137,6 +1250,7 @@ const ShopCard: FC = () => {
                                 className={clsx(styles.nsBtn, styles.btnPrimary, styles.shopFeedbackBlock__submitBtn)}
                                 data-role='btn-submit'
                                 formnovalidate=''
+                                onClick={saveForm}
                               >
                                 Отправить
                               </button>
