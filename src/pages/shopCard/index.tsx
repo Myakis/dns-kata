@@ -70,6 +70,8 @@ const ShopCard: FC = () => {
   const [fullscreenMode, setFullscreenMode] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
   const [nextFullscreen, setNextFullscreen] = useState(0);
+  // Состояние для отслеживания добавления класса загрузки к изображению
+  const [isLoadingImage, setIsLoadingImage] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -201,8 +203,6 @@ const ShopCard: FC = () => {
   };
 
   // Функция для переключения на следующий элемент слайдера
-
-  const [isLoadingImage, setIsLoadingImage] = useState(false); // Состояние для отслеживания добавления класса загрузки к изображению
 
   const stepRight = () => {
     setIsLoadingImage(true); // Устанавливаем состояние, что изображение загружается
