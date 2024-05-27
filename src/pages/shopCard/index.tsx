@@ -1,4 +1,5 @@
 import { FC, useRef, useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import styles from './shopCard.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetShopsQuery } from 'shared/api/DNS';
@@ -72,16 +73,15 @@ const ShopCard: FC = () => {
   const [nextFullscreen, setNextFullscreen] = useState(0);
   // Состояние для отслеживания добавления класса загрузки к изображению
   const [isLoadingImage, setIsLoadingImage] = useState(false);
-  const [inputName, setInputName] = useState('');
-  const [inputMail, setInputMail] = useState('');
-  const [inputPhone, setInputPhone] = useState('');
-  const [inputMessage, setInputMessage] = useState('');
-  const [nameValidation, setNameValidation] = useState(false);
-  const [mailValidation, setMailValidation] = useState(false);
-  const [phoneValidation, setPhoneValidation] = useState(false);
-  const [messageValidation, setMessageValidation] = useState(false);
-  const [files, setFiles] = useState<File[]>([]);
-  const [previews, setPreviews] = useState<string[]>([]);
+  const [files, setFiles] = useState([]);
+  const [previews, setPreviews] = useState([]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
   useEffect(() => {
     const handleResize = () => {
@@ -237,61 +237,26 @@ const ShopCard: FC = () => {
     setTimeout(() => setIsLoadingImage(false), 500); // Сбрасываем состояние после изменения imageIndex
   };
 
-  const saveForm = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const saveForm = (data) => {
+    const { inputName, inputMail, inputPhone, inputMessage } = data;
 
-    // Тримминг значений для предотвращения пробелов
-    const trimmedName = inputName.trim();
-    const trimmedMail = inputMail.trim();
-    const trimmedPhone = inputPhone.trim();
-    const trimmedMessage = inputMessage.trim();
+    console.log('Имя:', inputName);
+    console.log('Почта:', inputMail);
+    console.log('Номер телефона:', inputPhone);
+    console.log('Сообщение:', inputMessage);
 
-    // Проверка на наличие всех полей
-    const isFormValid = trimmedName !== '' && trimmedMail !== '' && trimmedPhone !== '' && trimmedMessage !== '';
-
-    if (isFormValid) {
-      // Установка валидации на false, так как все поля заполнены
-      setNameValidation(false);
-      setMailValidation(false);
-      setPhoneValidation(false);
-      setMessageValidation(false);
-
-      // Логирование значений полей
-      console.log('Имя:', trimmedName);
-      console.log('Почта:', trimmedMail);
-      console.log('Номер телефона:', trimmedPhone);
-      console.log('Сообщение:', trimmedMessage);
-      if (files.length === 0) {
-        console.log('Файлы отсутствуют');
-      } else {
-        files.forEach((file) => console.log('Файл:', file.name));
-      }
-
-      // Очистка полей формы
-      setInputName('');
-      setInputMail('');
-      setInputPhone('');
-      setInputMessage('');
-
-      // Очистка файлов и превью после логирования
-      setFiles([]);
-      setPreviews([]);
+    if (files.length === 0) {
+      console.log('Файлы отсутствуют');
     } else {
-      // Установка валидации на true для каждого незаполненного поля
-      setNameValidation(trimmedName === '');
-      setMailValidation(trimmedMail === '');
-      setPhoneValidation(trimmedPhone === '');
-      setMessageValidation(trimmedMessage === '');
-
-      if (files.length === 0) {
-        console.log('Файлы отсутствуют');
-      }
+      files.forEach((file) => console.log('Файл:', file.name));
     }
+
+    reset();
+    setFiles([]);
+    setPreviews([]);
   };
 
-  // Updated handleFileChange function to append new files and their previews to the existing state
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
+  const handleFileChange = (e) => {
     const newFiles = Array.from(e.target.files || []);
     const newPreviews = newFiles.map((file) => URL.createObjectURL(file));
 
@@ -299,13 +264,11 @@ const ShopCard: FC = () => {
     setPreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
   };
 
-  // Handler to remove a file
-  const handleRemoveFile = (index: number) => {
+  const handleRemoveFile = (index) => {
     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     setPreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
   };
 
-  // Utility function to format file size and round to the nearest whole number
   const formatFileSize = (size) => {
     const units = ['bytes', 'KB', 'MB', 'GB'];
     let index = 0;
@@ -331,7 +294,7 @@ const ShopCard: FC = () => {
   // JSX элемент, который отображает изображения превью
   const renderPreviews = () => {
     return previews.map((preview, index) => {
-      const fileSize = formatFileSize(files[index].size); // Get the file size for the current file
+      const fileSize = formatFileSize(files[index].size);
       const fileName = files[index].name;
 
       return (
@@ -341,8 +304,7 @@ const ShopCard: FC = () => {
               <div className={styles.file__header}>
                 <div className={styles.file__size} data-role='size'>
                   {fileSize}
-                </div>{' '}
-                {/* Display file size */}
+                </div>
                 <div
                   className={styles.ajaxFileUploadFile__remove}
                   data-role='remove-button'
@@ -964,71 +926,87 @@ const ShopCard: FC = () => {
                         </p>
                       </div>
                       <div id='shop-feedback-form-wrap' className={styles.shopFeedbackBlock__form}>
-                        <form id='ticket-create-form' method='post' enctype='multipart/form-data'>
+                        <form id='ticket-create-form' onSubmit={handleSubmit(saveForm)}>
                           <div className={styles.shopFeedbackBlock__short_fields}>
                             <div
-                              className={clsx(styles.formGroup, styles.fieldTicketcreateformUsername, styles.hasError)}
+                              className={clsx(
+                                styles.formGroup,
+                                styles.fieldTicketcreateformUsername,
+                                errors.inputName && styles.hasError
+                              )}
                             >
                               <input
                                 type='text'
                                 id='ticketcreateform-username'
                                 className={styles.formControl}
-                                name='TicketCreateForm[userName]'
-                                value={inputName}
-                                required=''
-                                onChange={(e) => setInputName(e.target.value)}
+                                {...register('inputName', { required: true })}
                               />
-                              <label className={styles.controlLabel} for='ticketcreateform-username'>
+                              <label className={styles.controlLabel} htmlFor='ticketcreateform-username'>
                                 Имя
                               </label>
                               <p
                                 className={clsx(styles.helpBlock, styles.helpBlockError)}
-                                style={{ display: !nameValidation ? 'none' : '' }}
+                                style={{ display: errors.inputName ? 'block' : 'none' }}
                               >
                                 Введите ваше имя
                               </p>
                             </div>
                             <div
-                              className={clsx(styles.formGroup, styles.fieldTicketcreateformUseremail, styles.hasError)}
+                              className={clsx(
+                                styles.formGroup,
+                                styles.fieldTicketcreateformUseremail,
+                                errors.inputMail && styles.hasError
+                              )}
                             >
                               <input
                                 type='text'
                                 id='ticketcreateform-useremail'
                                 className={styles.formControl}
-                                name='TicketCreateForm[userEmail]'
-                                value={inputMail}
-                                required=''
-                                onChange={(e) => setInputMail(e.target.value)}
+                                {...register('inputMail', {
+                                  required: 'Почта не может быть пустой',
+                                  pattern: {
+                                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                    message: 'Неверный формат почты',
+                                  },
+                                })}
                               />
-                              <label className={styles.controlLabel} for='ticketcreateform-useremail'>
+                              <label className={styles.controlLabel} htmlFor='ticketcreateform-useremail'>
                                 Адрес эл. почты
                               </label>
                               <p
                                 className={clsx(styles.helpBlock, styles.helpBlockError)}
-                                style={{ display: !mailValidation ? 'none' : '' }}
+                                style={{ display: errors.inputMail ? 'block' : 'none' }}
                               >
-                                Почта
+                                {errors.inputMail?.message}
                               </p>
                             </div>
-                            <div className={clsx(styles.formGroup, styles.fieldTicketcreateformPhone, styles.hasError)}>
+                            <div
+                              className={clsx(
+                                styles.formGroup,
+                                styles.fieldTicketcreateformPhone,
+                                errors.inputPhone && styles.hasError
+                              )}
+                            >
                               <input
                                 type='text'
                                 id='ticketcreateform-phone'
                                 className={styles.formControl}
-                                name='TicketCreateForm[phone]'
-                                value={inputPhone}
-                                required=''
-                                data-phone='1'
-                                onChange={(e) => setInputPhone(e.target.value)}
+                                {...register('inputPhone', {
+                                  required: 'Телефон не может быть пустым',
+                                  pattern: {
+                                    value: /^\+?[1-9]\d{1,14}$/,
+                                    message: 'Неверный формат телефона',
+                                  },
+                                })}
                               />
-                              <label className={styles.controlLabel} for='ticketcreateform-phone'>
+                              <label className={styles.controlLabel} htmlFor='ticketcreateform-phone'>
                                 Телефон
                               </label>
                               <p
                                 className={clsx(styles.helpBlock, styles.helpBlockError)}
-                                style={{ display: !phoneValidation ? 'none' : '' }}
+                                style={{ display: errors.inputPhone ? 'block' : 'none' }}
                               >
-                                Телефон
+                                {errors.inputPhone?.message}
                               </p>
                             </div>
                           </div>
@@ -1037,127 +1015,47 @@ const ShopCard: FC = () => {
                               styles.formGroup,
                               styles.fieldTicketcreateformText,
                               styles.required,
-                              styles.hasError
+                              errors.inputMessage && styles.hasError
                             )}
                           >
                             <textarea
                               id='ticketcreateform-text'
                               className={styles.formControl}
-                              name='TicketCreateForm[text]'
                               rows='5'
-                              required=''
-                              aria-required='true'
-                              value={inputMessage}
-                              onChange={(e) => setInputMessage(e.target.value)}
+                              {...register('inputMessage', {
+                                required: 'Необходимо заполнить «Текст сообщения».',
+                                minLength: {
+                                  value: 3,
+                                  message: 'Значение «Текст сообщения» должно содержать минимум 3 символа.',
+                                },
+                              })}
                             ></textarea>
-                            <label className={styles.controlLabel} for='ticketcreateform-text'>
+                            <label className={styles.controlLabel} htmlFor='ticketcreateform-text'>
                               Текст сообщения
                             </label>
                             <p
                               className={clsx(styles.helpBlock, styles.helpBlockError)}
-                              style={{ display: !messageValidation ? 'none' : '' }}
+                              style={{ display: errors.inputMessage ? 'block' : 'none' }}
                             >
-                              Необходимо заполнить "Текст сообщения".
+                              {errors.inputMessage?.message}
                             </p>
                           </div>
-                          <div
-                            className={styles.ajaxFileUploadWidget}
-                            data-role='ajax-file-upload-widget'
-                            id='cb783719-a30a-4cdf-9e66-ab0cca787b56'
-                            data-widget-hash='cb783719-a30a-4cdf-9e66-ab0cca787b56'
-                          >
+                          <div className={styles.ajaxFileUploadWidget} data-role='ajax-file-upload-widget'>
                             <div className={clsx(styles.formGroup, styles.fieldAjaxfileuploadformUploadedfiles)}>
                               <label
                                 className={styles.ajaxFileUploadWidget__label}
-                                data-role='file-input-label'
-                                for='ajaxfileuploadform-uploadedfiles'
+                                htmlFor='ajaxfileuploadform-uploadedfiles'
                               >
                                 <div className={styles.ajaxFileUploadWidget__labelIcon}></div>
-                                <span
-                                  className={styles.ajaxFileUploadWidget__labelText}
-                                  data-toggle='tooltip'
-                                  data-html='true'
-                                  data-trigger='hover'
-                                  data-placement='top'
-                                  data-container='#cb783719-a30a-4cdf-9e66-ab0cca787b56'
-                                  title=''
-                                  data-original-title='Вы можете прикрепить изображение или документ формата: doc, docx, xls, xlsx, txt, pdf, jpeg, jpg, png.<br />
-Общий объем файлов не должен превышать 300 Мб.<br />
-Количество документов не более 15.'
-                                >
-                                  Прикрепить файлы
-                                </span>
+                                <span className={styles.ajaxFileUploadWidget__labelText}>Прикрепить файлы</span>
                               </label>
                               <input
                                 type='file'
                                 id='ajaxfileuploadform-uploadedfiles'
                                 className={styles.ajaxFileUploadWidget__fileInput}
-                                name='AjaxFileUploadForm[uploadedFiles][]'
-                                multiple=''
-                                data-role='file-input'
+                                multiple
                                 onChange={handleFileChange}
                               />
-                            </div>
-                            <div
-                              className={clsx(
-                                styles.ajaxFileUploadWidget__error,
-                                styles.ajaxFileUploadWidget__error_hidden
-                              )}
-                              data-role='error'
-                            ></div>
-                            <div
-                              id='base-modal-2iQfxNUe'
-                              className={clsx(
-                                styles.ajaxFileInputRulesModal,
-                                styles.baseModal,
-                                styles.baseModal_hidden
-                              )}
-                              tabindex='-1'
-                              role='dialog'
-                              data-role='rules-modal'
-                              data-handler-active=''
-                              hidden=''
-                            >
-                              <div
-                                className={clsx(styles.baseModal__backdrop, styles.handlerActive)}
-                                data-base-modal-action='close'
-                              ></div>
-                              <div
-                                className={clsx(styles.ajaxFileInputRulesModal__container, styles.baseModal__container)}
-                              >
-                                <div className={styles.baseModal__header}>
-                                  <i
-                                    className={clsx(
-                                      styles.ajaxFileInputRulesModal__headerCloseIcon,
-                                      styles.baseModal__headerCloseIcon,
-                                      styles.handlerActive
-                                    )}
-                                    data-base-modal-action='close'
-                                  ></i>
-                                </div>
-                                <div
-                                  className={clsx(styles.ajaxFileInputRulesModal__content, styles.baseModal__content)}
-                                >
-                                  <p>
-                                    Вы можете прикрепить изображение или документ формата: doc, docx, xls, xlsx, txt,
-                                    pdf, jpeg, jpg, png.
-                                    <br />
-                                    Общий объем файлов не должен превышать 300 Мб.
-                                    <br />
-                                    Количество документов не более 15.
-                                  </p>
-                                  <div
-                                    className={clsx(
-                                      styles.ajaxFileInputRulesModal__selectFileButton,
-                                      styles.btn,
-                                      styles.btnAdditional
-                                    )}
-                                    data-role='select-file-button'
-                                  >
-                                    Выбрать файл
-                                  </div>
-                                </div>
-                              </div>
                             </div>
                             {previews.length > 0 && (
                               <div
@@ -1166,9 +1064,6 @@ const ShopCard: FC = () => {
                                   styles.ajaxFileUploadFilesList,
                                   styles.filesList
                                 )}
-                                data-role='files-list'
-                                data-upload-url='/file-upload/'
-                                data-files-limit='15'
                               >
                                 {renderPreviews()}
                               </div>
@@ -1194,15 +1089,12 @@ const ShopCard: FC = () => {
                               >
                                 Политикой компании в отношении обработки персональных данных
                               </a>
-                              , а также - на получение почтовых рассылок рекламного и/или информационного характера.{' '}
+                              , а также - на получение почтовых рассылок рекламного и/или информационного характера.
                             </div>
                             <div className={styles.shopFeedbackBlock__submitBlock}>
                               <button
                                 type='submit'
                                 className={clsx(styles.nsBtn, styles.btnPrimary, styles.shopFeedbackBlock__submitBtn)}
-                                data-role='btn-submit'
-                                formnovalidate=''
-                                onClick={saveForm}
                               >
                                 Отправить
                               </button>
