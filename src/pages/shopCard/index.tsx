@@ -75,6 +75,8 @@ const ShopCard: FC = () => {
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
+  const [fileValidation, setFileValidation] = useState(true); // Состояние для валидации общего объема файлов
+  const [fileCountValidation, setFileCountValidation] = useState(true); // Состояние для валидации количества файлов
 
   const {
     register,
@@ -258,10 +260,26 @@ const ShopCard: FC = () => {
 
   const handleFileChange = (e) => {
     const newFiles = Array.from(e.target.files || []);
-    const newPreviews = newFiles.map((file) => URL.createObjectURL(file));
+    const totalSize =
+      files.reduce((acc, file) => acc + file.size, 0) + newFiles.reduce((acc, file) => acc + file.size, 0);
+    const maxSize = 300 * 1024 * 1024; // 300 MB
+    const maxFiles = 15;
 
-    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
-    setPreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
+    if (totalSize <= maxSize && files.length + newFiles.length <= maxFiles) {
+      const newPreviews = newFiles.map((file) => URL.createObjectURL(file));
+
+      setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+      setPreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
+      setFileValidation(true); // Сбрасываем валидацию, если она была отображена
+    } else {
+      // Обновляем состояние валидации
+      if (totalSize > maxSize) {
+        setFileValidation(false);
+      }
+      if (files.length + newFiles.length > maxFiles) {
+        setFileCountValidation(false);
+      }
+    }
   };
 
   const handleRemoveFile = (index) => {
@@ -1043,11 +1061,21 @@ const ShopCard: FC = () => {
                           <div className={styles.ajaxFileUploadWidget} data-role='ajax-file-upload-widget'>
                             <div className={clsx(styles.formGroup, styles.fieldAjaxfileuploadformUploadedfiles)}>
                               <label
-                                className={styles.ajaxFileUploadWidget__label}
+                                className={clsx(styles.ajaxFileUploadWidget__label, styles.hasError)}
                                 htmlFor='ajaxfileuploadform-uploadedfiles'
                               >
                                 <div className={styles.ajaxFileUploadWidget__labelIcon}></div>
                                 <span className={styles.ajaxFileUploadWidget__labelText}>Прикрепить файлы</span>
+                                {!fileValidation && (
+                                  <p className={clsx(styles.helpBlock, styles.helpBlockError)}>
+                                    Общий объем файлов превышает 300 МБ
+                                  </p>
+                                )}
+                                {!fileCountValidation && (
+                                  <p className={clsx(styles.helpBlock, styles.helpBlockError)}>
+                                    Количество файлов превышает 15
+                                  </p>
+                                )}
                               </label>
                               <input
                                 type='file'
