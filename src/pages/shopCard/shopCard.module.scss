@@ -1009,6 +1009,18 @@ textarea.formControl {
   top: 3px;
   vertical-align: text-top;
   width: 15px;
+
+  &::before {
+    speak: none;
+    content: '\e014';
+    display: inline-block;
+    font-family: i-icon !important;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 1;
+    text-transform: none;
+  }
 }
 
 .file__icon {
@@ -1021,6 +1033,11 @@ textarea.formControl {
   background: url(b7d1697….png) no-repeat;
   height: 51px;
   width: 37px;
+}
+
+.fileIcon {
+  background: url(b7d1697….png) no-repeat;
+  width: 100%;
 }
 
 .fileIcon_hidden {

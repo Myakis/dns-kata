@@ -80,11 +80,8 @@ const ShopCard: FC = () => {
   const [mailValidation, setMailValidation] = useState(false);
   const [phoneValidation, setPhoneValidation] = useState(false);
   const [messageValidation, setMessageValidation] = useState(false);
-  const [files, setFiles] = useState([]);
-  const [previews, setPreviews] = useState([]);
-  
-  console.log('files:', files);
-  console.log('previews:', previews);
+  const [files, setFiles] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -264,39 +261,114 @@ const ShopCard: FC = () => {
       console.log('Почта:', trimmedMail);
       console.log('Номер телефона:', trimmedPhone);
       console.log('Сообщение:', trimmedMessage);
+      if (files.length === 0) {
+        console.log('Файлы отсутствуют');
+      } else {
+        files.forEach((file) => console.log('Файл:', file.name));
+      }
 
       // Очистка полей формы
       setInputName('');
       setInputMail('');
       setInputPhone('');
       setInputMessage('');
+
+      // Очистка файлов и превью после логирования
+      setFiles([]);
+      setPreviews([]);
     } else {
       // Установка валидации на true для каждого незаполненного поля
       setNameValidation(trimmedName === '');
       setMailValidation(trimmedMail === '');
       setPhoneValidation(trimmedPhone === '');
       setMessageValidation(trimmedMessage === '');
+
+      if (files.length === 0) {
+        console.log('Файлы отсутствуют');
+      }
     }
   };
 
-  const handleFileChange = (e) => {
-    const selectedFiles = Array.from(e.target.files);
-    setFiles(selectedFiles);
-
-    const newPreviews = selectedFiles.map((file) => URL.createObjectURL(file));
-    setPreviews(newPreviews);
-  };
-
-  const handleSubmit = (e) => {
+  // Updated handleFileChange function to append new files and their previews to the existing state
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    if (files.length > 0) {
-      files.forEach((file) => {
-        console.log('Selected file:', file);
-      });
-      alert(`Selected files: ${files.map((file) => file.name).join(', ')}`);
-    } else {
-      alert('No files selected');
+    const newFiles = Array.from(e.target.files || []);
+    const newPreviews = newFiles.map((file) => URL.createObjectURL(file));
+
+    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+    setPreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
+  };
+
+  // Handler to remove a file
+  const handleRemoveFile = (index: number) => {
+    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    setPreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
+  };
+
+  // Utility function to format file size and round to the nearest whole number
+  const formatFileSize = (size) => {
+    const units = ['bytes', 'KB', 'MB', 'GB'];
+    let index = 0;
+    while (size >= 1024 && index < units.length - 1) {
+      size /= 1024;
+      index++;
     }
+    return `${Math.round(size)} ${units[index]}`;
+  };
+
+  // const logFileNames = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   e.preventDefault();
+  //   if (files.length === 0) {
+  //     console.log('файлы отсутствуют');
+  //   } else {
+  //     files.forEach((file) => console.log('Файл:', file.name));
+  //     // Clear the files and previews after logging
+  //     setFiles([]);
+  //     setPreviews([]);
+  //   }
+  // };
+
+  // JSX элемент, который отображает изображения превью
+  const renderPreviews = () => {
+    return previews.map((preview, index) => {
+      const fileSize = formatFileSize(files[index].size); // Get the file size for the current file
+      const fileName = files[index].name;
+
+      return (
+        <div key={index}>
+          <div className={clsx(styles.filesList__file, styles.ajaxFileUploadFile, styles.file)} data-role='file-sample'>
+            <div className={styles.file__preview} data-role='preview'>
+              <div className={styles.file__header}>
+                <div className={styles.file__size} data-role='size'>
+                  {fileSize}
+                </div>{' '}
+                {/* Display file size */}
+                <div
+                  className={styles.ajaxFileUploadFile__remove}
+                  data-role='remove-button'
+                  onClick={() => handleRemoveFile(index)}
+                ></div>
+              </div>
+              <div className={clsx(styles.file__icon, styles.fileIcon)} data-role='icon'>
+                <img className={styles.file__image} src={preview} alt={`preview ${index}`} />
+              </div>
+              <div className={clsx(styles.file__image, styles.file__image_hidden)} data-role='preview-image'></div>
+            </div>
+            <div
+              className={clsx(
+                styles.ajaxFileUploadFile__title,
+                styles.ajaxFileUploadFile__tile_hidden,
+                styles.file__title
+              )}
+              data-role='title'
+              data-filetype='... .'
+            >
+              {fileName}
+            </div>
+          </div>
+        </div>
+      );
+    });
   };
 
   return (
@@ -768,11 +840,6 @@ const ShopCard: FC = () => {
                           method='POST'
                           data-method='ajax'
                         >
-                          <input
-                            type='hidden'
-                            name='_csrf'
-                            value='r0hK4lx2f_BmqmUFGm3F1UYbqR0K98MIpqAL9q8JQozkLD-NGhUoryHgAF1cOby-AC7wUzy49Ebu0l-82nA15g=='
-                          />
                           <div className={styles.checkInvoiceWidget}>
                             <input
                               type='text'
@@ -898,12 +965,6 @@ const ShopCard: FC = () => {
                       </div>
                       <div id='shop-feedback-form-wrap' className={styles.shopFeedbackBlock__form}>
                         <form id='ticket-create-form' method='post' enctype='multipart/form-data'>
-                          <input
-                            type='hidden'
-                            name='_csrf'
-                            value='r0hK4lx2f_BmqmUFGm3F1UYbqR0K98MIpqAL9q8JQozkLD-NGhUoryHgAF1cOby-AC7wUzy49Ebu0l-82nA15g=='
-                          />
-                          <input type='hidden' id='ticketcreateform-key' name='TicketCreateForm[key]' />
                           <div className={styles.shopFeedbackBlock__short_fields}>
                             <div
                               className={clsx(styles.formGroup, styles.fieldTicketcreateformUsername, styles.hasError)}
@@ -999,51 +1060,6 @@ const ShopCard: FC = () => {
                               Необходимо заполнить "Текст сообщения".
                             </p>
                           </div>
-                          <div className={clsx(styles.formGroup, styles.fieldTicketcreateformCity, styles.required)}>
-                            <input
-                              type='hidden'
-                              id='ticketcreateform-city'
-                              className={styles.formControl}
-                              name='TicketCreateForm[city]'
-                              value='30b7c1f3-03fb-11dc-95ee-00151716f9f5'
-                            />
-                          </div>
-                          <div className={clsx(styles.formGroup, styles.fieldTicketcreateformCharter, styles.required)}>
-                            <input
-                              type='hidden'
-                              id='ticketcreateform-charter'
-                              className={styles.formControl}
-                              name='TicketCreateForm[charter]'
-                              value='0c4a702f-0acd-45c0-adb3-8ebe213e6bd8'
-                            />
-                          </div>
-                          <div className={clsx(styles.formGroup, styles.fieldTicketcreateformTheme)}>
-                            <input
-                              type='hidden'
-                              id='ticketcreateform-theme'
-                              className={styles.formControl}
-                              name='TicketCreateForm[theme]'
-                              value='5d5f3faf-8455-480a-a7fb-26b41ba5d51c'
-                            />
-                          </div>
-                          <div className={clsx(styles.formGroup, styles.fieldTicketcreateformBranch, styles.required)}>
-                            <input
-                              type='hidden'
-                              id='ticketcreateform-branch'
-                              className={styles.formControl}
-                              name='TicketCreateForm[branch]'
-                              value='9f9b1b68-3e39-11eb-a219-00155d28220e'
-                            />
-                          </div>
-                          <div className={clsx(styles.formGroup, styles.fieldTicketcreateformFilesuploadhash)}>
-                            <input
-                              type='hidden'
-                              id='ticketcreateform-filesuploadhash'
-                              className={styles.formControl}
-                              name='TicketCreateForm[filesUploadHash]'
-                              value='cb783719-a30a-4cdf-9e66-ab0cca787b56'
-                            />
-                          </div>
                           <div
                             className={styles.ajaxFileUploadWidget}
                             data-role='ajax-file-upload-widget'
@@ -1072,7 +1088,6 @@ const ShopCard: FC = () => {
                                   Прикрепить файлы
                                 </span>
                               </label>
-                              <input type='hidden' name='AjaxFileUploadForm[uploadedFiles][]' value='' />
                               <input
                                 type='file'
                                 id='ajaxfileuploadform-uploadedfiles'
@@ -1155,72 +1170,9 @@ const ShopCard: FC = () => {
                                 data-upload-url='/file-upload/'
                                 data-files-limit='15'
                               >
-                                <div>
-                                  <div
-                                    className={clsx(styles.filesList__file, styles.ajaxFileUploadFile, styles.file)}
-                                    data-role='file-sample'
-                                  >
-                                    {previews.map((preview, index) => (
-                                      <div className={styles.file__preview} data-role='preview' key={index}>
-                                        <div className={styles.file__header}>
-                                          <div className={styles.file__size} data-role='size'></div>
-                                          <div
-                                            className={styles.ajaxFileUploadFile__remove}
-                                            data-role='remove-button'
-                                          ></div>
-                                        </div>
-                                        <div className={clsx(styles.file__icon, styles.fileIcon)} data-role='icon'>
-                                          <img
-                                            src={preview}
-                                            alt={`File Preview ${index + 1}`}
-                                            style={{ maxWidth: '100px', maxHeight: '100px' }}
-                                          />
-                                        </div>
-                                        <div
-                                          className={clsx(styles.file__image, styles.file__image_hidden)}
-                                          data-role='preview-image'
-                                        ></div>
-                                        <div
-                                          className={clsx(
-                                            styles.ajaxFileUploadFile__progressBar,
-                                            styles.progressBar,
-                                            styles.progressBar_hidden
-                                          )}
-                                          data-role='progress-bar'
-                                        >
-                                          <div className={styles.progressBar__bar} data-role='bar'></div>
-                                        </div>
-                                      </div>
-                                    ))}
-                                    <div
-                                      className={clsx(
-                                        styles.ajaxFileUploadFile__title,
-                                        styles.ajaxFileUploadFile__tile_hidden,
-                                        styles.file__title
-                                      )}
-                                      data-role='title'
-                                      data-filetype='... .'
-                                    ></div>
-                                  </div>
-                                </div>
+                                {renderPreviews()}
                               </div>
                             )}
-                            <input
-                              type='hidden'
-                              id='ajaxfileuploadform-widgethash'
-                              className={styles.formControl}
-                              name='AjaxFileUploadForm[widgetHash]'
-                              value='cb783719-a30a-4cdf-9e66-ab0cca787b56'
-                              data-role='ajax-file-upload-widget-hash-input'
-                            />
-                            <input
-                              type='hidden'
-                              id='ajaxfileuploadform-objecttype'
-                              className={styles.formControl}
-                              name='AjaxFileUploadForm[objectType]'
-                              value='feedback'
-                              data-role='ajax-file-upload-widget-object-type-input'
-                            />
                           </div>
                           <div className={styles.dnsRow}>
                             <div
@@ -1257,39 +1209,6 @@ const ShopCard: FC = () => {
                             </div>
                           </div>
                         </form>
-                      </div>
-                    </div>
-                    <div className={clsx(styles.modal, styles.fade)} id='email-confirm-modal'>
-                      <div className={styles.modalDialog}>
-                        <div className={styles.modalContent}>
-                          <div className={styles.modalHeader}>
-                            <button
-                              type='button'
-                              className={clsx(styles.btn, styles.btnDefault, styles.modalCloseBtn)}
-                              data-dismiss='modal'
-                              aria-hidden='true'
-                            >
-                              <span className={styles.remove} aria-hidden='true'></span>
-                            </button>
-                          </div>
-                          <div className={styles.modalBody}>
-                            Пожалуйста, обратите внимание, что Вы не заполнили поле «Адрес эл.почты». В этом случае мы
-                            не сможем сообщить результат рассмотрения Вашего обращения.{' '}
-                          </div>
-                          <div className={styles.modalFooter}>
-                            <button type='button' className={clsx(styles.btn, styles.btnPrimary)} data-dismiss='modal'>
-                              Указать адрес
-                            </button>
-                            <button
-                              type='button'
-                              className={clsx(styles.btn, styles.btnDefault)}
-                              data-dismiss='modal'
-                              id='email-modal-submit'
-                            >
-                              Отправить{' '}
-                            </button>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
