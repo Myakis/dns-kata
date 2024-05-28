@@ -1,0 +1,197 @@
+.form_theme {
+  margin-bottom: 10px;
+}
+
+.form_radio {
+  position: relative;
+
+  label {
+    cursor: pointer;
+    display: inline-block;
+    padding: 15px 0 15px 40px;
+    width: 100%;
+    font-size: 18px;
+  }
+
+  input {
+    cursor: pointer;
+    position: absolute;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+  }
+
+  input:before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 0px solid var(--primary-color);
+    border-radius: 50%;
+  }
+
+  input:checked:before {
+    content: '';
+    background-color: var(--white);
+
+    animation-name: checkedRadio;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+
+    @keyframes checkedRadio {
+      0% {
+        border: 0px solid var(--primary-color);
+      }
+      100% {
+        border: 6px solid var(--primary-color);
+      }
+    }
+  }
+}
+
+.form_message {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  textarea,
+  input {
+    background-color: var(--light-gray);
+    border: none;
+    border-radius: 7px;
+    padding: 15px;
+  }
+
+  textarea {
+    width: 100%;
+    min-width: 100%;
+    height: 150px;
+    margin-bottom: 20px;
+  }
+
+  input {
+    width: 32%;
+    height: 60px;
+  }
+}
+
+.form_error {
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 15px;
+  width: 100%;
+  color: var(--error-color);
+  text-align: center;
+  background-color: rgb(255, 216, 216);
+
+  &.dspl_none {
+    display: none;
+  }
+}
+
+.form_city {
+  margin-top: 20px;
+}
+
+.form_upload {
+  position: relative;
+  margin: 20px 0;
+
+  .upload {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 150px;
+    border: 1px dashed var(--dark-gray);
+    border-radius: 10px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
+    i::before {
+      content: '\e905';
+      color: var(--dark-gray);
+      font-family: 'i-icon';
+      font-style: normal;
+      font-size: 30px;
+    }
+
+    .inputFile {
+      color: rgb(0, 115, 255);
+      text-decoration: none;
+
+      input {
+        display: none;
+      }
+    }
+
+    &.uploadDrug {
+      background-color: rgb(255, 230, 199);
+    }
+
+    .clearBtn {
+      border: none;
+      background-color: transparent;
+      z-index: 2;
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: var(--text-color);
+    }
+  }
+
+  .attachment {
+    display: flex;
+    flex-direction: row;
+
+    .attachment_note {
+      position: absolute;
+      height: 100px;
+      width: 200px;
+      top: 60px;
+      left: 70px;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 10px;
+      background-color: var(--dark-gray);
+      color: var(--white);
+    }
+  }
+
+  .attachment_icon::before {
+    content: '\e922';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    color: var(--dark-gray);
+    font-family: 'i-icon';
+    font-style: normal;
+    font-size: 20px;
+    margin-left: 10px;
+  }
+}
+
+.form_submit {
+  border: none;
+  width: 200px;
+  height: 44px;
+  border-radius: 10px;
+  background-image: linear-gradient(0deg, #fc8507, #ffa218);
+  color: var(--white);
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.form_politics {
+  margin-top: 20px;
+  font-size: 14px;
+
+  a {
+    text-decoration: none;
+    color: rgb(0, 115, 255);
+  }
+}

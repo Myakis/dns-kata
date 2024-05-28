@@ -31,9 +31,9 @@ const FeedbackModal: FC<IModalFeedback> = ({ data, currentState, setCurrentState
       res = res.filter((item) => item.includes(search));
     }
 
-    return res.map((item) => {
+    return res.map((item, index) => {
       return (
-        <li key={crypto.randomUUID()}>
+        <li key={index}>
           <a
             className={clsx(item === currentState ? style.active : null)}
             onClick={(e) => {

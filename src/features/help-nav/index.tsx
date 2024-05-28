@@ -9,7 +9,7 @@ const HelpNav: FC = () => {
   const [active, setActive] = useState('dialog');
 
   const navItems = (data: LinkPageType) => {
-    return data.map((item) => {
+    return data.map((item, index) => {
       const itemIcon = item.icon ? style[item.icon] : '';
       const itemActive = active === item.icon ? style.active : null;
 
@@ -21,7 +21,7 @@ const HelpNav: FC = () => {
       };
 
       return (
-        <li key={self.crypto.randomUUID()}>
+        <li key={index}>
           <a className={clsx(itemIcon, itemActive)} onClick={handlerItem} target='' href={item.href}>
             <i></i>
             {item.title}
