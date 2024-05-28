@@ -1,4 +1,4 @@
-import { FC, useRef, useState, useEffect } from 'react';
+import { FC, ChangeEvent, useRef, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './shopCard.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -14,6 +14,15 @@ interface ShopImage {
 
 interface Bank {
   name: string;
+}
+
+interface FormData {
+  inputName: string;
+  inputMail: string;
+  inputPhone: string;
+  inputMessage: string;
+  name: string;
+  // Дополнительные свойства, если они есть
 }
 
 // Данные для списка
@@ -73,8 +82,8 @@ const ShopCard: FC = () => {
   const [nextFullscreen, setNextFullscreen] = useState(0);
   // Состояние для отслеживания добавления класса загрузки к изображению
   const [isLoadingImage, setIsLoadingImage] = useState(false);
-  const [files, setFiles] = useState([]);
-  const [previews, setPreviews] = useState([]);
+  const [files, setFiles] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
   const [fileValidation, setFileValidation] = useState(true); // Состояние для валидации общего объема файлов
   const [fileCountValidation, setFileCountValidation] = useState(true); // Состояние для валидации количества файлов
 
@@ -87,7 +96,9 @@ const ShopCard: FC = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (!fullscreenMode) return;
+      if (!fullscreenMode) {
+        return;
+      }
 
       const tnsControls = document.querySelector(`.${styles.tnsControls}`) as HTMLElement;
 
@@ -114,7 +125,7 @@ const ShopCard: FC = () => {
   }, [fullscreenMode, sliderLengthFullscreen]);
 
   // Функция для переключения между режимами слайдера и полноэкранного режима
-  const toggleFullscreenMode = (id) => {
+  const toggleFullscreenMode = (id: number) => {
     setFullscreenMode(!fullscreenMode);
     setImageIndex(id - 1);
   };
@@ -210,7 +221,7 @@ const ShopCard: FC = () => {
     );
   };
 
-  const chooseImage = (item) => {
+  const chooseImage = (item: number) => {
     setImageIndex(item - 1);
   };
 
@@ -239,7 +250,7 @@ const ShopCard: FC = () => {
     setTimeout(() => setIsLoadingImage(false), 500); // Сбрасываем состояние после изменения imageIndex
   };
 
-  const saveForm = (data) => {
+  const saveForm = (data: FormData, files: File[]) => {
     const { inputName, inputMail, inputPhone, inputMessage } = data;
 
     console.log('Имя:', inputName);
@@ -258,7 +269,7 @@ const ShopCard: FC = () => {
     setPreviews([]);
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newFiles = Array.from(e.target.files || []);
     const totalSize =
       files.reduce((acc, file) => acc + file.size, 0) + newFiles.reduce((acc, file) => acc + file.size, 0);
@@ -282,32 +293,22 @@ const ShopCard: FC = () => {
     }
   };
 
-  const handleRemoveFile = (index) => {
+  const handleRemoveFile = (index: number) => {
     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     setPreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
   };
 
-  const formatFileSize = (size) => {
+  const formatFileSize = (size: number) => {
     const units = ['bytes', 'KB', 'MB', 'GB'];
+    let adjustedSize = size; // Создаем новую переменную для изменяемого значения
     let index = 0;
-    while (size >= 1024 && index < units.length - 1) {
-      size /= 1024;
+
+    while (adjustedSize >= 1024 && index < units.length - 1) {
+      adjustedSize /= 1024;
       index++;
     }
-    return `${Math.round(size)} ${units[index]}`;
+    return `${Math.round(adjustedSize)} ${units[index]}`;
   };
-
-  // const logFileNames = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   e.preventDefault();
-  //   if (files.length === 0) {
-  //     console.log('файлы отсутствуют');
-  //   } else {
-  //     files.forEach((file) => console.log('Файл:', file.name));
-  //     // Clear the files and previews after logging
-  //     setFiles([]);
-  //     setPreviews([]);
-  //   }
-  // };
 
   // JSX элемент, который отображает изображения превью
   const renderPreviews = () => {
@@ -505,11 +506,8 @@ const ShopCard: FC = () => {
                     <div className={styles.shopPageContent__container}>
                       <div className={styles.shopPageContent__infoBlock}>
                         <div className={styles.shopPageContent__mainInfo}>
-                          <div itemprop='address'>
-                            <div
-                              className={clsx(styles.shopPageContent__textLarger, styles.shopPageContent__textBold)}
-                              itemprop='streetAddress'
-                            >
+                          <div>
+                            <div className={clsx(styles.shopPageContent__textLarger, styles.shopPageContent__textBold)}>
                               {article.streetAddress}{' '}
                             </div>
                           </div>
@@ -554,6 +552,19 @@ const ShopCard: FC = () => {
                                   d='M15.2134 0.714844C17.5496 0.714844 19.4434 2.60863 19.4434 4.94484L19.4434 15.2135C19.4434 17.5497 17.5496 19.4435 15.2134 19.4435L8.61869 19.4435C8.41976 19.4435 8.22898 19.3645 8.08832 19.2238L0.861931 11.9964C0.712424 11.8593 0.618692 11.6624 0.618692 11.4435C0.618692 11.4304 0.619028 11.4174 0.619694 11.4044L0.619694 4.94484C0.619694 2.60863 2.51348 0.714843 4.84969 0.714843L15.2134 0.714844ZM3.18018 12.1935L7.86869 16.8827L7.86869 14.4435C7.86869 13.2007 6.86148 12.1935 5.61869 12.1935L3.18018 12.1935ZM9.36869 17.9435L9.36869 14.4435C9.36869 12.3723 7.68991 10.6935 5.61869 10.6935L2.11969 10.6935L2.11969 4.94484C2.11969 3.43706 3.34191 2.21484 4.84969 2.21484L15.2134 2.21484C16.7211 2.21484 17.9434 3.43706 17.9434 4.94484L17.9434 15.2135C17.9434 16.7213 16.7211 17.9435 15.2134 17.9435L9.36869 17.9435Z'
                                 ></path>
                               </svg>
+                            </div>
+                            <div
+                              className={clsx(styles.shopVoblerPopover, styles.hidden)}
+                              style={{ top: '767px', left: '163.5px' }}
+                            >
+                              <div className={styles.shopVoblerPopover__wrapper}>
+                                <div className={styles.shopVoblerPopover__text}>
+                                  В магазине могут изготовить пленку для защиты экрана вашего устройства
+                                </div>
+                                <a className={styles.shopVoblerPopover__link} target='_blank' href='/'>
+                                  Подробнее
+                                </a>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -1096,6 +1107,22 @@ const ShopCard: FC = () => {
                                 {renderPreviews()}
                               </div>
                             )}
+                            <div
+                              className={clsx(styles.tooltip, styles.fade, styles.top, styles.in)}
+                              role='tooltip'
+                              id='tooltip385270'
+                              style={{ top: '340.219px', left: '-99.5547px', display: 'block' }}
+                            >
+                              <div className={styles.tooltipArrow} style={{ left: '50%' }}></div>
+                              <div className={styles.tooltipInner}>
+                                Вы можете прикрепить изображение или документ формата: doc, docx, xls, xlsx, txt, pdf,
+                                jpeg, jpg, png.
+                                <br />
+                                Общий объем файлов не должен превышать 300 Мб.
+                                <br />
+                                Количество документов не более 15.
+                              </div>
+                            </div>
                           </div>
                           <div className={styles.dnsRow}>
                             <div

@@ -342,6 +342,57 @@ ol.breadcrumbList {
   margin-top: 16px;
 }
 
+.tooltip.top {
+  position: absolute;
+  margin-top: -3px;
+  padding: 5px 0;
+}
+
+.shopVoblerPopover {
+  max-width: 320px;
+  padding-top: 8px;
+  position: absolute;
+  top: 24px;
+  width: max-content;
+  z-index: 3000;
+}
+
+.shopVoblerPopover__wrapper {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.04),
+    0 4px 4px rgba(0, 0, 0, 0.04),
+    0 20px 40px rgba(0, 0, 0, 0.08);
+  max-width: 320px;
+  padding: 16px 16px 24px;
+}
+
+.shopVoblerPopover__text {
+  font-size: 16px;
+  line-height: 21px;
+}
+
+.shopVoblerPopover__link {
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  color: #333;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 20px;
+  margin-top: 8px;
+  padding: 8px 12px;
+  text-decoration: none;
+}
+
+.shopPageContent__voblers:hover .hidden {
+  display: initial;
+}
+
+.hidden {
+  display: none;
+}
+
 .shopVobler {
   align-items: center;
   cursor: pointer;
@@ -351,6 +402,10 @@ ol.breadcrumbList {
   position: relative;
   vertical-align: top;
   width: 24px;
+}
+
+.shopVobler svg {
+  fill: #afafaf;
 }
 
 .shopPageContent__contacts {
@@ -805,6 +860,58 @@ textarea.formControl {
   flex-flow: column wrap;
 }
 
+.ajaxFileUploadWidget .tooltip.top .tooltip-inner {
+  max-width: 385px;
+  text-align: left;
+}
+
+.tooltipInner {
+  background: #424a54 !important;
+  border-color: #424a54 !important;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  color: #fff !important;
+  min-width: 100px;
+  max-width: 300px;
+  padding: 3px 8px;
+  color: #333;
+  text-align: center;
+  text-decoration: none;
+  background-color: #eee;
+  border-radius: 4px;
+}
+
+.ajaxFileUploadWidget .tooltip.top .tooltipInner {
+  max-width: 385px;
+  text-align: left;
+}
+
+.tooltip.top .tooltipArrow {
+  border-width: 7px 7px 0;
+  border-top: 5px solid #424a54 !important;
+  margin-left: -7px;
+  bottom: 0;
+}
+
+.tooltipArrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 1070;
+  display: block;
+  visibility: visible;
+  font-size: 14px;
+  line-height: 1.4;
+  opacity: 0;
+}
+
 .ajaxFileUploadWidget__labelIcon {
   display: inline-block;
   margin-right: 10px;
@@ -1196,6 +1303,10 @@ textarea.formControl {
   -webkit-transition: opacity 0.15s linear;
   -o-transition: opacity 0.15s linear;
   transition: opacity 0.15s linear;
+}
+
+.ajaxFileUploadWidget:hover .fade {
+  opacity: 1;
 }
 
 .modalDialog {
