@@ -148,7 +148,7 @@ const FullscreenMode: FC<ShopComponentProps> = ({
               />
             </picture>
           </div>
-          <div className={styles.mediaViewerImage__imageCounter}>2 из 45</div>
+          <div className={styles.mediaViewerImage__imageCounter}>{imageIndex + 1} из {totalSlides}</div>
           <div className={clsx(styles.mediaViewerSlider, styles.mediaViewerImage__slider)}>
             <div className={styles.tnsOuter} id='tns8-ow'>
               <div className={styles.tnsControls} aria-label='Carousel Navigation' style={{ display: 'none' }}>
