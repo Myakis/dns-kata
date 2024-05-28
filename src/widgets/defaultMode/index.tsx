@@ -440,7 +440,7 @@ const DefaultMode: FC<DefaultProps> = ({
                   <br />
                 </div>
                 <span className={clsx(styles.shopPageContent__text_gray, styles.shopPageContent__text_small)}>
-                  <span className={styles.shopPageContent__openStatus}>закрыто еще 3 ч. </span>
+                  <span className={styles.shopPageContent__openStatus}>{article.inOpen ? 'Открыто' : 'Закрыто'} </span>
                 </span>
               </div>
               <div className={clsx(styles.shopCorpInfoBlock, styles.shopCorpInfoBlock__row)}>
