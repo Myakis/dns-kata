@@ -1,4 +1,4 @@
-import { FC, ChangeEvent, useRef, useState, useEffect } from 'react';
+import { FC, ChangeEvent, useRef, useState, Dispatch, SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './shopCard.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -6,8 +6,9 @@ import { useGetShopsQuery } from 'shared/api/DNS';
 import Layout from 'pages/layout';
 import { IShop } from 'widgets/shops-page-404/shops-page-404.types';
 import clsx from 'clsx';
+import FullscreenMode from 'widgets/fullscreenMode';
 
-interface ShopImage {
+export interface ShopImage {
   id: number;
   url: string;
 }
@@ -22,6 +23,16 @@ interface FormData {
   inputPhone: string;
   inputMessage: string;
   name: string;
+}
+
+export interface ShopComponentProps {
+  totalSlides: number;
+  fullscreenMode: boolean;
+  article: IShop;
+  toggleFullscreenMode: (id: number) => void;
+  shopImages: ShopImage[];
+  imageIndex: number;
+  setImageIndex: Dispatch<SetStateAction<number>>;
 }
 
 // ОБЫЧНЫЙ РЕЖИМ
@@ -74,11 +85,7 @@ const ShopCard: FC = () => {
   const [fullscreenMode, setFullscreenMode] = useState(false); // ДЛЯ ВСЕГО
   const totalSlides = shopImages.length; // Общее количество слайдов ДЛЯ ВСЕГО
 
-  const [sliderLengthFullscreen, setSliderLengthFullscreen] = useState(totalSlides * 82); //ДЛЯ ФУЛСКРИНА
-  const initialSliderLengthFullscreen = useRef(sliderLengthFullscreen); //неизменяемая начальная длина всех слайдов ДЛЯ ФУЛСКРИНА
   const [imageIndex, setImageIndex] = useState(0); // состояние для генерации большой картинки ДЛЯ ФУЛСКРИНА
-  const [nextFullscreen, setNextFullscreen] = useState(0); // Состояние для кнопки слайдера ДЛЯ ФУЛСКРИНА
-  const [isLoadingImage, setIsLoadingImage] = useState(false); //ДЛЯ ФУЛСКРИНА
 
   const [next, setNext] = useState(0); // Состояние для кнопки слайдера ДЛЯ ОСНОВНОГО ЭКРАНА
   const [sliderLength, setSliderLength] = useState(totalSlides * 150); //ДЛЯ ОСНОВНОГО ЭКРАНА
@@ -133,39 +140,6 @@ const ShopCard: FC = () => {
     return;
   }
 
-  // Этот код управляет видимостью элемента с классом tnsControls в зависимости от ширины окна и состояния полноэкранного режима.
-  // Когда окно изменяет размер, элемент скрывается или отображается, в зависимости от ширины окна и других условий.
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (!fullscreenMode) {
-        return;
-      }
-
-      const tnsControls = document.querySelector(`.${styles.tnsControls}`) as HTMLElement;
-
-      if (tnsControls) {
-        if (window.innerWidth >= sliderLengthFullscreen && nextFullscreen === 0) {
-          tnsControls.style.display = 'none';
-        } else {
-          tnsControls.style.display = 'initial';
-        }
-      }
-    };
-
-    if (fullscreenMode) {
-      window.addEventListener('resize', handleResize);
-    } else {
-      window.removeEventListener('resize', handleResize);
-    }
-
-    handleResize(); // Call initially in case we enter fullscreen mode
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [fullscreenMode, sliderLengthFullscreen]);
-
   // Функция для переключения между режимами слайдера и полноэкранного режима
   const toggleFullscreenMode = (id: number) => {
     setFullscreenMode(!fullscreenMode);
@@ -183,23 +157,6 @@ const ShopCard: FC = () => {
     setSliderLength((prev) => prev + 150);
   };
 
-  //функции для переключения нижнего слайдера В ФУЛСКРИНЕ
-  const moveSlidesRightFullscreen = () => {
-    const screenWidth = window.innerWidth;
-
-    if (screenWidth <= sliderLengthFullscreen) {
-      setNextFullscreen((prev) => prev - 82);
-      setSliderLengthFullscreen((prev) => prev - 82);
-    }
-  };
-
-  const moveSlidesLeftFullscreen = () => {
-    if (sliderLengthFullscreen < initialSliderLengthFullscreen.current) {
-      setNextFullscreen((prev) => prev + 82);
-      setSliderLengthFullscreen((prev) => prev + 82);
-    }
-  };
-
   // Функция для генерации элемента слайдера с изображением НА ОСНОВНОМ ЭКРАНЕ
   const generateShopImageSliderItem = (image: ShopImage) => {
     return (
@@ -212,55 +169,6 @@ const ShopCard: FC = () => {
         <img src={image.url} alt='' title='' />
       </div>
     );
-  };
-
-  // Функция для генерации элемента слайдера с изображением В ФУЛСКРИНЕ
-  const generaTnsItem = (image: ShopImage) => {
-    return (
-      <div
-        key={image.id}
-        className={clsx(styles.tnsItem, styles.tnsSlideActive)}
-        id={`tns8-item${image.id}`}
-        onClick={() => chooseImage(image.id)}
-      >
-        <picture
-          className={clsx(styles.mediaViewerImage__sliderItem, styles.mediaViewerSlider__item, {
-            [styles.mediaViewerSlider__item_active]: image.id === imageIndex + 1,
-          })}
-        >
-          <img className={styles.mediaViewerImage__sliderImg} src={image.url} alt='' title='' />
-        </picture>
-      </div>
-    );
-  };
-
-  //функия для выбора слайда в нижнем сладере В ФУЛСКРИНЕ
-  const chooseImage = (item: number) => {
-    setImageIndex(item - 1);
-  };
-
-  // Функция для переключения на следующий элемент слайдера В ФУЛСКРИНЕ
-  const stepRight = () => {
-    setIsLoadingImage(true); // Устанавливаем состояние, что изображение загружается
-
-    setImageIndex((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
-
-    setTimeout(() => setIsLoadingImage(false), 500); // Сбрасываем состояние после изменения imageIndex
-  };
-
-  // Функция для переключения на предыдущий элемент слайдера В ФУЛСКРИНЕ
-  const stepLeft = () => {
-    setIsLoadingImage(true); // Устанавливаем состояние, что изображение загружается при переходе на предыдущее изображение
-
-    // Если imageIndex равен 0, переключаемся на последний слайд
-    if (imageIndex === 0) {
-      setImageIndex(totalSlides - 1);
-    } else {
-      // Иначе уменьшаем imageIndex на 1
-      setImageIndex((prev) => prev - 1);
-    }
-
-    setTimeout(() => setIsLoadingImage(false), 500); // Сбрасываем состояние после изменения imageIndex
   };
 
   // Функция saveForm выполняет сохранение данных формы и выводит их в консоль,
@@ -382,84 +290,15 @@ const ShopCard: FC = () => {
     <div>
       {fullscreenMode ? (
         // Полноэкранный режим
-        <div className={styles.mediaViewer}>
-          <div className={styles.mediaViewer__head}>
-            <div className={styles.mediaViewer__headText}>{article.name}</div>
-            <i className={styles.mediaViewer__close} onClick={toggleFullscreenMode}></i>
-          </div>
-          <div className={styles.mediaViewer__titles}>
-            <div className={clsx(styles.mediaViewer__title, styles.mediaViewer__title_active)}>Фото {totalSlides}</div>
-          </div>
-          <div className={styles.mediaViewer__content}>
-            <div className={styles.mediaViewerImage}>
-              <div className={styles.mediaViewerImage__main}>
-                <div
-                  className={clsx(styles.mediaViewerImage__control, styles.mediaViewerImage__control_left)}
-                  onClick={stepLeft}
-                ></div>
-                <div
-                  className={clsx(styles.mediaViewerImage__control, styles.mediaViewerImage__control_right)}
-                  onClick={stepRight}
-                ></div>
-                <picture className={styles.mediaViewerImage__imgWrap}>
-                  <img
-                    className={clsx(styles.mediaViewerImage__mainImg, {
-                      [styles.mediaViewerImage__mainImg__loading]: isLoadingImage,
-                    })}
-                    style={{ transform: 'none' }}
-                    src={shopImages[imageIndex].url}
-                    alt='Фото отсутствует'
-                  />
-                </picture>
-              </div>
-              <div className={styles.mediaViewerImage__imageCounter}>2 из 45</div>
-              <div className={clsx(styles.mediaViewerSlider, styles.mediaViewerImage__slider)}>
-                <div className={styles.tnsOuter} id='tns8-ow'>
-                  <div className={styles.tnsControls} aria-label='Carousel Navigation' style={{ display: 'none' }}>
-                    <button type='button' data-controls='prev' aria-controls='tns8' onClick={moveSlidesLeftFullscreen}>
-                      <div className={(styles.mediaViewerSlider__arrow, styles.mediaViewerSlider__arrow_left)}>
-                        <i></i>
-                      </div>
-                    </button>
-                    <button type='button' data-controls='next' aria-controls='tns8' onClick={moveSlidesRightFullscreen}>
-                      <div className={clsx(styles.mediaViewerSlider__arrow, styles.mediaViewerSlider__arrow_right)}>
-                        <i></i>
-                      </div>
-                    </button>
-                  </div>
-                  <div
-                    className={clsx(styles.tnsLiveregion, styles.tnsVisuallyHidden)}
-                    aria-live='polite'
-                    aria-atomic='true'
-                  >
-                    slide <span className={styles.current}>1 to 12</span> of 45
-                  </div>
-                  <div id='tns8-mw' className={styles.tnsOvh}>
-                    <div className={styles.tnsInner} id='tns8-iw'>
-                      <div
-                        className={clsx(
-                          styles.mediaViewerSlider__wrap,
-                          styles.tnsSlider,
-                          styles.tnsSubpixel,
-                          styles.tnsAutowidth,
-                          styles.tnsFullscreen,
-                          styles.tnsHorizontal
-                        )}
-                        id='tns8'
-                        style={{
-                          transform: `translate3d(${nextFullscreen}px, 0px, 0px)`,
-                          transition: 'transform 500ms ease 0s',
-                        }}
-                      >
-                        {shopImages.map((image) => generaTnsItem(image))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <FullscreenMode
+          totalSlides={totalSlides}
+          fullscreenMode={fullscreenMode}
+          article={article}
+          toggleFullscreenMode={toggleFullscreenMode}
+          shopImages={shopImages}
+          imageIndex={imageIndex}
+          setImageIndex={setImageIndex}
+        />
       ) : (
         // Обычный режим со слайдером
         <Layout pageTitle={article.name || null} breadcrumbs={'Главная'}>
@@ -573,8 +412,8 @@ const ShopCard: FC = () => {
                                 xmlns='http://www.w3.org/2000/svg'
                               >
                                 <path
-                                  fill-rule='evenodd'
-                                  clip-rule='evenodd'
+                                  // fill-rule='evenodd'
+                                  // clip-rule='evenodd'
                                   d='M15.2134 0.714844C17.5496 0.714844 19.4434 2.60863 19.4434 4.94484L19.4434 15.2135C19.4434 17.5497 17.5496 19.4435 15.2134 19.4435L8.61869 19.4435C8.41976 19.4435 8.22898 19.3645 8.08832 19.2238L0.861931 11.9964C0.712424 11.8593 0.618692 11.6624 0.618692 11.4435C0.618692 11.4304 0.619028 11.4174 0.619694 11.4044L0.619694 4.94484C0.619694 2.60863 2.51348 0.714843 4.84969 0.714843L15.2134 0.714844ZM3.18018 12.1935L7.86869 16.8827L7.86869 14.4435C7.86869 13.2007 6.86148 12.1935 5.61869 12.1935L3.18018 12.1935ZM9.36869 17.9435L9.36869 14.4435C9.36869 12.3723 7.68991 10.6935 5.61869 10.6935L2.11969 10.6935L2.11969 4.94484C2.11969 3.43706 3.34191 2.21484 4.84969 2.21484L15.2134 2.21484C16.7211 2.21484 17.9434 3.43706 17.9434 4.94484L17.9434 15.2135C17.9434 16.7213 16.7211 17.9435 15.2134 17.9435L9.36869 17.9435Z'
                                 ></path>
                               </svg>
@@ -596,7 +435,7 @@ const ShopCard: FC = () => {
                         </div>
                         <div className={styles.shopPageContent__contacts}>
                           <div className={styles.shopPageContent__contactsTitle}>Телефон</div>
-                          <div className={styles.shopPageContent__mainPhone} itemprop='telephone'>
+                          <div className={styles.shopPageContent__mainPhone}>
                             +7 (499) 704-46-40; +7 (499) 285-00-53
                           </div>
                           <div className={styles.shopPageContent__textToManager}>
@@ -626,10 +465,10 @@ const ShopCard: FC = () => {
                         </div>
                       </div>
                     </div>
-                    <div itemprop='geo' itemscope='' itemtype='http://schema.org/GeoCoordinates'>
+                    {/* <div itemprop='geo' itemscope='' itemtype='http://schema.org/GeoCoordinates'>
                       <meta itemprop='longitude' content='37.846731' />
                       <meta itemprop='latitude' content='55.658328' />
-                    </div>
+                    </div> */}
                   </div>
                   <a
                     className={clsx(styles.navigationLink, styles.uiLink, styles.uiLink_black)}
