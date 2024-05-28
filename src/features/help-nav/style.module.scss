@@ -1,0 +1,94 @@
+.helpNav {
+  flex-basis: 280px;
+  max-width: 280px;
+  min-width: 250px;
+  margin-right: 20px;
+  font-family: var(--fonts);
+  color: var(--text-color);
+}
+
+.nav {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: var(--block-shadow);
+  background-color: var(--bg-color);
+
+  .pages,
+  .links {
+    padding: 12px 0;
+    font-size: 16px;
+
+    a {
+      cursor: pointer;
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      text-decoration: none;
+
+      &::before {
+        position: absolute;
+        font-family: 'i-icon';
+      }
+    }
+  }
+}
+
+.links {
+  a {
+    padding: 14px 0 14px 24px;
+    color: #0d61af;
+
+    &::before {
+      content: '\e95d';
+      top: 15px;
+      right: 25px;
+      color: #afafaf;
+      font-size: 16px;
+    }
+  }
+}
+
+.pages {
+  border-bottom: 1px solid #eee;
+  a {
+    padding: 14px 0 14px 56px;
+    color: inherit;
+
+    &::before {
+      top: 10px;
+      left: 25px;
+      color: #afafaf;
+      font-size: 20px;
+    }
+
+    &:hover {
+      color: var(--primary-color);
+
+      &::before {
+        color: var(--primary-color);
+      }
+    }
+  }
+
+  .active {
+    color: var(--primary-color);
+    border-left: 5px var(--primary-color) solid;
+
+    &::before {
+      color: var(--primary-color);
+    }
+  }
+
+  .question::before {
+    content: '\e94e';
+  }
+  .like::before {
+    content: '\e938';
+  }
+  .dialog::before {
+    content: '\e953';
+  }
+  .company::before {
+    content: '\e911';
+  }
+}
