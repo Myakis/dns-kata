@@ -3,7 +3,7 @@ import { ShopComponentProps, ShopImage } from '../../pages/shopCard';
 import styles from '../../pages/shopCard/shopCard.module.scss';
 import clsx from 'clsx';
 
-const FullscreenMode: React.FC<ShopComponentProps> = ({
+const FullscreenMode: FC<ShopComponentProps> = ({
   totalSlides,
   fullscreenMode,
   article,
@@ -121,7 +121,7 @@ const FullscreenMode: React.FC<ShopComponentProps> = ({
     <div className={styles.mediaViewer}>
       <div className={styles.mediaViewer__head}>
         <div className={styles.mediaViewer__headText}>{article.name}</div>
-        <i className={styles.mediaViewer__close} onClick={toggleFullscreenMode}></i>
+        <i className={styles.mediaViewer__close} onClick={() => toggleFullscreenMode(0)}></i>
       </div>
       <div className={styles.mediaViewer__titles}>
         <div className={clsx(styles.mediaViewer__title, styles.mediaViewer__title_active)}>Фото {totalSlides}</div>

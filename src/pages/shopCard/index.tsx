@@ -1,5 +1,5 @@
 import { FC, ChangeEvent, useRef, useState, Dispatch, SetStateAction } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import styles from './shopCard.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetShopsQuery } from 'shared/api/DNS';
@@ -17,14 +17,6 @@ interface Bank {
   name: string;
 }
 
-interface FormData {
-  inputName: string;
-  inputMail: string;
-  inputPhone: string;
-  inputMessage: string;
-  name: string;
-}
-
 export interface ShopComponentProps {
   totalSlides: number;
   fullscreenMode: boolean;
@@ -33,6 +25,15 @@ export interface ShopComponentProps {
   shopImages: ShopImage[];
   imageIndex: number;
   setImageIndex: Dispatch<SetStateAction<number>>;
+}
+
+interface FormValues {
+  inputName: string;
+  inputMail: string;
+  inputPhone: string;
+  inputMessage: string;
+  // files: File[];
+  // name: string;
 }
 
 // ОБЫЧНЫЙ РЕЖИМ
@@ -82,27 +83,27 @@ const ShopCard: FC = () => {
     { id: 14, url: '/public/img/shopCard/14.jpg' },
   ];
 
-  const [fullscreenMode, setFullscreenMode] = useState(false); // ДЛЯ ВСЕГО
-  const totalSlides = shopImages.length; // Общее количество слайдов ДЛЯ ВСЕГО
+  const [fullscreenMode, setFullscreenMode] = useState<boolean>(false); // ДЛЯ ВСЕГО
+  const totalSlides: number = shopImages.length; // Общее количество слайдов ДЛЯ ВСЕГО
 
-  const [imageIndex, setImageIndex] = useState(0); // состояние для генерации большой картинки ДЛЯ ФУЛСКРИНА
+  const [imageIndex, setImageIndex] = useState<number>(0); // состояние для генерации большой картинки ДЛЯ ФУЛСКРИНА
 
-  const [next, setNext] = useState(0); // Состояние для кнопки слайдера ДЛЯ ОСНОВНОГО ЭКРАНА
-  const [sliderLength, setSliderLength] = useState(totalSlides * 150); //ДЛЯ ОСНОВНОГО ЭКРАНА
-  const initialSliderLength = useRef(sliderLength); //неизменяемая начальная длина всех слайдов ДЛЯ ОСНОВНОГО ЭКРАНА
+  const [next, setNext] = useState<number>(0); // Состояние для кнопки слайдера ДЛЯ ОСНОВНОГО ЭКРАНА
+  const [sliderLength, setSliderLength] = useState<number>(totalSlides * 150); //ДЛЯ ОСНОВНОГО ЭКРАНА
+  const initialSliderLength = useRef<number>(sliderLength); //неизменяемая начальная длина всех слайдов ДЛЯ ОСНОВНОГО ЭКРАНА
   // State для отслеживания полноэкранного режима
   // Состояние для отслеживания добавления класса загрузки к изображению
   const [files, setFiles] = useState<File[]>([]); //состояние для работы с файлами ДЛЯ ОСНОВНОГО ЭКРАНА
   const [previews, setPreviews] = useState<string[]>([]); //состояние для работы с превьюшками ДЛЯ ОСНОВНОГО ЭКРАНА
-  const [fileValidation, setFileValidation] = useState(true); // Состояние для валидации общего объема файлов ДЛЯ ОСНОВНОГО ЭКРАНА
-  const [fileCountValidation, setFileCountValidation] = useState(true); // Состояние для валидации количества файлов ДЛЯ ОСНОВНОГО ЭКРАНА
+  const [fileValidation, setFileValidation] = useState<boolean>(true); // Состояние для валидации общего объема файлов ДЛЯ ОСНОВНОГО ЭКРАНА
+  const [fileCountValidation, setFileCountValidation] = useState<boolean>(true); // Состояние для валидации количества файлов ДЛЯ ОСНОВНОГО ЭКРАНА
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm();
+  } = useForm<FormValues>();
 
   // Функция для получения query параметров из URL
   // 1. Получает параметры широты и долготы из строки запроса.
@@ -175,20 +176,18 @@ const ShopCard: FC = () => {
   // а также обрабатывает прикреплённые файлы, выводя их имена или сообщение об отсутствии файлов.
   // После этого она сбрасывает форму и очищает массивы файлов и предпросмотров. ФУНКЦИЯ ДЛЯ ОСНОВНОГО ЭКРАНА
 
-  const saveForm = (data: FormData, files: File[]) => {
+  const saveForm: SubmitHandler<FormValues> = (data) => {
     const { inputName, inputMail, inputPhone, inputMessage } = data;
 
     console.log('Имя:', inputName);
     console.log('Почта:', inputMail);
     console.log('Номер телефона:', inputPhone);
     console.log('Сообщение:', inputMessage);
-
     if (files.length === 0) {
       console.log('Файлы отсутствуют');
     } else {
-      files.forEach((file) => console.log('Файл:', file.name));
+      files.map((file: File) => console.log('Файл:', file.name));
     }
-
     reset();
     setFiles([]);
     setPreviews([]);
@@ -915,7 +914,7 @@ const ShopCard: FC = () => {
                             <textarea
                               id='ticketcreateform-text'
                               className={styles.formControl}
-                              rows='5'
+                              rows={5}
                               {...register('inputMessage', {
                                 required: 'Необходимо заполнить «Текст сообщения».',
                                 minLength: {
