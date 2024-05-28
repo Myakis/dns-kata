@@ -22,9 +22,9 @@ interface FormData {
   inputPhone: string;
   inputMessage: string;
   name: string;
-  // Дополнительные свойства, если они есть
 }
 
+// ОБЫЧНЫЙ РЕЖИМ
 // Данные для списка
 const banks: Bank[] = [
   { name: 'КБ "Ренессанс Кредит" (ООО)' },
@@ -49,6 +49,7 @@ const renderBankItem = (bank: Bank, index: number) => (
 );
 
 const ShopCard: FC = () => {
+  //ДЛЯ ВСЕГО
   const { data: shops, isLoading } = useGetShopsQuery('');
   const navigate = useNavigate();
 
@@ -70,22 +71,24 @@ const ShopCard: FC = () => {
     { id: 14, url: '/public/img/shopCard/14.jpg' },
   ];
 
-  const [next, setNext] = useState(0); // Состояние для кнопки слайдера
-  const totalSlides = shopImages.length; // Общее количество слайдов
-  const [sliderLength, setSliderLength] = useState(totalSlides * 150);
-  const [sliderLengthFullscreen, setSliderLengthFullscreen] = useState(totalSlides * 82);
-  const initialSliderLength = useRef(sliderLength);
-  const initialSliderLengthFullscreen = useRef(sliderLengthFullscreen);
+  const [fullscreenMode, setFullscreenMode] = useState(false); // ДЛЯ ВСЕГО
+  const totalSlides = shopImages.length; // Общее количество слайдов ДЛЯ ВСЕГО
+
+  const [sliderLengthFullscreen, setSliderLengthFullscreen] = useState(totalSlides * 82); //ДЛЯ ФУЛСКРИНА
+  const initialSliderLengthFullscreen = useRef(sliderLengthFullscreen); //неизменяемая начальная длина всех слайдов ДЛЯ ФУЛСКРИНА
+  const [imageIndex, setImageIndex] = useState(0); // состояние для генерации большой картинки ДЛЯ ФУЛСКРИНА
+  const [nextFullscreen, setNextFullscreen] = useState(0); // Состояние для кнопки слайдера ДЛЯ ФУЛСКРИНА
+  const [isLoadingImage, setIsLoadingImage] = useState(false); //ДЛЯ ФУЛСКРИНА
+
+  const [next, setNext] = useState(0); // Состояние для кнопки слайдера ДЛЯ ОСНОВНОГО ЭКРАНА
+  const [sliderLength, setSliderLength] = useState(totalSlides * 150); //ДЛЯ ОСНОВНОГО ЭКРАНА
+  const initialSliderLength = useRef(sliderLength); //неизменяемая начальная длина всех слайдов ДЛЯ ОСНОВНОГО ЭКРАНА
   // State для отслеживания полноэкранного режима
-  const [fullscreenMode, setFullscreenMode] = useState(false);
-  const [imageIndex, setImageIndex] = useState(0);
-  const [nextFullscreen, setNextFullscreen] = useState(0);
   // Состояние для отслеживания добавления класса загрузки к изображению
-  const [isLoadingImage, setIsLoadingImage] = useState(false);
-  const [files, setFiles] = useState<File[]>([]);
-  const [previews, setPreviews] = useState<string[]>([]);
-  const [fileValidation, setFileValidation] = useState(true); // Состояние для валидации общего объема файлов
-  const [fileCountValidation, setFileCountValidation] = useState(true); // Состояние для валидации количества файлов
+  const [files, setFiles] = useState<File[]>([]); //состояние для работы с файлами ДЛЯ ОСНОВНОГО ЭКРАНА
+  const [previews, setPreviews] = useState<string[]>([]); //состояние для работы с превьюшками ДЛЯ ОСНОВНОГО ЭКРАНА
+  const [fileValidation, setFileValidation] = useState(true); // Состояние для валидации общего объема файлов ДЛЯ ОСНОВНОГО ЭКРАНА
+  const [fileCountValidation, setFileCountValidation] = useState(true); // Состояние для валидации количества файлов ДЛЯ ОСНОВНОГО ЭКРАНА
 
   const {
     register,
@@ -93,6 +96,45 @@ const ShopCard: FC = () => {
     formState: { errors },
     reset,
   } = useForm();
+
+  // Функция для получения query параметров из URL
+  // 1. Получает параметры широты и долготы из строки запроса.
+  // 2. Получает параметр id из URL.
+  // 3. Ищет магазин с соответствующим id в массиве shops.
+  // 4. Отображает сообщение о загрузке, если данные еще не загружены.
+  // 5. Перенаправляет на страницу ошибки, если магазин с указанным id не найден.
+  const getQueryParams = () => {
+    const searchParams = new URLSearchParams(location.search);
+
+    return {
+      latitude: searchParams.get('latitude'),
+      longitude: searchParams.get('longitude'),
+    };
+  };
+  const { id } = useParams();
+  const { latitude, longitude } = getQueryParams();
+
+  const searchByIdShops = (shops?: IShop[]): IShop | undefined => {
+    if (!shops) {
+      return;
+    }
+    return shops.find((item) => item.id === Number(id));
+  };
+
+  const article = searchByIdShops(shops);
+
+  if (isLoading) {
+    // Если новости загружаются, отображаем сообщение
+    return <div className={styles.pageWarning}>Загружаем...</div>;
+  }
+  if (!article) {
+    // Если новость не найдена, перенаправляем на страницу ошибки
+    navigate('*');
+    return;
+  }
+
+  // Этот код управляет видимостью элемента с классом tnsControls в зависимости от ширины окна и состояния полноэкранного режима.
+  // Когда окно изменяет размер, элемент скрывается или отображается, в зависимости от ширины окна и других условий.
 
   useEffect(() => {
     const handleResize = () => {
@@ -130,6 +172,7 @@ const ShopCard: FC = () => {
     setImageIndex(id - 1);
   };
 
+  //функции для переключения слайдов НА ОСНОВНОМ ЭКРАНЕ
   const moveSlidesRight = () => {
     setNext((prev) => prev - 150);
     setSliderLength((prev) => prev - 150);
@@ -140,6 +183,7 @@ const ShopCard: FC = () => {
     setSliderLength((prev) => prev + 150);
   };
 
+  //функции для переключения нижнего слайдера В ФУЛСКРИНЕ
   const moveSlidesRightFullscreen = () => {
     const screenWidth = window.innerWidth;
 
@@ -156,38 +200,7 @@ const ShopCard: FC = () => {
     }
   };
 
-  // Функция для получения query параметров из URL
-  const getQueryParams = () => {
-    const searchParams = new URLSearchParams(location.search);
-
-    return {
-      latitude: searchParams.get('latitude'),
-      longitude: searchParams.get('longitude'),
-    };
-  };
-  const { id } = useParams();
-  const { latitude, longitude } = getQueryParams();
-
-  const searchByIdShops = (shops?: IShop[]): IShop | undefined => {
-    if (!shops) {
-      return;
-    }
-    return shops.find((item) => item.id === Number(id));
-  };
-
-  const article = searchByIdShops(shops);
-
-  if (isLoading) {
-    // Если новости загружаются, отображаем сообщение
-    return <div className={styles.pageWarning}>Загружаем...</div>;
-  }
-  if (!article) {
-    // Если новость не найдена, перенаправляем на страницу ошибки
-    navigate('*');
-    return;
-  }
-
-  // Функция для генерации элемента слайдера с изображением
+  // Функция для генерации элемента слайдера с изображением НА ОСНОВНОМ ЭКРАНЕ
   const generateShopImageSliderItem = (image: ShopImage) => {
     return (
       <div
@@ -201,7 +214,7 @@ const ShopCard: FC = () => {
     );
   };
 
-  // Функция для генерации элемента слайдера с изображением
+  // Функция для генерации элемента слайдера с изображением В ФУЛСКРИНЕ
   const generaTnsItem = (image: ShopImage) => {
     return (
       <div
@@ -221,12 +234,12 @@ const ShopCard: FC = () => {
     );
   };
 
+  //функия для выбора слайда в нижнем сладере В ФУЛСКРИНЕ
   const chooseImage = (item: number) => {
     setImageIndex(item - 1);
   };
 
-  // Функция для переключения на следующий элемент слайдера
-
+  // Функция для переключения на следующий элемент слайдера В ФУЛСКРИНЕ
   const stepRight = () => {
     setIsLoadingImage(true); // Устанавливаем состояние, что изображение загружается
 
@@ -235,7 +248,7 @@ const ShopCard: FC = () => {
     setTimeout(() => setIsLoadingImage(false), 500); // Сбрасываем состояние после изменения imageIndex
   };
 
-  // Функция для переключения на предыдущий элемент слайдера
+  // Функция для переключения на предыдущий элемент слайдера В ФУЛСКРИНЕ
   const stepLeft = () => {
     setIsLoadingImage(true); // Устанавливаем состояние, что изображение загружается при переходе на предыдущее изображение
 
@@ -249,6 +262,10 @@ const ShopCard: FC = () => {
 
     setTimeout(() => setIsLoadingImage(false), 500); // Сбрасываем состояние после изменения imageIndex
   };
+
+  // Функция saveForm выполняет сохранение данных формы и выводит их в консоль,
+  // а также обрабатывает прикреплённые файлы, выводя их имена или сообщение об отсутствии файлов.
+  // После этого она сбрасывает форму и очищает массивы файлов и предпросмотров. ФУНКЦИЯ ДЛЯ ОСНОВНОГО ЭКРАНА
 
   const saveForm = (data: FormData, files: File[]) => {
     const { inputName, inputMail, inputPhone, inputMessage } = data;
@@ -268,6 +285,10 @@ const ShopCard: FC = () => {
     setFiles([]);
     setPreviews([]);
   };
+
+  // Функция handleFileChange управляет добавлением новых файлов, проверяя их размер и количество.
+  // Она обновляет состояния для файлов и их предпросмотров и обрабатывает ошибки валидации,
+  // чтобы обеспечить соблюдение установленных ограничений. ДЛЯ ГЛАВНОГО ЭКРАНА
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newFiles = Array.from(e.target.files || []);
@@ -293,11 +314,16 @@ const ShopCard: FC = () => {
     }
   };
 
+  // Функция handleRemoveFile предназначена для удаления файла и соответствующего предпросмотра из списка по заданному индексу.
+  // Она принимает один параметр index, который указывает на индекс файла, который необходимо удалить ДЛЯ ОСНОВНОГО ЭКРАНА
   const handleRemoveFile = (index: number) => {
     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     setPreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
   };
 
+  // Функция formatFileSize предназначена для форматирования размера файла в удобочитаемый формат
+  // с соответствующей единицей измерения (байты, килобайты, мегабайты, гигабайты).
+  // Она принимает один параметр size, который указывает на размер файла в байтах. ДЛЯ ОСНОВНОГО ЭКРАНА
   const formatFileSize = (size: number) => {
     const units = ['bytes', 'KB', 'MB', 'GB'];
     let adjustedSize = size; // Создаем новую переменную для изменяемого значения
@@ -310,7 +336,7 @@ const ShopCard: FC = () => {
     return `${Math.round(adjustedSize)} ${units[index]}`;
   };
 
-  // JSX элемент, который отображает изображения превью
+  // JSX элемент, который отображает изображения превью ДЛЯ ОСНОВНОГО ЭКРАНА
   const renderPreviews = () => {
     return previews.map((preview, index) => {
       const fileSize = formatFileSize(files[index].size);
@@ -358,7 +384,7 @@ const ShopCard: FC = () => {
         // Полноэкранный режим
         <div className={styles.mediaViewer}>
           <div className={styles.mediaViewer__head}>
-            <div className={styles.mediaViewer__headText}>Магнитогорск - {article.name}</div>
+            <div className={styles.mediaViewer__headText}>{article.name}</div>
             <i className={styles.mediaViewer__close} onClick={toggleFullscreenMode}></i>
           </div>
           <div className={styles.mediaViewer__titles}>
@@ -874,7 +900,7 @@ const ShopCard: FC = () => {
                         <div className={clsx(styles.shopPageContent__text_gray, styles.shopPageContent__text_small)}>
                           Название
                         </div>
-                        <div>Филиал Центральный ООО "ДНС Ритейл"</div>
+                        <div>Филиал Центральный ООО &quot;ДНС Ритейл&quot;</div>
                       </div>
                       <div className={styles.shopRequisitesBlock__row}>
                         <div className={styles.shopRequisitesBlock__infoItem}>
@@ -919,7 +945,7 @@ const ShopCard: FC = () => {
                     <div className={styles.shopFeedbackBlock}>
                       <a
                         className={styles.shopFeedbackBlock__spoilerBtn}
-                        href='javascript:'
+                        href='!#'
                         data-target='#shop-feedback-info-block'
                         data-toggle='collapse'
                         aria-expanded='false'
