@@ -1,6 +1,6 @@
 import { FC, useRef, useState, useEffect } from 'react';
 import { ShopComponentProps, ShopImage } from '../../pages/shopCard';
-import styles from '../../pages/shopCard/shopCard.module.scss';
+import styles from './fullscreenMode.module.scss';
 import clsx from 'clsx';
 
 const FullscreenMode: FC<ShopComponentProps> = ({
