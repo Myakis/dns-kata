@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { DefaultProps, Bank } from 'pages/shopCard/shopCard.types';
 import { banks } from 'pages/shopCard/constants';
-import styles from '../../pages/shopCard/shopCard.module.scss';
+import styles from './defaultMode.module.scss';
 import clsx from 'clsx';
 import FeedbackForm from './components/feedbackForm';
 import SliderDefault from './components/sliderDefault';
@@ -198,9 +198,9 @@ const DefaultMode: FC<DefaultProps> = ({
                     </span>
                   </li>
                   <li className={styles.shopPageContent__text_small}>
-                    <a className={clsx(styles.uiLink, styles.uiLink_blue)} href='/help/delivery/'>
+                    <span className={clsx(styles.uiLink, styles.uiLink_blue)}>
                       Служба доставки
-                    </a>
+                    </span>
                   </li>
                 </ul>
               </div>

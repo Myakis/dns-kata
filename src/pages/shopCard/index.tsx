@@ -1,5 +1,4 @@
 import { FC, useState } from 'react';
-import styles from './shopCard.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetShopsQuery } from 'shared/api/DNS';
 import Layout from 'pages/layout';
@@ -47,7 +46,7 @@ const ShopCard: FC = () => {
 
   if (isLoading) {
     // Если новости загружаются, отображаем сообщение
-    return <div className={styles.pageWarning}>Загружаем...</div>;
+    return <div>Загружаем...</div>;
   }
   if (!article) {
     // Если новость не найдена, перенаправляем на страницу ошибки
