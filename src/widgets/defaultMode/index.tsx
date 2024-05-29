@@ -45,7 +45,8 @@ const DefaultMode: FC<DefaultProps> = ({
             <div className={styles.yaMapContainer}>
               <iframe
                 title='y-map'
-                src={`https://yandex.ru/map-widget/v1/?ll=${latitude}%2C${longitude}&z=12&pt=${latitude}%2C${longitude}`}
+                // src={`https://yandex.ru/map-widget/v1/?ll=${latitude}%2C${longitude}&z=12&pt=${latitude}%2C${longitude}`}
+                src={`https://yandex.ru/map-widget/v1/?ll=${latitude}%2C${longitude}&z=12&pt=${latitude}%2C${longitude}&text=Санкт-Петербург`}
                 width='100%'
                 height='230px'
                 frameBorder='0'
@@ -198,9 +199,7 @@ const DefaultMode: FC<DefaultProps> = ({
                     </span>
                   </li>
                   <li className={styles.shopPageContent__text_small}>
-                    <span className={clsx(styles.uiLink, styles.uiLink_blue)}>
-                      Служба доставки
-                    </span>
+                    <span className={clsx(styles.uiLink, styles.uiLink_blue)}>Служба доставки</span>
                   </li>
                 </ul>
               </div>
