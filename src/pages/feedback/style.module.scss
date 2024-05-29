@@ -1,0 +1,46 @@
+.page {
+  display: flex;
+}
+
+.feedback {
+  max-width: 880px;
+  min-width: 700px;
+  padding: 24px;
+  border-radius: 10px;
+  background-color: var(--bg-color);
+  box-shadow: var(--block-shadow);
+  font-family: var(--fonts);
+  color: var(--text-color);
+}
+
+.feedback_message {
+  h2 {
+    margin-bottom: 15px;
+  }
+
+  ol {
+    padding-left: 18px;
+
+    & li {
+      margin: 18px 0;
+    }
+
+    .liBold {
+      font-weight: bold;
+    }
+  }
+
+  .blueBg {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #ecf9ff;
+  }
+}
+
+.feedback_form {
+  h3 {
+    margin: 20px 0;
+    font-size: 20px;
+  }
+}

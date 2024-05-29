@@ -8,8 +8,7 @@ import NewsListPage from 'pages/news-list';
 // Импортируем компонент NewsListPage из директории pages/news-list.
 
 import NewsPage from 'pages/news';
-// Импортируем компонент NewsPage из директории pages/news.
-
+import FeedbackPage from 'pages/feedback';
 import Page404 from 'pages/page-404';
 // Импортируем компонент Page404 из директории pages/page-404.
 
@@ -82,7 +81,15 @@ const router = createBrowserRouter([
     // Определяем маршрут для страницы отдельной новости, который рендерит компонент NewsPage.
 
     errorElement: <Page404 />,
-    // Определяем компонент Page404 для отображения ошибки.
+    
+  },
+  {
+    path: 'feedback',
+    element: <FeedbackPage />,
+  },
+  {
+    path: 'feedback',
+    element: <FeedbackPage />,
   },
 ]);
 
