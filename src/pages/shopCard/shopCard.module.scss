@@ -801,39 +801,6 @@ input[type='checkbox'] {
   }
 }
 
-@media (min-width: 992px) {
-  .container {
-    box-sizing: border-box !important;
-    max-width: 1400px !important;
-    padding: 0 10px;
-    width: 100% !important;
-  }
-
-  .shopPageContent__infoBlock {
-    flex-direction: row;
-    gap: 400px;
-    justify-content: space-between;
-  }
-
-  .shopPageContent__favoriteShopCheckbox {
-    margin-top: 8px;
-  }
-
-  .navigationLink {
-    display: none;
-  }
-
-  .shopCorpInfoBlock__manager {
-    float: left;
-    width: 25%;
-  }
-
-  .shopRequisitesBlock__infoItem {
-    float: left;
-    width: 50%;
-  }
-}
-
 @media (min-width: 768px) {
   .shopPageContent__textLarger {
     font-size: 20px;
@@ -851,10 +818,6 @@ input[type='checkbox'] {
   .shopCorpInfoBlock__manager {
     float: left;
     width: 50%;
-  }
-
-  .shopFeedbackBlock__spoilerBtn {
-    display: none;
   }
 
   .shopFeedbackBlock__info {
@@ -886,5 +849,38 @@ input[type='checkbox'] {
   .modalContent {
     -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    box-sizing: border-box !important;
+    max-width: 1400px !important;
+    padding: 0 10px;
+    width: 100% !important;
+  }
+
+  .shopPageContent__infoBlock {
+    flex-direction: row;
+    gap: 400px;
+    justify-content: space-between;
+  }
+
+  .shopPageContent__favoriteShopCheckbox {
+    margin-top: 8px;
+  }
+
+  .navigationLink {
+    display: none;
+  }
+
+  .shopCorpInfoBlock__manager {
+    float: left;
+    width: 25%;
+  }
+
+  .shopRequisitesBlock__infoItem {
+    float: left;
+    width: 50%;
   }
 }

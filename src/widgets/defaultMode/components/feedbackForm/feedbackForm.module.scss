@@ -30,6 +30,7 @@
 
 .shopPageContent__title {
   margin-top: 0;
+  margin-bottom: 10px;
 }
 
 .shopFeedbackBlock {
@@ -40,10 +41,10 @@
   display: block;
   margin-bottom: 15px;
   text-decoration: none;
+}
 
-  &:active {
-    text-decoration: none;
-  }
+.shopFeedbackBlock__spoilerBtn:active {
+  text-decoration: none;
 }
 
 .shopFeedbackBlock__spoilerBtn span {
@@ -595,19 +596,42 @@ textarea.formControl {
 }
 
 @media (min-width: 768px) {
+  .formGroup {
+    margin-bottom: 15px;
+  }
+
   .shopFeedbackBlock__submitBlock {
     float: left;
     width: 33.33333%;
   }
 
+  .shopFeedbackBlock__form {
+    float: left;
+    right: 50%;
+    width: 50%;
+  }
+
   .shopFeedbackBlock__info {
     display: block !important;
     visibility: visible !important;
+    float: left;
+    left: 50%;
+    width: 50%;
   }
 
   .shopFeedbackBlock__policy {
     float: left;
     width: 66.66667%;
+  }
+
+  .shopFeedbackBlock__spoilerBtn {
+    display: none;
+  }
+
+  .collapse {
+    transform: none;
+    max-height: none;
+    opacity: 1;
   }
 }
 
@@ -623,20 +647,8 @@ textarea.formControl {
 }
 
 @media (min-width: 992px) {
-  .formGroup {
-    margin-bottom: 15px;
-  }
-
-  .shopFeedbackBlock__info {
-    float: left;
-    left: 50%;
-    width: 50%;
-  }
-
-  .shopFeedbackBlock__form {
-    float: left;
-    right: 50%;
-    width: 50%;
+  .shopFeedbackBlock__short_fields {
+    width: 60%;
   }
 
   .shopFeedbackBlock__submitBlock {
@@ -647,11 +659,6 @@ textarea.formControl {
   .shopFeedbackBlock__policy {
     float: left;
     width: 66.66667%;
-  }
-
-  .collapse {
-    max-height: none;
-    opacity: 1;
   }
 }
 
