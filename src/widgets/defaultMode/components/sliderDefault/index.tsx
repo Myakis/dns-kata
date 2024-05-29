@@ -1,5 +1,5 @@
 import { FC, useState, useRef } from 'react';
-import { ShopImage, DefaultProps } from 'pages/shopCard';
+import { ShopImage, DefaultProps } from 'pages/shopCard/shopCard.types';
 import styles from './sliderDefault.module.scss';
 import { clsx } from 'clsx';
 

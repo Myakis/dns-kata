@@ -1,37 +1,33 @@
 import { FC } from 'react';
-import { DefaultProps } from 'pages/shopCard';
+import { DefaultProps, Bank } from 'pages/shopCard/shopCard.types';
+import { banks } from 'pages/shopCard/constants';
 import styles from '../../pages/shopCard/shopCard.module.scss';
 import clsx from 'clsx';
 import FeedbackForm from './components/feedbackForm';
 import SliderDefault from './components/sliderDefault';
 
-interface Bank {
-  name: string;
-}
-
-// ОБЫЧНЫЙ РЕЖИМ
-// Данные для списка
-const banks: Bank[] = [
-  { name: 'КБ "Ренессанс Кредит" (ООО)' },
-  { name: 'ПАО "Совкомбанк"' },
-  { name: 'ПАО "Сбербанк"' },
-  { name: 'АО «Банк Русский Стандарт»' },
-  { name: 'ООО "ХКФ Банк"' },
-  { name: 'АО "ОТП Банк"' },
-  { name: 'АО «Почта Банк»' },
-  { name: 'ПАО «МТС-Банк»' },
-  { name: 'Тинькофф Банк, АО' },
-  { name: 'АО «КРЕДИТ ЕВРОПА БАНК (Россия)»' },
-];
-
 // Функция для рендеринга элемента списка
 const renderBankItem = (bank: Bank, index: number) => (
   <li key={index} className={clsx(styles.shopPageContent__text_small, styles.shopPageContent__text_darkGray)}>
-    <a className={clsx(styles.uiLink, styles.uiLink_blue)} href='!#'>
+    <a className={clsx(styles.uiLink, styles.uiLink_blue)} href='!#' onClick={(e) => e.preventDefault()}>
       {bank.name}
     </a>
   </li>
 );
+
+// Функция для плавной прокрутки к элементу страницы
+const handleScroll = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+  event.preventDefault();
+  const element = document.getElementById('shop-feedback');
+
+  if (element) {
+    // Проверка на null
+    const yOffset = -100;
+    const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+};
 
 const DefaultMode: FC<DefaultProps> = ({
   latitude,
@@ -92,11 +88,7 @@ const DefaultMode: FC<DefaultProps> = ({
                       data-url='/specialization/hydrogel/'
                     >
                       <svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                        <path
-                          // fill-rule='evenodd'
-                          // clip-rule='evenodd'
-                          d='M15.2134 0.714844C17.5496 0.714844 19.4434 2.60863 19.4434 4.94484L19.4434 15.2135C19.4434 17.5497 17.5496 19.4435 15.2134 19.4435L8.61869 19.4435C8.41976 19.4435 8.22898 19.3645 8.08832 19.2238L0.861931 11.9964C0.712424 11.8593 0.618692 11.6624 0.618692 11.4435C0.618692 11.4304 0.619028 11.4174 0.619694 11.4044L0.619694 4.94484C0.619694 2.60863 2.51348 0.714843 4.84969 0.714843L15.2134 0.714844ZM3.18018 12.1935L7.86869 16.8827L7.86869 14.4435C7.86869 13.2007 6.86148 12.1935 5.61869 12.1935L3.18018 12.1935ZM9.36869 17.9435L9.36869 14.4435C9.36869 12.3723 7.68991 10.6935 5.61869 10.6935L2.11969 10.6935L2.11969 4.94484C2.11969 3.43706 3.34191 2.21484 4.84969 2.21484L15.2134 2.21484C16.7211 2.21484 17.9434 3.43706 17.9434 4.94484L17.9434 15.2135C17.9434 16.7213 16.7211 17.9435 15.2134 17.9435L9.36869 17.9435Z'
-                        ></path>
+                        <path d='M15.2134 0.714844C17.5496 0.714844 19.4434 2.60863 19.4434 4.94484L19.4434 15.2135C19.4434 17.5497 17.5496 19.4435 15.2134 19.4435L8.61869 19.4435C8.41976 19.4435 8.22898 19.3645 8.08832 19.2238L0.861931 11.9964C0.712424 11.8593 0.618692 11.6624 0.618692 11.4435C0.618692 11.4304 0.619028 11.4174 0.619694 11.4044L0.619694 4.94484C0.619694 2.60863 2.51348 0.714843 4.84969 0.714843L15.2134 0.714844ZM3.18018 12.1935L7.86869 16.8827L7.86869 14.4435C7.86869 13.2007 6.86148 12.1935 5.61869 12.1935L3.18018 12.1935ZM9.36869 17.9435L9.36869 14.4435C9.36869 12.3723 7.68991 10.6935 5.61869 10.6935L2.11969 10.6935L2.11969 4.94484C2.11969 3.43706 3.34191 2.21484 4.84969 2.21484L15.2134 2.21484C16.7211 2.21484 17.9434 3.43706 17.9434 4.94484L17.9434 15.2135C17.9434 16.7213 16.7211 17.9435 15.2134 17.9435L9.36869 17.9435Z'></path>
                       </svg>
                     </div>
                     <div
@@ -118,7 +110,12 @@ const DefaultMode: FC<DefaultProps> = ({
                   <div className={styles.shopPageContent__contactsTitle}>Телефон</div>
                   <div className={styles.shopPageContent__mainPhone}>+7 (499) 704-46-40; +7 (499) 285-00-53</div>
                   <div className={styles.shopPageContent__textToManager}>
-                    <a className={clsx(styles.uiLink, styles.uiLink_blue)} href='!#' data-role='to-feedback-block'>
+                    <a
+                      className={clsx(styles.uiLink, styles.uiLink_blue)}
+                      href='#shop-feedback'
+                      data-role='to-feedback-block'
+                      onClick={handleScroll}
+                    >
                       Написать управляющему магазина
                     </a>
                   </div>

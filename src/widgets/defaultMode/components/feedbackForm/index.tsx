@@ -1,14 +1,8 @@
 import { useState, ChangeEvent } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { FormValues } from 'pages/shopCard/shopCard.types';
 import styles from './feedbackForm.module.scss';
 import { clsx } from 'clsx';
-
-interface FormValues {
-  inputName: string;
-  inputMail: string;
-  inputPhone: string;
-  inputMessage: string;
-}
 
 const FeedbackForm = () => {
   const [animation, setAnimation] = useState<boolean>(false);
@@ -144,7 +138,7 @@ const FeedbackForm = () => {
   };
 
   return (
-    <div className={styles.shopPageContent__section}>
+    <div className={styles.shopPageContent__section} id='shop-feedback'>
       <h2
         className={clsx(
           styles.shopPageContent__title,

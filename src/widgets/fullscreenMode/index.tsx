@@ -1,5 +1,5 @@
 import { FC, useRef, useState, useEffect } from 'react';
-import { ShopComponentProps, ShopImage } from '../../pages/shopCard';
+import { ShopComponentProps, ShopImage } from 'pages/shopCard/shopCard.types';
 import styles from './fullscreenMode.module.scss';
 import clsx from 'clsx';
 

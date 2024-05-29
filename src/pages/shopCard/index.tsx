@@ -1,62 +1,23 @@
-import { FC, useState, Dispatch, SetStateAction } from 'react';
+import { FC, useState } from 'react';
 import styles from './shopCard.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetShopsQuery } from 'shared/api/DNS';
 import Layout from 'pages/layout';
+import { shopImages } from './constants';
 import { IShop } from 'widgets/shops-page-404/shops-page-404.types';
 import FullscreenMode from 'widgets/fullscreenMode';
 import DefaultMode from 'widgets/defaultMode';
-
-export interface ShopImage {
-  id: number;
-  url: string;
-}
-
-export interface ShopComponentProps {
-  totalSlides: number;
-  fullscreenMode: boolean;
-  article: IShop;
-  toggleFullscreenMode: (id: number) => void;
-  shopImages: ShopImage[];
-  imageIndex: number;
-  setImageIndex: Dispatch<SetStateAction<number>>;
-}
-
-export interface DefaultProps {
-  latitude: string;
-  longitude: string;
-  totalSlides: number;
-  shopImages: ShopImage[];
-  article: IShop;
-  toggleFullscreenMode: (id: number) => void;
-}
 
 const ShopCard: FC = () => {
   //ДЛЯ ВСЕГО
   const { data: shops, isLoading } = useGetShopsQuery('');
   const navigate = useNavigate();
-
-  // Массив с URL-адресами фотографий
-  const shopImages: ShopImage[] = [
-    { id: 1, url: '/public/img/shopCard/1.jpg' },
-    { id: 2, url: '/public/img/shopCard/2.jpg' },
-    { id: 3, url: '/public/img/shopCard/3.jpg' },
-    { id: 4, url: '/public/img/shopCard/4.jpg' },
-    { id: 5, url: '/public/img/shopCard/5.jpg' },
-    { id: 6, url: '/public/img/shopCard/6.jpg' },
-    { id: 7, url: '/public/img/shopCard/7.jpg' },
-    { id: 8, url: '/public/img/shopCard/8.jpg' },
-    { id: 9, url: '/public/img/shopCard/9.jpg' },
-    { id: 10, url: '/public/img/shopCard/10.jpg' },
-    { id: 11, url: '/public/img/shopCard/11.jpg' },
-    { id: 12, url: '/public/img/shopCard/12.jpg' },
-    { id: 13, url: '/public/img/shopCard/13.jpg' },
-    { id: 14, url: '/public/img/shopCard/14.jpg' },
-  ];
-
-  const [fullscreenMode, setFullscreenMode] = useState<boolean>(false); // ДЛЯ ВСЕГО
-  const totalSlides: number = shopImages.length; // Общее количество слайдов ДЛЯ ВСЕГО
-  const [imageIndex, setImageIndex] = useState<number>(0); // состояние для генерации большой картинки ДЛЯ ФУЛСКРИНА
+  // Состояние для переключения полноэкранного режима
+  const [fullscreenMode, setFullscreenMode] = useState<boolean>(false);
+  // Общее количество слайдов ДЛЯ ВСЕГО
+  const totalSlides: number = shopImages.length;
+  // состояние для генерации большой картинки в полноэкранном режиме
+  const [imageIndex, setImageIndex] = useState<number>(0);
 
   // Функция для получения query параметров из URL
   // 1. Получает параметры широты и долготы из строки запроса.
