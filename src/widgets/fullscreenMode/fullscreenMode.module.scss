@@ -135,6 +135,7 @@
   }
 }
 .mediaViewerImage__imgWrap {
+  position: relative;
   grid-area: image;
   display: flex;
   align-items: center;
@@ -143,11 +144,15 @@
   overflow: auto;
   padding: 100vh;
   margin: -100vh;
+  cursor: zoom-in;
+}
+.mediaViewerImage__mainImg__zoomed {
+  position: absolute;
+  transform-origin: top left;
 }
 .mediaViewerImage__mainImg {
   max-width: 100%;
   max-height: 100%;
-  cursor: zoom-in;
   transition: opacity 300ms;
   image-rendering: -webkit-optimize-contrast;
   object-fit: contain;

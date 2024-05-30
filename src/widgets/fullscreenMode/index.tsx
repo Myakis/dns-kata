@@ -18,6 +18,10 @@ const FullscreenMode: FC<ShopComponentProps> = ({
   const [nextFullscreen, setNextFullscreen] = useState(0); // Состояние для кнопки слайдера ДЛЯ ФУЛСКРИНА
   const [isLoadingImage, setIsLoadingImage] = useState(false); //ДЛЯ ФУЛСКРИНА
 
+  // Новые состояния для увеличенного изображения и позиции курсора
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+
   // Этот код управляет видимостью элемента с классом tnsControls в зависимости от ширины окна и состояния полноэкранного режима.
   // Когда окно изменяет размер, элемент скрывается или отображается, в зависимости от ширины окна и других условий.
 
@@ -50,6 +54,26 @@ const FullscreenMode: FC<ShopComponentProps> = ({
       window.removeEventListener('resize', handleResize);
     };
   }, [fullscreenMode, sliderLengthFullscreen]);
+
+  // Обработчик для клика по изображению
+  const handleImageClick = () => {
+    setIsZoomed(!isZoomed);
+  };
+
+  // Обработчик для перемещения курсора
+  const handleMouseMove = (e: React.MouseEvent<HTMLImageElement>) => {
+    if (isZoomed) {
+      const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+      const x = ((e.clientX - left) / width) * 100;
+      const y = ((e.clientY - top) / height) * 100;
+
+      // Ограничиваем координаты, чтобы избежать улета изображения
+      const boundedX = Math.max(0, Math.min(x, 100));
+      const boundedY = Math.max(0, Math.min(y, 100));
+
+      setCursorPos({ x: boundedX, y: boundedY });
+    }
+  };
 
   //функции для переключения нижнего слайдера В ФУЛСКРИНЕ
   const moveSlidesRightFullscreen = () => {
@@ -137,18 +161,33 @@ const FullscreenMode: FC<ShopComponentProps> = ({
               className={clsx(styles.mediaViewerImage__control, styles.mediaViewerImage__control_right)}
               onClick={stepRight}
             ></div>
-            <picture className={styles.mediaViewerImage__imgWrap}>
+            <picture
+              className={clsx(styles.mediaViewerImage__imgWrap, {
+                [styles.mediaViewerImage__mainImg__zoomed]: isZoomed,
+              })}
+              style={
+                isZoomed
+                  ? {
+                      transform: `translate(-${cursorPos.x}%, -${cursorPos.y}%) scale(2)`,
+                      cursor: 'move',
+                    }
+                  : { transform: 'none' }
+              }
+              onClick={handleImageClick}
+              onMouseMove={handleMouseMove}
+            >
               <img
                 className={clsx(styles.mediaViewerImage__mainImg, {
                   [styles.mediaViewerImage__mainImg__loading]: isLoadingImage,
                 })}
-                style={{ transform: 'none' }}
                 src={shopImages[imageIndex].url}
                 alt='Фото отсутствует'
               />
             </picture>
           </div>
-          <div className={styles.mediaViewerImage__imageCounter}>{imageIndex + 1} из {totalSlides}</div>
+          <div className={styles.mediaViewerImage__imageCounter}>
+            {imageIndex + 1} из {totalSlides}
+          </div>
           <div className={clsx(styles.mediaViewerSlider, styles.mediaViewerImage__slider)}>
             <div className={styles.tnsOuter} id='tns8-ow'>
               <div className={styles.tnsControls} aria-label='Carousel Navigation' style={{ display: 'none' }}>

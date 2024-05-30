@@ -1,8 +1,6 @@
 import Career from 'pages/career';
-// Импортируем компонент Career из директории pages/career.
 
 import Main from 'pages/main';
-// Импортируем компонент Main из директории pages/main.
 
 import NewsListPage from 'pages/news-list';
 // Импортируем компонент NewsListPage из директории pages/news-list.
@@ -29,18 +27,12 @@ import { currentCitySlice } from 'shared/store/slices/current-city-slice';
 
 import Shops from 'widgets/shops';
 import ShopCard from 'pages/shopCard';
-// Импортируем компонент Shops из директории widgets/shops.
 
 const router = createBrowserRouter([
-  // Создаем маршрутизатор с помощью функции createBrowserRouter.
-
   {
     path: '/',
     element: <Main />,
-    // Определяем маршрут для главной страницы, который рендерит компонент Main.
-
     errorElement: <Page404 />,
-    // Определяем компонент Page404 для отображения ошибки (например, если маршрут не найден).
   },
   {
     path: '/shops/:city',
@@ -81,7 +73,6 @@ const router = createBrowserRouter([
     // Определяем маршрут для страницы отдельной новости, который рендерит компонент NewsPage.
 
     errorElement: <Page404 />,
-    
   },
   {
     path: 'feedback',
